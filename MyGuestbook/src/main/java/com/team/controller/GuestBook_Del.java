@@ -2,8 +2,8 @@ package com.team.controller;
 
 import java.util.Scanner;
 
-import net.daum.dao.GuestBookDAOImpl;
-import net.daum.dto.GuestBookDTO;
+import com.team.dao.GuestBookDAOImpl;
+import com.team.dto.GuestBookDTO;
 
 public class GuestBook_Del {
 
