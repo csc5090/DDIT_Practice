@@ -8,3 +8,5 @@ bin/
 *.log
 *.tmp
 *.bak
+WeekReport/src/lib/ojdbc8.jar
+WeekReport/src/lib/lombok.jar
