@@ -1,25 +1,17 @@
 package com.team.dto;
 
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
 public class GuestBookDTO {
 	
-	private int gno;
-	private String gname;
-	private String gtitle;
-	private String gcont;
-	private String gdate;
+	private int no;
+	private String writer;
+	private String content;
+	private String pw;
+	private Date regDate;
 	
-	public GuestBookDTO(String gname, String gtitle, String gcont) {
-        this.gname = gname;
-        this.gtitle = gtitle;
-        this.gcont = gcont;
-    }
-	
-	 public GuestBookDTO() {
-	        
-	    } //기본생성자
-
 }
 
