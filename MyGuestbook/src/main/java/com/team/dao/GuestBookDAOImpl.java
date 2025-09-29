@@ -44,7 +44,7 @@ public class GuestBookDAOImpl {
 
 		try (Connection con = getConnection(); PreparedStatement pstmt = con.prepareStatement(sql)) {
 
-			// 롬복이 생성한 Getter를 사용
+			
 			pstmt.setString(1, g.getGname());
 			pstmt.setString(2, g.getGtitle());
 			pstmt.setString(3, g.getGcont());
