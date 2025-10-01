@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team.dao.GuestBookDAO">
+
+	<select id="getGuestBookList"
+		resultType="com.team.dto.GuestBookDTO">
+		SELECT * FROM GUESTBOOK ORDER BY NO DESC
+	</select>
+
+	<insert id="addGuestBook"
+		parameterType="com.team.dto.GuestBookDTO">
+		INSERT INTO GUESTBOOK (NO, WRITER, PW, CONTENT)
+		VALUES
+		(GUESTBOOK_SEQ.nextval, #{writer}, #{pw}, #{content})
+	</insert>
+
+	<delete id="deleteGuestBook" parameterType="int">
+		DELETE FROM GUESTBOOK
+		WHERE NO = #{no}
+	</delete>
+
+	<update id="updateGuestBook"
+		parameterType="com.team.dto.GuestBookDTO">
+		UPDATE GUESTBOOK
+		SET WRITER = #{writer}, CONTENT =
+		#{content}, PW = #{pw}
+		WHERE NO = #{no}
+	</update>
+	
+	<delete id="deleteGuestBook" parameterType="int">
+		DELETE FROM GUESTBOOK WHERE NO = #{no} kjnkjn
+	</delete>
+
+</mapper>
