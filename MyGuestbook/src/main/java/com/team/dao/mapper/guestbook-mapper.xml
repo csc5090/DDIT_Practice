@@ -31,7 +31,7 @@
 	</update>
 	
 	<delete id="deleteGuestBook" parameterType="int">
-		DELETE FROM GUESTBOOK WHERE NO = #{no} kjnkjn
+		DELETE FROM GUESTBOOK WHERE NO = #{no}
 	</delete>
 
 </mapper>
