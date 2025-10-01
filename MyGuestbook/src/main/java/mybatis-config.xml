@@ -15,7 +15,7 @@
        </dataSource>
     </environment>
   </environments>
-  hjhgj
+
   <mappers>
     <mapper resource="com/team/dao/mapper/guestbook-mapper.xml"/>
   </mappers>
