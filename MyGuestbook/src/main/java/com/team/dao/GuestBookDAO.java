@@ -13,7 +13,6 @@ import com.team.dto.GuestBookDTO;
 
 public class GuestBookDAO {
     private static SqlSessionFactory sqlSessionFactory;
-asdds
     static {
         try {
             String resource = "mybatis-config.xml";
