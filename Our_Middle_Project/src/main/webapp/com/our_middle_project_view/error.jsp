@@ -10,7 +10,7 @@
 	<div style="text-align: center;">
 		<img src="images/omg.jpg" alt="Error Image" width="300">
 
-		<h1>저런! 당신의 요청은 뭔가 잘못됐습니다!</h1>
+		<h1>아이고 저런! 당신의 요청은 뭔가 잘못됐습니다!</h1>
 		<p>
 			에러 코드는... <strong>${requestScope['jakarta.servlet.error.status_code']}</strong>
 			입니다! 
@@ -19,7 +19,7 @@
 		<hr>
 			
 		<p>
-		관리자에게 문의하세요!
+		관리자에게 문의하세요!<br>
 		관리자 연락처 : 카톡 tkdcjf5090
 		</p>
 		
