@@ -8,7 +8,7 @@
 </head>
 <body>
 	<div style="text-align: center;">
-		<img src="images/omg.jpg" alt="Error Image" width="300">
+		<img src="${pageContext.request.contextPath}/images/omg.jpg" alt="Error Image" width="300">
 
 		<h1>아이고 저런! 당신의 요청은 뭔가 잘못됐습니다!</h1>
 		<p>
