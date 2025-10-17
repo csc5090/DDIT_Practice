@@ -54,8 +54,8 @@ public class FrontController extends HttpServlet {
             Class<?> clazz = Class.forName(className);
             
             // 로드된 클래스 객체(clazz)로부터 생성자(Constructor)를 얻어옴.
-            // getConstructor()는 매개변수가 없는 기본 생성자를 찾습니다.
-            // new는 소스코드에 특정 클래스 이름이 명확하게 있을 때 사용 가능.
+            // getConstructor()는 매개변수가 없는 기본 생성자를 찾음.
+            // 우리가 자주 쓰던 new는 소스코드에 특정 클래스 이름이 명확하게 있을 때 사용 가능.
             //하지만 프론트 컨트롤러는 어떤 클래스를 호출할 지 먼저 알 수 없음. 이 문제를 해결하는게 바로 이 리플랙션 코드
             //이 코드는 즉 얻어올 클래스의 객체를 만들어낼 수 있는 만능 키를 복사하는 과정
             Constructor<?> constructor = clazz.getConstructor();
