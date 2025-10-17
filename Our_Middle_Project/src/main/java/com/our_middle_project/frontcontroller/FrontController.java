@@ -30,6 +30,8 @@ public class FrontController extends HttpServlet {
         	// 즉, is는 url프로퍼티스와 이 웹 어플리케이션(웹페이지) 전체의 설정 정보가 담겨있는 객체와 연결될 수 있는 길 그 자체란 뜻.
         	
         	properties.load(is);
+        	
+        	
             //load() 메서드는 Properties 클래스에 특화된 메서드.
         	//매개변수 is (InputStream)가 가리키는 데이터의 흐름(길)을 따라서 정보를 읽어 들임.
             //다음과 같은 일이 벌어짐(내부에서)
@@ -63,6 +65,7 @@ public class FrontController extends HttpServlet {
         String contextPath = request.getContextPath();
         String command = requestURI.substring(contextPath.length());
         
+        
         //아래 코드는...
         // 두 클래스를 참조해 일종의 일꾼과 그릇을 만듬.
         //ActionForward의 클래스 속에 있는 path,isRedirect를 가져온다.
@@ -72,6 +75,8 @@ public class FrontController extends HttpServlet {
         String className = properties.getProperty(command);
         //getProperty : 키를 이용해 값(Value)를 반환함.
         //즉 className은 command 에 담긴 키 값에 대응하는 벨류를 가지고 있음.
+        
+        
         
         if (className == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "요청한 명령어를 찾을 수 없습니다.");
@@ -85,7 +90,12 @@ public class FrontController extends HttpServlet {
         	// class 객체는 일종의 설계도. 클래스를 쫙 펼친 상태일 뿐.
         	// 우리가 아는 인스턴스는 그 설계도를 찍어낸 실제 생산품. 붕어빵 같은 것.
         	// 와일드카드<?> :  clazz라는 변수에 담길 Class정보가 어떤 타입(클래스)일지 알 수 없기 때문에 이렇게 해둠.
-            Class<?> clazz = Class.forName(className);
+            
+        	//className에 "java.lang.String"이 올지, "java.util.Date"가 올지, 
+        	//아니면 사용자 정의 클래스가 올지 알 수 없기 때문에, 모든 종류의 클래스 타입을 포함할 수 있는 
+        	//와일드카드(?)를 사용하여 "알 수 없는 임의의 타입에 대한 Class 객체"임을 명시
+        	
+        	Class<?> clazz = Class.forName(className);
             
             // 위 코드로드된 클래스 객체(clazz)로부터 생성자(Constructor)를 얻어옴.
             // getConstructor()는 매개변수가 없는 기본 생성자를 찾음.
