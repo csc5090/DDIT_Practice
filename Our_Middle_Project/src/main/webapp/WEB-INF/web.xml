@@ -8,7 +8,7 @@
     <!-- Jakarta JSTL 3.0.x에 맞는 인덱스 셋팅. -->
     
     <welcome-file-list>
-		<welcome-file>/com/our_middle_project_view/index.jsp</welcome-file>
+		<welcome-file>/our_middle_project_view/index.jsp</welcome-file>
     </welcome-file-list>
     
     <!-- 세션 유지 시간 설정.-->
@@ -17,34 +17,23 @@
     </session-config>
     
      <servlet>
-       <servlet-name>UserFrontController</servlet-name>
-       <servlet-class>com.our_middle_project.controller.UserFrontController</servlet-class>
+       <servlet-name>FrontController</servlet-name>
+       <servlet-class>com.our_middle_project.frontcontroller.FrontController</servlet-class>
     </servlet>
     
     <servlet-mapping>
-       <servlet-name>UserFrontController</servlet-name>
+       <servlet-name>FrontController</servlet-name>
        <url-pattern>*.do</url-pattern>
     </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>AdminFrontController</servlet-name>
-        <servlet-class>com.our_middle_project.controller.AdminFrontController</servlet-class>
-    </servlet>
-    
-    <servlet-mapping>
-        <servlet-name>AdminFrontController</servlet-name>
-        <url-pattern>*.admin</url-pattern>
-    </servlet-mapping>
-    
-    
+
     <error-page>
         <error-code>404</error-code>
-        <location>/com/our_middle_project_view/error.jsp</location>
+        <location>/WEB-INF/our_middle_project_view/error.jsp</location>
     </error-page>
     
      <error-page>
         <error-code>500</error-code>
-        <location>/com/our_middle_project_view/error.jsp</location>
+        <location>/WEB-INF/our_middle_project_view/error.jsp</location>
     </error-page>
     
     

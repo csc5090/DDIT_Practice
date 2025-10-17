@@ -8,7 +8,6 @@
 </head>
 <body>
 
-<h1>index 페이지</h1>
-
+<h1>어드민 메인 페이지</h1>
 </body>
 </html>
