@@ -31,7 +31,6 @@ public class FrontController extends HttpServlet {
         	
         	properties.load(is);
         	
-        	
             //load() 메서드는 Properties 클래스에 특화된 메서드.
         	//매개변수 is (InputStream)가 가리키는 데이터의 흐름(길)을 따라서 정보를 읽어 들임.
             //다음과 같은 일이 벌어짐(내부에서)
