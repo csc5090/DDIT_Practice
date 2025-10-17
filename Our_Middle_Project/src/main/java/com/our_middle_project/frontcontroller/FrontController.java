@@ -130,6 +130,7 @@ public class FrontController extends HttpServlet {
                 	
                 	/* Redirect	: "가던 길 취소! 저 주소로 새로 가!" (클라이언트 주소창 변경, 데이터 소멸)
                 	 * Forward : "서버 내부에서 바통 터치!" (클라이언트 주소창 변경 없음, 데이터 유지)
+                	 * 이걸 결정해주는 코드라는 뜻.
                 	 */
                 	
                 }
