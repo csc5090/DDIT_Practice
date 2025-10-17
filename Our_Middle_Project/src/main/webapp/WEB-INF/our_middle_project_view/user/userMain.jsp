@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+유저 메인 페이지
 
 </body>
 </html>
