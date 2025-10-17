@@ -19,7 +19,7 @@ public class LoginController implements Action {
         // 현재는 단순히 로그인 페이지로 이동하기만 함.
         
         ActionForward forward = new ActionForward();
-        forward.setPath("/our_middle_project_view/login.jsp");
+        forward.setPath("/WEB-INF/our_middle_project_view/login.jsp");
         forward.setRedirect(false); // 포워드 방식으로 이동
         
         return forward;
