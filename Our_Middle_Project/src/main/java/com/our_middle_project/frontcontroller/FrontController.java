@@ -13,6 +13,19 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+
+/* http://localhost:8095/Our_Middle_Project/adminMain.do
+ * 우리 주소가 이런식인 이유.
+ * 
+ * http://localhost:8095/Our_Middle_Project
+ * 부분은 서버의 위치와 서버에 설치된 프로그램의 이름을 기준으로 결정된다.
+ * 톰캣 서버 안에 설치된 여러 웹 프로젝트 중, 우리가 만든 바로 "그 프로젝트"의 이름.
+ * 
+ * localhost : 서버가 실행 중인 컴퓨터의 주소. 서버의 물리적 위치.
+ * :8095 : 컴퓨터 안에서 톰캣 서버를 찾아가는 번호(포트). 톰캣 서버 자체의 설정.
+ * /Our_Middle_Project : 톰캣 서버 안에서 특정 프로젝트를 찾아가는 이름. 이클립스/STS의 배포 설정.
+ */
+
 public class FrontController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private final Properties properties = new Properties();
