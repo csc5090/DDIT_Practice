@@ -3,6 +3,8 @@ package com.our_middle_project.frontcontroller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -49,12 +51,17 @@ public class FrontController extends HttpServlet {
 
 	// 아래 코드가 SPA를 구현하기 위한.
 	// URL과 실제 Action 싱글톤 인스턴스를 저장할 맵 추가.
-	private final Map<String, Action> handlerMapping = new HashMap<>();
+	private Map<String, Action> handlerMapping = new HashMap<>();
 
 	@Override
 	public void init() throws ServletException {
 		// webapp/WEB-INF/config/url.properties 파일 경로를 찾습니다.
 		try (InputStream is = getServletContext().getResourceAsStream("/WEB-INF/config/url.properties")) {
+			
+			if (is == null) { // 파일 존재 유무 체크
+				throw new ServletException("설정 파일을 찾을 수 없습니다: /WEB-INF/config/url.properties");
+			}
+			
 			// getServletContext() : "이 웹 애플리케이션 전체의 설정 정보를 담당하는 객체를 줘."
 			// .getResourceAsStream(...) :
 			// "그 객체에서, 지정된 경로(/WEB-INF/config/url.properties)에 있는 파일을 읽을 수 있는
@@ -76,6 +83,10 @@ public class FrontController extends HttpServlet {
 		} catch (IOException e) {
 			throw new ServletException("설정 파일을 로드 실패.", e);
 		}
+		
+		// 싱글톤 인스턴스 생성 및 임시 맵에 저장
+		// 불변으로 만들기 전 임시 Map 사용
+		Map<String, Action> tmpMap = new HashMap<>();
 
 		// 아래 코드가 변경점.
 		// 싱글톤 인스턴스 생성 및 맵 저장 로직 추가
@@ -84,7 +95,7 @@ public class FrontController extends HttpServlet {
 			String command = (String) commandKey;
 			String className = properties.getProperty(command);
 
-			if (className == null)
+			if (className == null || className.trim().isEmpty())
 				continue;
 
 			try {
@@ -100,7 +111,11 @@ public class FrontController extends HttpServlet {
 				// 아니면 사용자 정의 클래스가 올지 알 수 없기 때문에, 모든 종류의 클래스 타입을 포함할 수 있는
 				// 와일드카드(?)를 사용하여 "알 수 없는 임의의 타입에 대한 Class 객체"임을 명시
 				Class<?> clazz = Class.forName(className);
-
+				
+				if (!Action.class.isAssignableFrom(clazz)) { 
+				    throw new ClassCastException("클래스가 Action 인터페이스를 구현하지 않았습니다.");
+				}
+				
 				// 위 코드로드된 클래스 객체(clazz)로부터 생성자(Constructor)를 얻어옴.
 				// getConstructor()는 매개변수가 없는 기본 생성자를 찾음.
 				// 우리가 자주 쓰던 new는 소스코드에 특정 클래스 이름이 명확하게 있을 때 사용 가능.
@@ -115,15 +130,27 @@ public class FrontController extends HttpServlet {
 				// 즉 리플렉션으로 생성된 이 객체는 Action 인터페이스를 구현했으니
 				// Action 타입으로 사용해도 안전하다 라는 걸 컴파일러에게 알리기 위함.
 				Action actionInstance = (Action) constructor.newInstance();
-
+				
 				// command(키)와 Action 인스턴스(값)를 handlerMapping에 저장
-				handlerMapping.put(command, actionInstance);
+				tmpMap.put(command, actionInstance);
 
-			} catch (Exception e) {
-				// 인스턴스 생성 실패는 심각한 오류이므로 서버 시작을 중단
-				throw new ServletException("액션 인스턴스 생성 실패: " + className, e);
+			} catch (ClassNotFoundException e) {
+				throw new ServletException("Action 클래스 파일을 찾을 수 없음: " + className, e);
+			} catch (NoSuchMethodException e) {
+				throw new ServletException("Action 클래스에 기본 생성자가 없음: " + className, e);
+			} catch (InvocationTargetException e) { // 생성자 실행 중 발생한 내부 예외
+				throw new ServletException("Action 생성자 실행 중 예외 발생: " + className, e.getTargetException());
+			} catch (InstantiationException | IllegalAccessException e) {
+				throw new ServletException("Action 인스턴스 생성 및 접근 실패: " + className, e);
+			} catch (ClassCastException e) {
+				throw new ServletException("Action 인터페이스 구현 오류: " + className, e);
 			}
 		}
+		// 최종 Map을 불변 Map으로 교체 (스레드 안전성 및 방어적 프로그래밍 완성)
+		handlerMapping = Collections.unmodifiableMap(tmpMap);
+		
+		// 메모리 최적화를 위해 더 이상 사용하지 않는 설정 정보 해제
+		properties.clear();
 	}
 
 	@Override
@@ -151,14 +178,14 @@ public class FrontController extends HttpServlet {
 		// 두 클래스를 참조해 일종의 일꾼과 그릇을 만듬.
 		// ActionForward의 클래스 속에 있는 path,isRedirect를 가져온다.
 		ActionForward direct = null; // 그릇
-		Action action = null; // 일꾼
+		Action action = handlerMapping.get(command); // 일꾼. 불변맵에서 가져옴(위에서 담아온거)
 
 		// 아래 코드는 싱글톤 인스턴스 사용을 위한(성능 최적화) 코드.
 		// init()에서 미리 생성해 둔 인스턴스를 handlerMapping에서 찾아 가져온다.
 		action = handlerMapping.get(command);
 
 		if (action == null) {
-			response.sendError(HttpServletResponse.SC_NOT_FOUND, "요청한 명령어를 찾을 수 없습니다.");
+			response.sendError(HttpServletResponse.SC_NOT_FOUND, "요청한 명령어를 찾을 수 없음.");
 			return;
 		}
 
