@@ -24,7 +24,7 @@
 		<td style="padding: 10px; text-align: center;">테스트 유저</td>
 		<td style="padding: 10px; text-align: center;">2025-10-17</td>
 		<td style="padding: 10px; text-align: center;">정상</td>
-		<td style="padding: 10px; text-align: center;"><button>정보수정</</button></td>
+		<td style="padding: 10px; text-align: center;"><button>정보수정</button></td>
 	</tr>
 </tbody>
 
