@@ -180,10 +180,6 @@ public class FrontController extends HttpServlet {
 		ActionForward direct = null; // 그릇
 		Action action = handlerMapping.get(command); // 일꾼. 불변맵에서 가져옴(위에서 담아온거)
 
-		// 아래 코드는 싱글톤 인스턴스 사용을 위한(성능 최적화) 코드.
-		// init()에서 미리 생성해 둔 인스턴스를 handlerMapping에서 찾아 가져온다.
-		action = handlerMapping.get(command);
-
 		if (action == null) {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND, "요청한 명령어를 찾을 수 없음.");
 			return;

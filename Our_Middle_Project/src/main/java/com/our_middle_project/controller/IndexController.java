@@ -16,7 +16,7 @@ public class IndexController implements Action {
             throws ServletException, IOException {
 
         ActionForward forward = new ActionForward();
-        forward.setPath("/WEB-INF/our_middle_project_view/index.jsp");
+        forward.setPath("/WEB-INF/index.html");
         forward.setRedirect(false);
         return forward;
     }

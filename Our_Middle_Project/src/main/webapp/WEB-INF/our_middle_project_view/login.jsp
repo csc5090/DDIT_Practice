@@ -4,12 +4,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>로그인</title>
 </head>
 <body>
 
-<h1>Our_Middle_Project</h1>
-<p>로그인 홈페이지.</p>
+<h1>로그인 화면</h1>
+<p>index.html의 버튼을 통해 login.do 요청 처리 완료.</p>
 
 </body>
 </html>
