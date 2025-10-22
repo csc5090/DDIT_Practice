@@ -123,7 +123,7 @@ public class FrontController extends HttpServlet {
 				// 이 코드는 즉 얻어올 클래스의 객체를 만들어낼 수 있는 만능 키를 복사하는 과정
 				// 이 역시 인스턴스를 생성한 게 아닌, Constructor 클래스 타입의 Class 객체 constructor를 생성한 것.
 				Constructor<?> constructor = clazz.getConstructor();
-
+				
 				// 실제 우리가 아는 인스턴스는 여기서 생성된다.
 				// 위에서 얻어온 생성도구(클래스의 정보가 담겨 있음)를 이용하여 인스턴스 생성.
 				// (Action)으로 형변환 한 이유는, 컴파일러가 어떤 타입의 객체가 반환되는지 알 수 없음.
@@ -173,12 +173,13 @@ public class FrontController extends HttpServlet {
 		String requestURI = request.getRequestURI();
 		String contextPath = request.getContextPath();
 		String command = requestURI.substring(contextPath.length());
-
+		
 		// 아래 코드는...
 		// 두 클래스를 참조해 일종의 일꾼과 그릇을 만듬.
 		// ActionForward의 클래스 속에 있는 path,isRedirect를 가져온다.
 		ActionForward direct = null; // 그릇
-		Action action = handlerMapping.get(command); // 일꾼. 불변맵에서 가져옴(위에서 담아온거)
+		Action action = handlerMapping.get(command); // 위에 객체가 가득 담겨잇는 map에서 key(/indox.do)에 맞는
+		// 벨류 값을 찾아 action 변수에 넣음.
 
 		if (action == null) {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND, "요청한 명령어를 찾을 수 없음.");
@@ -215,7 +216,7 @@ public class FrontController extends HttpServlet {
 					// .forward(request, response): 서버 내부에서 제어를 넘김. 우리가 만든 게 아닌, 자카르타 내부에 있는 메서드임
 					// 쉽게 말하면 경로를 알려주고, 일로 가라고 명령하는 것.
 					request.getRequestDispatcher(direct.getPath()).forward(request, response);
-
+					
 					/*
 					 * Redirect : "가던 길 취소! 저 주소로 새로 가!" (클라이언트 주소창 변경, 데이터 소멸) Forward :
 					 * "서버 내부에서 바통 터치!" (클라이언트 주소창 변경 없음, 데이터 유지) 이걸 결정해주는 코드라는 뜻.
