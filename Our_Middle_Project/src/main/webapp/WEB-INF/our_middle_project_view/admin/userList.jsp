@@ -1,31 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<div style="margin-bottom: 20px;">
-	<input type="text" placeholder="아이디 또는 닉네임으로 검색">
-	<button>검색</button>
+
+<div class="container-fluid">
+	<h3>회원 관리</h3>
+	
+	<div class="row mb-3">
+		<input type="text" id="searchInput" clas="form-control" placeholder="아이디, 닉네임으로 검색">
+	</div>
+	<div class="col-md-2">
+		<button id="searchBtn" class="btn btn-primary">검색</button>
+	</div>
 </div>
 
-<table border="1" style="width: 100%; border-collapse: collapse;">
+<table class="table table-hover">
 	<thead>
-		<tr style="background-color: #f2f2f2;">
-			<th style="padding: 10px;">회원 번호</th>
-			<th style="padding: 10px;">아이디</th>
-			<th style="padding: 10px;">닉네임</th>
-			<th style="padding: 10px;">가입일</th>
-			<th style="padding: 10px;">상태</th>
-			<th style="padding: 10px;">관리</th>
-		</tr>		
+		<tr>
+			<th>회원번호</th>
+			<th>아이디</th>
+			<th>닉네임</th>
+			<th>가입일</th>
+			<th>상태</th>
+			<th>관리</th>
+		</tr>
 	</thead>
+	<tbody id="user-table-body">
 	
-<tbody>
-	<tr>
-		<td style="padding: 10px; text-align: center;">1001</td>
-		<td style="padding: 10px; text-align: center;">testuser</td>
-		<td style="padding: 10px; text-align: center;">테스트 유저</td>
-		<td style="padding: 10px; text-align: center;">2025-10-17</td>
-		<td style="padding: 10px; text-align: center;">정상</td>
-		<td style="padding: 10px; text-align: center;"><button>정보수정</button></td>
-	</tr>
-</tbody>
-
+	</tbody>
 </table>
+
+<script src="${pageContext.request.contextPath}/js/CSC/user-management.js"></script>
