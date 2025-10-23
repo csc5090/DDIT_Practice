@@ -7,7 +7,7 @@
             <h3>총 유저수</h3>
         </div>
         <div class="card-body">
-            <span class="main-number">10,242</span>
+            <span class="main-number">####</span>
         </div>
     </div>
     <div class="card">
@@ -15,7 +15,7 @@
             <h3>몇 판?</h3>
         </div>
         <div class="card-body">
-            <span class="main-number">142</span>
+            <span class="main-number">####</span>
         </div>
     </div>
     <div class="card">
@@ -23,7 +23,7 @@
             <h3>신규 유저수</h3>
         </div>
         <div class="card-body">
-            <span class="main-number">2,328</span>
+            <span class="main-number">####</span>
         </div>
     </div>
 </div>
