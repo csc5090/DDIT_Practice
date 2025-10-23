@@ -1,22 +1,47 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<h3>대시보드</h3>
-<div class="row">
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">일일 신규 가입자 수</h5>
-                <canvas id="dailySignupsChart"></canvas>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">게임별 플레이 수</h5>
-                <canvas id="gamePlaysChart"></canvas>
-            </div>
-        </div>
-    </div>
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/admin_dashboard.css">
+
+<div class="card-container">
+
+	<div class="card">
+		<div class="card-header">
+			<h3>Total Users</h3>
+			<i class="bi bi-people"></i>
+		</div>
+		<div class="card-body">
+			<span class="main-number">10,242</span>
+		</div>
+	</div>
+
+	<div class="card">
+		<div class="card-header">
+			<h3>Locations</h3>
+			<i class="bi bi-pin-map-fill"></i>
+		</div>
+		<div class="card-body">
+			<span class="main-number">142</span>
+		</div>
+	</div>
+
+	<div class="card">
+		<div class="card-header">
+			<h3>Outliers</h3>
+			<i class="bi bi-graph-up-arrow"></i>
+		</div>
+		<div class="card-body">
+			<span class="main-number">2,328</span>
+		</div>
+	</div>
+
+	<div class="card wide-card">
+		<div class="card-header">
+			<h3>Monthly Active Users</h3>
+		</div>
+		<div class="card-body">
+			<canvas id="monthlyUsersChart"></canvas>
+		</div>
+	</div>
+
 </div>
 
-<script src="${pageContext.request.contextPath}/js/admin/dashboard.js"></script>
+<script src="${pageContext.request.contextPath}/js/admin_dashboard.js"></script>

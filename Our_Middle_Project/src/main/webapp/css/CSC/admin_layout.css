@@ -1,0 +1,159 @@
+/* --- 1. 기본 설정 및 테마 변수 --- */
+:root {
+    --bg-dark-heavy: #1e293b;  
+    --bg-dark-main: #283344;   
+    --bg-dark-card: #334155;  
+    --text-light: #cbd5e1;    
+    --text-muted: #94a3b8;    
+    --accent-color: #34d399;   
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background-color: var(--bg-dark-main);
+    color: var(--text-light);
+}
+
+
+#admin-wrapper {
+    display: flex;
+    height: 100%;
+}
+
+
+.sidebar {
+    width: 80px;
+    background-color: var(--bg-dark-heavy);
+    padding: 20px 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    transition: width 0.3s ease;
+}
+
+
+.sidebar.expanded {
+    width: 250px;
+}
+
+.logo-link {
+    display: block;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo {
+    font-size: 1.8rem;
+    color: var(--accent-color);
+}
+
+.nav-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.nav-item {
+    position: relative;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--text-muted);
+    padding: 15px 25px;
+    transition: all 0.2s;
+}
+
+.nav-link:hover {
+    color: var(--text-light);
+    background-color: rgba(255, 255, 255, 0.05);
+
+.nav-icon {
+    font-size: 1.6rem;
+    min-width: 30px;
+    text-align: center;
+}
+
+.nav-text {
+    margin-left: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    white-space: nowrap;
+}
+
+.sidebar.expanded .nav-text {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0.1s;
+}
+
+.submenu {
+    list-style: none;
+    padding-left: 50px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    background-color: rgba(0,0,0,0.2);
+}
+
+.submenu a {
+    color: var(--text-muted);
+    text-decoration: none;
+    display: block;
+    padding: 8px 0;
+}
+
+.submenu a:hover {
+    color: var(--text-light);
+}
+
+.sidebar.expanded .nav-item:hover .submenu {
+    max-height: 200px;
+}
+
+.nav-settings {
+    margin-top: auto;
+    width: 100%;
+}
+
+.main-content {
+    flex-grow: 1;
+    background-color: var(--bg-dark-main);
+    padding: 30px;
+    overflow-y: auto;
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.main-header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+}
+.main-header p {
+    margin: 0;
+    color: var(--text-muted);
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+}
+.user-profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}

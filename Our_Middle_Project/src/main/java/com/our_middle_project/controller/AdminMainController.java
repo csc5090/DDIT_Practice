@@ -15,10 +15,10 @@ public class AdminMainController implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-			request.setAttribute("viewPage", "/WEB-INF/our_middle_project_view/admin/adminpage.jsp");
-
+		    request.setAttribute("viewPage", "/WEB-INF/our_middle_project_view/admin/dashboard.jsp");
+		
 		    ActionForward forward = new ActionForward();
-	        forward.setPath("/WEB-INF/our_middle_project_view/admin/adminpage.jsp");
+	        forward.setPath("/WEB-INF/our_middle_project_view/admin/layout.jsp");
 	        forward.setRedirect(false);
 	        return forward;
 	}

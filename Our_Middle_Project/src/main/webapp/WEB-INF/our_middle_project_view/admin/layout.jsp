@@ -1,44 +1,61 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>게임 관리자 페이지</title>
+<title>Good Day. Commander.</title>
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/js/lib/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/js/lib/sweetalert2/dist/sweetalert2.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/CSC/admin_common.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/CSC/admin_layout.css">
+
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
 </head>
 <body>
-	<div class="d-flex">
-		<nav class="sidebar bg-dark text-white p-3">
-			<h2>관리 메뉴</h2>
-			<ul class="nav flex-column">
-				<li class="nav-item"><a class="nav-link text-white"
-					href="/Our_Middle_Project/adminMain.do">대시보드</a></li>
-				<li class="nav-item"><a class="nav-link text-white"
-					href="/Our_Middle_Project/adminUserList.do">회원 관리</a></li>
-				<li class="nav-item"><a class="nav-link text-white"
-					href="/Our_Middle_Project/adminBoardList.do">게시판 관리</a></li>
-				<li class="nav-item"><a class="nav-link text-white"
-					href="/Our_Middle_Project/adminGame.do">게임 관리</a></li>
-				<li class="nav-item"><a class="nav-link text-white"
-					href="/Our_Middle_Project/adminLogs.do">로그 관리</a></li>
+
+	<div id="admin-wrapper">
+
+		<nav class="sidebar">
+			<a href="#" class="logo-link"> <i
+				class="bi bi-shield-shaded logo"></i>
+			</a>
+
+			<ul class="nav-menu">
+				<li class="nav-item"><a href="#" class="nav-link"> <i
+						class="bi bi-grid-1x2-fill nav-icon"></i> <span class="nav-text">대시보드</span>
+				</a></li>
+				<li class="nav-item"><a href="#" class="nav-link"> <i
+						class="bi bi-people-fill nav-icon"></i> <span class="nav-text">사용자</span>
+				</a>
+					<ul class="submenu">
+						<li><a href="#">사용자 목록</a></li>
+						<li><a href="#">권한 관리</a></li>
+					</ul></li>
+				<li class="nav-item"><a href="#" class="nav-link"> <i
+						class="bi bi-bar-chart-fill nav-icon"></i> <span class="nav-text">데이터/통계</span>
+				</a></li>
 			</ul>
+
+			<div class="nav-settings">
+				<a href="#" class="nav-link"> <i
+					class="bi bi-gear-fill nav-icon"></i> <span class="nav-text">설정</span>
+				</a>
+			</div>
 		</nav>
 
-		<main class="main-content flex-grow-1 p-4">
-			<jsp:include page="${viewPage}" />
+		<main class="main-content">
+			<section class="content-body">
+				<jsp:include page="${viewPage}" />
+			</section>
 		</main>
+
 	</div>
 
-	<script
-		src="${pageContext.request.contextPath}/js/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/js/lib/sweetalert2/dist/sweetalert2.all.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="${pageContext.request.contextPath}/js/CSC/admin_layout.js"></script>
+
+
 </body>
 </html>
