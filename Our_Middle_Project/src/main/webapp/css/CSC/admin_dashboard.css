@@ -1,47 +1,17 @@
-
-
 .card-container {
     display: grid;
-   
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px; /* 카드 사이의 간격 */
+    gap: 20px;
 }
 
 .card {
-    background-color: var(--bg-card);
+    background-color: var(--bg-sidebar);
     padding: 20px;
     border-radius: 10px;
-    position: relative; 
-    overflow: hidden;
-    transition: all 0.3s ease;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
-}
-
-
-.card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    border-radius: 10px;
-    padding: 2px;
-    background: linear-gradient(45deg, var(--neon-cyan), var(--bg-dark-heavy));
-    opacity: 0.5;
-    transition: opacity 0.3s ease;
-}
-
-
-.card:hover {
-    transform: translateY(-5px);
-}
-.card:hover::before {
-    opacity: 1;
+    border: 1px solid var(--border-color);
 }
 
 .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     color: var(--text-muted);
     margin-bottom: 15px;
 }
@@ -50,19 +20,12 @@
     font-size: 1rem;
     font-weight: 600;
 }
-.card-header i {
-    font-size: 1.5rem;
-    color: var(--neon-cyan);
-    text-shadow: var(--neon-glow-text);
-}
 
 .card-body .main-number {
     font-size: 2.5rem;
     font-weight: 700;
     color: var(--text-light);
-    text-shadow: 0 0 3px rgba(255,255,255,0.5);
 }
-
 
 .wide-card {
     grid-column: span 3;
