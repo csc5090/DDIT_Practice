@@ -23,7 +23,7 @@
         padding: 20px;
         border-radius: 12px;
         box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-        width: 300px;
+        width: 20%;
         text-align: center;
         transform: translateY(80px);
     }
@@ -124,7 +124,7 @@
     	background-color: #1e1e1e;
     	padding: 30px;
     	border-radius: 10px;
-    	width: 300px;
+    	width: 17%;
     	text-align: center;
     	box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
 	}
