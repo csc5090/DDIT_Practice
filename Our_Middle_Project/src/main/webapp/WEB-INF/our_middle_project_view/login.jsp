@@ -10,9 +10,7 @@
     body {
         margin: 0;
         padding: 0;
-        
         color: white;
-        user-select: none;  
     }
 
     .container {
@@ -23,7 +21,6 @@
         width: 100%;
         height: 100vh;
         background-color: black;
-        
         position: relative;
 	}
 	 
@@ -34,6 +31,7 @@
         box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
         width: 300px;
         text-align: center;
+        transform: translateY(80px);
     }
 
     .login-box h2 {
@@ -50,6 +48,7 @@
         border: none;
         background-color: #333;
         color: white;
+        box-sizing: border-box;
     }
 
     .login-box input[type="text"]::placeholder,
@@ -57,19 +56,23 @@
         color: #aaa;
     }
 
-    .login-box a {
-        color: #00aaff;
-        text-decoration: none;
-        font-size: 15px;
-        display: block;
-        margin: 10px 0;
-    }
-    
-    .a-links {
+    .div-links {
     	display: flex;
     	justify-content: space-between;
-    	margin: 10px, 0;
+    	margin: 10px 0;
     }
+    
+    .div-links div {
+   	 	color: #00aaff;
+     	text-decoration: none;
+     	font-size: 15px;
+     	cursor: pointer;
+	}
+
+	.div-links div:hover {
+     	color: #fff;
+     	text-shadow: 0 0 5px #0ff;
+	}
 
     .login-box button {
         width: 100%;
@@ -88,8 +91,9 @@
     }
 	
 	.bottom-text {
+	  user-select: none;  
   	  position: absolute;
-   	  bottom: 20px;
+   	  bottom: 50px;
    	  font-size: 30px;
   	  color: #fff;
   	  text-shadow:
@@ -102,15 +106,73 @@
       animation: blink 2s infinite;
 }
 
-/* 깜빡임 애니메이션 */
 @keyframes blink {
     0%, 50%, 100% { opacity: 1; }
     25%, 75% { opacity: 0.3; }
 } 
 
-.white {
-	background-color: white;
-}
+ .modal {
+        display: none;
+        position: absolute;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-content {
+  	    position: absolute;   
+        top: 50%;
+        left: 50%;
+    	transform: translate(-50%, -50%); 
+    	background-color: #1e1e1e;
+    	padding: 30px;
+    	border-radius: 10px;
+    	width: 300px;
+    	text-align: center;
+    	box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+	}
+
+    .modal-content h3 {
+        margin-bottom: 15px;
+        color: #00ffff;
+    }
+
+    .modal-content input {
+        width: 100%;
+        padding: 8px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 6px;
+        background-color: #333;
+        color: white;
+        box-sizing: border-box;
+    }
+
+    .modal-content button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 6px;
+        background-color: #00aaff;
+        color: white;
+        cursor: pointer;
+    }
+
+    .close-btn {
+        margin-top: 15px;
+        color: #aaa;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .close-btn:hover {
+        color: #fff;
+    }
+    
 </style>
 
 </head>
@@ -120,29 +182,63 @@
     
         <div class="login-box">
             <h2>로그인</h2>
-            <input type="text" placeholder="아이디">
+            <input type="text" placeholder="아이디" >
             <input type="password" placeholder="비밀번호">
-            <div class="a-links">
-	            <a id="test" href="" >비밀번호 찾기</a>
-	            <a id="test" href="">아이디 찾기</a>
-	            <a href="">회원가입</a>
+            <div class="div-links">
+	            <div class="find-id">아이디 찾기</div>
+	            <div class="find-pw">비밀번호 찾기</div>
+	            <div>회원가입</div>
             </div>
             <button>로그인</button>
         </div>
         
-        <div class="bottom-text">Press Space to Start</div>
-        
+        <div class="bottom-text">Press the spacebar</div>
     </div>
     
-    <div id="passwordModal">
-    	12123
-    </div>
+ <div id="idModal" class="modal">
+        <div class="modal-content">
+            <h3>아이디 찾기</h3>
+            <input type="text" placeholder="이메일">
+            <button>아이디 찾기</button>
+            <div class="close-btn" onclick="closeModal('idModal')">닫기</div>
+        </div>
+ </div>
+
+ <div id="pwModal" class="modal">
+        <div class="modal-content">
+            <h3>비밀번호 찾기</h3>
+            <input type="text" placeholder="아이디">
+            <input type="text" placeholder="이메일">
+            <button>비밀번호 재설정</button>
+            <div class="close-btn" onclick="closeModal('pwModal')">닫기</div>
+        </div>
+ </div> 
   
-  	<script type="text/javascript">
-  		
-		
-  	
-  	</script>
+  
+<script>
+
+	window.onload = () => {
+	
+		    const idModal = document.getElementById('idModal');
+		    const pwModal = document.getElementById('pwModal');
+		    const findId = document.querySelector('.find-id');
+		    const findPw = document.querySelector('.find-pw');
+
+		    findId.addEventListener('click', () => idModal.style.display = 'block');
+		    findPw.addEventListener('click', () => pwModal.style.display = 'block');
+
+		    window.addEventListener('click', (e) => {
+		        if (e.target === idModal) idModal.style.display = 'none';
+		        if (e.target === pwModal) pwModal.style.display = 'none';
+		    });
+	}
+	
+    function closeModal(id) {
+        document.getElementById(id).style.display = 'none';
+    }
+
+	
+</script>
   
 </body>
 </html>
