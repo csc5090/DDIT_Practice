@@ -64,8 +64,17 @@ ul { margin: 0px; padding: 0px; }
     flex-grow: 1;
 }
 
-.ul-container { padding: 0 0 10px 0; } 
+.ul-container { 
+	display: block;
+	padding: 0 0 10px 0; 
+}
+
+.ul-container-none{
+	display: none;
+    padding: 0;
+} 
 .ul-small-container { 
+	display: block;
     list-style: none; 
     padding: 0;
 }
@@ -113,8 +122,4 @@ ul { margin: 0px; padding: 0px; }
 
 .sidearea .nav-wrapper {
     height: 10%;
-}
-
-.logo-span{
-	
 }
