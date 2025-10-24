@@ -1,0 +1,98 @@
+:root {
+    --bg-main: #1e1e2f;       
+    --bg-sidebar: #2a2a45;  
+    --text-light: #ffffff;    
+    --text-muted: #a0a0a0;    
+    --border-color: #3c3c5a;   
+    --link-hover-bg: rgba(255, 255, 255, 0.05);
+}
+
+body, html {
+    margin: 0; padding: 0; height: 100%;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-light);
+    overflow: hidden; 
+}
+
+ul { margin: 0px; padding: 0px; }
+
+#admin-wrapper { display: flex; height: 100%; }
+
+.sidearea {
+    width: 220px;
+    background-color: var(--bg-sidebar);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    z-index: 10;
+    border-right: 1px solid var(--border-color);
+}
+
+
+.nav-container { list-style: none; padding: 20px 0; margin: 0; width: 100%; }
+.nav-big-area { width: 100%; }
+
+
+.bigmenu-container {
+    display: flex; align-items: center; cursor: pointer;
+    color: var(--text-muted); height: 50px; padding: 0 30px;
+    box-sizing: border-box; transition: all 0.2s;
+    font-weight: 500;
+}
+.bigmenu-container:hover {
+    color: var(--text-light);
+    background-color: var(--link-hover-bg);
+}
+
+.nav-big-area.active .bigmenu-container {
+    color: var(--text-light);
+    background-color: var(--link-hover-bg); 
+    border-left: 3px solid #6c5ce7;
+    padding-left: 27px;
+}
+
+.span-big {
+    display: block;
+    line-height: 1;
+    flex-grow: 1;
+}
+
+.ul-container { padding: 0 0 10px 0; } 
+.ul-small-container { 
+    list-style: none; 
+    padding: 0;
+}
+
+.ul-small-container li { 
+    padding: 8px 30px 8px 45px;
+    transition: background-color 0.1s;
+    cursor: pointer;
+}
+.ul-small-container li:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.span-small {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    display: block;
+}
+.ul-small-container li:hover .span-small {
+    color: var(--text-light);
+}
+
+.ul-small-container li.active .span-small {
+    color: #8183ff;
+    font-weight: 600;
+}
+
+.content-body { flex-grow: 1; padding: 30px; overflow-y: auto; }
+
+.nav-settings {
+    margin-top: auto;
+    padding: 0; 
+    border-top: 1px solid var(--border-color);
+    flex-shrink: 0; 
+}
