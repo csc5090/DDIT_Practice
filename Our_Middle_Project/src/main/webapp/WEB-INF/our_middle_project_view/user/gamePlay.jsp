@@ -6,6 +6,8 @@
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
 	
+	<link rel="stylesheet" href="./css/fonts.css">
+	
 	<link rel="stylesheet" href="./js/lib/bootstrap/css/bootstrap.min.css">
 	<script type="text/javascript" src="./js/lib/bootstrap/js/bootstrap.min.js"></script>
 	
@@ -16,40 +18,82 @@
 </head>
 <body>
 
-	<div class="bg-dark-subtle w-75 p-3 h-75 d-inline-block">
-
-<i class="bi bi-3-circle-fill"></i>
-		<div class="container text-center">
-			<div class="row">
-				<div class="col bg-danger rounded-5">Column</div>
-				<div class="col shadow p-3 mb-5 bg-body-tertiary rounded">Column</div>
-				<div class="col text-warning-emphasis bg-primary-subtle">Column</div>
+	<div id="game-container">
+	
+		<button type="button" class="btn btn-outline-success" onclick="endGame()">게임종료</button>
+	
+	</div>
+	
+	
+	<div id="endingModal" class="ending-container">
+	
+		<div class="ending-head">
+			<div id="endingText"></div>
+		</div>
+		<div class="ending-body">
+			<div class="ending-left-box">
+				<div class="ending-info">
+					<span class="info">점수 :</span>
+					<span class="value" data-info="score">0</span>
+				</div>
+				<div class="ending-info">
+					<span class="info">남은 시간 :</span>
+					<span class="value" data-info="plusTime">0</span>
+				</div>
+				<div class="ending-info">
+					<span class="info">최대 콤보 횟수 :</span>
+					<span class="value" data-info="combo">0</span>
+				</div>
+				<div class="ending-info">
+					<span class="info">맞춘 카드의 개수 :</span>
+					<span class="value" data-info="cardCount">0</span>
+				</div>
+			</div>
+			<div class="ending-right-box">
+				<div class="ending-right-box-btn" data-value="try">Try Again</div>
+				<div class="ending-right-box-btn" data-value="home">Home</div>
 			</div>
 		</div>
-
-		<button type="button" class="btn btn-outline-secondary" onclick="clickHandle()">click</button>
-
+		
 	</div>
 
-	<div class="ending-container bg-secondary bg-opacity-75">
-	
-		<div class="">right</div>
-		<div class="">left</div>
-		<div></div>
-	
-	</div>
 
-	<!-- Vertically centered modal -->
-<div class="modal-dialog modal-dialog-centered">
-  ...
-</div>
-
-<!-- Vertically centered scrollable modal -->
-<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-  ...
-</div>
-
-	<script type="text/javascript" src="./js/game/test.js"></script>
+	<script type="text/javascript" src="./js/game/gameEnding.js"></script>
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
