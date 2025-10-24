@@ -33,7 +33,7 @@
         font-weight: normal;
     }
 
-    .c-login-box input[type="id-input"],
+    .c-login-box input[type="text"],
     .c-login-box input[type="password"] {
         width: 100%;
         padding: 10px;
@@ -45,7 +45,7 @@
         box-sizing: border-box;
     }
 
-    .c-login-box input[type="id-input"]::placeholder,
+    .c-login-box input[type="text"]::placeholder,
     .c-login-box input[type="password"]::placeholder {
         color: #aaa;
     }
