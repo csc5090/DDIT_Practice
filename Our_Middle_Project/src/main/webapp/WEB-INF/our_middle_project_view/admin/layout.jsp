@@ -11,6 +11,10 @@
 	href="${pageContext.request.contextPath}/css/admin/admin_layout.css">
 </head>
 <body>
+<div class="bigmenu-container">
+	<span class="span-big"> 로고 들어갈 자리 </span>
+</div>
+
 	<div id="admin-wrapper">
 		<nav class="sidearea">
 			<div class="ul-wrapper">
