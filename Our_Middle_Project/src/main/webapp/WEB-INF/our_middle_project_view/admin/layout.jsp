@@ -11,21 +11,21 @@
 	href="${pageContext.request.contextPath}/css/admin/admin_layout.css">
 </head>
 <body>
-<div class="bigmenu-container">
-	<span class="span-big"> 로고 들어갈 자리 </span>
-</div>
-
 	<div id="admin-wrapper">
 		<nav class="sidearea">
-			<div class="ul-wrapper">
+				<div class="logo-wrapper">
+					<span class="logo-span"> 로고 들어갈 자리 </span>
+				</div>
+				
+				<div class="ul-wrapper">
 				<ul class="nav-container">
 					<li class="nav-big-area">
+					
 						<div class="bigmenu-container">
 							<span class="span-big"> 대시보드 </span>
 						</div>
-					</li>
-
-					<li class="nav-big-area">
+					
+					
 						<div class="bigmenu-container">
 							<span class="span-big"> 사용자 </span>
 						</div>
@@ -86,9 +86,8 @@
 				</ul>
 			</div>
 
-			<div class="nav-settings">
-				<div
-					class="bigmenu-container ${activeMenu eq 'settings' ? 'active' : ''}">
+			<div class="nav-wrapper">
+				<div class="bigmenu-container ${activeMenu eq 'settings' ? 'active' : ''}">
 					<span class="span-big"> 설정 </span>
 				</div>
 			</div>
