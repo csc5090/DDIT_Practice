@@ -1,38 +1,36 @@
-document.addEventListener('DOMContentLoaded', () => {
 
-    const sidebar = document.querySelector('.sidebar');
+window.onload = () => {
+	addEventHandle()
+};
 
-    
-    sidebar.addEventListener('mouseenter', () => {
-        sidebar.classList.add('expanded');
-    });
+function addEventHandle() {
+	let dash = document.getElementsByClassName('bigmenu-container');
+	
+	for(let i=0 ; i<dash.length ; i++) {
+		dash[i].addEventListener('click', (e) => { sideBarToggleHandle(e) })
+	}	
+}
 
-    sidebar.addEventListener('mouseleave', () => {
-        sidebar.classList.remove('expanded');
-    });
-
-
-    
-    const navLinks = document.querySelectorAll('.nav-link');
-
-    navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            const navItem = this.parentElement;
-
-            
-            if (navItem.classList.contains('has-submenu')) {
-                e.preventDefault();
-
-                
-                document.querySelectorAll('.nav-item.open').forEach(openItem => {
-                    if (openItem !== navItem) {
-                        openItem.classList.remove('open');
-                    }
-                });
-                
-                
-                navItem.classList.toggle('open');
-            }
-        });
-    });
-});
+function sideBarToggleHandle(e) {
+	
+	let clicked = e.currentTarget;
+	console.log(clicked)
+	let childElement = clicked.nextElementSibling
+	if(childElement != null) {
+		console.log(childElement)
+		let toggle = childElement.getAttribute('data-toggle')
+		
+		if(toggle == "true") {
+			console.log('true')
+			childElement.className = "ul-container"
+			childElement.setAttribute('data-toggle', 'false')
+		}
+		else {
+			console.log('false')
+			childElement.className = "ul-container-none"
+			childElement.setAttribute('data-toggle', 'true')
+		}
+		
+	}
+	
+}
