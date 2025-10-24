@@ -9,23 +9,29 @@ window.onload = () => {
 function addEventHandle() {
 	
 	let findId = document.querySelector('.find-id');
-	findId.addEventListener('click', (e) => { findIdHandle(e) });
+	findId.addEventListener('click', findIdHandle);
 	
 	let findPw = document.querySelector('.find-pw');
-	findPw.addEventListener('click', (e) => { findPwHandle(e) });
+	findPw.addEventListener('click', findPwHandle);
+	
+	let closeBtns = document.querySelectorAll('.close-btn');
+	closeBtns.forEach(btn => {
+	  btn.addEventListener('click', (e) => { closeModalHandle(e) });
+	});
 
 }
 
-function findIdHandle(e) {
+function findIdHandle() {
 	let idModal = document.getElementById('idModal');
 	idModal.style.display = 'flex';
 };
 
-function findPwHandle(e) {
+function findPwHandle() {
 	let pwModal = document.getElementById('pwModal');
 	pwModal.style.display = 'flex';
 };
 
-function closeModal(id) {
-	document.getElementById(id).style.display = 'none';
-}
+function closeModalHandle(e) {
+	let modal = e.target.closest('.modal')
+	modal.style.display = 'none';
+};

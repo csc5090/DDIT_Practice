@@ -38,7 +38,7 @@
 			<h3>아이디 찾기</h3>
 			<input type="text" placeholder="이메일">
 			<button>아이디 찾기</button>
-			<div class="close-btn" onclick="closeModal('idModal')">닫기</div>
+			<div class="close-btn">닫기</div>
 		</div>
 	</div>
 	
@@ -48,7 +48,7 @@
 			<input type="text" placeholder="아이디">
 			<input type="text" placeholder="이메일">
 			<button>비밀번호 재설정</button>
-			<div class="close-btn" onclick="closeModal('pwModal')">닫기</div>
+			<div class="close-btn">닫기</div>
 		</div>
 	</div> 
 	 
