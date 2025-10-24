@@ -6,15 +6,19 @@ window.onload = () => {
     const findId = document.querySelector('.find-id');
     const findPw = document.querySelector('.find-pw');
 
-    findId.addEventListener('click', () => idModal.style.display = 'block');
-    findPw.addEventListener('click', () => pwModal.style.display = 'block');
+	findId.addEventListener('click', (e) => { findIdHandle(e) });
+	findPw.addEventListener('click', (e) => { findPwHandle(e) });
 
-    window.addEventListener('click', (e) => {
-        if (e.target === idModal) idModal.style.display = 'none';
-        if (e.target === pwModal) pwModal.style.display = 'none';
-    });
+	function findIdHandle(e) {
+		idModal.style.display = 'flex';
+	};
+
+	function findPwHandle(e) {
+		pwModal.style.display = 'flex';
+	};
+
 }
 
 function closeModal(id) {
-    document.getElementById(id).style.display = 'none';
+	document.getElementById(id).style.display = 'none';
 }
