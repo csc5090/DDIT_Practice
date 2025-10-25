@@ -93,6 +93,11 @@
 			</div>
 
 		</nav>
+		
+		<main class="main-area">
+		         
+		        </main>
+		
 
 	</div>
 	
