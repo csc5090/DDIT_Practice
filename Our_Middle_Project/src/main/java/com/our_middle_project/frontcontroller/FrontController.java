@@ -58,10 +58,6 @@ public class FrontController extends HttpServlet {
 		// webapp/WEB-INF/config/url.properties 파일 경로를 찾습니다.
 		try (InputStream is = getServletContext().getResourceAsStream("/WEB-INF/config/url.properties")) {
 			
-			if (is == null) { // 파일 존재 유무 체크
-				throw new ServletException("설정 파일을 찾을 수 없습니다: /WEB-INF/config/url.properties");
-			}
-			
 			// getServletContext() : "이 웹 애플리케이션 전체의 설정 정보를 담당하는 객체를 줘."
 			// .getResourceAsStream(...) :
 			// "그 객체에서, 지정된 경로(/WEB-INF/config/url.properties)에 있는 파일을 읽을 수 있는
@@ -81,7 +77,7 @@ public class FrontController extends HttpServlet {
 			// 3.Map 저장: 구분된 Key와 Value를 properties 객체의 내부 Map 구조에 저장.
 
 		} catch (IOException e) {
-			throw new ServletException("설정 파일을 로드 실패.", e);
+			throw new ServletException("FrontController 에서 발생한 예외.", e);
 		}
 		
 		// 싱글톤 인스턴스 생성 및 임시 맵에 저장
@@ -134,16 +130,8 @@ public class FrontController extends HttpServlet {
 				// command(키)와 Action 인스턴스(값)를 handlerMapping에 저장
 				tmpMap.put(command, actionInstance);
 
-			} catch (ClassNotFoundException e) {
-				throw new ServletException("Action 클래스 파일을 찾을 수 없음: " + className, e);
-			} catch (NoSuchMethodException e) {
-				throw new ServletException("Action 클래스에 기본 생성자가 없음: " + className, e);
-			} catch (InvocationTargetException e) { // 생성자 실행 중 발생한 내부 예외
-				throw new ServletException("Action 생성자 실행 중 예외 발생: " + className, e.getTargetException());
-			} catch (InstantiationException | IllegalAccessException e) {
-				throw new ServletException("Action 인스턴스 생성 및 접근 실패: " + className, e);
-			} catch (ClassCastException e) {
-				throw new ServletException("Action 인터페이스 구현 오류: " + className, e);
+			} catch (Exception e) {
+				throw new ServletException("FrontController 에서 발생한 예외", e);
 			}
 		}
 		// 최종 Map을 불변 Map으로 교체 (스레드 안전성 및 방어적 프로그래밍 완성)
