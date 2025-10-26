@@ -22,7 +22,7 @@ ul { margin: 0; padding: 0; }
 
 
 .sidearea {
-    width: 250px;
+    width: 220px;
     background-color: var(--bg-sidebar);
     display: flex;
     flex-direction: column;
@@ -56,13 +56,12 @@ ul { margin: 0; padding: 0; }
     padding: 0 30px;
     font-weight: 500;
     transition: all 0.2s;
-    border-left: 3px solid transparent; 
+    border-left: 3px solid transparent;
 }
 .bigmenu-container:hover {
     color: var(--text-light);
     background-color: var(--link-hover-bg);
 }
-
 
 .nav-big-area.active .bigmenu-container {
     color: var(--text-light);
@@ -80,16 +79,16 @@ ul { margin: 0; padding: 0; }
 }
 .ul-container-none.active {
     max-height: 500px;
-	transition: max-height 0.3s ease-out;
+    transition: max-height 0.3s ease-out;
 }
 
 .ul-small-container {
     list-style: none;
-    padding: 10px 0 10px 0px;
+    padding: 10px 0;
     background-color: rgba(0,0,0,0.2);
 }
 .ul-small-container li {
-    padding: 8px 0;
+    padding: 10px 30px 10px 45px;
     cursor: pointer;
     transition: background-color 0.1s;
 }
@@ -100,10 +99,13 @@ ul { margin: 0; padding: 0; }
 .span-small {
     color: var(--text-muted);
     font-size: 0.9rem;
-	margin-left: 45px;
 }
 .ul-small-container li:hover .span-small {
     color: var(--text-light);
+}
+.ul-small-container li.active .span-small {
+    color: var(--active-border);
+    font-weight: 600;
 }
 
 .nav-wrapper {
@@ -111,6 +113,7 @@ ul { margin: 0; padding: 0; }
     border-top: 1px solid var(--border-color);
     flex-shrink: 0;
 }
+
 
 .main-area {
     flex-grow: 1;

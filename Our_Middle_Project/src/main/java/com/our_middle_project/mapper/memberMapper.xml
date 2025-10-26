@@ -5,17 +5,48 @@
 
 <mapper namespace="com.our_middle_project.dao.MemberDAO">
 
-	<select id="getMemberList" parameterType="java.lang.String"
-		resultType="com.our_middle_project.dto.MemberDTO">
-		SELECT
-		USER_NO AS userNo,
-		USER_ID AS userId,
-		NICKNAME,
-		REG_DATE AS regDate,
-		STATUS FROM MEMBER
-		<if test="query != null and query != ''">
-			WHERE USER_ID LIKE CONCAT('%', #{query}, '%') OR NICKNAME LIKE CONCAT('%', #{query}, '%')
-		</if>
-		ORDER BY USER_NO DESC
-	</select>
+<select id="getTotalUserCount" resultType="int">
+    SELECT COUNT(MEM_NO) FROM MEMBERS
+</select>
+<select id="getTodayUserCount" resultType="int">
+    SELECT COUNT(MEM_NO) FROM MEMBERS WHERE TRUNC(REG_DATE) = TRUNC(SYSDATE)
+</select>
+
+
+<select id="getDailySignupStats" resultType="java.util.Map">
+    SELECT TO_CHAR(days.d, 'YYYY-MM-DD') AS "label", 
+    	   COUNT(m.MEM_NO) AS "value"
+    
+    FROM 
+        (SELECT TRUNC(SYSDATE) - LEVEL + 1 AS d FROM DUAL CONNECT BY LEVEL <= 7) days
+    
+    LEFT JOIN 
+        MEMBERS m ON TRUNC(m.REG_DATE) = days.d
+    
+    GROUP BY 
+        days.d
+    
+    ORDER BY 
+        days.d ASC
+</select>
+
+</mapper>
+
+
+<mapper namespace="com.our_middle_project.dao.StatsDAO">
+
+    <select id="getDailySignupStats" resultType="com.our_middle_project.dto.StatsDTO">
+        SELECT 
+            TO_CHAR(days.d, 'MM-DD') AS "label",
+            COUNT(m.MEM_NO) AS "value"
+        FROM 
+            (SELECT TRUNC(SYSDATE) - LEVEL + 1 AS d FROM DUAL CONNECT BY LEVEL <= 7) days
+        LEFT JOIN 
+            MEMBERS m ON TRUNC(m.REG_DATE) = days.d
+        GROUP BY 
+            days.d
+        ORDER BY 
+            days.d ASC
+    </select>
+
 </mapper>
