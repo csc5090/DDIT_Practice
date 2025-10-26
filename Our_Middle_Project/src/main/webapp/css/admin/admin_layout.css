@@ -85,7 +85,7 @@ ul { margin: 0; padding: 0; }
 
 .ul-small-container {
     list-style: none;
-    padding: 10px 0 10px 45px;
+    padding: 10px 0 10px 0px;
     background-color: rgba(0,0,0,0.2);
 }
 .ul-small-container li {
@@ -100,6 +100,7 @@ ul { margin: 0; padding: 0; }
 .span-small {
     color: var(--text-muted);
     font-size: 0.9rem;
+	margin-left: 45px;
 }
 .ul-small-container li:hover .span-small {
     color: var(--text-light);
