@@ -14,16 +14,82 @@
 	<link rel="stylesheet" href="./js/lib/sweetalert2/dist/sweetalert2.min.css">
 	<script type="text/javascript" src="./js/lib/sweetalert2/dist/sweetalert2.min.js"></script>
 
+	<link rel="stylesheet"href="./css/game/cardGame.css">
 	<link rel="stylesheet" href="./css/game/gameEnding.css">
 </head>
 <body>
 
-	<div id="game-container">
+	<div class="main">
+		<!-- 좌측 영역 70% -->
+
+		<div id="leftGame">
+				
+			<div id="leftAreaLeft">
+				
+				<div id="gameTimer">
+				<div id="timeCount">00 : 00</div>
+				</div>
+			</div>	
 	
-		<button type="button" class="btn btn-outline-success" onclick="endGame()">게임종료</button>
-	
+			<div id="leftArea"></div>	<!--실제 카드 놓이는곳 -->
+			<div id="countDown"></div> 
+			
+			<div id="leftAreaRight"></div>
+			
+			
+		</div>
+
+		<!-- 우측 영역 30% -->
+		<div id="rightArea">
+			<!-- 버튼 영역 -->
+			<div class="set">
+				<button id="stopBtn">일시정지</button>
+				<button id="exitBtn">나가기</button>
+			</div>
+			
+			<div class="score-board">
+   				  <div>점수: <span class="score">0</span></div>
+   		 		  <div>콤보: <span class="combo">0</span></div>
+  				  <div>최고 콤보: <span class="max-combo">0</span></div>
+  			</div>
+
+
+			<!-- 프로필 영역 -->
+			<div class="profile">
+			
+				<div class="player">
+					<img src="" alt="*">
+					<div class="name">내 이름</div>
+				</div>
+				
+				<div class="other">
+					<img src="" alt="*">
+					<div class="name">미야옹</div>
+					<div class="score">score:0</div>
+				</div>
+				
+				<!-- 버튼 -->
+				<div id="buttonCover">
+    				<button id="startBtn">START</button>
+				</div>
+				<!-- 버튼 -->
+			
+				
+			</div>
+
+			<!-- 채팅창 영역 -->
+			<div class="chat">
+				<div class="chat-messages" id="chat-messages">
+					<div class="message sent">안녕하세요!</div>
+					<div class="message received">반갑습니다 😄</div>
+				</div>
+				<form class="chat-form" id="chat-form">
+					<input type="text" id="chat-input">
+					<button type="submit">전송</button>
+				</form>
+			</div>
+		</div>
 	</div>
-	
 	
 	<div id="endingModal" class="ending-container">
 	
@@ -57,7 +123,7 @@
 		
 	</div>
 
-
+	<script type="text/javascript" src="./js/game/gamePlay.js"></script>
 	<script type="text/javascript" src="./js/game/gameEnding.js"></script>
 
 </body>
