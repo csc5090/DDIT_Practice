@@ -1,0 +1,194 @@
+@charset "UTF-8";
+
+input:focus {
+  border: none;
+  outline: none;
+}
+
+#membershipModal {
+	
+	display: flex;
+	flex-direction: row;
+    justify-content: center;
+    align-items: center;
+	background-color: white;
+	
+	width: 30%;
+	min-width: 550px;
+	height: 100vh;
+	
+	position: absolute;
+	top: 0px;
+	right: 0px;
+}
+
+.membership-container {
+	
+	display: flex;
+	flex-direction: column;
+	
+	width: 90%;
+	height: 90%;
+	
+	color: black;
+
+}
+
+#mem-id-info {
+	
+	display: flex;
+	flex-direction: column;
+    align-items: center;
+    
+    width: 100%;
+    height: 18%;
+    
+    margin-top: 80px;
+    
+}
+
+.mem-info-block {
+	
+	display: flex;
+    flex-direction: row;
+	align-items: center;
+	
+	width: 100%;
+	height: 33%;
+	
+	border: 1px solid black;
+	
+}
+
+.mem-info-block:first-child {
+	border-top-left-radius: 8px;     
+	border-top-right-radius: 8px;     
+	border-bottom-right-radius: 0; 
+	border-bottom-left-radius: 0;
+}
+
+.mem-info-block:last-child {
+	border-top-left-radius: 0;     
+	border-top-right-radius: 0;     
+	border-bottom-right-radius: 8px; 
+	border-bottom-left-radius: 8px;
+}
+
+.mem-info-block:not(:first-child) {
+	margin-top: -1px;
+}
+
+.mem-icon {
+	
+	display: flex;
+	justify-content: center;
+    align-items: center;
+    
+   	width: 8%;
+	height: 80%;
+	
+}
+
+.mem-icon > svg {
+	
+	width: 61%;
+	height: 61%;
+	
+	fill: black;
+	
+}
+
+.mem-input {
+	
+	display: flex;
+	flex-direction: row;
+    align-items: center;
+	
+	width: 84%;
+	height: 100%;
+}
+
+.mem-input > input {
+	width: 100%;
+	
+	border: none;
+}
+
+.pw-check {
+	cursor: pointer;
+}
+
+#mem-user-info {
+	
+	display: flex;
+	flex-direction: column;
+    align-items: center;
+    
+    width: 100%;
+    height: 24%;
+    
+    margin-top: 20px;
+    
+}
+
+#mem-user-gender {
+	
+	display: flex;
+	flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    
+    width: 100%;
+    height: 6%;
+    
+    margin-top: 20px;
+    
+    border: 1px solid black;
+    border-radius: 8px;
+}
+
+.user-gender {
+	
+	display: flex;
+	flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    
+	width: 48%;
+	height: 80%;
+	border: 1px solid black;
+}
+
+.user-gender:first-child {
+	border-top-left-radius: 5px;     
+	border-top-right-radius: 0;     
+	border-bottom-right-radius: 0; 
+	border-bottom-left-radius: 5px;
+}
+
+.user-gender:last-child {
+	margin-left: -1px;
+	
+	border-top-left-radius: 0;     
+	border-top-right-radius: 5px;     
+	border-bottom-right-radius: 5px; 
+	border-bottom-left-radius: 0;
+}
+
+#mem-user-addr {
+	
+	display: flex;
+	flex-direction: column;
+    align-items: center;
+    
+    width: 100%;
+    height: 31%;
+    
+    margin-top: 20px;
+    
+}
+
+/* #user-icon {
+	content: url(../../images/icon/person.svg);
+	border: 3px solid red;
+} */
