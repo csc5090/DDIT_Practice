@@ -57,28 +57,3 @@ function contentLoadHandle(e) {
 		loadContent(url);
 	}
 }
-
-async function loadContent(url) {
-	const mainArea = document.querySelector('.main-area');
-	try {
-		mainArea.innerHTML = '<div>Loading...</div>';
-
-		const contextPath = getContextPath();
-		const response = await fetch(contextPath + url);
-		
-		if (!response.ok) {
-			throw new Error('페이지를 불러오는 데 실패했습니다.');
-		}
-
-		const htmlContent = await response.text();
-		mainArea.innerHTML = htmlContent;
-
-	} catch (error) {
-		mainArea.innerHTML = `<div>오류 발생: ${error.message}</div>`;
-		console.error(error);
-	}
-}
-
-function getContextPath() {
-	return '/' + location.pathname.split('/')[1];
-}

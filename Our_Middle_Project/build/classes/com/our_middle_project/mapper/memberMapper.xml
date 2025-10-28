@@ -8,14 +8,14 @@
 	<select id="getMemberList" parameterType="java.lang.String"
 		resultType="com.our_middle_project.dto.MemberDTO">
 		SELECT
-		USER_NO AS userNo,
-		USER_ID AS userId,
+		MEM_NO AS userNo,
+		MEM_ID AS userId,
 		NICKNAME,
-		REG_DATE AS regDate,
+		CREATED_DATE AS regDate,
 		STATUS FROM MEMBER
 		<if test="query != null and query != ''">
-			WHERE USER_ID LIKE CONCAT('%', #{query}, '%') OR NICKNAME LIKE CONCAT('%', #{query}, '%')
+			WHERE MEM_ID LIKE CONCAT('%', #{query}, '%') OR NICKNAME LIKE CONCAT('%', #{query}, '%')
 		</if>
-		ORDER BY USER_NO DESC
+		ORDER BY MEM_NO DESC
 	</select>
 </mapper>

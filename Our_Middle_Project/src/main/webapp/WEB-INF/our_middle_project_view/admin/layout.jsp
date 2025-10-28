@@ -94,9 +94,9 @@
 
 		</nav>
 		
-		<main class="main-area">
+		<main class="main-content-area">
 		         
-		        </main>
+		</main>
 		
 
 	</div>
