@@ -6,6 +6,9 @@
 <meta charset="UTF-8">
 <title>로그인</title>
 
+	<!-- 폰트 -->
+	<link rel="stylesheet" href="./css/fonts.css">
+
 	<!-- 부트스트랩 -->
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/js/lib/bootstrap/css/bootstrap.min.css">
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/bootstrap/js/bootstrap.min.js"></script>
@@ -82,7 +85,7 @@
 						</svg>
 					</div>
 					<div class="mem-input">
-						<input type="password" name="userId" placeholder="비밀번호">
+						<input type="password" name="userPw" placeholder="비밀번호">
 					</div>
 					<div class="mem-icon pw-check">
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
@@ -104,7 +107,7 @@
 						</svg>
 					</div>
 					<div class="mem-input">
-						<input type="text" name="userId" placeholder="이메일">
+						<input type="text" name="userEmail" placeholder="이메일">
 					</div>
 				</div>
 				
@@ -119,7 +122,7 @@
 						</svg>
 					</div>
 					<div class="mem-input">
-						<input type="text" name="userId" placeholder="이름">
+						<input type="text" name="userName" placeholder="이름">
 					</div>
 				</div>
 				
@@ -130,7 +133,7 @@
 						</svg>
 					</div>
 					<div class="mem-input">
-						<input type="text" name="userId" placeholder="닉네임">
+						<input type="text" name="userNickName" placeholder="닉네임">
 					</div>
 				</div>
 				
@@ -142,7 +145,7 @@
 						</svg>
 					</div>
 					<div class="mem-input">
-						<input type="text" name="userId" placeholder="핸드폰번호">
+						<input type="text" name="usePhone" placeholder="핸드폰번호">
 					</div>
 				</div>
 				
@@ -154,7 +157,7 @@
 						</svg>
 					</div>
 					<div class="mem-input">
-						<input type="text" name="userId" placeholder="생년월일">
+						<input type="text" name="userBirth" placeholder="생년월일">
 					</div>
 				</div>
 				
@@ -169,42 +172,44 @@
 		
 			<div id="mem-user-addr">
 				<div class="mem-info-block">
+					<input id="mem-addr-search" type="button" value="주소 찾기">
+				</div>
+				<div class="mem-info-block">
 					<div class="mem-input">
-						<input type="text" name="userId" placeholder="핸드폰번호">
+						<input id="user_postCode" type="text" name="userAddr1" placeholder="우편번호" disabled>
 					</div>
 				</div>
 				<div class="mem-info-block">
 					<div class="mem-input">
-						<input type="text" name="userId" placeholder="핸드폰번호">
+						<input id="user_addres" type="text" name="userAddr2" placeholder="주소" disabled>
 					</div>
 				</div>
 				<div class="mem-info-block">
 					<div class="mem-input">
-						<input type="text" name="userId" placeholder="핸드폰번호">
+						<input id="user_exAddr" type="text" name="userAddr3" placeholder="참고항목" disabled>
 					</div>
 				</div>
 				<div class="mem-info-block">
 					<div class="mem-input">
-						<input type="text" name="userId" placeholder="핸드폰번호">
+						<input id="user_detailAddr" type="text" name="userAddr4" placeholder="상세주소">
 					</div>
 				</div>
-				<div class="mem-info-block">
-					<div class="mem-input">
-						<input type="text" name="userId" placeholder="핸드폰번호">
-					</div>
-				</div>
-				<!-- <input type="text" id="sample6_postcode" class="d_form mini" placeholder="우편번호">
-				<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" class="d_btn">
-				<input type="text" id="sample6_address" class="d_form large" placeholder="주소">
-				<input type="text" id="sample6_detailAddress" class="d_form" placeholder="상세주소">
-				<input type="text" id="sample6_extraAddress" class="d_form" placeholder="참고항목"> -->
+
+			</div>
+		
+		</div>
+		
+		<div class="mem-btn-box">
+		
+			<div class="btnBox-left">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+					<path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+				</svg>
 			</div>
 			
-			
-			<!-- <div>
-				<input type="button" value="회원가입">
-				<input type="button" value="취소">
-			</div> -->
+			<div class="btnBox-right">
+				<input type="button" value="Join">
+			</div>
 		
 		</div>
 	

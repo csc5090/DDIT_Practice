@@ -5,13 +5,18 @@ input:focus {
   outline: none;
 }
 
+input::placeholder {
+  color: #D6D6D6; 
+  opacity: 1;     
+}
+
 #membershipModal {
 	
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
     justify-content: center;
     align-items: center;
-	background-color: white;
+	background-color: transparent;
 	
 	width: 30%;
 	min-width: 550px;
@@ -20,17 +25,39 @@ input:focus {
 	position: absolute;
 	top: 0px;
 	right: 0px;
+	
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+#membershipModal svg {
+
+	width: 61%;
+	height: 61%;
+	
+	fill: #00aaff;
+	/* #00aaff */
+	/* #D6D6D6 */
+	
 }
 
 .membership-container {
 	
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 	
 	width: 90%;
 	height: 90%;
 	
-	color: black;
+	background-color: #1e1e1e;
+	
+	border-radius: 12px;
+	box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+	
+	color: #D6D6D6;
 
 }
 
@@ -40,10 +67,10 @@ input:focus {
 	flex-direction: column;
     align-items: center;
     
-    width: 100%;
+    width: 95%;
     height: 18%;
     
-    margin-top: 80px;
+    margin-top: 60px;
     
 }
 
@@ -56,7 +83,8 @@ input:focus {
 	width: 100%;
 	height: 33%;
 	
-	border: 1px solid black;
+	border: 1px solid #D6D6D6;
+	overflow: hidden;
 	
 }
 
@@ -89,15 +117,6 @@ input:focus {
 	
 }
 
-.mem-icon > svg {
-	
-	width: 61%;
-	height: 61%;
-	
-	fill: black;
-	
-}
-
 .mem-input {
 	
 	display: flex;
@@ -106,12 +125,18 @@ input:focus {
 	
 	width: 84%;
 	height: 100%;
+	
 }
 
 .mem-input > input {
+	
 	width: 100%;
 	
 	border: none;
+	cursor: pointer;
+	
+	background-color: transparent;
+	
 }
 
 .pw-check {
@@ -124,7 +149,7 @@ input:focus {
 	flex-direction: column;
     align-items: center;
     
-    width: 100%;
+	width: 95%;
     height: 24%;
     
     margin-top: 20px;
@@ -138,13 +163,14 @@ input:focus {
     align-items: center;
     justify-content: center;
     
-    width: 100%;
+    width: 95%;
     height: 6%;
     
     margin-top: 20px;
     
-    border: 1px solid black;
+    border: 1px solid #D6D6D6;
     border-radius: 8px;
+    
 }
 
 .user-gender {
@@ -156,23 +182,28 @@ input:focus {
     
 	width: 48%;
 	height: 80%;
-	border: 1px solid black;
+	border: 1px solid #D6D6D6;
+	
 }
 
 .user-gender:first-child {
+	
 	border-top-left-radius: 5px;     
 	border-top-right-radius: 0;     
 	border-bottom-right-radius: 0; 
 	border-bottom-left-radius: 5px;
+	
 }
 
 .user-gender:last-child {
+	
 	margin-left: -1px;
 	
 	border-top-left-radius: 0;     
 	border-top-right-radius: 5px;     
 	border-bottom-right-radius: 5px; 
 	border-bottom-left-radius: 0;
+	
 }
 
 #mem-user-addr {
@@ -181,14 +212,115 @@ input:focus {
 	flex-direction: column;
     align-items: center;
     
-    width: 100%;
-    height: 31%;
+    width: 95%;
+    height: 24%;
     
     margin-top: 20px;
     
 }
 
-/* #user-icon {
-	content: url(../../images/icon/person.svg);
-	border: 3px solid red;
-} */
+#mem-addr-search {
+	
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-color: transparent;
+    
+    color: #D6D6D6;
+    
+}
+
+#mem-user-addr .mem-input > input {
+	
+	margin-left: 15px;
+	
+	background-color: transparent;
+	cursor: default;
+	
+	color: #D6D6D6;
+
+}
+
+#mem-user-addr input[name="userAddr4"] {
+	cursor: pointer;
+}
+
+.mem-btn-box {
+	
+	display: flex;
+	flex-direction: row;
+    justify-content: center;
+    align-items: center;
+	
+	width: 90%;
+	height: 8%;
+	
+}
+
+.btnBox-left {
+	
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    
+	width: 10%;
+	height: 100%;
+	
+	margin-top: 10px;
+	transform: scaleX(-1);
+	
+	cursor: pointer;
+}
+
+.btnBox-right {
+	
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    
+	width: 90%;
+	height: 100%;
+	
+	margin-top: 5px;
+}
+
+.btnBox-right > input {
+	
+	/* display: flex;
+    justify-content: center;
+    align-items: center; */
+    
+	width: 50%;
+	height: 100%;
+	
+	border: none;
+	background-color: transparent;
+	
+	font-family: 'KccAnchangho';
+	font-size: 5vh;
+	color: #00aaff;
+	
+	transition: 1s;
+	cursor: pointer;
+	
+}
+
+.btnBox-right > input:hover {
+	transition: 1s;
+	text-shadow:
+		0 0 8px #00aaff,
+		0 0 15px #00aaff,
+		0 0 25px #00aaff,
+		0 0 40px #00aaff;
+	color: #fff;
+}
+
+
+
+
+
+
+
+
+
+

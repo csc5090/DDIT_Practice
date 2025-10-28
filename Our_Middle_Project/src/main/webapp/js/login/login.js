@@ -19,6 +19,12 @@ function addEventHandle() {
 	  btn.addEventListener('click', (e) => { closeModalHandle(e) });
 	});
 
+	/*
+		조승희 - 로그인 주소찾기 버튼 addEvent +
+	*/
+	
+	let searchAddrBtn = document.getElementById('mem-addr-search');
+	searchAddrBtn.addEventListener('click', () => { addrSearchAPI() });
 }
 
 function findIdHandle() {
