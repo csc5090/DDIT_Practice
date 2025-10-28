@@ -9,16 +9,6 @@ function addEventHandle() {
 			sideBarToggleHandle(e);
 		});
 	}
-	
-	let smallMenus = document.getElementsByClassName('ul-small-container');
-	for(let i=0 ; i < smallMenus.length ; i++) {
-		let menuItems = smallMenus[i].getElementsByTagName('li');
-		for (let j=0; j < menuItems.length; j++) {
-			menuItems[j].addEventListener('click', (e) => {
-				contentLoadHandle(e);
-			});
-		}
-	}
 }
 
 function sideBarToggleHandle(e) {
@@ -48,12 +38,3 @@ function closeOtherSubmenus(currentItem) {
 	}
 }
 
-function contentLoadHandle(e) {
-	let clickedLi = e.currentTarget;
-	let viewId = clickedLi.id;
-	
-	if (viewId) {
-		let url = `/admin/view/${viewId}`;
-		loadContent(url);
-	}
-}
