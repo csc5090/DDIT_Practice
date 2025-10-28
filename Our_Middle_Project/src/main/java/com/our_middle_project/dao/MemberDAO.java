@@ -27,20 +27,4 @@ public class MemberDAO {
 		}
 	}
 
-	
-	public int getTotalUserCount() {
-	    try (SqlSession sqlSession = factory.openSession()) {
-	        return sqlSession.selectOne("com.our_middle_project.dao.MemberDAO.getTotalUserCount");
-	    }
-	}
-	public int getTodayUserCount() {
-	    try (SqlSession sqlSession = factory.openSession()) {
-	        return sqlSession.selectOne("com.our_middle_project.dao.MemberDAO.getTodayUserCount");
-	    }
-	}
-	
-	
-	
-	
 }
-

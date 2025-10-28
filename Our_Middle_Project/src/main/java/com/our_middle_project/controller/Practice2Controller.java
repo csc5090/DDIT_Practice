@@ -9,17 +9,18 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class AdminDashboardViewController implements Action {
+public class Practice2Controller implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		ActionForward forward = new ActionForward();
 		
-		forward.setPath("/WEB-INF/our_middle_project_view/admin/dashboard.jsp");
-		forward.setRedirect(false);
-		return  forward;
+		
+		ActionForward forward = new ActionForward();
+		forward.setPath("/WEB-INF/our_middle_project_view/admin/practice2.jsp");
+        forward.setRedirect(false);
+		return forward;
+		
 	}
 
 }
