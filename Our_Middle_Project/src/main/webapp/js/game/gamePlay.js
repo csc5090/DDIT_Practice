@@ -14,6 +14,8 @@ let comboElement;
 let maxComboElement;
 let timeEl;
 
+// let gameEnded = false;	//게임 종료
+let gamePlay = false;
 
 //======페이지 로드
 window.onload = () => {
@@ -22,6 +24,7 @@ window.onload = () => {
 	comboElement = document.querySelector(".combo");
 	maxComboElement = document.querySelector(".max-combo");
 	timeEl = document.getElementById("timeCount");
+	
 	addEventHandle();
 }
 
@@ -221,81 +224,107 @@ function startTimer(initialTime) {
 			dataSave();
 	    }
 	}, 100); // 🔹 100ms 단위
+	
+	setTimeout(() => {
+		gamePlay = true;	
+	}, 200)
 }
 
 //======일시정지 버튼로직
 function handleStop(){
+	if(gamePlay){
+		console.log("게임중");
+		if(pausedTime === null) { // 일시정지 상태가 아니면
+		    // 1. 타이머 일시정지
+		    clearInterval(gameTimer);
+		
+		    // 2. 카드 클릭 잠금
+		    lockBoard = true;
+		
+		    // 3. 남은 시간 계산 (🔹 0.1초 단위)
+		    const [min, sec] = document.getElementById("timeCount").textContent.split(" : ");
+		    pausedTime = (parseInt(min) * 60 + parseInt(sec)) * 10; // 🔹 0.1초 단위로 저장
+		
+		    // 버튼 텍스트 변경 (재개)
+		    stopBtn.textContent = "재개";
+		
+		} else { // 이미 일시정지 상태면 -> 재개
+		    lockBoard = false; // 카드 클릭 허용
+		    startTimer(pausedTime / 10); // 🔹 0.1초 단위를 다시 초 단위로 변환
+		    pausedTime = null; // 일시정지 상태 초기화
+		    stopBtn.textContent = "일시정지"; // 버튼 텍스트 복구
+	    }
+	}else{
+		console.log("1243");
+	}
 	
-	if(pausedTime === null) { // 일시정지 상태가 아니면
-	    // 1. 타이머 일시정지
-	    clearInterval(gameTimer);
-	
-	    // 2. 카드 클릭 잠금
-	    lockBoard = true;
-	
-	    // 3. 남은 시간 계산 (🔹 0.1초 단위)
-	    const [min, sec] = document.getElementById("timeCount").textContent.split(" : ");
-	    pausedTime = (parseInt(min) * 60 + parseInt(sec)) * 10; // 🔹 0.1초 단위로 저장
-	
-	    // 버튼 텍스트 변경 (재개)
-	    stopBtn.textContent = "재개";
-	
-	} else { // 이미 일시정지 상태면 -> 재개
-	    lockBoard = false; // 카드 클릭 허용
-	    startTimer(pausedTime / 10); // 🔹 0.1초 단위를 다시 초 단위로 변환
-	    pausedTime = null; // 일시정지 상태 초기화
-	    stopBtn.textContent = "일시정지"; // 버튼 텍스트 복구
-    }
 }
 
 //=====나가기 버튼
 function handleExit(){
-	// 1. 현재 남은 시간 저장
-	  const [min, sec] = timeEl.textContent.split(" : ");
-	  pausedTime = (parseInt(min) * 60 + parseInt(sec)) * 10;
-
-	  // 2. 카드 클릭 잠금
-	  lockBoard = true;
-
-	  // 3. sweetalert 모달창
-	  Swal.fire({
-	      
-	      icon: 'warning',				//아이콘
-	      showCancelButton: true,		//취소 버튼 활성화
-	      confirmButtonText: '종료',		//확인 및 설정 경로 페이지 이동 등
-	      cancelButtonText: '취소',		
-	      allowOutsideClick: false,		//모달 창 외 마우스 금지
-	      allowEscapeKey: false,		//esc키 비활성화
-		  
-		  background: '#1e1e2f',   //  배경
-		  color: '#fff',            // 글자색
-		  iconColor: '#39ff14',     // 아이콘 색 
-		  
-		  //css 커스텀 클래스 생성
-		  customClass: {
-		  	popup: 'my-popup',          // 모달
-			title: 'my-title',          // 타이틀
-			content: 'my-content',      // 내용
-			confirmButton: 'my-btn',    // 확인 버튼
-			cancelButton: 'my-btn'      // 취소 버튼
-		  },
-		  
-	  }).then((result) => {
-	      if(result.isConfirmed){
-	          window.location.href = "../../login.do"; // 확인(종료)클릭 시
-	      } else {
-	          // 취소: 타이머 재시작
-	          startTimer(pausedTime / 10);
-	          lockBoard = false;
-	      }
-	  });
-
-	  // 4. 타이머 일시정지
-	  clearInterval(gameTimer);
+	
+	if(gamePlay) {
+		console.log("게임중일때 누른 게임 나가기")
+		// 1. 현재 남은 시간 저장
+		  const [min, sec] = timeEl.textContent.split(" : ");
+		  pausedTime = (parseInt(min) * 60 + parseInt(sec)) * 10;
+	
+		  // 2. 카드 클릭 잠금
+		  lockBoard = true;
+	
+		  // 3. sweetalert 모달창
+		  Swal.fire({
+		      
+		      icon: 'warning',				//아이콘
+		      showCancelButton: true,		//취소 버튼 활성화
+		      confirmButtonText: '종료',		//확인 및 설정 경로 페이지 이동 등
+		      cancelButtonText: '취소',		
+		      allowOutsideClick: false,		//모달 창 외 마우스 금지
+		      allowEscapeKey: false,		//esc키 비활성화
+			  
+			  background: '#1e1e2f',   //  배경
+			  color: '#fff',            // 글자색
+			  iconColor: '#39ff14',     // 아이콘 색 
+			  
+			  //css 커스텀 클래스 생성
+			  customClass: {
+			  	popup: 'my-popup',          // 모달
+				title: 'my-title',          // 타이틀
+				content: 'my-content',      // 내용
+				confirmButton: 'my-btn',    // 확인 버튼
+				cancelButton: 'my-btn'      // 취소 버튼
+			  },
+			  
+		  }).then((result) => {
+		      if(result.isConfirmed){
+				  gameOut();
+		      } else {
+				  if(gamePlay) {
+			          // 취소: 타이머 재시작
+			          startTimer(pausedTime / 10);
+			          lockBoard = false;				
+				  }
+				  else {
+					console.log('--')
+				  }
+		      }
+		  });
+		  clearInterval(gameTimer);//타이머 일시정지
+		
+	}
+	else {
+		console.log("게임중이 아닐때 누른 게임 나가기")
+		gameOut();
+	}
+	
 }
 
 //======종료 로직 
 function dataSave() {
+	
+	console.trace();
+	console.trace("ttt");
+	
 	console.log("게임 데이터를 저장합니다.");
 	console.log("gg!");
 	console.log("점수: " + totalscore)
@@ -308,6 +337,10 @@ function dataSave() {
 	
 	endGame()
 }
+
+function gameOut() {
+	window.location.href = "../../login.do"; // 확인(종료)클릭 시
+} 
 
 //=====재시작 로직
 function gameReStart() {
