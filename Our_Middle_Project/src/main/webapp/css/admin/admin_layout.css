@@ -112,7 +112,8 @@ ul { margin: 0; padding: 0; }
     flex-shrink: 0;
 }
 
-.main-area {
+.main-content-area {
+	display: flex;
     flex-grow: 1;
     padding: 30px;
     overflow-y: auto;

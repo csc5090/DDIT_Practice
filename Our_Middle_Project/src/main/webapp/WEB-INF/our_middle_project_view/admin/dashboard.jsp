@@ -26,4 +26,12 @@
             <span class="main-number">####</span>
         </div>
     </div>
+    
+    <div class="chart">
+        <div class="chart wide-card"> 
+    		<h2>차트 영역</h2>
+    		<canvas id="myChart"></canvas>
+		</div>
+    </div>
+    
 </div>

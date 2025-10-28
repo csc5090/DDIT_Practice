@@ -3,19 +3,6 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.our_middle_project.dao.MemberDAO">
+<mapper namespace="">
 
-	<select id="getMemberList" parameterType="java.lang.String"
-		resultType="com.our_middle_project.dto.MemberDTO">
-		SELECT
-		MEM_NO AS userNo,
-		MEM_ID AS userId,
-		NICKNAME,
-		CREATED_DATE AS regDate,
-		STATUS FROM MEMBER
-		<if test="query != null and query != ''">
-			WHERE MEM_ID LIKE CONCAT('%', #{query}, '%') OR NICKNAME LIKE CONCAT('%', #{query}, '%')
-		</if>
-		ORDER BY MEM_NO DESC
-	</select>
 </mapper>

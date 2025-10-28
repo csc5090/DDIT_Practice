@@ -95,7 +95,7 @@
 		</nav>
 		
 		<main class="main-content-area">
-		         
+			<jsp:include page="${requestScope.viewPage}" flush="true" />
 		</main>
 		
 
