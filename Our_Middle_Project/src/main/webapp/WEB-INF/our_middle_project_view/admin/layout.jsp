@@ -20,7 +20,7 @@
 				<div class="ul-wrapper">
 				<ul class="nav-container">
 					<li class="nav-big-area">
-						<div class="bigmenu-container" id="dashboard-container">
+						<div class="bigmenu-container" id="dashboard-container" data-url="/dashboard.do">
 							<span class="span-big"> 대시보드 </span>
 						</div>
 					</li>
