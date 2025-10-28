@@ -5,6 +5,8 @@ window.onload = () => {
 	setupUserProfileDropdown();
 };
 
+
+//도저히 이해가 안되서 주석 남기면서 함...
 function addEventHandle() {
     // 사이드바 전체를 감시하여 어떤 메뉴든 클릭을 감지합니다. (이벤트 위임)
     const sidebar = document.querySelector('.sidearea');
