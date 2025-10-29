@@ -2,16 +2,7 @@
 
 	/* #00aaff 파랑 */
 	/* #D6D6D6 밝은회색 */
-
-input:focus {
-  border: none;
-  outline: none;
-}
-
-input::placeholder {
-  color: #D6D6D6; 
-  opacity: 1;     
-}
+	/* #7C7D7C 중간회색 */
 
 #membershipModal {
 	
@@ -31,6 +22,20 @@ input::placeholder {
 	-ms-user-select: none;
 	
 	transition: 1s;
+}
+
+#membershipModal input:focus {
+  border: none;
+  outline: none;
+}
+
+#membershipModal input::placeholder {
+  color: #D6D6D6; 
+  opacity: 1;     
+}
+
+#membershipModal input {
+	color: white;
 }
 
 .mem-modal-off {
@@ -382,7 +387,14 @@ input::placeholder {
 	transform: scale(0.9);
 }
 
+.non-join-Modal-back {
+	background-color: #D6D6D6;
+	color: white;	
+}
 
+.non-join-btn {
+	background-color: #7C7D7C;
+}
 
 
 

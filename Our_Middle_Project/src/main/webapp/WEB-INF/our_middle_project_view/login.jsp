@@ -153,7 +153,7 @@
 							</svg>
 						</div>
 						<div class="mem-input">
-							<input type="text" class="joinInfo" name="usePhone" placeholder="핸드폰번호">
+							<input type="text" class="joinInfo" name="userPhone" placeholder="핸드폰번호">
 						</div>
 					</div>
 					
@@ -173,9 +173,9 @@
 			
 				<div id="mem-user-gender">
 				
-					<input type="radio" id="gender-man" class="joinInfo" name="userGender">
+					<input type="radio" id="gender-man" class="joinInfo" name="userGender" value="남">
 					<label for="gender-man" class="user-gender">남</label>
-					<input type="radio" id="gender-woman" class="joinInfo" name="userGender">
+					<input type="radio" id="gender-woman" class="joinInfo" name="userGender" value="여">
 					<label for="gender-woman" class="user-gender">여</label>
 					
 				</div>
@@ -186,22 +186,22 @@
 					</div>
 					<div class="mem-info-block">
 						<div class="mem-input">
-							<input id="user_postCode" class="joinInfo" type="text" name="userAddr" placeholder="우편번호" disabled>
+							<input id="user_postCode" class="joinInfo" type="text" name="userAddr1" placeholder="우편번호" disabled>
 						</div>
 					</div>
 					<div class="mem-info-block">
 						<div class="mem-input">
-							<input id="user_addres" class="joinInfo" type="text" name="userAddr" placeholder="주소" disabled>
+							<input id="user_addres" class="joinInfo" type="text" name="userAddr2" placeholder="주소" disabled>
 						</div>
 					</div>
 					<div class="mem-info-block">
 						<div class="mem-input">
-							<input id="user_exAddr" class="joinInfo" type="text" name="userAddr" placeholder="참고항목" disabled>
+							<input id="user_exAddr" class="joinInfo" type="text" name="userAddr3" placeholder="참고항목" disabled>
 						</div>
 					</div>
 					<div class="mem-info-block">
 						<div class="mem-input">
-							<input id="user_detailAddr" class="joinInfo" type="text" name="userAddr" placeholder="상세주소">
+							<input id="user_detailAddr" class="joinInfo" type="text" name="userAddr4" placeholder="상세주소">
 						</div>
 					</div>
 	
