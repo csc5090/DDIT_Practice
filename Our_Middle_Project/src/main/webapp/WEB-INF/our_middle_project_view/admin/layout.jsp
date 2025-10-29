@@ -12,13 +12,11 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/admin/admin_dashboard.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/admin/admin_userlist.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/admin/admin_nickname.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/admin/admin_block_management.css">
+	href="${pageContext.request.contextPath}/css/admin/admin_user_management.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/admin/admin_notice.css">
+
+
 
 </head>
 <body>
@@ -44,12 +42,8 @@
 
 						<div class="ul-container-none" data-toggle="true">
 							<ul class="ul-small-container">
-								<li id="get-user" data-target="userlist-main"><span
-									class="span-small">목록 조회</span></li>
-								<li id="nickname-user" data-target="nickname-management"><span
-									class="span-small">유저 닉네임 변경</span></li>
-								<li id="black-user" data-target="block-management"><span
-									class="span-small">차단 유저 관리</span></li>
+								<li id="get-user-menu" data-target="user-management"><span
+									class="span-small">유저 관리</span></li>
 							</ul>
 						</div>
 					</li>
@@ -151,7 +145,7 @@
 									<h3>지금까지 쌓인 게임 수는요?</h3>
 								</div>
 								<div class="card-body">
-									<span class="main-number">1aa</span>
+									<span class="main-number" id="total-game-count"></span>
 								</div>
 							</div>
 							<div class="card">
@@ -170,140 +164,102 @@
 					</div>
 				</div>
 
-				<div class="bodyArea" id="userlist-main">
-					<div class="list-toolbar">
-						<div class="search-bar">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-								fill="none" stroke="currentColor" stroke-width="2"
-								stroke-linecap="round" stroke-linejoin="round">
-								<circle cx="11" cy="11" r="8"></circle>
-								<line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-							<input type="text" class="search-btn"
-								placeholder="사용자 아이디, 닉네임 검색...">
-						</div>
-						<div class="filter-options"></div>
-					</div>
-
-					<div class="table-container">
-						<table>
-							<thead>
-								<tr>
-									<th>아이디</th>
-									<th>닉네임</th>
-									<th>이메일</th>
-									<th>상태</th>
-									<th>가입일</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>user001</td>
-									<td>Commander</td>
-									<td>commander@example.com</td>
-									<td><span class="status-badge status-active">활성</span></td>
-									<td>2025-10-28</td>
-								</tr>
-								<tr>
-									<td>banned_user</td>
-									<td>Aris</td>
-									<td>aris@millennium.ac.kr</td>
-									<td><span class="status-badge status-banned">차단</span></td>
-									<td>2025-09-01</td>
-								</tr>
-								<tr>
-									<td>user003</td>
-									<td>Operator</td>
-									<td>operator@example.com</td>
-									<td><span class="status-badge status-active">활성</span></td>
-									<td>2025-07-15</td>
-								</tr>
-							</tbody>
-						</table>
-
-						<div class="pagination">
-							<a href="#" class="page-arrow">&laquo;</a> <a href="#"
-								class="page-num active">1</a> <a href="#" class="page-num">2</a>
-							<a href="#" class="page-num">3</a> <a href="#" class="page-num">4</a>
-							<a href="#" class="page-num">5</a> <a href="#" class="page-arrow">&raquo;</a>
-						</div>
-					</div>
-
-				</div>
-
-				<div class="bodyArea" id="nickname-management">
-					<div class="step-card">
-						<h2>유저 닉네임 변경</h2>
-						<div class="search-form">
-							<input type="text" id="user-search-input"
-								placeholder="변경할 사용자의 아이디 또는 닉네임">
-							<button id="user-search-btn" class="action-btn primary">검색</button>
-						</div>
-
-						<div class="search-results" id="search-results-box">
-							<ul>
-								<li class="result-item" data-userid="user001"
-									data-nickname="Commander"><span class="result-id">user001</span>
-									<span class="result-nickname">Commander</span></li>
-								<li class="result-item" data-userid="banned_user"
-									data-nickname="Aris"><span class="result-id">banned_user</span>
-									<span class="result-nickname">Aris</span></li>
-								<li class="result-item" data-userid="user003"
-									data-nickname="Operator"><span class="result-id">user003</span>
-									<span class="result-nickname">Operator</span></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-
-
-
-				<div class="bodyArea" id="block-management">
-					<h1>차단 유저 관리</h1>
-
-					<div class="list-toolbar">
-						<div class="search-bar">
-							<svg xmlns="http://www.w.org/2000/svg" viewBox="0 0 24 24"
-								fill="none" stroke="currentColor" stroke-width="2"
-								stroke-linecap="round" stroke-linejoin="round">
-								<circle cx="11" cy="11" r="8"></circle>
-								<line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-							<input type="text" placeholder="차단된 사용자 검색...">
-						</div>
-					</div>
-
-					<div class="banned-user-list">
-						<div class="banned-user-card">
-							<div class="user-details">
-								<div class="user-id-info">
-									<span class="id">banned_user</span> <span class="nickname">Aris</span>
-								</div>
-								<div class="ban-reason">
-									<span>사유: 부적절한 언어 사용 (2025-09-01)</span>
-								</div>
-							</div>
-							<div class="card-actions">
-								<button class="action-btn unban">차단 해제</button>
+				<!-- 유저 관리 창  -->
+				<div class="bodyArea" id="user-management">
+					<div class="user-list-panel">
+						<div class="list-toolbar">
+							<div class="search-bar">
+								<input type="text" id="user-search-input"
+									placeholder="사용자 ID 또는 닉네임으로 검색...">
+								<button id="user-search-btn" class="action-btn primary">검색</button>
 							</div>
 						</div>
 
-						<div class="banned-user-card">
-							<div class="user-details">
-								<div class="user-id-info">
-									<span class="id">hacker_01</span> <span class="nickname">Yuzu</span>
+						<div class="user-list-wrapper">
+							<table class="user-list-table">
+								<thead>
+									<tr>
+										<th>아이디</th>
+										<th>닉네임</th>
+										<th>이메일</th>
+										<th>상태</th>
+										<th>가입일</th>
+									</tr>
+								</thead>
+								<tbody id="user-list-tbody">
+									<%-- 예시 데이터 (실제로는 비워둡니다) --%>
+									<tr data-userid="user001">
+										<td>user001</td>
+										<td>Commander</td>
+										<td>commander@example.com</td>
+										<td>활성</td>
+										<td>2025-10-28</td>
+									</tr>
+									<tr data-userid="banned_user">
+										<td>banned_user</td>
+										<td>Aris</td>
+										<td>aris@millennium.ac.kr</td>
+										<td>차단</td>
+										<td>2025-09-01</td>
+									</tr>
+									<%-- 검색 결과가 없을 때 보여줄 행 (기본 숨김) --%>
+									<tr class="no-results-row" style="display: none;">
+										<td colspan="5">검색 결과가 없습니다.</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<div class="user-detail-panel is-empty">
+						<div class="empty-message">
+							<%-- 아이콘 삭제 --%>
+							<p>
+								왼쪽 목록에서 사용자를 더블 클릭하여<br>상세 정보를 확인하세요.
+							</p>
+						</div>
+						<div class="detail-content" style="display: none;">
+							<div class="detail-header">
+								<h2 id="detail-user-id"></h2>
+							</div>
+							<div class="detail-body">
+								<div class="form-group">
+									<label for="detail-nickname">닉네임</label> <input type="text"
+										id="detail-nickname">
 								</div>
-								<div class="ban-reason">
-									<span>사유: 비인가 프로그램 사용 (2025-08-15)</span>
+								<div class="form-group">
+									<label for="detail-status">계정 상태</label> <select
+										id="detail-status">
+										<option value="ACTIVE">활성</option>
+										<option value="BANNED">차단</option>
+										<option value="DELETED">탈퇴</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="detail-role">역할 (ROLE)</label> <select
+										id="detail-role">
+										<option value="USER">일반 사용자</option>
+										<option value="ADMIN">관리자</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="detail-deleted-date">탈퇴일</label> <input type="text"
+										id="detail-deleted-date" readonly>
+								</div>
+								<div class="form-group" style="grid-column: span 2;">
+									<label for="detail-deleted-reason">탈퇴 사유</label> <input
+										type="text" id="detail-deleted-reason" readonly>
 								</div>
 							</div>
-							<div class="card-actions">
-								<button class="action-btn unban">차단 해제</button>
+							<div class="detail-footer">
+								<button id="detail-apply-btn" class="btn-apply">적용</button>
 							</div>
 						</div>
 					</div>
 				</div>
+
 
 				<div class="bodyArea" id="notice-management">
-
 					<div id="notice-list-view" class="notice-view">
 						<div class="notice-toolbar">
 							<h1>공지사항 관리</h1>
@@ -369,19 +325,21 @@
 
 
 				<div class="bodyArea" id="stats-main">데이터/통계</div>
-
 			</main>
 
 		</div>
 	</div>
 
-	<script>
+<script>
 		const CONTEXT_PATH = "${pageContext.request.contextPath}";
-	</script>
+</script>
 
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/js/admin/admin_layout.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	
+<script type="text/javascript"
+		src="${pageContext.request.contextPath}/js/admin/admin_layout.js">
+</script>
 
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>
