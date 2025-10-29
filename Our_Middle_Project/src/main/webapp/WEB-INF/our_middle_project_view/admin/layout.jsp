@@ -15,9 +15,10 @@
 	href="${pageContext.request.contextPath}/css/admin/admin_userlist.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/admin/admin_nickname.css">
-<link rel="stylesheet" 
+<link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/admin/admin_block_management.css">
-
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/admin/admin_notice.css">
 
 </head>
 <body>
@@ -271,7 +272,6 @@
 					</div>
 
 					<div class="banned-user-list">
-						<%-- 아래 카드는 예시이며, 실제로는 DB에서 반복문으로 생성해야 합니다. --%>
 						<div class="banned-user-card">
 							<div class="user-details">
 								<div class="user-id-info">
@@ -299,11 +299,68 @@
 								<button class="action-btn unban">차단 해제</button>
 							</div>
 						</div>
-						<%-- ... (차단 유저 목록 반복) ... --%>
 					</div>
 				</div>
 
-				<div class="bodyArea" id="notice-management">공지사항 관리</div>
+				<div class="bodyArea" id="notice-management">
+
+					<div id="notice-list-view" class="notice-view">
+						<div class="notice-toolbar">
+							<h1>공지사항 관리</h1>
+							<button id="btn-new-notice" class="btn-primary">새 글 작성</button>
+						</div>
+
+						<div class="notice-table-wrapper">
+							<table class="notice-table">
+								<thead>
+									<tr>
+										<th>제목</th>
+										<th>작성자</th>
+										<th>작성일</th>
+										<th>액션</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>[점검] 10월 30일 정기 점검 안내</td>
+										<td>운영팀</td>
+										<td>2025-10-29</td>
+										<td><button class="action-btn">수정</button></td>
+									</tr>
+									<tr>
+										<td>[이벤트] 할로윈 이벤트 시작!</td>
+										<td>이벤트팀</td>
+										<td>2025-10-28</td>
+										<td><button class="action-btn">수정</button></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<div id="notice-editor-view" class="notice-view"
+						style="display: none;">
+						<div class="notice-toolbar">
+							<h1>새 공지사항 작성</h1>
+						</div>
+
+						<div class="form-group">
+							<label for="notice-title">제목</label> <input type="text"
+								id="notice-title" placeholder="제목을 입력하세요">
+						</div>
+
+						<div class="form-group content">
+							<label for="notice-content">내용</label>
+							<textarea id="notice-content" placeholder="내용을 입력하세요."></textarea>
+						</div>
+
+						<div class="editor-actions">
+							<button id="btn-back-to-list" class="btn-secondary">목록으로</button>
+							<button id="btn-save-notice" class="btn-primary">저장하기</button>
+						</div>
+					</div>
+
+				</div>
 
 
 				<div class="bodyArea" id="post-management">게시물 관리</div>

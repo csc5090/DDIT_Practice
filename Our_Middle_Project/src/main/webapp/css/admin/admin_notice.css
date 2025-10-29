@@ -1,0 +1,166 @@
+
+#notice-management {
+	background-color: var(--bg-sidebar);
+	border: 1px solid var(--border-color);
+	border-radius: 10px;
+	padding: 30px;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+}
+
+/* --- 뷰 전환을 위한 기본 설정 --- */
+.notice-view {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+/* --- 상단 툴바 --- */
+.notice-toolbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-shrink: 0;
+}
+
+.notice-toolbar h1 {
+	margin: 0;
+	font-size: 1.8rem;
+}
+
+.btn-primary {
+	padding: 10px 25px;
+	font-size: 1rem;
+	font-weight: 600;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	background-color: var(--active-border);
+	color: var(--text-light);
+	transition: opacity 0.2s;
+}
+
+.btn-primary:hover {
+	opacity: 0.85;
+}
+
+/* --- 공지사항 목록 테이블 --- */
+.notice-table-wrapper {
+	flex-grow: 1;
+	overflow-y: auto;
+	border: 1px solid var(--border-color);
+	border-radius: 8px;
+}
+
+.notice-table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.notice-table th, .notice-table td {
+	padding: 15px 20px;
+	text-align: left;
+}
+
+.notice-table thead {
+	background-color: rgba(0, 0, 0, 0.2);
+}
+
+.notice-table th {
+	color: var(--text-muted);
+}
+
+.notice-table tbody tr {
+	border-top: 1px solid var(--border-color);
+}
+
+.notice-table tbody tr:hover {
+	background-color: var(--link-hover-bg);
+}
+
+.notice-table .action-btn {
+	background: none;
+	border: 1px solid var(--border-color);
+	color: var(--text-muted);
+	padding: 5px 12px;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: all 0.2s;
+}
+
+.notice-table .action-btn:hover {
+	background-color: var(--active-border);
+	border-color: var(--active-border);
+	color: var(--text-light);
+}
+
+/* --- 글쓰기 에디터 --- */
+#notice-editor-view {
+	gap: 15px;
+}
+
+.form-group {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.form-group label {
+	font-weight: 600;
+	color: var(--text-muted);
+}
+
+.form-group input, .form-group textarea {
+	background-color: var(--bg-main);
+	border: 1px solid var(--border-color);
+	border-radius: 8px;
+	color: var(--text-light);
+	padding: 12px 15px;
+	font-size: 1rem;
+	transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+	outline: none;
+	border-color: var(--active-border);
+	box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.3);
+}
+
+.form-group.content {
+	flex-grow: 1;
+}
+
+.form-group textarea {
+	height: 100%;
+	resize: none;
+}
+
+/* 에디터 하단 버튼 */
+.editor-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 15px;
+	flex-shrink: 0;
+}
+
+.btn-secondary {
+	padding: 10px 25px;
+	font-size: 1rem;
+	font-weight: 600;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	background-color: var(--border-color);
+	color: var(--text-muted);
+	transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+	background-color: #4a4a6a;
+	color: var(--text-light);
+}

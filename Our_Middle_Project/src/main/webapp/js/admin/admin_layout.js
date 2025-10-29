@@ -45,6 +45,29 @@ function addEventHandle() {
 			}
 		}
 	});
+
+
+	//공지사항 관련 js 코드
+	const noticeListView = document.getElementById('notice-list-view');
+	const noticeEditorView = document.getElementById('notice-editor-view');
+	const btnNewNotice = document.getElementById('btn-new-notice');
+	const btnBackToList = document.getElementById('btn-back-to-list');
+
+	// '새 공지 작성' 버튼 클릭 시, 목록 숨기고 편집기 표시
+	btnNewNotice?.addEventListener('click', () => {
+		if (noticeListView && noticeEditorView) {
+			noticeListView.style.display = 'none';
+			noticeEditorView.style.display = 'flex'; // 또는 'block'
+		}
+	});
+
+	// '목록으로 돌아가기' 버튼 클릭 시, 편집기 숨기고 목록 표시
+	btnBackToList?.addEventListener('click', () => {
+		if (noticeListView && noticeEditorView) {
+			noticeEditorView.style.display = 'none';
+			noticeListView.style.display = 'flex'; // 또는 'block'
+		}
+	});
 }
 
 function loadContent(url) {
@@ -233,14 +256,14 @@ async function updateDashboardStats() {
 		if (newUserCountElement) {
 			newUserCountElement.textContent = newUsers.toLocaleString();
 		}
-		
+
 		//이 아래로 위와 비슷하게 코드 추가해야합니다.
 
 	} catch (error) {
 		// 3. 데이터 로딩에 실패하면 콘솔에 에러를 표시하고, 화면에도 오류를 알립니다.
 		// (네트워크 오류, JSON 파싱 오류, throw new Error로 발생시킨 오류 등이 모두 이곳에서 처리됩니다.)
 		console.error('통계 데이터 로딩 에러:', error);
-		
+
 		//추가한 기능에 대한 에러 처리도 아래 배열에 추가해야 합니다.
 		['total-user-count', 'total-game-count', 'new-user-count'].forEach(id => {
 			const element = document.getElementById(id);
