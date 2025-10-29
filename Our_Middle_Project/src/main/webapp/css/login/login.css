@@ -16,6 +16,9 @@ body {
 	height: 100vh;
 	background-color: black;
 	position: relative;
+	
+	/* 	조승희 수정 20251028 */
+	overflow: hidden;
 }
 
 .c-login-box {
@@ -87,14 +90,14 @@ body {
 	user-select: none;
 	position: absolute;
 	bottom: 50px;
-	font-size: 30px;
+	font-family: 'KccAnchangho';
+	font-size: 7vh;
 	color: #fff;
 	text-shadow: 
-		0 0 5px #fff, 
-		0 0 10px #fff, 
-		0 0 20px #fff, 
-		0 0 40px #0ff,
-		0 0 80px #0ff;
+		0 0 8px #00aaff,
+		0 0 15px #00aaff,
+		0 0 25px #00aaff,
+		0 0 40px #00aaff;
 	animation: blink 2s infinite;
 }
 
