@@ -28,12 +28,17 @@ public class AdminAjaxController implements Action {
 			// 1. 서비스 매니저(Impl)를 생성.
 			AdminService adminService = new AdminServiceImpl();
 	
-			// 2. 매니저에게 일을 시켜 결과를 받음.
+			// 2. 매니저에게 일을 시켜 결과를 받음. 기능 추가마다 여기에 추가
 			int userCount = adminService.getTotalUserCount();
-	
-			// 3. 결과를 JSON 형식으로 포장.
+			int newUserCount = adminService.getNewUserCountToday();
+			
+			// 3. 결과를 JSON 형식으로 포장. 여기에도 추가해야함
 			Map<String, Integer> data = new HashMap<>();
 			data.put("totalUsers", userCount);
+			data.put("newUsers", newUserCount);
+			
+			
+			
 			String jsonResponse = new Gson().toJson(data);
 			
 			// 4. 성공적인 JSON 데이터를 서빙.

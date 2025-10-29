@@ -20,4 +20,12 @@ public class AdminServiceImpl implements AdminService {
             return memberDAO.getTotalUserCount();
         } 
 	}
+
+	@Override
+	public int getNewUserCountToday() {
+		try (SqlSession sqlSession = MybatisUtil.getSqlSession()){
+			MemberDAO memberDAO = new MemberDAOImpl(sqlSession);
+			return memberDAO.getNewUserCountToday();
+		}
+	}
 }

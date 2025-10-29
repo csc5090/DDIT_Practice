@@ -133,26 +133,26 @@
 						<div class="card-row">
 							<div class="card">
 								<div class="card-header">
-									<h3>총 몇 명?</h3>
+									<h3>회원이 얼마나 있나요?</h3>
 								</div>
 								<div class="card-body">
-									<span class="main-number" id="total-user-count">####</span>
+									<span class="main-number" id="total-user-count"></span>
 								</div>
 							</div>
 							<div class="card">
 								<div class="card-header">
-									<h3>몇 판?</h3>
+									<h3>지금까지 쌓인 게임 수는요?</h3>
 								</div>
 								<div class="card-body">
-									<span class="main-number">####</span>
+									<span class="main-number">1aa</span>
 								</div>
 							</div>
 							<div class="card">
 								<div class="card-header">
-									<h3>뉴비 몇 명?</h3>
+									<h3>뉴비 숫자는요?</h3>
 								</div>
 								<div class="card-body">
-									<span class="main-number">####</span>
+									<span class="main-number" id="new-user-count"></span>
 								</div>
 							</div>
 						</div>

@@ -8,5 +8,9 @@
     <select id="getTotalUserCount" resultType="int">
         SELECT COUNT(*) FROM MEMBER
     </select>
+    
+    <select id="getNewUserCountToday" resultType="int">
+    	SELECT COUNT(*) FROM MEMBER WHERE TRUNC(CREATED_DATE) = TRUNC(SYSDATE)
+    </select>
 
 </mapper>
