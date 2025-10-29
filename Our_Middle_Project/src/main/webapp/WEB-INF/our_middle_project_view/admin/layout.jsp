@@ -7,6 +7,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Good Day, Commander.</title>
+
+	<!-- 부트스트랩 -->
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/js/lib/bootstrap/css/bootstrap.min.css">
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/bootstrap/js/bootstrap.min.js"></script>
+	
+	<!-- 스위트어럴트2 -->
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/js/lib/sweetalert2/dist/sweetalert2.min.css">
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/sweetalert2/dist/sweetalert2.min.js"></script>
+	
+	<!-- jquery -->
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/jquery/jquery-3.7.1.min.js"></script>
+	
+	<!-- axios -->
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/axios/axios.min.js"></script>
+
+
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/admin/admin_layout.css">
 <link rel="stylesheet"
@@ -334,12 +350,15 @@
 		const CONTEXT_PATH = "${pageContext.request.contextPath}";
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-	
+
+<script src="${pageContext.request.contextPath}/js/common.js">
+</script>
+
 <script type="text/javascript"
 		src="${pageContext.request.contextPath}/js/admin/admin_layout.js">
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js">
+</script>
 </body>
 </html>
