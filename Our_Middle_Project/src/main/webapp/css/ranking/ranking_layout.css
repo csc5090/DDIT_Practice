@@ -1,0 +1,83 @@
+@charset "UTF-8";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+	height: 100vh; 
+  	margin: 0;
+  	padding: 0;
+  	overflow-y: hidden;
+}
+
+div {
+	border: 1px solid black;
+}
+
+/* 모든요소 포함한 메인 */
+
+#rankingMain {
+	width: 75%;
+	margin: 5vh auto 0 auto;   /* 위쪽만 띄우기 (viewport 높이 기준) */
+	height: 90vh;              /* 높이 100vh → 95vh로 줄여야 화면 넘침 방지 */
+	
+	display: flex;          /* flex 활성화 */
+	flex-direction: column;
+}
+
+/* 상단 css */
+#topMain {
+	 height: 25%;
+}
+
+#topwidth500 {
+	height: 100%;
+	width: 500%;
+	display: flex;
+  	transition: transform 0.5s ease;
+}
+
+#topwidth500 > div {
+ 	flex: 0 0 20%;                /* 부모의 20% = 1/5 */
+  	height: 100%;
+ 	box-sizing: border-box;
+  	border: 1px solid blue;      
+  	display: flex;
+}
+
+#topwidth500 > div > div {
+ 	flex: 1;  		/* 3등분 */
+  	height: 100%;               
+  	border: 1px solid red;      
+}		
+			
+/* 중단 css */
+#centerMain {
+	flex: 1;
+}
+
+#centerWidth500 {
+	height: 100%;
+	width: 500%;
+	display: flex;
+  	transition: transform 0.5s ease;
+}
+
+#centerWidth500 > div {
+ 	flex: 0 0 20%;                /* 부모의 20% = 1/5 */
+  	height: 100%;
+ 	box-sizing: border-box;
+  	border: 1px solid blue;      
+  	display: flex;
+}
+
+/* 하단 css */
+#bottomMain {
+	height: 10%;
+	display: flex;
+}
+
+#bottomMain > div{
+	flex: 1;
+}

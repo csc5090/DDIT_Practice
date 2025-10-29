@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>랭킹랭킹</title>
+
+	<!-- 부트스트랩 -->
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/js/lib/bootstrap/css/bootstrap.min.css">
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/bootstrap/js/bootstrap.min.js"></script>
+	
+	<!-- 스위트어럴트2 -->
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/js/lib/sweetalert2/dist/sweetalert2.min.css">
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/sweetalert2/dist/sweetalert2.min.js"></script>
+	
+	<!-- jquery -->
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/jquery/jquery-3.7.1.min.js"></script>
+	
+	<!-- axios -->
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/axios/axios.min.js"></script>
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+	height: 100%; 
+  	margin: 0;
+  	padding: 0;
+  	overflow-y: hidden;
+}
+
+div {
+	border: 1px solid black;
+}
+
+/* 모든요소 포함한 메인 */
+
+#rankingMain {
+	width: 75%;
+	margin: 5vh auto 0 auto;   /* 위쪽만 띄우기 (viewport 높이 기준) */
+	height: 90vh;              /* 높이 100vh → 95vh로 줄여야 화면 넘침 방지 */
+	
+	display: flex;          /* flex 활성화 */
+	flex-direction: column;
+}
+
+/* 상단 css */
+#topMain {
+	 height: 25%;
+}
+
+#topwidth500 {
+	height: 100%;
+	width: 500%;
+	display: flex;
+  	transition: transform 0.5s ease;
+}
+
+#topwidth500 > div {
+ 	flex: 0 0 20%;                /* 부모의 20% = 1/5 */
+  	height: 100%;
+ 	box-sizing: border-box;
+  	border: 1px solid blue;      
+  	display: flex;
+}
+
+#topwidth500 > div > div {
+ 	flex: 1;  		/* 3등분 */
+  	height: 100%;               
+  	border: 1px solid red;      
+}		
+			
+/* 중단 css */
+#centerMain {
+	flex: 1;
+}
+
+#centerWidth500 {
+	height: 100%;
+	width: 500%;
+	display: flex;
+  	transition: transform 0.5s ease;
+}
+
+#centerWidth500 > div {
+ 	flex: 0 0 20%;                /* 부모의 20% = 1/5 */
+  	height: 100%;
+ 	box-sizing: border-box;
+  	border: 1px solid blue;      
+  	display: flex;
+}
+
+/* 하단 css */
+#bottomMain {
+	height: 10%;
+	display: flex;
+}
+
+#bottomMain > div{
+	flex: 1;
+}
+</style>
+</head>
+<body>
+	
+		<div id="rankingMain">
+			
+			<div id="topMain">
+			
+				<div id="topwidth500">
+				
+					<div id="topwidth100-1">
+						
+						<div id="rankingTop1-1"> </div>
+						<div id="rankingTop2-1"> </div>
+						<div id="rankingTop3-1"> </div>
+						
+					</div>
+					
+					<div id="topwidth100-2">
+						
+						<div id="rankingTop1-2"> </div>
+						<div id="rankingTop2-2"> </div>
+						<div id="rankingTop3-2"> </div>
+						
+					</div>
+					
+					<div id="topwidth100-3">
+						
+						<div id="rankingTop1-3"> </div>
+						<div id="rankingTop2-3"> </div>
+						<div id="rankingTop3-3"> </div>
+						
+					</div>
+					
+					<div id="topwidth100-4">
+						
+						<div id="rankingTop1-4"> </div>
+						<div id="rankingTop2-4"> </div>
+						<div id="rankingTop3-4"> </div>
+						
+					</div>
+					
+					<div id="topwidth100-5">
+						
+						<div id="rankingTop1-5"> </div>
+						<div id="rankingTop2-5"> </div>
+						<div id="rankingTop3-5"> </div>
+						
+					</div>
+					
+				</div>
+				
+			</div>
+	
+			<div id="centerMain">
+				
+				<div id="centerWidth500">
+				
+					<div id="rankingList-1"></div>
+					<div id="rankingList-2"></div>
+					<div id="rankingList-3"></div>
+					<div id="rankingList-4"></div>
+					<div id="rankingList-5"></div>	
+					
+				</div>
+					
+			</div>
+			
+			<div id="bottomMain">
+				
+				<div id="navArea-1"></div>
+				<div id="navArea-2"></div>
+				<div id="navArea-3"></div>
+				<div id="navArea-4"></div>
+				<div id="navArea-5"></div>
+			
+			</div>
+			
+		</div>
+
+<script type="text/javascript"></script>
+</body>
+</html>

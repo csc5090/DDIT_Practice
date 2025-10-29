@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>랭킹 단상</title>
+<style>
+:root {
+    --bg: #0a0c12; /* 어두운 네이비/검정 */
+    --grad-neon: 
+        radial-gradient(120% 120% at 0% 0%, rgba(0,209,255,0.15), transparent 55%),
+        radial-gradient(120% 120% at 100% 0%, rgba(180,130,255,0.15), transparent 50%),
+        radial-gradient(120% 120% at 100% 100%, rgba(155,92,255,0.12), transparent 50%);
+    --btn-bg: #1a102f;
+    --btn-hover: #89b1ff;
+    --text-color: #e6f0ff;
+    --title-color: #89b1ff;
+    --podium-first: gold;
+    --podium-second: silver;
+    --podium-third: #cd7f32;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+    color: var(--text-color);
+    background-color: var(--bg);
+    background-image: var(--grad-neon);
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+/* 랭킹 타이틀 */
+.ranking-title {
+    font-size: 4em;
+    color: var(--title-color);
+    text-align: center;
+    margin: 40px 0 20px 0;
+    text-shadow: 0 0 5px var(--title-color), 0 0 10px rgba(255,255,255,0.2);
+}
+
+/* 버튼 메뉴 */
+.ranking-menu {
+    position: fixed;
+    left: 20px;
+    bottom: 45px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.ranking-btn {
+    width: 110px;
+    height: 130px;
+    line-height: 70px;
+    font-size: 1.2em;
+    border-radius: 15px;
+    background-color: var(--btn-bg);
+    border: 2px solid rgba(137,177,255,0.4);
+    color: var(--text-color);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 0 5px rgba(137,177,255,0.2);
+}
+.ranking-btn:hover,
+.ranking-btn.active {
+    background-color: var(--btn-hover);
+    box-shadow: 0 0 15px var(--btn-hover);
+    transform: scale(1.05);
+}
+
+/* 단상 컨테이너 */
+.podium-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    width: 40vw;
+    margin: 0 auto;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* 단상 각각 */
+.podium-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
+    position: relative;
+}
+.podium-item img {
+    width: 100px;
+    height: auto;
+    margin-bottom: 20px;
+}
+.podium-item span {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: var(--text-color);
+    text-shadow: 0 0 5px #fff;
+    position: absolute;
+    bottom: -25px;
+    text-align: center;
+    width: 100%;
+}
+.podium-first { height: 160px; background-color: var(--podium-first); border-radius: 10px 10px 0 0; padding-top: 10px;}
+.podium-second { height: 120px; background-color: var(--podium-second); border-radius: 10px 10px 0 0; padding-top: 10px;}
+.podium-third { height: 100px; background-color: var(--podium-third); border-radius: 10px 10px 0 0; padding-top: 10px;}
+
+@keyframes popUp {0% { transform: translateY(50px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; }}
+@keyframes slideInUp {0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); }}
+
+/* 랭킹 리스트 */
+.ranking-container {
+       width: 40vw;
+    height: 55vh;
+    border: 2px solid rgba(137, 177, 255, 0.2);
+    border-radius: 20px;
+    background-color: var(--btn-bg);
+    box-shadow: 0 0 15px rgba(137, 177, 255, 0.1);
+    position: absolute;
+    top: 68%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    font-size: 1.2em;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+}
+.ranking-container.show { opacity:1; visibility: visible; }
+.ranking-list { width:100%; height:100%; overflow-y:auto; display:flex; flex-direction:column; }
+.ranking-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    padding: 15px 0;
+    text-align:center;
+    transition: all 0.2s;
+    opacity:0;
+}
+.ranking-item.header {
+    font-weight: bold;
+    color: var(--title-color);
+    text-shadow: 0 0 5px var(--title-color), 0 0 10px rgba(255,255,255,0.2);
+    border-bottom: 1px solid rgba(137,177,255,0.2);
+    opacity: 1;
+    position: sticky;
+    top: 0;
+    background-color: var(--btn-bg);
+    z-index: 10;
+    height: 120px;           /* 기존 80px -> 120px */
+    display: flex;            /* 추가 */
+    align-items: center;      /* 세로 중앙 정렬 */
+    justify-content: space-around; /* 열 간격 유지 */
+}
+.ranking-item:not(.header):hover {
+    background-color: rgba(137,177,255,0.2);
+    box-shadow:0 0 10px var(--btn-hover);
+    color: #fff;
+}
+</style>
+</head>
+<body>
+
+<h1 class="ranking-title">RANKING</h1>
+
+<div class="ranking-menu">
+    <button class="ranking-btn active" onclick="showRanking('total', this)">TOTAL</button>
+    <button class="ranking-btn" onclick="showRanking('eazy', this)">EASY</button>
+    <button class="ranking-btn" onclick="showRanking('normal', this)">NORMAL</button>
+    <button class="ranking-btn" onclick="showRanking('hard', this)">HARD</button>
+    <button class="ranking-btn" onclick="showRanking('vs', this)">VS</button>
+</div>
+
+<div class="podium-container" id="podium">
+    <div class="podium-item podium-second" id="second"></div>
+    <div class="podium-item podium-first" id="first"></div>
+    <div class="podium-item podium-third" id="third"></div>
+</div>
+
+<div id="ranking-total" class="ranking-container show"><div class="ranking-list" id="total-list"></div></div>
+<div id="ranking-eazy" class="ranking-container"><div class="ranking-list" id="eazy-list"></div></div>
+<div id="ranking-normal" class="ranking-container"><div class="ranking-list" id="normal-list"></div></div>
+<div id="ranking-hard" class="ranking-container"><div class="ranking-list" id="hard-list"></div></div>
+<div id="ranking-vs" class="ranking-container"><div class="ranking-list" id="vs-list"></div></div>
+
+<script>
+window.onload = () => {
+    const podiumImages = [
+        "https://cdn-icons-png.flaticon.com/512/616/616408.png",
+        "https://cdn-icons-png.flaticon.com/512/616/616408.png",
+        "https://cdn-icons-png.flaticon.com/512/616/616408.png"
+    ];
+
+    function generateRankingData(listId){
+        const container = document.getElementById(listId);
+        container.innerHTML = '';
+
+        const header = document.createElement('div');
+        header.className = 'ranking-item header';
+        header.innerHTML = '<span>닉네임</span><span>점수</span><span>콤보</span><span>랭크 점수</span><span>게임판</span>';
+        container.appendChild(header);
+
+        const first = document.getElementById('first');
+        const second = document.getElementById('second');
+        const third = document.getElementById('third');
+        first.innerHTML = '';
+        second.innerHTML = '';
+        third.innerHTML = '';
+
+        for(let i=1;i<=100;i++){
+            const score = Math.floor(Math.random()*2000);
+            const combo = Math.floor(Math.random()*50);
+            const rankScore = Math.floor(Math.random()*1000);
+            const games = Math.floor(Math.random()*20);
+
+            let medal = '';
+            if(i<=3) medal = ["🥇","🥈","🥉"][i-1];
+
+            const item = document.createElement('div');
+            item.className = 'ranking-item';
+            item.innerHTML = `<span>${medal} Player${i}</span><span>${score}</span><span>${combo}</span><span>${rankScore}</span><span>${games}</span>`;
+            container.appendChild(item);
+
+            if(i==1) first.innerHTML = `<img src="${podiumImages[0]}"><span>1등 Player${i}</span>`;
+            if(i==2) second.innerHTML = `<img src="${podiumImages[1]}"><span>2등 Player${i}</span>`;
+            if(i==3) third.innerHTML = `<img src="${podiumImages[2]}"><span>3등 Player${i}</span>`;
+        }
+
+        first.style.animation = "popUp 0.7s forwards";
+        second.style.animation = "popUp 0.7s forwards";
+        second.style.animationDelay = "0.3s";
+        third.style.animation = "popUp 0.7s forwards";
+        third.style.animationDelay = "0.5s";
+
+        // 리스트 애니메이션
+        const items = container.querySelectorAll('.ranking-item:not(.header)');
+        items.forEach((item,index)=>{
+            item.style.animation = `slideInUp 0.5s forwards`;
+            item.style.animationDelay = `${index*0.02}s`;
+        });
+    }
+
+    // TOTAL 초기 로드
+    generateRankingData('total-list');
+
+    // 버튼 클릭 시 데이터 생성
+    ['eazy','normal','hard','vs'].forEach(type=>{
+        const btn = document.querySelector(`.ranking-btn[onclick*="${type}"]`);
+        btn.addEventListener('click', ()=> generateRankingData(`${type}-list`));
+    });
+};
+
+function showRanking(type, btn){
+    document.querySelectorAll('.ranking-container').forEach(div=>{
+        div.classList.remove('show');
+    });
+    document.getElementById(`ranking-${type}`).classList.add('show');
+
+    document.querySelectorAll('.ranking-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+}
+</script>
+</body>
+</html>
