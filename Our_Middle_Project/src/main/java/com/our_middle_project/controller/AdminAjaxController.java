@@ -1,12 +1,15 @@
 package com.our_middle_project.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.google.gson.Gson;
 import com.our_middle_project.action.Action;
 import com.our_middle_project.action.ActionForward;
+import com.our_middle_project.dto.MemberDTO;
 import com.our_middle_project.service.AdminServiceImpl;
 import com.our_middle_project.serviceInterface.AdminService;
 
@@ -16,60 +19,94 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class AdminAjaxController implements Action {
 	
-	
-	/**
-     * @apiNote     관리자 대시보드 통계 API
-     * @since       2025-10-29
-     * @endpoint    /getStats.do
-     * @method      GET
-     * @description 관리자 대시보드에 필요한 요약 통계(총 회원 수, 신규 가입자 수 등)를 조회합니다.
-     * @return      통계 데이터를 담은 JSON 객체. FrontController에는 null을 반환합니다.
-     */
-	
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		// 응답 타입을 미리 설정해두면 코드가 더 깔끔해짐.
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 
+		// 현재 요청된 URL(command)을 request 객체에서 가져옴.
+		String command = request.getRequestURI().substring(request.getContextPath().length());
+		
+		AdminService adminService = new AdminServiceImpl();
+		Gson gson = new Gson();
+
 		try {
-			// 1. 서비스 매니저(Impl)를 생성.
-			AdminService adminService = new AdminServiceImpl();
-	
-			// 2. 매니저에게 일을 시켜 결과를 받음. 기능 추가마다 여기에 추가
-			int userCount = adminService.getTotalUserCount();
-			int newUserCount = adminService.getNewUserCountToday();
 			
-			// 3. 결과를 JSON 형식으로 포장. 여기에도 추가해야함
-			Map<String, Integer> data = new HashMap<>();
-			data.put("totalUsers", userCount);
-			data.put("newUsers", newUserCount);
+			// 요청 URL(command)에 따라 로직을 분기.
 			
-			
-			
-			String jsonResponse = new Gson().toJson(data);
-			
-			// 4. 성공적인 JSON 데이터를 서빙.
-			response.getWriter().write(jsonResponse);
+			if ("/getStats.do".equals(command)) {
+				
+				
+				System.out.println("AJAX 요청: /getStats.do");
+
+			    // --- 1. 기존 통계 데이터 조회 ---
+			    int userCount = adminService.getTotalUserCount();
+			    int newUserCount = adminService.getNewUserCountToday();
+			    
+			    // --- 2. [새로운 작업] 일일 가입 통계 서비스 호출 ---
+			    // DB에서 `List<Map<String, Object>>` 형태로 데이터를 가져옵니다.
+			    List<Map<String, Object>> dailyStats = adminService.getDailySignupStats();
+			    
+			    // --- 3. [새로운 작업] 프론트엔드 차트가 사용하기 좋은 형태로 데이터 가공 ---
+			    // 비어있는 List 두 개를 준비합니다: 하나는 라벨(날짜), 하나는 값(가입자 수)
+			    List<String> chartLabels = new ArrayList<>();
+			    List<Object> chartValues = new ArrayList<>();
+			    
+			    // DB에서 가져온 dailyStats를 반복하면서 각 List에 담습니다.
+			    for (Map<String, Object> stat : dailyStats) {
+			        // 1. String.valueOf()를 사용하여 어떤 타입이 오든 안전하게 문자열로 '변환'합니다.
+			        chartLabels.add(String.valueOf(stat.get("LABEL"))); 
+			        
+			        // 2. 값(VALUE)은 숫자일 수 있으므로 그대로 Object 타입으로 리스트에 추가합니다.
+			        chartValues.add(stat.get("VALUE"));
+			    }
+
+			    // --- 4. [새로운 작업] 가공된 차트 데이터를 별도의 Map에 담기 ---
+			    Map<String, Object> chartData = new HashMap<>();
+			    chartData.put("labels", chartLabels);
+			    chartData.put("values", chartValues);
+
+			    // --- 5. [수정된 작업] 최종적으로 프론트엔드에 보낼 전체 데이터 맵 구성 ---
+			    // 기존의 숫자 데이터와, 새로 만든 차트 데이터를 모두 담습니다.
+			    Map<String, Object> responseData = new HashMap<>();
+			    responseData.put("totalUsers", userCount);
+			    responseData.put("newUsers", newUserCount);
+			    responseData.put("chartData", chartData); // 여기에 차트 데이터를 포함시킵니다!
+			    
+			    // --- 6. [수정된 작업] 전체 데이터를 JSON으로 변환하여 응답 ---
+			    response.getWriter().write(gson.toJson(responseData));
+
+			} else if ("/getUserList.do".equals(command)) {
+				
+				// --- 새로운 유저 목록 (검색) 로직 ---
+				System.out.println("AJAX 요청: /getUserList.do");
+
+				// 프론트엔드에서 보낸 'keyword' 파라미터를 받습니다.
+				String keyword = request.getParameter("keyword");
+				
+				System.out.println("컨트롤러에 전달된 검색어: " + keyword);
+
+				// 'keyword'를 서비스로 전달하여 사용자 목록을 가져옵니다.
+				// (다음 단계에서 이 메소드를 서비스에 만들어야 합니다)
+				List<MemberDTO> userList = adminService.getUsersByKeyword(keyword);
+				
+				// 조회된 사용자 목록을 JSON으로 응답.
+				response.getWriter().write(gson.toJson(userList));
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 
-			// 클라이언트(브라우저)에게 서버 내부 오류가 발생했음을 알림. (HTTP 500)
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			
-			// 사용자에게 보여줄 에러 메시지를 JSON 형식으로 만듬.
 			Map<String, String> errorData = new HashMap<>();
-			errorData.put("error", "데이터를 가져오는 중 오류가 발생했습니다.");
-			String errorJson = new Gson().toJson(errorData);
+			errorData.put("error", "데이터를 처리하는 중 오류가 발생.");
 			
-			// 에러 JSON 데이터를 서빙.
-			response.getWriter().write(errorJson);
+			response.getWriter().write(gson.toJson(errorData));
 		}
 		
-		// 프론트 컨트롤러에게 "성공이든 실패든 내 일은 끝났으니, 더 이상 아무것도 하지 마라"고 알림.
+		// AJAX 처리가 모두 끝났으므로 FrontController에는 null을 반환.
 		return null;
 	}
 

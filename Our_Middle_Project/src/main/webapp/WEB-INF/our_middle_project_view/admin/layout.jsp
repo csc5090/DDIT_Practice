@@ -20,7 +20,7 @@
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/jquery/jquery-3.7.1.min.js"></script>
 	
 	<!-- axios -->
-	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/axios/axios.min.js"></script>
+	<%-- <script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/axios/axios.min.js"></script> --%>
 
 
 <link rel="stylesheet"
@@ -346,19 +346,25 @@
 		</div>
 	</div>
 
+
+<script src="${pageContext.request.contextPath}/js/lib/axios/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-		const CONTEXT_PATH = "${pageContext.request.contextPath}";
+    const CONTEXT_PATH = "${pageContext.request.contextPath}";
 </script>
 
+<script src="${pageContext.request.contextPath}/js/common.js"></script>
+<script src="${pageContext.request.contextPath}/js/admin/api-client.js"></script>
 
-<script src="${pageContext.request.contextPath}/js/common.js">
-</script>
+<script src="${pageContext.request.contextPath}/js/admin/page-dashboard.js"></script>
+<script src="${pageContext.request.contextPath}/js/admin/page-user.js"></script>
+<script src="${pageContext.request.contextPath}/js/admin/page-notice.js"></script>
+<script src="${pageContext.request.contextPath}/js/admin/page-post.js"></script>
+<script src="${pageContext.request.contextPath}/js/admin/page-stats.js"></script>
 
-<script type="text/javascript"
-		src="${pageContext.request.contextPath}/js/admin/admin_layout.js">
-</script>
+<script src="${pageContext.request.contextPath}/js/admin/admin-core.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js">
-</script>
+<script src="${pageContext.request.contextPath}/js/admin/admin-main.js"></script>
+
 </body>
 </html>

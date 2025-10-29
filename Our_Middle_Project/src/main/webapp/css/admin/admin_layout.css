@@ -128,6 +128,11 @@ ul { margin: 0; padding: 0; }
     flex-direction: column;
 }
 
+.main-content-area > .bodyArea {
+    flex-grow: 1;
+    display: flex;
+}
+
 /* --- 헤더 & 드롭다운 메뉴 --- */
 .main-header {
     height: 80px;

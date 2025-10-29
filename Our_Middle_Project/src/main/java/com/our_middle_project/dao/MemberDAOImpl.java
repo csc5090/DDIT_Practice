@@ -1,6 +1,11 @@
 package com.our_middle_project.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
+
+import com.our_middle_project.dto.MemberDTO;
 
 public class MemberDAOImpl implements MemberDAO {
 	
@@ -17,11 +22,24 @@ public class MemberDAOImpl implements MemberDAO {
     @Override
     public int getTotalUserCount() {
         // Mapper XML의 namespace와 id를 "네임스페이스.id" 형태로 직접 호출.
-        return sqlSession.selectOne("com.our_middle_project.dao.MemberDAO.getTotalUserCount");
+        return sqlSession.selectOne("memberMapper.getTotalUserCount");
     }
 
 	@Override
 	public int getNewUserCountToday() {
-		return sqlSession.selectOne("com.our_middle_project.dao.MemberDAO.getNewUserCountToday");
+		return sqlSession.selectOne("memberMapper.getNewUserCountToday");
 	}
+
+	@Override
+	public List<MemberDTO> selectUsersByKeyword(String keyword) {
+		return this.sqlSession.selectList("memberMapper.selectUsersByKeyword", keyword);
+	}
+	
+	@Override
+    public List<Map<String, Object>> selectDailySignupStats() {
+        return this.sqlSession.selectList("memberMapper.getDailySignupStatsForLast7Days");
+    }
+	
+	
+	
 }

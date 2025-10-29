@@ -3,14 +3,51 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.our_middle_project.dao.MemberDAO">
+<mapper namespace="memberMapper">
 
-    <select id="getTotalUserCount" resultType="int">
-        SELECT COUNT(*) FROM MEMBER
-    </select>
-    
-    <select id="getNewUserCountToday" resultType="int">
-    	SELECT COUNT(*) FROM MEMBER WHERE TRUNC(CREATED_DATE) = TRUNC(SYSDATE)
-    </select>
+	<select id="getTotalUserCount" resultType="int">
+		SELECT COUNT(*) FROM MEMBER
+	</select>
+
+	<select id="getNewUserCountToday" resultType="int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE TRUNC(CREATED_DATE) = TRUNC(SYSDATE)
+	</select>
+
+	<select id="selectUsersByKeyword"
+		resultType="com.our_middle_project.dto.MemberDTO"
+		parameterType="java.lang.String">
+		SELECT
+		MEM_ID AS userId,
+		MEM_NAME AS nickname,
+		STATUS AS status,
+		MEM_NO AS userNo, TO_CHAR(CREATED_DATE, 'YYYY-MM-DD') AS regDate FROM
+		MEMBER
+
+		<if test="keyword != null and keyword != ''">
+		</if>
+		ORDER BY CREATED_DATE DESC
+	</select>
+
+
+	<select id="getDailySignupStatsForLast7Days"
+		resultType="java.util.Map">
+		WITH DATES AS (
+		SELECT TRUNC(SYSDATE) - LEVEL + 1 AS "date"
+		FROM DUAL
+		CONNECT BY <![CDATA[ LEVEL <= 7 ]]>
+		)
+		SELECT
+		TO_CHAR(D."date", 'MM-DD') AS "LABEL", NVL(COUNT(M.CREATED_DATE), 0) AS "VALUE" FROM
+		DATES D
+		LEFT JOIN
+		MEMBER M ON TRUNC(M.CREATED_DATE) = D."date"
+		GROUP BY
+		D."date"
+		ORDER BY
+		D."date" ASC
+	</select>
+
 
 </mapper>

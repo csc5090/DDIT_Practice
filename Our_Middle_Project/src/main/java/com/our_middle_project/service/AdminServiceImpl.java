@@ -1,9 +1,13 @@
 package com.our_middle_project.service;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 
 import com.our_middle_project.dao.MemberDAO;
 import com.our_middle_project.dao.MemberDAOImpl;
+import com.our_middle_project.dto.MemberDTO;
 import com.our_middle_project.serviceInterface.AdminService;
 import com.our_middle_project.util.MybatisUtil;
 
@@ -27,5 +31,23 @@ public class AdminServiceImpl implements AdminService {
 			MemberDAO memberDAO = new MemberDAOImpl(sqlSession);
 			return memberDAO.getNewUserCountToday();
 		}
+	}
+
+	@Override
+	public List<MemberDTO> getUsersByKeyword(String keyword) {
+	    try (SqlSession sqlSession = MybatisUtil.getSqlSession()){
+	        MemberDAO memberDAO = new MemberDAOImpl(sqlSession);
+	        // DAO에게는 이제 'keyword' 정보만 전달합니다.
+	        return memberDAO.selectUsersByKeyword(keyword);
+	    }
+	}
+
+	@Override
+	public List<Map<String, Object>> getDailySignupStats() {
+		try (SqlSession sqlSession = MybatisUtil.getSqlSession()) {
+			
+            MemberDAO memberDAO = new MemberDAOImpl(sqlSession);
+            return memberDAO.selectDailySignupStats();
+        }
 	}
 }
