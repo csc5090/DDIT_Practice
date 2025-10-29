@@ -1,6 +1,6 @@
 
 function joinDBAdd() {
-	
+	/*
 	axios({
 		baseURL: 'https://some-domain.com/api',
 		url: '',
@@ -15,6 +15,6 @@ function joinDBAdd() {
 	})
 	.catch(function (err) {
     	console.error(err);	// errror
-	});
+	});*/
 	
 }
