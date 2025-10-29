@@ -15,7 +15,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 public class AdminAjaxController implements Action {
-
+	
+	
+	/**
+     * @apiNote     관리자 대시보드 통계 API
+     * @since       2025-10-29
+     * @endpoint    /getStats.do
+     * @method      GET
+     * @description 관리자 대시보드에 필요한 요약 통계(총 회원 수, 신규 가입자 수 등)를 조회합니다.
+     * @return      통계 데이터를 담은 JSON 객체. FrontController에는 null을 반환합니다.
+     */
+	
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
