@@ -3,6 +3,7 @@ window.onload = () => {
 	renderDashboardChart('myChart');
 	highlightInitialMenu();
 	setupUserProfileDropdown();
+	updateDashboardStats();
 };
 
 
@@ -200,4 +201,37 @@ function setupUserProfileDropdown() {
             dropdownMenu.classList.remove('active');
         }
     });
+}
+
+function updateDashboardStats() {
+    // 1. 백엔드에 만들어 둔 컨트롤러 URL로 데이터를 요청합니다.
+    // (프론트 컨트롤러에 설정한 경로를 정확히 적어주세요)
+    fetch(`${CONTEXT_PATH}/getStats.do`) 
+        .then(response => {
+            // 응답이 성공적이지 않으면 에러를 발생시킵니다.
+            if (!response.ok) {
+                throw new Error('서버 응답이 올바르지 않습니다.');
+            }
+            // 응답을 JSON 형태로 변환합니다.
+            return response.json(); 
+        })
+        .then(data => {
+            // 2. 성공적으로 데이터를 받으면, id로 위치를 찾아 내용을 채웁니다.
+            //    data.totalUsers는 컨트롤러에서 보낸 JSON의 key 이름과 일치해야 합니다.
+            const userCountElement = document.getElementById('total-user-count');
+            if (userCountElement) {
+                // toLocaleString()을 사용하면 세 자리마다 콤마가 찍힙니다.
+                userCountElement.textContent = data.totalUsers.toLocaleString();
+            }
+            // (여기에 "몇 판?", "뉴비 몇 명?" 등 다른 데이터 업데이트 로직도 추가 가능)
+        })
+        .catch(error => {
+            // 3. 데이터 로딩에 실패하면 콘솔에 에러를 표시하고, 화면에도 오류를 알립니다.
+            console.error('통계 데이터 로딩 에러:', error);
+            const userCountElement = document.getElementById('total-user-count');
+            if (userCountElement) {
+                userCountElement.textContent = '오류';
+                userCountElement.style.fontSize = '1.5rem'; // 글자 크기 조절
+            }
+        });
 }

@@ -136,7 +136,7 @@
 									<h3>총 몇 명?</h3>
 								</div>
 								<div class="card-body">
-									<span class="main-number">####</span>
+									<span class="main-number" id="total-user-count">####</span>
 								</div>
 							</div>
 							<div class="card">
@@ -271,8 +271,10 @@
 		</div>
 	</div>
 
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/js/admin/admin_layout.js"></script>
+	<script> const CONTEXT_PATH = "${pageContext.request.contextPath}";</script>
+
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/admin/admin_layout.js"></script>
+	
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>
