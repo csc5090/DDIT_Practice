@@ -15,6 +15,10 @@
 	href="${pageContext.request.contextPath}/css/admin/admin_userlist.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/admin/admin_nickname.css">
+<link rel="stylesheet" 
+	href="${pageContext.request.contextPath}/css/admin/admin_block_management.css">
+
+
 </head>
 <body>
 	<div id="admin-wrapper">
@@ -39,10 +43,12 @@
 
 						<div class="ul-container-none" data-toggle="true">
 							<ul class="ul-small-container">
-								<li id="get-user" data-target="userlist-main"><span class="span-small">목록 조회</span></li>
-								<li id="nickname-user" data-target="nickname-management"><span class="span-small">유저 닉네임 변경</span></li>
-								<li id="black-user" data-target="block-management"><span class="span-small">차단 유저 관리</span></li>
-								<li id="block-search-view" data-target="block-search"><span class="span-small">차단 내역 조회</span></li>
+								<li id="get-user" data-target="userlist-main"><span
+									class="span-small">목록 조회</span></li>
+								<li id="nickname-user" data-target="nickname-management"><span
+									class="span-small">유저 닉네임 변경</span></li>
+								<li id="black-user" data-target="block-management"><span
+									class="span-small">차단 유저 관리</span></li>
 							</ul>
 						</div>
 					</li>
@@ -66,10 +72,10 @@
 
 						<div class="ul-container-none" data-toggle="true">
 							<ul class="ul-small-container">
-								<li id="notice-edit" data-target="notice-management">
-								<span class="span-small"> 공지사항 관리 </span>
-								<li id="post-edit" data-target="post-management">
-								<span class="span-small"> 게시물 관리 </span>
+								<li id="notice-edit" data-target="notice-management"><span
+									class="span-small"> 공지사항 관리 </span>
+								<li id="post-edit" data-target="post-management"><span
+									class="span-small"> 게시물 관리 </span>
 							</ul>
 						</div>
 					</li>
@@ -227,7 +233,8 @@
 					<div class="step-card">
 						<h2>유저 닉네임 변경</h2>
 						<div class="search-form">
-							<input type="text" id="user-search-input" placeholder="변경할 사용자의 아이디 또는 닉네임">
+							<input type="text" id="user-search-input"
+								placeholder="변경할 사용자의 아이디 또는 닉네임">
 							<button id="user-search-btn" class="action-btn primary">검색</button>
 						</div>
 
@@ -249,12 +256,52 @@
 
 
 
-				<div class="bodyArea" id="block-management">차단 유저 관리</div>
+				<div class="bodyArea" id="block-management">
+					<h1>차단 유저 관리</h1>
 
+					<div class="list-toolbar">
+						<div class="search-bar">
+							<svg xmlns="http://www.w.org/2000/svg" viewBox="0 0 24 24"
+								fill="none" stroke="currentColor" stroke-width="2"
+								stroke-linecap="round" stroke-linejoin="round">
+								<circle cx="11" cy="11" r="8"></circle>
+								<line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+							<input type="text" placeholder="차단된 사용자 검색...">
+						</div>
+					</div>
 
+					<div class="banned-user-list">
+						<%-- 아래 카드는 예시이며, 실제로는 DB에서 반복문으로 생성해야 합니다. --%>
+						<div class="banned-user-card">
+							<div class="user-details">
+								<div class="user-id-info">
+									<span class="id">banned_user</span> <span class="nickname">Aris</span>
+								</div>
+								<div class="ban-reason">
+									<span>사유: 부적절한 언어 사용 (2025-09-01)</span>
+								</div>
+							</div>
+							<div class="card-actions">
+								<button class="action-btn unban">차단 해제</button>
+							</div>
+						</div>
 
-				<div class="bodyArea" id="block-search">차단 내역 조회</div>
-
+						<div class="banned-user-card">
+							<div class="user-details">
+								<div class="user-id-info">
+									<span class="id">hacker_01</span> <span class="nickname">Yuzu</span>
+								</div>
+								<div class="ban-reason">
+									<span>사유: 비인가 프로그램 사용 (2025-08-15)</span>
+								</div>
+							</div>
+							<div class="card-actions">
+								<button class="action-btn unban">차단 해제</button>
+							</div>
+						</div>
+						<%-- ... (차단 유저 목록 반복) ... --%>
+					</div>
+				</div>
 
 				<div class="bodyArea" id="notice-management">공지사항 관리</div>
 
@@ -271,10 +318,13 @@
 		</div>
 	</div>
 
-	<script> const CONTEXT_PATH = "${pageContext.request.contextPath}";</script>
+	<script>
+		const CONTEXT_PATH = "${pageContext.request.contextPath}";
+	</script>
 
-	<script type="text/javascript" src="${pageContext.request.contextPath}/js/admin/admin_layout.js"></script>
-	
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/js/admin/admin_layout.js"></script>
+
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>

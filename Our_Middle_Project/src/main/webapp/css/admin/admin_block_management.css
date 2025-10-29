@@ -1,0 +1,124 @@
+#block-management {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    
+    background-color: var(--bg-sidebar);
+    border: 1px solid var(--border-color);
+    padding: 30px;
+}
+
+#block-management h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-light);
+}
+
+/* --- 상단 툴바 (검색창) --- */
+#block-management .list-toolbar {
+    display: flex;
+    justify-content: flex-start;
+}
+
+#block-management .search-bar { position: relative; }
+
+#block-management .search-bar input {
+    background-color: var(--bg-sidebar);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-light);
+    padding: 10px 15px 10px 40px;
+    width: 300px;
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#block-management .search-bar input:focus {
+    outline: none;
+    border-color: var(--active-border);
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.3);
+}
+
+#block-management .search-bar svg {
+    position: absolute; left: 12px; top: 50%;
+    transform: translateY(-50%);
+    stroke: var(--text-muted);
+    width: 20px; height: 20px;
+}
+
+/* --- 차단 유저 리스트 --- */
+.banned-user-list {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.banned-user-card {
+    background-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-left: 4px solid #e74c3c;
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.banned-user-card:hover {
+    background-color: var(--link-hover-bg);
+    border-color: var(--active-border);
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.user-id-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-id-info .id {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-light);
+}
+.user-id-info .nickname {
+    font-size: 1rem;
+    color: var(--text-muted);
+}
+
+.ban-reason {
+    font-size: 0.9rem;
+    color: #e74c3c;
+}
+
+/* --- 액션 버튼 --- */
+.action-btn {
+    padding: 8px 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.action-btn.unban {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.action-btn.unban:hover {
+    opacity: 0.8;
+}
