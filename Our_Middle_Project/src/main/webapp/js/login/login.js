@@ -29,8 +29,16 @@ function addEventHandle() {
 	let searchAddrBtn = document.getElementById('mem-addr-search');
 	searchAddrBtn.addEventListener('click', () => { addrSearchAPI() });
 	
+	let joinModal = document.getElementById('membershipModal')
 	let memJoin = document.querySelector('.member-join');
-	memJoin.addEventListener('click', () => { memJoindModalHandle() });
+	memJoin.addEventListener('click', () => { memJoindModalHandle(joinModal) });
+	
+	let memJoinClose = document.querySelector('.btnBox-left');
+	memJoinClose.addEventListener('click', () => { memJoinCloseHandle(joinModal) });
+	
+	let joinBtn = document.getElementById('joinBtn');
+	joinBtn.addEventListener('click', () => { joinHandle() })
+	
 }
 
 function findIdHandle() {

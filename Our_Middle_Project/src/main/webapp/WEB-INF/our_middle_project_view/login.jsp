@@ -16,6 +16,12 @@
 	<!-- 스위트어럴트2 -->
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/js/lib/sweetalert2/dist/sweetalert2.min.css">
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/sweetalert2/dist/sweetalert2.min.js"></script>
+	
+	<!-- jquery -->
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/jquery/jquery-3.7.1.min.js"></script>
+	
+	<!-- axios -->
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/axios/axios.min.js"></script>
 
 	<!-- 주소검색API(다음) -->
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -76,7 +82,7 @@
 							</svg>
 						</div>
 						<div class="mem-input">
-							<input type="text" name="userId" placeholder="아이디">
+							<input type="text" class="joinInfo" name="userId" placeholder="아이디">
 						</div>
 					</div>
 					
@@ -87,7 +93,7 @@
 							</svg>
 						</div>
 						<div class="mem-input">
-							<input type="password" name="userPw" placeholder="비밀번호">
+							<input type="password" class="joinInfo" name="userPw" placeholder="비밀번호">
 						</div>
 						<div class="mem-icon pw-check">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
@@ -109,7 +115,7 @@
 							</svg>
 						</div>
 						<div class="mem-input">
-							<input type="text" name="userEmail" placeholder="이메일">
+							<input type="text" class="joinInfo" name="userEmail" placeholder="이메일">
 						</div>
 					</div>
 					
@@ -124,7 +130,7 @@
 							</svg>
 						</div>
 						<div class="mem-input">
-							<input type="text" name="userName" placeholder="이름">
+							<input type="text" class="joinInfo" name="userName" placeholder="이름">
 						</div>
 					</div>
 					
@@ -135,7 +141,7 @@
 							</svg>
 						</div>
 						<div class="mem-input">
-							<input type="text" name="userNickName" placeholder="닉네임">
+							<input type="text" class="joinInfo" name="userNickName" placeholder="닉네임">
 						</div>
 					</div>
 					
@@ -147,7 +153,7 @@
 							</svg>
 						</div>
 						<div class="mem-input">
-							<input type="text" name="usePhone" placeholder="핸드폰번호">
+							<input type="text" class="joinInfo" name="usePhone" placeholder="핸드폰번호">
 						</div>
 					</div>
 					
@@ -159,7 +165,7 @@
 							</svg>
 						</div>
 						<div class="mem-input">
-							<input type="text" name="userBirth" placeholder="생년월일">
+							<input type="text" class="joinInfo" name="userBirth" placeholder="생년월일">
 						</div>
 					</div>
 					
@@ -167,8 +173,10 @@
 			
 				<div id="mem-user-gender">
 				
-					<div class="user-gender">남</div>
-					<div class="user-gender">여</div>
+					<input type="radio" id="gender-man" class="joinInfo" name="userGender">
+					<label for="gender-man" class="user-gender">남</label>
+					<input type="radio" id="gender-woman" class="joinInfo" name="userGender">
+					<label for="gender-woman" class="user-gender">여</label>
 					
 				</div>
 			
@@ -178,22 +186,22 @@
 					</div>
 					<div class="mem-info-block">
 						<div class="mem-input">
-							<input id="user_postCode" type="text" name="userAddr1" placeholder="우편번호" disabled>
+							<input id="user_postCode" class="joinInfo" type="text" name="userAddr" placeholder="우편번호" disabled>
 						</div>
 					</div>
 					<div class="mem-info-block">
 						<div class="mem-input">
-							<input id="user_addres" type="text" name="userAddr2" placeholder="주소" disabled>
+							<input id="user_addres" class="joinInfo" type="text" name="userAddr" placeholder="주소" disabled>
 						</div>
 					</div>
 					<div class="mem-info-block">
 						<div class="mem-input">
-							<input id="user_exAddr" type="text" name="userAddr3" placeholder="참고항목" disabled>
+							<input id="user_exAddr" class="joinInfo" type="text" name="userAddr" placeholder="참고항목" disabled>
 						</div>
 					</div>
 					<div class="mem-info-block">
 						<div class="mem-input">
-							<input id="user_detailAddr" type="text" name="userAddr4" placeholder="상세주소">
+							<input id="user_detailAddr" class="joinInfo" type="text" name="userAddr" placeholder="상세주소">
 						</div>
 					</div>
 	
@@ -205,12 +213,12 @@
 			
 				<div class="btnBox-left">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-						<path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+						<path d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
 					</svg>
 				</div>
 				
 				<div class="btnBox-right">
-					<input type="button" value="Join">
+					<input id="joinBtn" type="button" value="Join">
 				</div>
 			
 			</div>

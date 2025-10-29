@@ -1,5 +1,8 @@
 @charset "UTF-8";
 
+	/* #00aaff 파랑 */
+	/* #D6D6D6 밝은회색 */
+
 input:focus {
   border: none;
   outline: none;
@@ -52,9 +55,7 @@ input::placeholder {
 	height: 61%;
 	
 	fill: #00aaff;
-	/* #00aaff */
-	/* #D6D6D6 */
-	
+
 }
 
 .membership-container {
@@ -152,6 +153,7 @@ input::placeholder {
 	cursor: pointer;
 	
 	background-color: transparent;
+	caret-color: white;
 	
 }
 
@@ -189,6 +191,12 @@ input::placeholder {
     
 }
 
+#mem-user-gender > input {
+	
+	display: none;
+    
+}
+
 .user-gender {
 	
 	display: flex;
@@ -200,9 +208,21 @@ input::placeholder {
 	height: 80%;
 	border: 1px solid #D6D6D6;
 	
+	cursor: pointer;
+	z-index: 0;
+	
 }
 
-.user-gender:first-child {
+#mem-user-gender > input:checked + .user-gender {
+	
+	border: 1px solid #00aaff;
+	color: #00aaff;
+	
+	z-index: 1;
+	
+}
+
+#mem-user-gender label:first-of-type {
 	
 	border-top-left-radius: 5px;     
 	border-top-right-radius: 0;     
@@ -211,7 +231,7 @@ input::placeholder {
 	
 }
 
-.user-gender:last-child {
+#mem-user-gender label:last-of-type {
 	
 	margin-left: -1px;
 	
@@ -233,6 +253,20 @@ input::placeholder {
     
     margin-top: 20px;
     
+}
+
+#mem-user-addr > :first-child {
+	transition: 1s;
+	z-index: 1;
+}
+
+#mem-user-addr > :first-child:hover {
+	border: 1px solid #00aaff;
+}
+
+#mem-user-addr > :first-child:hover > input {
+	color: #00aaff;
+	transition: 1s;
 }
 
 #mem-addr-search {
@@ -288,6 +322,16 @@ input::placeholder {
 	transform: scaleX(-1);
 	
 	cursor: pointer;
+
+}
+
+.btnBox-left:hover svg path {
+	fill: white;
+	transition: 0.2s all;
+}
+
+.btnBox-left:active svg {
+	transform: scale(0.9);
 }
 
 .btnBox-right {
@@ -331,6 +375,11 @@ input::placeholder {
 		0 0 25px #00aaff,
 		0 0 40px #00aaff;
 	color: #fff;
+}
+
+.btnBox-right > input:active {
+	transition: 0.2s;
+	transform: scale(0.9);
 }
 
 
