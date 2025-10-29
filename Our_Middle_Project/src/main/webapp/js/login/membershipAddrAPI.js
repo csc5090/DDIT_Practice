@@ -34,7 +34,7 @@ function addrSearchAPI() {
                 document.getElementById("user_exAddr").value = extraAddr;
             
             } else {
-                document.getElementById("user_exAddr").value = '';
+                document.getElementById("user_exAddr").value = '-';
             }
 
             // 우편번호와 주소 정보를 해당 필드에 넣는다.
