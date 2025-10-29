@@ -231,6 +231,7 @@
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/login/login.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/login/memberJoin.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/login/membershipAddrAPI.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/login/loginDBLink.js"></script>
   
 </body>
 </html>
