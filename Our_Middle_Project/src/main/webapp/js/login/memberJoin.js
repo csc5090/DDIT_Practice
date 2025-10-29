@@ -8,7 +8,7 @@ function memJoinCloseHandle(obj) {
 }
 
 function joinHandle() {
-	console.log("회원가입 진행 할거지롱")
+	joinDBAdd();
 }
 
 

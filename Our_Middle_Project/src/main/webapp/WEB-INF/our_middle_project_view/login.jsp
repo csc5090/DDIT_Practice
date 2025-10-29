@@ -227,7 +227,7 @@
 		
 	</div>
 	   
-	
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/common.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/login/login.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/login/memberJoin.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/login/membershipAddrAPI.js"></script>

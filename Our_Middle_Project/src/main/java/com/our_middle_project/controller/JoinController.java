@@ -17,6 +17,11 @@ public class JoinController implements Action {
 		// TODO Auto-generated method stub
 		
 		System.out.println("test");
+		System.out.println("test");
+		System.out.println("test");
+		System.out.println("test");
+		System.out.println("test");
+		System.out.println("test");
 		
 		return null;
 	}

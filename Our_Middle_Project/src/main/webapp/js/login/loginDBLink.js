@@ -1,9 +1,11 @@
 
 function joinDBAdd() {
-	/*
+	
+	console.log(BASE_URL)
+	
 	axios({
-		baseURL: 'https://some-domain.com/api',
-		url: '',
+		baseURL: BASE_URL,
+		url: 'join.do',
 		method: 'post',
 		responseType: 'json',
 		data: {
@@ -11,10 +13,10 @@ function joinDBAdd() {
 		}
 	})
 	.then(function (response) {
-		response.data.pipe(fs.createWriteStream('ada_lovelace.jpg'))
+		console.log(response)
 	})
 	.catch(function (err) {
     	console.error(err);	// errror
-	});*/
+	});
 	
 }
