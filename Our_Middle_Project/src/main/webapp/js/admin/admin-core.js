@@ -1,24 +1,24 @@
 // admin-core.js
 
 const AdminCore = {
-    init: function() {
-        this.addEventHandlers();
-    },
+	init: function() {
+		this.addEventHandlers();
+	},
 
-    addEventHandlers: function() {
-        const sidebar = document.querySelector('.sidearea');
-        if (sidebar) {
-            sidebar.addEventListener('click', this.handleSidebarClick.bind(this));
-        }
-        this.setupUserProfileDropdown();
-        this.highlightInitialMenu();
-    },
+	addEventHandlers: function() {
+		const sidebar = document.querySelector('.sidearea');
+		if (sidebar) {
+			sidebar.addEventListener('click', this.handleSidebarClick.bind(this));
+		}
+		this.setupUserProfileDropdown();
+		this.highlightInitialMenu();
+	},
 
-    handleSidebarClick: function(e) {
+	handleSidebarClick: function(e) {
 		// --- 사이드바 메뉴 토글 및 하이라이트 처리 ---
 		const clickedBigMenu = e.target.closest('.bigmenu-container');
 		if (clickedBigMenu) {
-            // 2. 같은 객체 내의 다른 메소드를 호출할 때는 'this.' 사용
+			// 2. 같은 객체 내의 다른 메소드를 호출할 때는 'this.' 사용
 			this.sideBarToggleHandle({ currentTarget: clickedBigMenu });
 			this.toggleHighlight(clickedBigMenu);
 		}
@@ -35,16 +35,16 @@ const AdminCore = {
 			if (targetArea) {
 				targetArea.classList.add('active');
 			}
-			
-			
+
+
 			if (targetId === 'user-management') {
-			            UserPage.getList();
-			        }
-			
+				UserPage.getList();
+			}
+			sessionStorage.setItem('lastView', targetId);
 		}
-    },
-    
-    // 1. 모든 함수를 'key: function() {}' 형태의 메소드로 변경
+	},
+
+	// 1. 모든 함수를 'key: function() {}' 형태의 메소드로 변경
 	sideBarToggleHandle: function(e) {
 		let clicked = e.currentTarget;
 		let parentLi = clicked.parentElement;
@@ -69,17 +69,45 @@ const AdminCore = {
 			}
 		}
 	},
-	
+
+	//하이라이트 메뉴 관련
 	highlightInitialMenu: function() {
-		const dashboardContainer = document.getElementById('dashboard-container');
-		if (dashboardContainer) {
-			const parentLi = dashboardContainer.parentElement;
-			if (parentLi) {
-				parentLi.classList.add('active');
+
+		const lastViewId = sessionStorage.getItem('lastView');
+		let targetMenuElement;
+
+		if (lastViewId) {
+
+			targetMenuElement = document.querySelector(`[data-target="${lastViewId}"]`);
+		}
+
+		if (!targetMenuElement) {
+			targetMenuElement = document.getElementById('dashboard-container');
+		}
+
+		if (targetMenuElement) {
+			document.querySelectorAll('.nav-big-area').forEach(li => {
+				li.classList.remove('active');
+				const submenu = li.querySelector('.ul-container-none');
+				if (submenu) {
+					submenu.classList.remove('active');
+				}
+			});
+
+			const parentLiToActivate = targetMenuElement.closest('.nav-big-area');
+
+			if (parentLiToActivate) {
+
+				parentLiToActivate.classList.add('active');
+
+				const submenuToOpen = parentLiToActivate.querySelector('.ul-container-none');
+				if (submenuToOpen) {
+					submenuToOpen.classList.add('active');
+				}
 			}
 		}
 	},
-		
+
 	toggleHighlight: function(clickedMenu) {
 		let allBigAreas = document.getElementsByClassName('nav-big-area');
 		for (let i = 0; i < allBigAreas.length; i++) {

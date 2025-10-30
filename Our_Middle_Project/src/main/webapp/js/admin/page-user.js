@@ -3,7 +3,7 @@ const UserPage = {
 	// 💡 상태 관리 변수: 현재 표시 중인 리스트와 정렬 기준을 저장
 	currentList: [],
 	currentSort: {
-		key: 'userId', // 기본 정렬 키
+		key: 'role', // 기본 정렬 키
 		order: 'asc'   // 기본 정렬 방향
 	},
 
@@ -175,8 +175,9 @@ const UserPage = {
 			
 		try {
 			const response = await apiClient.post('/updateUser.do', userData);
+			
 			if (response.status === 'success') {
-				Swal.fire('성공', '사용자 정보가 성공적으로 업데이트되었습니다.', 'success');
+				await Swal.fire('성공', '사용자 정보가 성공적으로 업데이트되었습니다.', 'success');
 				this.getList();
 			} else {
 				throw new Error(response.data.message || '업데이트에 실패했습니다.');
@@ -194,7 +195,7 @@ const UserPage = {
 		tableBody.innerHTML = '';
 
 		if (!userList || userList.length === 0) {
-			tableBody.innerHTML = `<tr class="no-results-row"><td colspan="6">표시할 사용자가 없습니다.</td></tr>`; // 💡 colspan 6으로 변경 (컬럼 개수 맞춤)
+			tableBody.innerHTML = `<tr class="no-results-row"><td colspan="7">표시할 사용자가 없습니다.</td></tr>`; // 💡 colspan 6으로 변경 (컬럼 개수 맞춤)
 			return;
 		}
 
@@ -202,6 +203,7 @@ const UserPage = {
 			const row = document.createElement('tr');
 			row.dataset.userid = user.userId;
 			row.innerHTML = `
+				<td>${user.role || 'USER'}</td>
 	            <td>${user.userId}</td>
 				<td>${user.userName}</td>
 	            <td>${user.nickname}</td>

@@ -197,6 +197,12 @@
 							<table class="user-list-table">
 								<thead>
 									<tr>
+										<th class="sortable" data-sort-key="role" data-sort-order="none">
+										역할
+										<span class="sort-icon"></span>
+										</th>
+									
+									
 										<th class="sortable" data-sort-key="userId" data-sort-order="none">
 										아이디
 										<span class="sort-icon"></span>
