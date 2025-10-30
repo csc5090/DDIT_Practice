@@ -38,6 +38,7 @@ const AdminCore = {
 
 
 			if (targetId === 'user-management') {
+				UserPage.clearDetailPanel();
 				UserPage.getList();
 			}
 			sessionStorage.setItem('lastView', targetId);

@@ -198,80 +198,72 @@
 						</div>
 					</div>
 
-					<div class="user-detail-panel is-empty">
-						<div class="empty-message">
-							<p>
-								왼쪽 목록에서 사용자를 더블 클릭하여<br>상세 정보를 확인하세요.
-							</p>
-						</div>
-						<div class="detail-content" style="display: none;">
-							<div class="detail-header">
-								<h2 id="detail-user-id"></h2>
-							</div>
-
-							<div class="detail-body">
-								<div class="form-group">
-									<label for="detail-nickname">닉네임</label> <input type="text"
-										id="detail-nickname">
-								</div>
-								<div class="form-group">
-									<label for="detail-status">계정 상태</label> <select
-										id="detail-status">
-										<option value="ACTIVE">ACTIVE</option>
-										<option value="SUSPENDED">SUSPENDED</option>
-										<option value="DELETED">DELETED</option>
-									</select>
-								</div>
-								<div class="form-group">
-									<label for="detail-role">역할 (ROLE)</label> <select
-										id="detail-role">
-										<option value="USER">USER</option>
-										<option value="ADMIN">ADMIN</option>
-									</select>
-								</div>
-								<div class="form-group">
-									<label for="detail-email">이메일</label> <input type="text"
-										id="detail-email" readonly>
-								</div>
-								<div class="form-group">
-									<label for="detail-gender">성별</label> <input type="text"
-										id="detail-gender" readonly>
-								</div>
-								<div class="form-group">
-									<label for="detail-birth">생년월일</label> <input type="text"
-										id="detail-birth" readonly>
-								</div>
-								<div class="form-group">
-									<label for="detail-hp">핸드폰 번호</label> <input type="text"
-										id="detail-hp" readonly>
-								</div>
-								<div class="form-group">
-									<label for="detail-zip">우편번호</label> <input type="text"
-										id="detail-zip" readonly>
-								</div>
-								<div class="form-group full-width">
-									<label for="detail-add1">기본주소</label> <input type="text"
-										id="detail-add1" readonly>
-								</div>
-								<div class="form-group full-width">
-									<label for="detail-add2">상세주소</label> <input type="text"
-										id="detail-add2" readonly>
-								</div>
-								<div class="form-group">
-									<label for="detail-deleted-date">탈퇴일</label> <input type="text"
-										id="detail-deleted-date" readonly>
-								</div>
-								<div class="form-group">
-									<label for="detail-deleted-reason">탈퇴 사유</label> <input
-										type="text" id="detail-deleted-reason" readonly>
-								</div>
-							</div>
-
-							<div class="detail-footer">
-								<button id="detail-apply-btn" class="btn-apply">적용</button>
-							</div>
-						</div>
-					</div>
+					<div class="user-detail-panel"> <div class="detail-content">
+												<div class="detail-header">
+													<h2 id="detail-user-id"></h2>
+													</div>
+												<div class="detail-body">
+													<div class="form-group">
+														<label for="detail-nickname">닉네임</label> <input type="text"
+															id="detail-nickname">
+													</div>
+													<div class="form-group">
+														<label for="detail-status">계정 상태</label> <select
+															id="detail-status">
+															<option value="ACTIVE">ACTIVE</option>
+															<option value="SUSPENDED">SUSPENDED</option>
+															<option value="DELETED">DELETED</option>
+														</select>
+													</div>
+													<div class="form-group">
+														<label for="detail-role">역할 (ROLE)</label> <select
+															id="detail-role">
+															<option value="USER">USER</option>
+															<option value="ADMIN">ADMIN</option>
+														</select>
+													</div>
+													<div class="form-group">
+														<label for="detail-email">이메일</label> <input type="text"
+															id="detail-email" readonly>
+													</div>
+													<div class="form-group">
+														<label for="detail-gender">성별</label> <input type="text"
+															id="detail-gender" readonly>
+													</div>
+													<div class="form-group">
+														<label for="detail-birth">생년월일</label> <input type="text"
+															id="detail-birth" readonly>
+													</div>
+													<div class="form-group">
+														<label for="detail-hp">핸드폰 번호</label> <input type="text"
+															id="detail-hp" readonly>
+													</div>
+													<div class="form-group">
+														<label for="detail-zip">우편번호</label> <input type="text"
+															id="detail-zip" readonly>
+													</div>
+													<div class="form-group full-width">
+														<label for="detail-add1">기본주소</label> <input type="text"
+															id="detail-add1" readonly>
+													</div>
+													<div class="form-group full-width">
+														<label for="detail-add2">상세주소</label> <input type="text"
+															id="detail-add2" readonly>
+													</div>
+													<div class="form-group">
+														<label for="detail-deleted-date">탈퇴일</label> <input type="text"
+															id="detail-deleted-date" readonly>
+													</div>
+													<div class="form-group">
+														<label for="detail-deleted-reason">탈퇴 사유</label> <input
+															type="text" id="detail-deleted-reason" readonly>
+													</div>
+												</div>
+												<div class="detail-footer">
+													<button id="detail-apply-btn" class="btn-apply">적용</button>
+												</div>
+											</div>
+										</div>
 				</div>
 
 				<div class="bodyArea" id="notice-management">

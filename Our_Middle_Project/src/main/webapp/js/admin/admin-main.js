@@ -27,4 +27,9 @@ window.onload = () => {
 	if (document.getElementById('stats-main')) {
 		StatsPage.init();
 	}
+	
+	if (lastViewId === 'user-management') {
+	        UserPage.clearDetailPanel(); 
+	        UserPage.getList();
+	    }
 };
