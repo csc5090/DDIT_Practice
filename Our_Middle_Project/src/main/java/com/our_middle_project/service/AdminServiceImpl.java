@@ -76,5 +76,18 @@ public class AdminServiceImpl implements AdminService {
 		}
 
 	}
+	
+	/*   //null 작업 후에 교체할 것.
+	 * @Override public boolean updateUser(MemberDTO memberDTO) { try (SqlSession
+	 * sqlSession = MybatisUtil.getSqlSession()) { MemberDAO memberDAO = new
+	 * MemberDAOImpl(sqlSession);
+	 * 
+	 * // 비즈니스 규칙 적용: 'USER' 역할은 DB에 NULL로 저장 if
+	 * ("USER".equals(memberDTO.getRole())) { memberDTO.setRole(null); }
+	 * 
+	 * int result = memberDAO.updateUser(memberDTO); sqlSession.commit(); return
+	 * result > 0; } }
+	 */
+	
 
 }
