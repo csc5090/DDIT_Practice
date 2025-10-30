@@ -10,4 +10,6 @@ public interface AdminService {
 	public int getNewUserCountToday();
 	public List<MemberDTO> getUsersByKeyword(String keyword);
 	List<Map<String, Object>> getDailySignupStats();
+	public boolean updateUser(MemberDTO memberDTO);
+	public MemberDTO getUserDetails(String memberId);
 }

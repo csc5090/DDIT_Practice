@@ -83,10 +83,12 @@
 
 						<div class="ul-container-none" data-toggle="true">
 							<ul class="ul-small-container">
-								<li id="notice-edit" data-target="notice-management"><span
-									class="span-small"> 공지사항 관리 </span>
-								<li id="post-edit" data-target="post-management"><span
-									class="span-small"> 게시물 관리 </span>
+								<li id="notice-edit" data-target="notice-management">
+								<span class="span-small"> 공지사항 관리 </span>
+								<li id="post-edit" data-target="post-management">
+								<span class="span-small"> 게시물 관리 </span>
+								<li id="review-edit" data-target="review-management">
+								<span class="span-small"> 리뷰 관리 </span>
 							</ul>
 						</div>
 					</li>
@@ -186,7 +188,7 @@
 						<div class="list-toolbar">
 							<div class="search-bar">
 								<input type="text" id="user-search-input"
-									placeholder="사용자 ID 또는 닉네임으로 검색...">
+									placeholder="사용자 ID 또는 닉네임으로 검색">
 								<button id="user-search-btn" class="action-btn primary">검색</button>
 							</div>
 						</div>
@@ -195,29 +197,40 @@
 							<table class="user-list-table">
 								<thead>
 									<tr>
-										<th>아이디</th>
-										<th>닉네임</th>
-										<th>이메일</th>
-										<th>상태</th>
-										<th>가입일</th>
+										<th class="sortable" data-sort-key="userId" data-sort-order="none">
+										아이디
+										<span class="sort-icon"></span>
+										</th>
+										
+										<th class="sortable" data-sort-key="userName" data-sort-order="none">
+										이름
+										<span class="sort-icon"></span>
+										</th>
+										
+										
+										<th class="sortable" data-sort-key="nickname" data-sort-order="none">
+										닉네임
+										<span class="sort-icon"></span>
+										</th>
+										
+										<th class="sortable" data-sort-key="userMail" data-sort-order="none">
+										이메일
+										<span class="sort-icon"></span>
+										</th>
+										
+										<th class="sortable" data-sort-key="status" data-sort-order="none">
+										상태
+										<span class="sort-icon"></span>
+										</th>
+										
+										<th class="sortable" data-sort-key="regDate">
+										가입일
+										<span class="sort-icon"></span>
+										</th>
+										
 									</tr>
 								</thead>
 								<tbody id="user-list-tbody">
-									<%-- 예시 데이터 (실제로는 비워둡니다) --%>
-									<tr data-userid="user001">
-										<td>user001</td>
-										<td>Commander</td>
-										<td>commander@example.com</td>
-										<td>활성</td>
-										<td>2025-10-28</td>
-									</tr>
-									<tr data-userid="banned_user">
-										<td>banned_user</td>
-										<td>Aris</td>
-										<td>aris@millennium.ac.kr</td>
-										<td>차단</td>
-										<td>2025-09-01</td>
-									</tr>
 									<%-- 검색 결과가 없을 때 보여줄 행 (기본 숨김) --%>
 									<tr class="no-results-row" style="display: none;">
 										<td colspan="5">검색 결과가 없습니다.</td>
@@ -229,7 +242,6 @@
 
 					<div class="user-detail-panel is-empty">
 						<div class="empty-message">
-							<%-- 아이콘 삭제 --%>
 							<p>
 								왼쪽 목록에서 사용자를 더블 클릭하여<br>상세 정보를 확인하세요.
 							</p>
@@ -336,6 +348,8 @@
 
 
 				<div class="bodyArea" id="post-management">게시물 관리</div>
+				
+				<div class="bodyArea" id="review-management">리뷰 관리</div>
 
 
 

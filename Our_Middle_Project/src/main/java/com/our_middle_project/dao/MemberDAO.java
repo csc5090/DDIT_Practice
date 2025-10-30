@@ -10,4 +10,6 @@ public interface MemberDAO {
 	public int getNewUserCountToday();
 	List<MemberDTO> selectUsersByKeyword(String keyword);
 	public List<Map<String, Object>> selectDailySignupStats();
+	public int updateUser(MemberDTO memberDTO);
+	public MemberDTO selectUserDetails(String memberId);
 }

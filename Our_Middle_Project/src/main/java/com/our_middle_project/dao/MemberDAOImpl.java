@@ -39,6 +39,16 @@ public class MemberDAOImpl implements MemberDAO {
     public List<Map<String, Object>> selectDailySignupStats() {
         return this.sqlSession.selectList("memberMapper.getDailySignupStatsForLast7Days");
     }
+
+	@Override
+	public int updateUser(MemberDTO memberDTO) {
+		return sqlSession.update("memberMapper.updateUser", memberDTO);
+	}
+
+	@Override
+	public MemberDTO selectUserDetails(String memberId) {
+		return sqlSession.selectOne("memberMapper.selectUserDetails", memberId);
+	}
 	
 	
 	
