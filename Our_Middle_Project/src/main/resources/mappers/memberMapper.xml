@@ -18,20 +18,20 @@
 	<select id="selectUsersByKeyword"
 		resultType="com.our_middle_project.dto.MemberDTO"
 		parameterType="java.lang.String">
-		SELECT
+	SELECT
 		MEM_ID AS userId,
-		MEM_NAME AS userName,
-		NICKNAME AS nickname,
-		MEM_MAIL AS userMail,
-		STATUS AS status,
-		MEM_NO AS userNo, TO_CHAR(CREATED_DATE, 'YYYY-MM-DD') AS regDate
+        MEM_NAME AS userName,
+        NICKNAME AS nickname,
+        STATUS AS status,
+		TO_CHAR(CREATED_DATE, 'YYYY-MM-DD') AS regDate
 		
-		FROM
+	FROM
 		MEMBER
 		
 		<where>
+			<!-- WHERE ROLE IS NULL -->
 			<if test="keyword != null and keyword != ''">
-				( 
+				<!-- AND --> ( 
 				MEM_ID LIKE '%' || #{keyword} || '%' 
         		OR NICKNAME LIKE '%' || #{keyword} || '%'
                 )
@@ -44,41 +44,54 @@
 
 	<select id="getDailySignupStatsForLast7Days"
 		resultType="java.util.Map">
-		WITH DATES AS (
+	WITH DATES AS (
 		SELECT TRUNC(SYSDATE) - LEVEL + 1 AS "date"
 		FROM DUAL
 		CONNECT BY <![CDATA[ LEVEL <= 7 ]]>
 		)
-		SELECT
+		
+	SELECT
 		TO_CHAR(D."date", 'MM-DD') AS "LABEL", NVL(COUNT(M.CREATED_DATE), 0) AS "VALUE" FROM
 		DATES D
-		LEFT JOIN
+		
+	LEFT JOIN
 		MEMBER M ON TRUNC(M.CREATED_DATE) = D."date"
-		GROUP BY
+		
+	GROUP BY
 		D."date"
-		ORDER BY
+		
+	ORDER BY
 		D."date" ASC
 	</select>
 	
 	<select id="selectUserDetails" 
         resultType="com.our_middle_project.dto.MemberDTO" 
         parameterType="java.lang.String">
-    	SELECT
+    SELECT
         MEM_ID AS userId,
+        MEM_NAME AS userName,
         NICKNAME AS nickname,
+        MEM_MAIL AS userMail,
         STATUS AS status,
         ROLE AS role,
+        MEM_GENDER AS gender,
+        TO_CHAR(MEM_BIRTH, 'YYYY-MM-DD') AS memBirth,
+        MEM_ZIP AS memZip,
+        MEM_ADD1 AS memAdd1,
+        MEM_ADD2 AS memAdd2,
+        MEM_HP AS memHp,
+        TO_CHAR(CREATED_DATE, 'YYYY-MM-DD') AS regDate,
         TO_CHAR(DELETED_DATE, 'YYYY-MM-DD') AS deletedDate,
         DELETED_REASON AS deletedReason
-        
-    	FROM 
-        MEMBER
-    	WHERE 
-        MEM_ID = #{memberId}
+    
+    FROM MEMBER
+    
+    WHERE MEM_ID = #{userId}
 </select>
 
 <update id="updateUser" parameterType="com.our_middle_project.dto.MemberDTO">
-		UPDATE MEMBER
+	UPDATE MEMBER
+		
     SET
         NICKNAME = #{nickname},
         STATUS = #{status},

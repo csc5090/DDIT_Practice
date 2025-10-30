@@ -8,19 +8,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Good Day, Commander.</title>
 
-	<!-- 부트스트랩 -->
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/js/lib/bootstrap/css/bootstrap.min.css">
-	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/bootstrap/js/bootstrap.min.js"></script>
-	
-	<!-- 스위트어럴트2 -->
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/js/lib/sweetalert2/dist/sweetalert2.min.css">
-	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/sweetalert2/dist/sweetalert2.min.js"></script>
-	
-	<!-- jquery -->
-	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/jquery/jquery-3.7.1.min.js"></script>
-	
-	<!-- axios -->
-	<%-- <script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/axios/axios.min.js"></script> --%>
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/js/lib/bootstrap/css/bootstrap.min.css">
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/js/lib/bootstrap/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/js/lib/sweetalert2/dist/sweetalert2.min.css">
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/js/lib/sweetalert2/dist/sweetalert2.min.js"></script>
+
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/js/lib/jquery/jquery-3.7.1.min.js"></script>
+
+<%-- <script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/axios/axios.min.js"></script> --%>
 
 
 <link rel="stylesheet"
@@ -64,18 +65,6 @@
 						</div>
 					</li>
 
-					<!-- 	<li class="nav-big-area">
-						<div class="bigmenu-container" id="chat-container">
-							<span class="span-big"> 채팅 </span>
-						</div>
-
-						<div class="ul-container-none" data-toggle="true">
-							<ul class="ul-small-container">
-								<li id="chat-management"><span class="span-small"> 채팅 관리 </span></li>
-							</ul>
-						</div>
-					</li> -->
-
 					<li class="nav-big-area">
 						<div class="bigmenu-container" id="board-container">
 							<span class="span-big"> 게시판 </span>
@@ -83,28 +72,15 @@
 
 						<div class="ul-container-none" data-toggle="true">
 							<ul class="ul-small-container">
-								<li id="notice-edit" data-target="notice-management">
-								<span class="span-small"> 공지사항 관리 </span>
-								<li id="post-edit" data-target="post-management">
-								<span class="span-small"> 게시물 관리 </span>
-								<li id="review-edit" data-target="review-management">
-								<span class="span-small"> 리뷰 관리 </span>
+								<li id="notice-edit" data-target="notice-management"><span
+									class="span-small"> 공지사항 관리 </span>
+								<li id="post-edit" data-target="post-management"><span
+									class="span-small"> 게시물 관리 </span>
+								<li id="review-edit" data-target="review-management"><span
+									class="span-small"> 리뷰 관리 </span>
 							</ul>
 						</div>
 					</li>
-
-					<!-- <li class="nav-big-area">
-						<div class="bigmenu-container" id="game-container">
-							<span class="span-big"> 게임 </span>
-						</div>
-
-						<div class="ul-container-none" data-toggle="true">
-							<ul class="ul-small-container">
-								<li id="game-management"><span class="span-small"> 게임 관리 </span>
-								<li id="event-management"><span class="span-small"> 이벤트 관리 </span>
-							</ul>
-						</div>
-					</li> -->
 
 					<li class="nav-big-area">
 						<div class="bigmenu-container" id="data-container"
@@ -182,7 +158,6 @@
 					</div>
 				</div>
 
-				<!-- 유저 관리 창  -->
 				<div class="bodyArea" id="user-management">
 					<div class="user-list-panel">
 						<div class="list-toolbar">
@@ -197,47 +172,24 @@
 							<table class="user-list-table">
 								<thead>
 									<tr>
-										<th class="sortable" data-sort-key="role" data-sort-order="none">
-										역할
-										<span class="sort-icon"></span>
+										<th class="sortable" data-sort-key="userId"
+											data-sort-order="none">아이디 <span class="sort-icon"></span>
 										</th>
-									
-									
-										<th class="sortable" data-sort-key="userId" data-sort-order="none">
-										아이디
-										<span class="sort-icon"></span>
+										<th class="sortable" data-sort-key="userName"
+											data-sort-order="none">이름 <span class="sort-icon"></span>
 										</th>
-										
-										<th class="sortable" data-sort-key="userName" data-sort-order="none">
-										이름
-										<span class="sort-icon"></span>
+										<th class="sortable" data-sort-key="nickname"
+											data-sort-order="none">닉네임 <span class="sort-icon"></span>
 										</th>
-										
-										
-										<th class="sortable" data-sort-key="nickname" data-sort-order="none">
-										닉네임
-										<span class="sort-icon"></span>
+										<th class="sortable" data-sort-key="status"
+											data-sort-order="none">상태 <span class="sort-icon"></span>
 										</th>
-										
-										<th class="sortable" data-sort-key="userMail" data-sort-order="none">
-										이메일
-										<span class="sort-icon"></span>
+										<th class="sortable" data-sort-key="regDate">가입일 <span
+											class="sort-icon"></span>
 										</th>
-										
-										<th class="sortable" data-sort-key="status" data-sort-order="none">
-										상태
-										<span class="sort-icon"></span>
-										</th>
-										
-										<th class="sortable" data-sort-key="regDate">
-										가입일
-										<span class="sort-icon"></span>
-										</th>
-										
 									</tr>
 								</thead>
 								<tbody id="user-list-tbody">
-									<%-- 검색 결과가 없을 때 보여줄 행 (기본 숨김) --%>
 									<tr class="no-results-row" style="display: none;">
 										<td colspan="5">검색 결과가 없습니다.</td>
 									</tr>
@@ -256,6 +208,7 @@
 							<div class="detail-header">
 								<h2 id="detail-user-id"></h2>
 							</div>
+
 							<div class="detail-body">
 								<div class="form-group">
 									<label for="detail-nickname">닉네임</label> <input type="text"
@@ -264,27 +217,56 @@
 								<div class="form-group">
 									<label for="detail-status">계정 상태</label> <select
 										id="detail-status">
-										<option value="ACTIVE">활성</option>
-										<option value="BANNED">차단</option>
-										<option value="DELETED">탈퇴</option>
+										<option value="ACTIVE">ACTIVE</option>
+										<option value="SUSPENDED">SUSPENDED</option>
+										<option value="DELETED">DELETED</option>
 									</select>
 								</div>
 								<div class="form-group">
 									<label for="detail-role">역할 (ROLE)</label> <select
 										id="detail-role">
-										<option value="USER">일반 사용자</option>
-										<option value="ADMIN">관리자</option>
+										<option value="USER">USER</option>
+										<option value="ADMIN">ADMIN</option>
 									</select>
+								</div>
+								<div class="form-group">
+									<label for="detail-email">이메일</label> <input type="text"
+										id="detail-email" readonly>
+								</div>
+								<div class="form-group">
+									<label for="detail-gender">성별</label> <input type="text"
+										id="detail-gender" readonly>
+								</div>
+								<div class="form-group">
+									<label for="detail-birth">생년월일</label> <input type="text"
+										id="detail-birth" readonly>
+								</div>
+								<div class="form-group">
+									<label for="detail-hp">핸드폰 번호</label> <input type="text"
+										id="detail-hp" readonly>
+								</div>
+								<div class="form-group">
+									<label for="detail-zip">우편번호</label> <input type="text"
+										id="detail-zip" readonly>
+								</div>
+								<div class="form-group full-width">
+									<label for="detail-add1">기본주소</label> <input type="text"
+										id="detail-add1" readonly>
+								</div>
+								<div class="form-group full-width">
+									<label for="detail-add2">상세주소</label> <input type="text"
+										id="detail-add2" readonly>
 								</div>
 								<div class="form-group">
 									<label for="detail-deleted-date">탈퇴일</label> <input type="text"
 										id="detail-deleted-date" readonly>
 								</div>
-								<div class="form-group" style="grid-column: span 2;">
+								<div class="form-group">
 									<label for="detail-deleted-reason">탈퇴 사유</label> <input
 										type="text" id="detail-deleted-reason" readonly>
 								</div>
 							</div>
+
 							<div class="detail-footer">
 								<button id="detail-apply-btn" class="btn-apply">적용</button>
 							</div>
@@ -292,14 +274,12 @@
 					</div>
 				</div>
 
-
 				<div class="bodyArea" id="notice-management">
 					<div id="notice-list-view" class="notice-view">
 						<div class="notice-toolbar">
 							<h1>공지사항 관리</h1>
 							<button id="btn-new-notice" class="btn-primary">새 글 작성</button>
 						</div>
-
 						<div class="notice-table-wrapper">
 							<table class="notice-table">
 								<thead>
@@ -327,64 +307,53 @@
 							</table>
 						</div>
 					</div>
-
 					<div id="notice-editor-view" class="notice-view"
 						style="display: none;">
 						<div class="notice-toolbar">
 							<h1>새 공지사항 작성</h1>
 						</div>
-
 						<div class="form-group">
 							<label for="notice-title">제목</label> <input type="text"
 								id="notice-title" placeholder="제목을 입력하세요">
 						</div>
-
 						<div class="form-group content">
 							<label for="notice-content">내용</label>
 							<textarea id="notice-content" placeholder="내용을 입력하세요."></textarea>
 						</div>
-
 						<div class="editor-actions">
 							<button id="btn-back-to-list" class="btn-secondary">목록으로</button>
 							<button id="btn-save-notice" class="btn-primary">저장하기</button>
 						</div>
 					</div>
-
 				</div>
 
-
 				<div class="bodyArea" id="post-management">게시물 관리</div>
-				
 				<div class="bodyArea" id="review-management">리뷰 관리</div>
-
-
-
-
 				<div class="bodyArea" id="stats-main">데이터/통계</div>
 			</main>
-
 		</div>
 	</div>
 
+	<script
+		src="${pageContext.request.contextPath}/js/lib/axios/axios.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script>
+		const CONTEXT_PATH = "${pageContext.request.contextPath}";
+	</script>
 
-<script src="${pageContext.request.contextPath}/js/lib/axios/axios.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    const CONTEXT_PATH = "${pageContext.request.contextPath}";
-</script>
+	<script src="${pageContext.request.contextPath}/js/common.js"></script>
+	<script src="${pageContext.request.contextPath}/js/admin/api-client.js"></script>
 
-<script src="${pageContext.request.contextPath}/js/common.js"></script>
-<script src="${pageContext.request.contextPath}/js/admin/api-client.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/js/admin/page-dashboard.js"></script>
+	<script src="${pageContext.request.contextPath}/js/admin/page-user.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/js/admin/page-notice.js"></script>
+	<script src="${pageContext.request.contextPath}/js/admin/page-post.js"></script>
+	<script src="${pageContext.request.contextPath}/js/admin/page-stats.js"></script>
 
-<script src="${pageContext.request.contextPath}/js/admin/page-dashboard.js"></script>
-<script src="${pageContext.request.contextPath}/js/admin/page-user.js"></script>
-<script src="${pageContext.request.contextPath}/js/admin/page-notice.js"></script>
-<script src="${pageContext.request.contextPath}/js/admin/page-post.js"></script>
-<script src="${pageContext.request.contextPath}/js/admin/page-stats.js"></script>
+	<script src="${pageContext.request.contextPath}/js/admin/admin-core.js"></script>
 
-<script src="${pageContext.request.contextPath}/js/admin/admin-core.js"></script>
-
-<script src="${pageContext.request.contextPath}/js/admin/admin-main.js"></script>
-
+	<script src="${pageContext.request.contextPath}/js/admin/admin-main.js"></script>
 </body>
 </html>

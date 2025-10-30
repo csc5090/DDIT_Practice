@@ -66,10 +66,12 @@ public class AdminServiceImpl implements AdminService {
 	public boolean updateUser(MemberDTO memberDTO) {
 		try (SqlSession sqlSession = MybatisUtil.getSqlSession()) {
 			MemberDAO memberDAO = new MemberDAOImpl(sqlSession);
+			
 			int result = memberDAO.updateUser(memberDTO);
 
 			// 중요: UPDATE, INSERT, DELETE 후에는 반드시 commit()!
 			sqlSession.commit();
+			
 			return result > 0;
 		}
 

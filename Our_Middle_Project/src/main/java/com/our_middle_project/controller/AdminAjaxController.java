@@ -112,12 +112,19 @@ public class AdminAjaxController implements Action {
 				// 프론트엔드에서 보낸 JSON 데이터를 DTO로 변환
 				MemberDTO memberDTO = gson.fromJson(request.getReader(), MemberDTO.class);
 
+				System.out.println("컨트롤러가 받은 DTO 데이터: " + memberDTO.toString());
+				
 				// 서비스를 호출하여 업데이트 로직 실행
 				boolean isSuccess = adminService.updateUser(memberDTO);
 
 				// 결과를 JSON으로 프론트엔드에 응답
 				Map<String, String> responseData = new HashMap<>();
 				responseData.put("status", isSuccess ? "success" : "fail");
+				
+				if (!isSuccess) {
+			        responseData.put("message", "사용자 정보 업데이트에 실패했습니다.");
+			    }
+				
 			    response.getWriter().write(gson.toJson(responseData));
 			}
 

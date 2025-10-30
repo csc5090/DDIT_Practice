@@ -5,15 +5,51 @@ import lombok.Data;
 
 @Data
 public class MemberDTO {
-    private int userNo;
+	// DB: MEM_NO (NUMBER)
+    private int memNo;
+
+    // DB: MEM_ID (VARCHAR2)
     private String userId;
-    //비밀번호는 보안상 DTO에 안적음
+
+    // DB: MEM_NAME (VARCHAR2)
     private String userName;
+
+    // DB: NICKNAME (VARCHAR2)
     private String nickname;
-    private Date regDate;
-    private String status;
+    
+    // DB: MEM_MAIL (VARCHAR2)
     private String userMail;
+
+    // DB: MEM_GENDER (CHAR)
+    private String memGender;
+
+    // DB: MEM_BIRTH (DATE)
+    private Date memBirth;
+
+    // DB: MEM_ZIP (VARCHAR2)
+    private String memZip;
+
+    // DB: MEM_ADD1 (VARCHAR2)
+    private String memAdd1;
+
+    // DB: MEM_ADD2 (VARCHAR2)
+    private String memAdd2;
+
+    // DB: MEM_HP (VARCHAR2)
+    private String memHp;
+
+    // DB: STATUS (VARCHAR2)
+    private String status;
+
+    // DB: ROLE (VARCHAR2)
     private String role;
-    private Date deleted_date;
-    private String deleted_reason;
+    
+    // DB: CREATED_DATE (DATE)
+    private Date regDate;
+
+    // DB: DELETED_DATE (DATE)
+    private Date deletedDate;
+
+    // DB: DELETED_REASON (VARCHAR2)
+    private String deletedReason;
 }
