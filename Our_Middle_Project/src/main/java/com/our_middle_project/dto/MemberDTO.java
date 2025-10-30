@@ -1,6 +1,5 @@
 package com.our_middle_project.dto;
 
-import java.sql.Date;
 import lombok.Data;
 
 @Data
@@ -24,7 +23,7 @@ public class MemberDTO {
     private String memGender;
 
     // DB: MEM_BIRTH (DATE)
-    private Date memBirth;
+    private String memBirth;
 
     // DB: MEM_ZIP (VARCHAR2)
     private String memZip;
@@ -45,10 +44,10 @@ public class MemberDTO {
     private String role;
     
     // DB: CREATED_DATE (DATE)
-    private Date regDate;
+    private String regDate;
 
     // DB: DELETED_DATE (DATE)
-    private Date deletedDate;
+    private String deletedDate;
 
     // DB: DELETED_REASON (VARCHAR2)
     private String deletedReason;
