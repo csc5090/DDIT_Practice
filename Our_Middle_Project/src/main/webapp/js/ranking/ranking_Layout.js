@@ -1,7 +1,7 @@
 // 메인페이지 이동
 function goHome() {
     // 홈 화면으로 이동 (JSP나 HTML 파일명에 맞게 수정)
-    window.location.href = "main.do"; 
+    window.location.href = "gameHome.do"; 
 }
 
 lucide.createIcons();
