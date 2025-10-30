@@ -29,7 +29,7 @@ function addEventHandle() {
 	let searchAddrBtn = document.getElementById('mem-addr-search');
 	searchAddrBtn.addEventListener('click', () => { addrSearchAPI() });
 	
-	let joinModal = document.getElementById('membershipModal')
+	let joinModal = document.getElementById('membershipModal');
 	let memJoin = document.querySelector('.member-join');
 	memJoin.addEventListener('click', () => { memJoindModalHandle(joinModal) });
 	
@@ -37,7 +37,10 @@ function addEventHandle() {
 	memJoinClose.addEventListener('click', () => { memJoinCloseHandle(joinModal) });
 	
 	let joinBtn = document.getElementById('joinBtn');
-	joinBtn.addEventListener('click', () => { joinHandle() })
+	joinBtn.addEventListener('click', () => { joinHandle() });
+	
+	let memIdInput = document.getElementById('mem_id');
+	memIdInput.addEventListener('change', (e) => { idInputChangeHandle(e) });
 	
 }
 

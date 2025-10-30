@@ -8,8 +8,7 @@ function memJoinCloseHandle(obj) {
 }
 
 function joinHandle() {
-
-	// 페이크실행	 
+	
 	joinDBAdd();
 	
 	let userInfo = {};
@@ -19,7 +18,7 @@ function joinHandle() {
 		let key = userInfoElement[i].getAttribute('name')
 		
 		switch(key) {
-			case 'userGender' :
+			case "mem_gender":
 				
 				if(userInfoElement[i].checked) {
 					userInfo[key] = userInfoElement[i].getAttribute("value")
@@ -38,6 +37,16 @@ function joinHandle() {
 				}
 				
 				break;
+				
+			case "mem_add1":
+				let idValue = userInfoElement[i].getAttribute('id');
+				if(idValue == 'user_addres') {
+					userInfo[key] = userInfoElement[i].value;
+				}
+				else {
+					userInfo[key] += userInfoElement[i].value;
+				}
+				break; 
 				
 			default :
 				userInfo[key] = userInfoElement[i].value;
@@ -72,7 +81,41 @@ function joinHandle() {
 		joinDBAdd(userInfo);
 	}
 	
+}
+
+function idInputChangeHandle(e) {
+	console.log(e.target.value)
+	
+	let json = {
+		mem_id: e.target.value
+	}
+	
+	let result = idCheckToDB(json);
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

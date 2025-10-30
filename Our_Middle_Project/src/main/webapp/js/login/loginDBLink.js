@@ -2,19 +2,19 @@
 function joinDBAdd(jsonData) {
 	
 	console.log(jsonData)
+	
 	let testJson = {		
-		userAddr1: 35276,
-		userAddr2: "대전 서구 갈마동 307-5",
-		userAddr3: "-",
-		userAddr4: "208호",
-		userBirth: "19980608",
-		userEmail: "test@naver.com",
-		userGender: "남",
-		userId: "mollymolly001",
-		userName: "김철수",
-		userNickName: "짱짱맨",
-		userPhone: "010-5484-1378",
-		userPw: "votmdnjem",
+		mem_add1: "서울 강남구 강남대로 지하 396 (역삼동)",
+		mem_add2: "201호",
+		mem_birth: "19980815",
+		mem_gender: "M",
+		mem_hp: "010-5584-6648",
+		mem_id: "mollymolly001",
+		mem_mail: "molly@naver.com",
+		mem_name: "김철수",
+		mem_pass: "votmdnjem112",
+		mem_zip: "06232",
+		nickname: "짱짱맨"
 	}
 	
 	axios({
@@ -22,6 +22,7 @@ function joinDBAdd(jsonData) {
 		url: 'join.do',
 		method: 'post',
 		responseType: 'json',
+		// data: jsonData
 		data: testJson
 	})
 	.then(function (response) {
@@ -32,3 +33,26 @@ function joinDBAdd(jsonData) {
 	});
 	
 }
+
+function idCheckToDB(jsonData) {
+	
+	axios({
+		baseURL: BASE_URL,
+		url: 'idcheck.do',
+		method: 'post',
+		responseType: 'json',
+		data: jsonData
+	})
+	.then(function (response) {
+		/*console.log(response)*/
+	})
+	.catch(function (err) {
+    	console.error(err);	// errror
+	});
+	
+}
+
+
+
+
+

@@ -82,7 +82,7 @@
 							</svg>
 						</div>
 						<div class="mem-input">
-							<input type="text" class="joinInfo" name="userId" placeholder="아이디">
+							<input id="mem_id" type="text" class="joinInfo" name="mem_id" placeholder="아이디">
 						</div>
 					</div>
 					
@@ -93,7 +93,7 @@
 							</svg>
 						</div>
 						<div class="mem-input">
-							<input type="password" class="joinInfo" name="userPw" placeholder="비밀번호">
+							<input id="mem_pass" type="password" class="joinInfo" name="mem_pass" placeholder="비밀번호">
 						</div>
 						<div class="mem-icon pw-check">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
@@ -115,7 +115,7 @@
 							</svg>
 						</div>
 						<div class="mem-input">
-							<input type="text" class="joinInfo" name="userEmail" placeholder="이메일">
+							<input type="text" class="joinInfo" name="mem_mail" placeholder="이메일">
 						</div>
 					</div>
 					
@@ -130,7 +130,7 @@
 							</svg>
 						</div>
 						<div class="mem-input">
-							<input type="text" class="joinInfo" name="userName" placeholder="이름">
+							<input type="text" class="joinInfo" name="mem_name" placeholder="이름">
 						</div>
 					</div>
 					
@@ -141,7 +141,7 @@
 							</svg>
 						</div>
 						<div class="mem-input">
-							<input type="text" class="joinInfo" name="userNickName" placeholder="닉네임">
+							<input type="text" class="joinInfo" name="nickname" placeholder="닉네임">
 						</div>
 					</div>
 					
@@ -153,7 +153,7 @@
 							</svg>
 						</div>
 						<div class="mem-input">
-							<input type="text" class="joinInfo" name="userPhone" placeholder="핸드폰번호">
+							<input type="text" class="joinInfo" name="mem_hp" placeholder="핸드폰번호">
 						</div>
 					</div>
 					
@@ -165,7 +165,7 @@
 							</svg>
 						</div>
 						<div class="mem-input">
-							<input type="text" class="joinInfo" name="userBirth" placeholder="생년월일">
+							<input type="text" class="joinInfo" name="mem_birth" placeholder="생년월일">
 						</div>
 					</div>
 					
@@ -173,9 +173,9 @@
 			
 				<div id="mem-user-gender">
 				
-					<input type="radio" id="gender-man" class="joinInfo" name="userGender" value="남">
+					<input type="radio" id="gender-man" class="joinInfo" name="mem_gender" value="M">
 					<label for="gender-man" class="user-gender">남</label>
-					<input type="radio" id="gender-woman" class="joinInfo" name="userGender" value="여">
+					<input type="radio" id="gender-woman" class="joinInfo" name="mem_gender" value="F">
 					<label for="gender-woman" class="user-gender">여</label>
 					
 				</div>
@@ -186,22 +186,22 @@
 					</div>
 					<div class="mem-info-block">
 						<div class="mem-input">
-							<input id="user_postCode" class="joinInfo" type="text" name="userAddr1" placeholder="우편번호" disabled>
+							<input id="user_postCode" class="joinInfo" type="text" name="mem_zip" placeholder="우편번호" disabled>
 						</div>
 					</div>
 					<div class="mem-info-block">
 						<div class="mem-input">
-							<input id="user_addres" class="joinInfo" type="text" name="userAddr2" placeholder="주소" disabled>
+							<input id="user_addres" class="joinInfo" type="text" name="mem_add1" placeholder="주소" disabled>
 						</div>
 					</div>
 					<div class="mem-info-block">
 						<div class="mem-input">
-							<input id="user_exAddr" class="joinInfo" type="text" name="userAddr3" placeholder="참고항목" disabled>
+							<input id="user_exAddr" class="joinInfo" type="text" name="mem_add1" placeholder="참고항목" disabled>
 						</div>
 					</div>
 					<div class="mem-info-block">
 						<div class="mem-input">
-							<input id="user_detailAddr" class="joinInfo" type="text" name="userAddr4" placeholder="상세주소">
+							<input id="user_detailAddr" class="joinInfo" type="text" name="mem_add2" placeholder="상세주소">
 						</div>
 					</div>
 	
