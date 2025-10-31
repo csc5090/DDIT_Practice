@@ -27,7 +27,10 @@
 <div id="container">
 
 	<div id="header">
-	
+		<div id="nickname">
+		<span class="nick">닉네임님</span>
+		<span class="hi">안녕하세요</span>
+		</div>
 		<div id="topNav">
 			<button id="menuBtn">⚙️</button>
 			
@@ -97,21 +100,30 @@
 		
 			    <div class="card" onclick="goBoard()">
 			        <div class="card-inner">
-			            <div class="card-front">Board</div>
+			            <div class="card-front">
+			            <span>💬</span>
+			            <span>Board</span>			            
+			            </div>
 			            <div class="card-back">?</div>
 			        </div>
 			    </div>
 				
 				  <div class="card" onclick="goReview()">
 			        	<div class="card-inner">
-			        	    <div class="card-front">Review</div>
+			        	    <div class="card-front">
+			        	    <span>⭐</span>
+			        	    <span>Review</span>
+			        	    </div>
 			        	    <div class="card-back">?</div>
 			      	    </div>
 			   	  </div>
 							
 				  <div class="card" onclick="goRanking()">
 				        <div class="card-inner">
-				            <div class="card-front">Ranking</div>
+				            <div class="card-front">
+				            <span>🏆</span>
+				            <span>Ranking</span>
+				            </div>
 				            <div class="card-back">?</div>
 				        </div>
 				   </div>    

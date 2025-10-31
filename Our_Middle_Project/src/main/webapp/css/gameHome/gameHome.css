@@ -37,6 +37,11 @@ body{
    
 }
 
+#nickname{
+	font-size: 15px;
+	color: white;
+}
+
 #menuBtn{
     width:100px;
     height:60px;
@@ -271,12 +276,20 @@ body{
 
 /* 앞면 텍스트 기본 숨김 */
 .card-front {
-  
     border-radius: 20px;
     color: black;
     font-size: 50px;
     transform: rotateY(180deg);
     backface-visibility: hidden;
+    
+    
+    display: flex;
+    flex-direction: column;  /* 세로로 쌓기 */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    
+    padding-bottom: 30px;
     
 }
 
