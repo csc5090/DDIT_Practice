@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>랭킹</title>
 
-<!-- 부트스트랩 -->
+	<!-- 부트스트랩 -->
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/js/lib/bootstrap/css/bootstrap.min.css">
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/bootstrap/js/bootstrap.min.js"></script>
 	
@@ -21,11 +21,10 @@
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/axios/axios.min.js"></script>
 
 	<script src="https://unpkg.com/lucide@latest"></script><!-- 홈 이모티콘 -->
-<link rel="stylesheet"href="./css/ranking/ranking_layout.css">
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-
-
-<link rel="stylesheet" href="./css/fonts.css">
+	<link rel="stylesheet"href="./css/ranking/ranking_layout.css">
+	
+	<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="./css/fonts.css">
 	
 
 </head>
