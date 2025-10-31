@@ -339,7 +339,7 @@ function dataSave() {
 }
 
 function gameOut() {
-	window.location.href = "../../login.do"; // 확인(종료)클릭 시
+	window.location.href = "gameHome.do";  // 확인(종료)클릭 시
 } 
 
 //=====재시작 로직

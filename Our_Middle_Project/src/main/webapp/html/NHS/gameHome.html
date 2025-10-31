@@ -1,0 +1,386 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Game Home</title>
+<!-- 부트스트랩 -->
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/js/lib/bootstrap/css/bootstrap.min.css">
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/bootstrap/js/bootstrap.min.js"></script>
+	
+	<!-- 스위트어럴트2 -->
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/js/lib/sweetalert2/dist/sweetalert2.min.css">
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/sweetalert2/dist/sweetalert2.min.js"></script>
+	
+	<!-- jquery -->
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/jquery/jquery-3.7.1.min.js"></script>
+	
+	<!-- axios -->
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/axios/axios.min.js"></script>
+
+	<link rel="stylesheet"href="./css/gameHome/gameHome.css">
+		
+<style>
+body {
+	background-color:black;
+	width: 100%;
+	height: 100vh;
+}
+
+#conteiner {
+	
+}
+
+#main {
+	display: flex;
+}
+
+#header {
+    width: 100%;
+    height: 15vh;
+    display: flex;
+    align-items: center;   /* 수직 가운데 정렬 */
+    justify-content: space-between; /* 왼쪽, 가운데, 오른쪽 공간 배분 */
+    padding: 0 20px;               /* 좌우 여백 */
+    
+ 
+}
+
+/* 로고 */
+#logo{
+	flex: left-15; 
+	width: 25%;
+}
+#logo img {
+    width: 150px;   /* 원하는 픽셀 크기 */
+    height: auto;  /* 비율 유지 */
+    cursor: pointer;    /* 마우스 올리면 포인터 */
+}
+
+
+/* 상단 네비게이션 및 옵션 */
+#topNav {
+    display: flex;
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center;     /* 세로 중앙 정렬 */
+    gap: 200px;              /* 버튼 사이 간격 */
+    height: 100%;            /* 부모 높이 맞춤 */
+    margin-left: -200px;	/* -좌로 밀착 + 우로 밀착*/
+}
+
+#topNav button {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 35px;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+#topNav button:hover {
+    color: #ffcc00;           /* 호버 시 색상 변경 */
+}
+
+/* 우측 네비게이션 및 옵션 */
+#rightNav {
+    position: relative; /* 내부 버튼 기준 */
+    width: 25%;       /* 필요하면 조정 */
+    height: 100%;       /* 부모 헤더 높이와 맞춤 */
+}
+
+#rightNav button.MyPage { 
+    position: absolute;
+    top: 20px;   /* 위에서 20px */
+    right: 150px; /* 헤더 오른쪽에서 **px */
+    
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#rightNav button.exid {
+    position: absolute;
+    top: 20px;
+    right: 50px;  /* 헤더 오른쪽에서 ** px */
+    
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#rightNav button:hover {
+    color: #ff3333; /* 호버 시 빨간색 강조 */
+}
+
+/*======좌측 네비게이션======*/
+
+
+
+/*======게임시작 버튼======*/
+
+#gameStart {
+  position: absolute;
+  top: 80%;           /* 아래 기준 20% 위 */
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#startBtn {
+  background: linear-gradient(135deg, #ff0055, #ff8800);
+  color: white;
+  font-size: 32px;
+  font-weight: bold;
+  padding: 15px 40px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(255,100,100,0.6);
+  transition: 0.3s;
+}
+
+#startBtn:hover {
+  transform: scale(1.1);
+}
+
+/* 팝업창 오버레이 */
+#popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+/* ✅ 기본은 숨김 상태 */
+.hidden {
+  display: none !important;
+}
+
+/* 팝업창 본체 */
+#popupBox {
+  background: #1e1e2f;
+  color: white;
+  padding: 30px;
+  border-radius: 15px;
+  width: 400px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(255,255,255,0.2);
+}
+
+#popupBox h2, #popupBox h3 {
+  margin-bottom: 20px;
+}
+
+.modeBtn, .sizeBtn {
+  margin: 10px;
+  padding: 12px 25px;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+  
+}
+
+.modeBtn:hover, .sizeBtn:hover {
+  background: #555;
+  transform: scale(1.05);
+}
+
+#closePopup {
+  margin-top: 25px;
+  background: crimson;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+</style>	
+	
+<body>
+
+<!-- ========================================================== -->
+
+
+	<div id="conteiner">
+		
+		<div id="main">
+			
+			<div id="header">
+			
+				<div id="logo">
+					<img id="main" src="./images/icon/logo.png" alt="로고">
+				</div>
+
+				<div id="topNav">
+					<button class="board" onclick="goBoard()"> 게시판</button>
+					<button class="review" onclick="goReview()">리뷰</button>
+					<button class="ranking" onclick="goRanking()">랭킹</button>
+				</div>
+				
+				<div id="rightNav">
+					<button class="MyPage" onclick="goMyPage()">MyPage</button>				
+					<button class="exid" onclick="goLogin()">게임종료</button>
+				</div>
+				
+			</div>
+			
+			<div id="centerDiv">
+			
+				<div id="leftCenter">
+
+				</div>
+				
+				<div id="gameStart">
+					<button id="startBtn">🎮 게임 시작</button>
+				</div>
+				
+				<!-- 게임시작 로직 모달창 -->
+				
+				<!-- 팝업창 -->
+				<div id="popup" class="hidden">
+				  <div id="popupBox">
+				    <h2>모드를 선택하세요</h2> <!-- ✅ 이 부분 중요 -->
+				    <div id="modeButtons">
+				      <button class="modeBtn" id="singleBtn">싱글모드</button>
+				      <button class="modeBtn" id="versusBtn">대결모드</button>
+				    </div>
+				
+				    <div id="singleModeOptions" class="hidden">
+				      <h3>난이도 선택</h3>
+				      <button class="sizeBtn" data-size="4x4" onclick="gameStart4()">4x4</button>
+				      <button class="sizeBtn" data-size="6x6" onclick="gameStart6()">6x6</button>
+				      <button class="sizeBtn" data-size="8x8" onclick="gameStart8()">8x8</button>
+				    </div>
+				
+				    <div id="versusComing" class="hidden">
+				      <p>⚙️ Coming Soon...</p>
+				    </div>
+				
+				    <button id="closePopup">닫기</button>
+				  </div>
+				</div>
+				
+				
+			</div>
+			
+		</div>
+	
+	</div>
+	
+	
+	
+<!-- ================================================================ -->
+
+
+
+<script type="text/javascript" src="./js/gameHome/gameHome.js"></script>
+
+
+<script>
+//게시판 이동
+function goBoard() {
+    window.location.href = "board.do"; 
+}
+//리뷰 이동
+function goReview() {
+    window.location.href = "review.do"; 
+}
+//랭킹 이동
+function goRanking() {
+    window.location.href = "ranking.do"; 
+}
+//마이페이지 이동
+function goMyPage() {
+    window.location.href = "myPage.do"; 
+}
+//로그인창 이동
+function goLogin() {
+    window.location.href = "login.do"; 
+}
+//게임시작 난이도별
+//로그인창 이동
+function gameStart4() {
+    window.location.href = "gamePlay.do"; 
+}
+function gameStart6() {
+    window.location.href = "gamePlay.do"; 
+}
+function gameStart8() {
+    window.location.href = "gamePlay.do"; 
+}
+
+
+
+//==============게임시작 로직
+
+window.onload = function() {
+  const startBtn = document.getElementById("startBtn");
+  const popup = document.getElementById("popup");
+  const closePopup = document.getElementById("closePopup");
+  const singleBtn = document.getElementById("singleBtn");
+  const versusBtn = document.getElementById("versusBtn");
+  const singleOptions = document.getElementById("singleModeOptions");
+  const versusComing = document.getElementById("versusComing");
+  const popupTitle = document.querySelector("#popupBox h2");
+  const modeButtons = document.getElementById("modeButtons"); // 싱글/대결 버튼 그룹
+
+  // 팝업 기본적으로 숨기기
+  popup.classList.add("hidden");
+
+  // "게임 시작" 클릭 시
+  startBtn.addEventListener("click", () => {
+    popup.classList.remove("hidden");
+    popupTitle.style.display = "block"; // 다시 보이게
+    modeButtons.style.display = "flex"; // 버튼도 다시 보이게
+    singleOptions.classList.add("hidden");
+    versusComing.classList.add("hidden");
+  });
+
+  // 닫기 버튼
+  closePopup.addEventListener("click", () => {
+    popup.classList.add("hidden");
+    singleOptions.classList.add("hidden");
+    versusComing.classList.add("hidden");
+  });
+
+  // 싱글모드 선택
+  singleBtn.addEventListener("click", () => {
+    popupTitle.style.display = "none";   // 제목 숨기기
+    modeButtons.style.display = "none";  // 싱글/대결 버튼 숨기기
+    singleOptions.classList.remove("hidden"); // 난이도 버튼 보여주기
+    versusComing.classList.add("hidden");
+  });
+
+  // 대결모드 선택
+  versusBtn.addEventListener("click", () => {
+    popupTitle.style.display = "none";   // 제목 숨기기
+    modeButtons.style.display = "none";  // 싱글/대결 버튼 숨기기
+    singleOptions.classList.add("hidden");
+    versusComing.classList.remove("hidden"); // Coming Soon 보여주기
+  });
+
+  // 난이도 클릭 시
+  document.querySelectorAll(".sizeBtn").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      const size = e.target.dataset.size;
+      popup.classList.add("hidden");
+    });
+  });
+};
+</script>
+</body>
+</html>

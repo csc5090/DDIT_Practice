@@ -1,93 +1,334 @@
-body {
-	background-color:black;
-	width: 100%;
-	height: 100vh;
-}
-
-#conteiner {
+body{
+	background-color: black;
 	
-}
-
-#main {
-	display: flex;
-}
-
-#header {
-    width: 100%;
-    height: 15vh;
-    display: flex;
-    align-items: center;   /* 수직 가운데 정렬 */
-    justify-content: space-between; /* 왼쪽, 가운데, 오른쪽 공간 배분 */
-    padding: 0 20px;               /* 좌우 여백 */
+	background-image:
+        radial-gradient(120% 120% at 0% 0%, 
+        		rgba(0,209,255,0.25), transparent 55%),
+        radial-gradient(120% 120% at 100% 0%, 
+        		rgba(180,130,255,0.25), transparent 50%),
+        radial-gradient(120% 120% at 100% 100%, 
+        		rgba(155,92,255,0.2), transparent 50%);
+        		
+    background-attachment: fixed;
     
-    cursor: pointer;          /* 마우스 올리면 포인터 */
+	width:100%;
+	height:100vh;
+	margin: 0;
 }
 
-/* 로고 */
-#logo{
-	flex: left-10; 
-	width: 25%;
-}
-#logo img {
-    width: 200px;   /* 원하는 픽셀 크기 */
-    height: auto;  /* 비율 유지 */
+/* 전체요소 */
+#container{
+
 }
 
-
-/* 상단 네비게이션 및 옵션 */
-#topNav {
+/* 상단요소 */
+#header{
+    width:100%;
+    height:10vh;
     display: flex;
-    justify-content: center; /* 가로 중앙 정렬 */
-    align-items: center;     /* 세로 중앙 정렬 */
-    gap: 350px;              /* 버튼 사이 간격 */
-    height: 100%;            /* 부모 높이 맞춤 */
-    margin-left: -200px;	/* -좌로 밀착 + 우로 밀착*/
+    justify-content: flex-end; /* 우측 정렬 */
+    align-items: center;       /* 세로 중앙 */
+    box-sizing: border-box;
+    padding: 0 35px;
 }
 
-#topNav button {
+/* 우측 상단에 버튼 네비게이션  */
+#topNav{
+   
+}
+
+#menuBtn{
+    width:100px;
+    height:60px;
+    background: none;
+    border: none;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+#menuItems{			/* 메뉴 초기 상태 숨김 */
+    position: absolute;
+    top: 65px; 		/* 버튼들이 내려올 위치 */
+    right: 10;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+}
+
+#topNav:hover #menuItems {	/* 호버 시 메뉴 나타나기 */
+    max-height: 300px; 
+    max-width: 100px;
+}
+
+#menuItems div {		/* 호버시 나오는 메뉴 아이템 */
+	padding: 10px 20px; 
+} 
+
+#menuItems button {		/* 호버시 나오는 버튼 */
     background: transparent;
     border: none;
+    color: white;
+    font-size: 5px;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    
+    white-space: nowrap		/* 줄바꿈 안하기 */
+}
+
+#menuItems.show {		/* 호버해서 메뉴가 열렸을 때 */
+    max-height: 200px; 
+    max-width: 200px;
+}
+.text{
+	font-size: 13px;
+}
+
+/* =========== 중앙 메인 ===========*/
+#center {
+    display: flex;      /* 좌우 나란히 */
+    width: 100%;
+    height: 85vh;        /* 헤더 15% 제외 */
+}
+
+
+/* ========================좌측 구역======================== */
+#left{
+	width:40%;
+ 	height: 85vh; 
+}
+
+.twinCards{			/* 좌측 이미지 */
+	width: 750px;
+	height: 750px;
+	transform: rotate(-20deg);
+	
+	user-select: none;
+}
+
+/* ------모달구역------ */
+/* 모달 배경 */
+#gameModal {
+    display: none; /* 초기 숨김 */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    max-width: 600px;
+    height: 60%;
+    background: linear-gradient(145deg, #1b1b2a, #2a2a40);
+    border: 2px solid #0ff;
+    border-radius: 20px;
+    
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    flex-direction: column;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* 모달 내부 컨텐츠 */
+#modalContent h2 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+   
+}
+
+/* 모드 버튼 공통 */
+#modalContent button {
+    background: linear-gradient(135deg, #0ff, #39f);
+    color: #000;
+    border: none;
+    padding: 15px 25px;
+    margin: 10px;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+}
+
+
+/* 닫기 버튼 */
+#closeModal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    color: #ff416c;
+    font-size: 1.2rem;
+    border: 2px solid #ff416c;
+    border-radius: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+
+}
+
+
+/* ===============우측 ================*/
+#right {
+    width: 60%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;    /* 세로 배치 */
+    justify-content: flex-start;
+    padding: 20px;
+    margin:30px;
+    box-sizing: border-box;
+    gap: 20px;                 /* 카드와 버튼 간격 */
+}
+
+#right button {		/* 우측에 있는 영역들의 모든버튼 */
+  all: unset;            /* 기본 스타일 제거 */
+  cursor: pointer;
+}
+
+				/*========== 카드 영역 ============*/
+#cards {
+    display: flex;
+    gap: 50px;                 /* 카드 사이 간격 */
+    margin-top: 30px;
+    
+
+
+}
+
+.card {
+    flex: 1;                   /* 같은 폭 */
+    height: 550px;             /* 원하는 높이 */ 
+    border-radius: 20px;
+    
+	/* display: flex; */
+	position: relative;
+    justify-content: center;
+    align-items: center;
+    
+    color: white;
+    font-size: 50px;
+    border: 0;
+
+}
+
+/* ======================= */
+.card-inner {
+	
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d; /* 3D 회전 가능 */
+    transition: transform 1s; /* 부드러운 회전 */
+    transform: rotateY(0deg); /* 기본 상태 */
+}
+
+.card-front,
+.card-back {
+    position: absolute;
+    color: black;
+    
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 100px;
+    
+    font-weight: bold;
+    backface-visibility: hidden;
+    transition: transform 0.7s, opacity 0.3s;
+    
+    border:0px;
+
+}
+
+.card-back {
+	
+    background-color: #333;
+/*     background-image: */
+/*     radial-gradient(120% 120% at 0% 0%,  */
+/*     		rgba(0, 209, 255, 0.45), transparent 55%), */
+/*     radial-gradient(120% 120% at 100% 0%,  */
+/*     		rgba(180, 130, 255, 0.45), transparent 50%), */
+/*     radial-gradient(120% 120% at 100% 100%,  */
+/*     		rgba(155, 92, 255, 0.4), transparent 50%); */
+/* 	background-attachment: fixed; */
+	
+    color: white;
+    
+/* 	box-shadow: */
+/*         0 0 10px rgba(0, 209, 255, 0.4), */
+/*         0 0 20px rgba(180, 130, 255, 0.3), */
+/*         0 0 30px rgba(155, 92, 255, 0.2), */
+/*         inset 0 0 10px rgba(255, 255, 255, 0.9);  */
+}
+   
+
+
+/* 앞면 텍스트 기본 숨김 */
+.card-front {
+  
+    border-radius: 20px;
+    color: black;
+    font-size: 50px;
+    transform: rotateY(180deg);
+    backface-visibility: hidden;
+    
+}
+
+.card.flipped .card-inner {
+    transform: rotateY(180deg);
+    
+}
+
+
+
+/*========== 게임 시작 버튼 */
+#gameStart {
+	margin-top: 70px;
+    height: 70px;
+
+    border: none;
+/*  border-radius: 10px; */
     color: white;
     font-size: 50px;
     cursor: pointer;
-    padding: 5px 10px;
-}
-
-#topNav button:hover {
-    color: #ffcc00;           /* 호버 시 색상 변경 */
-}
-
-/* 우측 네비게이션 및 옵션 */
-#rightNav {
-    position: relative; /* 내부 버튼 기준 */
-    width: 25%;       /* 필요하면 조정 */
-    height: 100%;       /* 부모 헤더 높이와 맞춤 */
-}
-
-#rightNav button.MyPage {
-    position: absolute;
-    top: 20px;   /* 위에서 20px */
-    right: 200px; /* 헤더 오른쪽에서 **px */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     
-    background: transparent;
-    border: none;
-    color: white;
-    font-size: 30px;
-    cursor: pointer;
+    color: #fff;
+		background-color: transparent;
+/* 		border: 1px solid #fff; */
+		border-radius: 10px;
+		cursor: pointer;
+
+	text-shadow:
+		0 0 5px #fff;
+	
+/* 	box-shadow: */
+/* 		0 0 1px #fff; */
+
+	transition: all 0.3s ease-in-out;
+	
 }
 
-#rightNav button.exid {
-    position: absolute;
-    top: 20px;
-    right: 50px;  /* 헤더 오른쪽에서 ** px */
-    
-    background: transparent;
-    border: none;
-    color: white;
-    font-size: 30px;
-    cursor: pointer;
-}
-
-#rightNav button:hover {
-    color: #ff3333; /* 호버 시 빨간색 강조 */
+#gameStart:hover{
+	
+	font-size: 55px;
+	color: #ff00ff;
+	border-color: #ff00ff;
+	text-shadow:
+ 		0 0 3px #ff00ff,
+		0 0 4px #ff00ff,
+		0 0 5px #ff00ff;
+		
+/* 	box-shadow: */
+/* 		0 0 3px #ff00ff, */
+/* 		0 0 4px #ff00ff, */
+/* 		0 0 5px #ff00ff; */
 }
