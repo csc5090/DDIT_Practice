@@ -38,6 +38,22 @@
 	color: white;
 }
 
+/* Chrome, Edge, Safari */
+#membershipModal input:-webkit-autofill,
+#membershipModal input:-webkit-autofill:hover, 
+#membershipModal input:-webkit-autofill:focus, 
+#membershipModal input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0px 1000px #1e1e1e inset;
+    -webkit-text-fill-color: white !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Firefox */
+#membershipModal input:-moz-autofill {
+    box-shadow: 0 0 0px 1000px #1e1e1e inset;
+    -moz-text-fill-color: white;
+}
+
 .mem-modal-off {
 	
 	position: absolute;
@@ -396,10 +412,28 @@
 	background-color: #7C7D7C;
 }
 
+.guideBox {
+	display: flex;
+	flex-direction: column;
+    justify-content: center;
+	
+	width: 95%;
+	
+	font-size: 11px;
+}
 
+.guideBox span {
+	display: none;
+	margin-left: 10px;
+}
 
+.guideBox .check-ok {
+	display: block;
+	color: #00aaff;
+}
 
-
-
-
+.guideBox .check-no {
+	display: block;
+	color: #D6D6D6;
+}
 

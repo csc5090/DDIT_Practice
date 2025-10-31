@@ -36,7 +36,7 @@ public class JoinController implements Action {
 	    Gson gson = new Gson();
 	    
 	    UserInfoDTO userInfo = gson.fromJson(json, UserInfoDTO.class);
-	    
+	    System.out.println(userInfo);
 	    
 	    String salt = PWencrypt.generateSalt();
 	    String encryptpw = PWencrypt.hashPassword(userInfo.getMem_pass(), salt);

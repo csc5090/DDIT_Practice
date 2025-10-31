@@ -6,4 +6,6 @@ public interface UserInfoService {
 
 	void JoinUser(UserInfoDTO userInfo);
 
+	UserInfoDTO getIdCheck(UserInfoDTO userInfo);
+
 }

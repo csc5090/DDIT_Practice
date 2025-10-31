@@ -20,4 +20,16 @@ public class UserInfoServiceImpl implements UserInfoService {
 		
 	}
 
+	@Override
+	public UserInfoDTO getIdCheck(UserInfoDTO userInfo) {
+		
+		UserInfoDTO result;
+		try(SqlSession sqlSession = MybatisUtil.getSqlSession()) {
+			UserInfoDAO userInfoDao = new UserInfoDAOImpl(sqlSession);
+			result = userInfoDao.getIdCheck(userInfo);
+		}
+		return result;
+		
+	}
+
 }

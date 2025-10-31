@@ -1,8 +1,7 @@
 
 function joinDBAdd(jsonData) {
 	
-	console.log(jsonData)
-	
+	/*	
 	let testJson = {		
 		mem_add1: "서울 강남구 강남대로 지하 396 (역삼동)",
 		mem_add2: "201호",
@@ -16,17 +15,20 @@ function joinDBAdd(jsonData) {
 		mem_zip: "06232",
 		nickname: "짱짱맨"
 	}
-	
+	*/
 	axios({
 		baseURL: BASE_URL,
 		url: 'join.do',
 		method: 'post',
+		headers: {
+			"Content-Type": "application/json; charset=UTF-8"
+		},
 		responseType: 'json',
-		// data: jsonData
-		data: testJson
+		data: jsonData
 	})
 	.then(function (response) {
 		/*console.log(response)*/
+		console.log("회원가입이 완료 되었어용 우왕 짝짝")
 	})
 	.catch(function (err) {
     	console.error(err);	// errror
@@ -34,22 +36,30 @@ function joinDBAdd(jsonData) {
 	
 }
 
-function idCheckToDB(jsonData) {
+async function idCheckToDB(jsonData) {
 	
-	axios({
+	let result
+	
+	console.log(jsonData)
+	console.log(BASE_URL)
+	await axios({
 		baseURL: BASE_URL,
 		url: 'idcheck.do',
 		method: 'post',
+		headers: {
+			"Content-Type": "application/json; charset=UTF-8"
+		},
 		responseType: 'json',
 		data: jsonData
 	})
 	.then(function (response) {
-		/*console.log(response)*/
+		result = response.data.idCheck;
 	})
 	.catch(function (err) {
-    	console.error(err);	// errror
+    	console.error(err);
 	});
 	
+	return result
 }
 
 

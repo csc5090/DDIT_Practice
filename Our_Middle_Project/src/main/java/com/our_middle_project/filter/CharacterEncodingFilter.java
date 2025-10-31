@@ -8,6 +8,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 
 // @WebFilter("/*") : 모든 주소 요청을 가로채고, 먼저 인코딩 설정을 검사해주겠다는 어노테이션.
@@ -20,7 +22,19 @@ public class CharacterEncodingFilter implements Filter {
     		throws IOException, ServletException {
         
         request.setCharacterEncoding("UTF-8");
+        
+        HttpServletResponse res = (HttpServletResponse) response;
+        HttpServletRequest req = (HttpServletRequest) request;
+        
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
+        if ("OPTIONS".equalsIgnoreCase(req.getMethod())) {
+            res.setStatus(HttpServletResponse.SC_OK);
+            return;  // 실제 POST는 처리하지 않고 바로 응답
+        }
+        
         chain.doFilter(request, response);
     }
 }

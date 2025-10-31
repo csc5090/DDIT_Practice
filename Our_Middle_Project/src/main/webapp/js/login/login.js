@@ -42,6 +42,20 @@ function addEventHandle() {
 	let memIdInput = document.getElementById('mem_id');
 	memIdInput.addEventListener('change', (e) => { idInputChangeHandle(e) });
 	
+	let memMailInput = document.getElementById('mem_mail');
+	memMailInput.addEventListener('change', (e) => { mailInputChangeHandle(e) });
+	
+	let pc = document.getElementById('password_controll');
+	pc.addEventListener('click', (e) => { passwordControllHandle(e) });
+	
+	let memHpInput = document.getElementById('mem_hp');
+	memHpInput.addEventListener('change', (e) => { hpInputHandle(e) });
+	
+/*	let memBirthInput = document.getElementById('mem_birth');
+	memBirthInput.addEventListener('change', (e) => { birthInputHandle(e) });*/
+
+	// input 태그 수정 작업 필요
+	
 }
 
 function findIdHandle() {

@@ -48,6 +48,14 @@
 	
 	</insert>
 
+	<select id="idCheck" resultType="userInfoDTO">
+	
+		SELECT *
+		FROM MEMBER
+		WHERE MEM_ID = #{mem_id}
+	
+	</select>
+
 </mapper>
 
 
