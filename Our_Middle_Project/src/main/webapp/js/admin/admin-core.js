@@ -40,6 +40,8 @@ const AdminCore = {
 			if (targetId === 'user-management') {
 				UserPage.clearDetailPanel();
 				UserPage.getList();
+			} else if (targetId === 'review-management') {
+				ReviewPage.loadAndRender();
 			}
 			sessionStorage.setItem('lastView', targetId);
 		}

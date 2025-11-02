@@ -24,6 +24,12 @@ window.onload = () => {
 	if (document.getElementById('post-management')) {
 		PostPage.init();
 	}
+	if (document.getElementById('review-management')) {
+		ReviewPage.init();
+	}
+	if (document.getElementById('stats-main')) {
+		StatsPage.init();
+	}
 	if (document.getElementById('stats-main')) {
 		StatsPage.init();
 	}
@@ -31,5 +37,7 @@ window.onload = () => {
 	if (lastViewId === 'user-management') {
 	        UserPage.clearDetailPanel(); 
 	        UserPage.getList();
-	    }
+	} else if (lastViewId === 'review-management') {
+				ReviewPage.loadAndRender();
+	}
 };

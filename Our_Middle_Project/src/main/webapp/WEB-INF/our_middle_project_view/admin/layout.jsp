@@ -12,10 +12,9 @@
 	href="<%=request.getContextPath()%>/js/lib/bootstrap/css/bootstrap.min.css">
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/js/lib/bootstrap/js/bootstrap.min.js"></script>
-
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/js/lib/sweetalert2/dist/sweetalert2.min.css">
-<script type="text/javascript"
+	<script type="text/javascript"
 	src="<%=request.getContextPath()%>/js/lib/sweetalert2/dist/sweetalert2.min.js"></script>
 
 <script type="text/javascript"
@@ -32,7 +31,9 @@
 	href="${pageContext.request.contextPath}/css/admin/admin_user_management.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/admin/admin_notice.css">
-
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/admin/admin_review.css">
+		
 
 
 </head>
@@ -319,8 +320,48 @@
 					</div>
 				</div>
 
-				<div class="bodyArea" id="post-management">게시물 관리</div>
-				<div class="bodyArea" id="review-management">리뷰 관리</div>
+				<div class="bodyArea" id="post-management">
+					게시판 관리
+				</div>
+				
+
+					<div class="bodyArea" id="review-management">
+															<div class="review-toolbar">
+																<h1>리뷰 관리</h1>
+																<div class="sort-options">
+																	<label for="review-sort-select">정렬 기준:</label>
+																	<select id="review-sort-select">
+																		<option value="regDate_desc">최신순</option>
+																		<option value="regDate_asc">오래된순</option>
+																		<option value="stars_desc">별점 높은순</option>
+																		<option value="stars_asc">별점 낮은순</option>
+																	</select>
+																</div>
+															</div>
+															
+															<div class="review-list-container" id="admin-review-list">
+																
+																<article class="review-card" data-review-no="###">
+																	<div class="review-card-header">
+																		<span class="review-card-nickname">###</span>
+																		<span class="review-card-stars">###</span>
+																		<span class="review-card-date">###</span>
+																	</div>
+																	<div class="review-card-body">
+																		<p class="review-card-content">###</p>
+																		<div class="review-admin-reply">
+																			<textarea placeholder="관리자 댓글을 입력하세요...">###</textarea>
+																		</div>
+																	</div>
+																	<div class="review-card-actions">
+																		<button class="action-btn" data-action="save-reply">댓글 저장</button>
+																		<button class="action-btn danger" data-action="delete-review">리뷰 삭제</button>
+																	</div>
+																</article>
+																
+															</div>
+														</div>
+
 				<div class="bodyArea" id="stats-main">데이터/통계</div>
 			</main>
 		</div>
@@ -335,17 +376,15 @@
 
 	<script src="${pageContext.request.contextPath}/js/common.js"></script>
 	<script src="${pageContext.request.contextPath}/js/admin/api-client.js"></script>
-
-	<script
-		src="${pageContext.request.contextPath}/js/admin/page-dashboard.js"></script>
+	<script src="${pageContext.request.contextPath}/js/admin/page-dashboard.js"></script>
 	<script src="${pageContext.request.contextPath}/js/admin/page-user.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/js/admin/page-notice.js"></script>
+	<script src="${pageContext.request.contextPath}/js/admin/page-notice.js"></script>
 	<script src="${pageContext.request.contextPath}/js/admin/page-post.js"></script>
 	<script src="${pageContext.request.contextPath}/js/admin/page-stats.js"></script>
-
 	<script src="${pageContext.request.contextPath}/js/admin/admin-core.js"></script>
-
 	<script src="${pageContext.request.contextPath}/js/admin/admin-main.js"></script>
+	<script src="${pageContext.request.contextPath}/js/admin/page-review.js"></script>
+	
+	
 </body>
 </html>
