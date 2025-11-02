@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Game Intro</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: black;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  /* 인트로 전체를 감싸는 래퍼 (화면이 아래로 내려가는 애니메이션 적용) */
+  .intro-wrapper {
+    position: relative;
+    width: 100%;
+    height: 200vh; /* 실제로 2배 높이 */
+    background-image: url('https://i.imgur.com/NV3YHFi.jpeg'); /* 세로로 긴 이미지 */
+    background-size: cover;
+    background-position: center top;
+    animation: moveDown 6s ease-in-out forwards;
+  }
+
+  /* 아래로 내려가는 애니메이션 */
+  @keyframes moveDown {
+    0% { transform: translateY(-50vh); } /* 위에서 시작 */
+    100% { transform: translateY(0); }   /* 제자리에 멈춤 */
+  }
+
+  /* 반투명 오버레이 */
+  .overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+  /* 버튼 */
+  .start-btn {
+    position: fixed;
+    left: 50%;
+    top: 60%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    font-size: 1.8rem;
+    padding: 16px 60px;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(90deg, #ff3333, #ff9900);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 0 25px rgba(255, 100, 0, 0.6);
+    transition: opacity 1.5s ease, transform 0.8s ease;
+  }
+
+  .start-btn.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+
+  /* 메인 화면 */
+  .main {
+    display: none;
+    width: 100%;
+    height: 100vh;
+    background: #111;
+    color: white;
+    text-align: center;
+    padding-top: 200px;
+    font-size: 2rem;
+  }
+</style>
+</head>
+<body>
+
+<div class="intro-wrapper">
+  <div class="overlay"></div>
+</div>
+
+<button class="start-btn">게임 시작</button>
+
+<div class="main">
+  <h1>🎮 게임 홈 화면 🎮</h1>
+</div>
+
+<script>
+  // 인트로 내려가는 도중 일정 시간 후 버튼 등장
+  setTimeout(() => {
+    document.querySelector('.start-btn').classList.add('show');
+  }, 4000);
+
+  // 버튼 클릭 시 인트로 제거 후 메인 표시
+  document.querySelector('.start-btn').addEventListener('click', () => {
+    document.querySelector('.intro-wrapper').style.transition = 'opacity 1s ease';
+    document.querySelector('.intro-wrapper').style.opacity = '0';
+    document.querySelector('.start-btn').style.opacity = '0';
+    setTimeout(() => {
+      document.querySelector('.intro-wrapper').style.display = 'none';
+      document.querySelector('.start-btn').style.display = 'none';
+      document.querySelector('.main').style.display = 'block';
+    }, 1000);
+  });
+</script>
+
+</body>
+</html>

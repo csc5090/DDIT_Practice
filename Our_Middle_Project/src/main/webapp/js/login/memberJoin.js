@@ -1,9 +1,9 @@
 
-function memJoindModalHandle(obj) {
+function memJoindModalOpenHandle(obj) {
 	obj.className = 'mem-modal-on'
 }
 
-function memJoinCloseHandle(obj) {
+function memJoinModalCloseHandle(obj) {
 	obj.className = 'mem-modal-off'
 }
 
@@ -92,10 +92,14 @@ async function joinHandle() {
 			}
 			
 			let value = await onlyCheckAlert("success", "회원가입을 성공했습니다. \n 로그인을 시도해주세요.")
-			if(value) {
-				let joinModal = document.getElementById('membershipModal');
-				memJoinCloseHandle(joinModal);
-			}
+			setTimeout(() => {
+				console.log(value)
+				if(value) {
+					console.log('123')
+					let joinModal = document.getElementById('membershipModal');
+					memJoinModalCloseHandle(joinModal);
+				}
+			}, 500)
 			
 		}
 		
@@ -110,41 +114,49 @@ async function joinHandle() {
 
 async function idInputChangeHandle(e) {
 	let target = e.target;
-	let fillerValue = target.value.replace(/[^a-zA-Z0-9]/g, '');
-	target.value = fillerValue;
-
-	let idCheckMent = document.getElementById("mem_id_check");
-	if(target.value.length < 3 || target.value.length > 20) {
-		
-		idCheckMent.className = "check-no";
-		idCheckMent.textContent = "ID는 3 ~ 20 글자의 영어와 숫자조합이 필요합니다.";
-		
+	let inputValue = target.value
+	let pattern = /\s/
+	if(pattern.test(inputValue)) {
+		onlyCheckAlert("error", "공백 없이 입력해주세요.")
 	}
 	else {
 		
-		let json = {
-			mem_id: fillerValue
-		};
-
-		let result = await idCheckToDB(json);
-		
-		if(result) {
-			
-			idCheckMent.className = "check-ok";
-			idCheckMent.textContent = "생성이 가능한 아이디 입니다.";
-			userInfoCase.idCheck = true;
-			
-		}
-		else{
+		let fillerValue = inputValue.replace(/[^a-zA-Z0-9]/g, '');
+		target.value = fillerValue;
+	
+		let idCheckMent = document.getElementById("mem_id_check");
+		if(target.value.length < 3 || target.value.length > 20) {
 			
 			idCheckMent.className = "check-no";
-			idCheckMent.textContent = "생성이 불가능한 아이디 입니다.";
-			userInfoCase.idCheck = false;
+			idCheckMent.textContent = "ID는 3 ~ 20 글자의 영어와 숫자조합이 필요합니다.";
+			
+		}
+		else {
+			
+			let json = {
+				mem_id: fillerValue
+			};
+	
+			let result = await idCheckToDB(json);
+			
+			if(result) {
+				
+				idCheckMent.className = "check-ok";
+				idCheckMent.textContent = "생성이 가능한 아이디 입니다.";
+				userInfoCase.idCheck = true;
+				
+			}
+			else{
+				
+				idCheckMent.className = "check-no";
+				idCheckMent.textContent = "생성이 불가능한 아이디 입니다.";
+				userInfoCase.idCheck = false;
+				
+			}
 			
 		}
 		
 	}
-	
 	
 }
 
@@ -226,6 +238,10 @@ function hpInputHandle(e) {
 			
 	}
 	
+}
+
+function birthBtnHandle(e, obj) {
+	obj.showPicker?.();
 }
 /*
 function birthInputHandle(e) {

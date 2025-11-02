@@ -17,7 +17,6 @@ public class MybatisUtil {
 		try {
 			InputStream inputStream = Resources.getResourceAsStream(resource);
 			
-			
 			if (inputStream == null) {
 	            throw new IOException("MyBatis 설정 파일 '" + resource + "'을 찾을 수 없습니다. src/main/resources 폴더를 확인하세요.");
 	        }

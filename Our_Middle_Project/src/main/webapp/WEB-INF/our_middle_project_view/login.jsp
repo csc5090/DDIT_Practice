@@ -32,38 +32,40 @@
 </head>
 <body>
 	
+	<div class="c-login-container-top"> 
+	
+		<div id="b-text" class="bottom-text">Press The Space Bar</div>
+	
+	</div>
+	
 	<div class="c-login-container">
 	
-		<div class="c-login-box">
+		<div id="c-loginBox" class="c-login-box">
 			<h2>로그인</h2>
-			<input type="text" placeholder="아이디" >
-			<input type="password" placeholder="비밀번호">
+			<input type="text" class="logininputs" placeholder="아이디" >
+			<input type="password" class="logininputs" placeholder="비밀번호">
 			<div class="div-links">
 				<div class="find-id">아이디 찾기</div>
 				<div class="find-pw">비밀번호 찾기</div>
 				<div class="member-join">회원가입</div>
 			</div>
-			<button>로그인</button>
+			<div id="loginBtn" class="login-btn">로그인</div>
 		</div>
-	
-		<div class="bottom-text">Press The Space Bar</div>
 		
 		<!-- 조승희 내용수정 > 모달창(전부)을 c-login-container 의 자식요소로 변경 20251028 -->
 		
-		<div id="idModal" class="modal">
+		<div id="idModal" class="modal-off">
 			<div class="modal-content">
-				<h3>아이디 찾기</h3>
-				<input type="text" placeholder="이메일">
-				<button>아이디 찾기</button>
+				<input id="idSearchInput" type="text" placeholder="이메일">
+				<button id="idSearchBtn" >아이디 찾기</button>
 				<div class="close-btn">닫기</div>
 			</div>
 		</div>
 		
-		<div id="pwModal" class="modal">
+		<div id="pwModal" class="modal-off">
 			<div class="modal-content">
-				<h3>비밀번호 찾기</h3>
-				<input type="text" placeholder="아이디">
-				<input type="text" placeholder="이메일">
+				<input type="text" class="pwSearchInputs" data-type="id" placeholder="아이디">
+				<input type="text" class="pwSearchInputs" data-type="email" placeholder="이메일">
 				<button>비밀번호 재설정</button>
 				<div class="close-btn">닫기</div>
 			</div>
@@ -155,13 +157,13 @@
 							</svg>
 						</div>
 						<div class="mem-input">
-							<input id="mem_hp" type="text" class="joinInfo" name="mem_hp" placeholder="핸드폰번호 (- 생략)" autocomplete='off'>
+							<input id="mem_hp" type="text" class="joinInfo" name="mem_hp" placeholder="핸드폰번호 (- 생략)" maxlength="11" autocomplete='off'>
 						</div>
 					</div>
 					
 					<div class="mem-info-block">
 						<div class="mem-icon">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+							<svg id="birthIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
 								<path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857z"/>
 								<path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
 							</svg>
@@ -188,6 +190,7 @@
 				</div>
 			
 				<div id="mem-user-addr">
+				
 					<div class="mem-info-block">
 						<input id="mem-addr-search" type="button" value="주소 찾기">
 					</div>

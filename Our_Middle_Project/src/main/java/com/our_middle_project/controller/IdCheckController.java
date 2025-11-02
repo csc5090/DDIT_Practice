@@ -10,6 +10,7 @@ import com.our_middle_project.dto.IdCheckDTO;
 import com.our_middle_project.dto.UserInfoDTO;
 import com.our_middle_project.service.UserInfoServiceImpl;
 import com.our_middle_project.serviceInterface.UserInfoService;
+import com.our_middle_project.util.MybatisUtil;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,10 +41,12 @@ public class IdCheckController implements Action {
 
 		UserInfoDTO userInfo = gson.fromJson(json, UserInfoDTO.class);
 		System.out.println(userInfo);
-
+		
 		UserInfoService userInfoService = new UserInfoServiceImpl();
 		UserInfoDTO idCheckValue = userInfoService.getIdCheck(userInfo);
 
+		System.out.println(idCheckValue);
+		
 		IdCheckDTO resultObj = new IdCheckDTO();
 		if(idCheckValue == null) {
 			resultObj.setIdCheck(true);

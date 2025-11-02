@@ -5,6 +5,23 @@ body {
 	margin: 0;
 	padding: 0;
 	color: white;
+	overflow: hidden;
+	background-image: url('../../images/logins/loginBack.png');
+	background-size: 50% 100%;
+}
+
+.c-login-container-top {
+	
+	display: flex;
+	justify-content: center;
+	
+	position:relative;
+	left: 0px;
+	top: 0px;
+	
+	width: 100%;
+	height: 100vh;
+	
 }
 
 .c-login-container {
@@ -14,21 +31,43 @@ body {
 	align-items: center;
 	width: 100%;
 	height: 100vh;
-	background-color: black;
 	position: relative;
 	
 	/* 	조승희 수정 20251028 */
 	overflow: hidden;
+	
 }
-
 .c-login-box {
-	background-color: #1e1e1e;
-	padding: 20px;
+	
+	/* 조승희 수정 20251102 */
+	position: relative;
+	left: 0px;
+	top: 0%;
+	
+	background: rgba(0, 0, 0, 0.2);
+	padding: 30px;
+	
+	box-shadow: 
+		0 0 20px rgba(30, 40, 60, 0.8),
+		0 0 40px rgba(30, 40, 100, 0.6),
+		0 0 80px rgba(30, 40, 80, 0.4),
+		inset 0 0 20px rgba(30, 40, 100, 0.8),
+		inset 0 0 40px rgba(30, 40, 40, 0.6);
+		
+		
+	border: 2px solid rgba(30, 40, 120, 0.8);
 	border-radius: 12px;
-	box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-	width: 20%;
+	
+	width: 22%;
 	text-align: center;
 	transform: translateY(80px);
+	
+}
+
+/* 조승희 수정 20251102 */
+.c-login-box-on {
+	top: 0%;
+	transition: 1s all;
 }
 
 .c-login-box h2 {
@@ -42,7 +81,7 @@ body {
 	margin: 10px 0;
 	border-radius: 6px;
 	border: none;
-	background-color: #333;
+	background: transparent;
 	color: white;
 	box-sizing: border-box;
 }
@@ -70,7 +109,19 @@ body {
 	text-shadow: 0 0 5px #0ff;
 }
 
-.c-login-box button {
+.c-login-box .login-btn {
+	width: 100%;
+	padding: 10px;
+	margin-top: 10px;
+	border: none;
+	border-radius: 6px;
+	background: transparent;
+	color: white;
+	cursor: default;
+	font-size: 1em;
+}
+
+.c-login-box .login-btn-active {
 	width: 100%;
 	padding: 10px;
 	margin-top: 10px;
@@ -82,42 +133,60 @@ body {
 	font-size: 1em;
 }
 
-.c-login-box button:hover {
-	background-color: #0088cc;
-}
-
 .bottom-text {
 	user-select: none;
 	position: absolute;
-	bottom: 50px;
+	bottom: 15%;
 	font-family: 'KccAnchangho';
-	font-size: 7vh;
-	color: #fff;
+	font-size: 11vh;
+	color: #D6D6D6;
 	text-shadow: 
-		0 0 8px #00aaff,
-		0 0 15px #00aaff,
-		0 0 25px #00aaff,
-		0 0 40px #00aaff;
+    	0 0 5px #0088cc,
+    	0 0 10px #0088cc,
+    	0 0 20px #0088cc,
+    	0 0 40px #0088cc,
+    	0 0 80px #0088cc;
 	animation: blink 2s infinite;
 }
 
 @keyframes blink {
-    0%, 50%, 100% { 
+    0%, 18%, 25%, 50%, 57%, 100% { 
     opacity: 1; 
+	text-shadow: 
+		0 0 5px #0088cc,
+    	0 0 10px #0088cc,
+    	0 0 20px #0088cc;
     }
-    25%, 75% { 
-    opacity: 0.3; 
+    25%, 24%, 55%, 85% { 
+    opacity: 0.25; 
+    text-shadow: none;
     }
 }
-.modal {
-	display: none;
+
+.modal-off {
+	display: block;
+	position: absolute;
+	z-index: -1;
+	left: 0;
+	top: -5%;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	opacity: 0;
+	transition: 0.2s;
+}
+
+.modal-on {
+	display: block;
 	position: absolute;
 	z-index: 1000;
 	left: 0;
-	top: 0;
+	top: 0%;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(0, 0, 0, 0.7);
+	background-color: rgba(0, 0, 0, 0.5);
+	opacity: 1;
+	transition: 0.2s;
 }
 
 .modal-content {
@@ -130,12 +199,11 @@ body {
 	border-radius: 10px;
 	width: 17%;
 	text-align: center;
-	box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
 }
 
 .modal-content h3 {
 	margin-bottom: 15px;
-	color: #00ffff;
+	color: white;
 }
 
 .modal-content input {
