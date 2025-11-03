@@ -17,7 +17,7 @@ public class BoardController implements Action {
 		System.out.println("ㅎㅇㅎㅇ");
 		ActionForward forward = new ActionForward();
 		forward.setRedirect(false);
-		forward.setPath("/WEB-INF/our_middle_project_view/user/board.jsp");
+		forward.setPath("/WEB-INF/our_middle_project_view/board/board.jsp");
 		
 		return forward;
 	}
