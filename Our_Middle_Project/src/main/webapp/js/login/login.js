@@ -82,11 +82,21 @@ function addEventHandle() {
 		pwSearchInputs[i].addEventListener('change', (e) => { pwSearchInputsHandle(e) })
 	}
 	
+	let searchBtns = document.getElementsByClassName('search-btns')
+	for(let i=0 ; i<searchBtns.length ; i++) {
+		searchBtns[i].addEventListener('click', (e) => { searchHandle(e) })
+	}
+	
 }
 
 function findIdHandle() {
 	let idModal = document.getElementById('idModal');
 	idModal.className = "modal-on";
+};
+
+function findPwHandle() {
+	let pwModal = document.getElementById('pwModal');
+	pwModal.className = "modal-on";
 };
 
 /* 조승희 수정 20251103 */
@@ -121,8 +131,8 @@ function pwSearchInputsHandle(e) {
 		onlyCheckAlert("error", "공백 없이 입력해주세요.")
 	}
 	else {
-		
-		let type = value.getAttribute('data-type');
+
+		let type = target.getAttribute('data-type');
 		if(type === 'id') {
 			searchValue.id = value
 		}
@@ -134,10 +144,12 @@ function pwSearchInputsHandle(e) {
 	
 }
 
-function findPwHandle() {
-	let pwModal = document.getElementById('pwModal');
-	pwModal.className = "modal-on";
-};
+function searchHandle(e) {
+	let target = e.target
+	
+	searchToDB(searchValue);
+}
+
 
 function closeModalHandle(e) {
 	let modal = e.target.closest('.modal-on');

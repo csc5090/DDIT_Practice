@@ -57,7 +57,7 @@
 		<div id="idModal" class="modal-off">
 			<div class="modal-content">
 				<input id="idSearchInput" type="text" placeholder="이메일">
-				<button id="idSearchBtn" >아이디 찾기</button>
+				<button class="search-btns" data-type="id">아이디 찾기</button>
 				<div class="close-btn">닫기</div>
 			</div>
 		</div>
@@ -66,7 +66,7 @@
 			<div class="modal-content">
 				<input type="text" class="pwSearchInputs" data-type="id" placeholder="아이디">
 				<input type="text" class="pwSearchInputs" data-type="email" placeholder="이메일">
-				<button>비밀번호 재설정</button>
+				<button class="search-btns" data-type="pw">비밀번호 재설정</button>
 				<div class="close-btn">닫기</div>
 			</div>
 		</div>
