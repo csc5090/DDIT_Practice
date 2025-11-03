@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -56,7 +57,7 @@
 	
 	</select>
 
-	<select id="idFind" resultType="userInfoDTO">
+	<select id="idFind" resultType="UserInfoReturnDTO">
 	
 		SELECT *
 		FROM MEMBER
@@ -64,7 +65,7 @@
 	
 	</select>
 	
-	<select id="pwFind" resultType="userInfoDTO">
+	<select id="pwFind" resultType="UserInfoReturnDTO">
 	
 		SELECT *
 		FROM MEMBER
@@ -73,6 +74,14 @@
 			MEM_MAIL = #{mem_mail}
 	
 	</select>
+	
+	<update id="newPasswordSave">
+	
+	    UPDATE MEMBER
+	    SET MEM_PASS = #{mem_pass}
+	    WHERE MEM_ID = #{mem_id}
+	
+	</update>
 
 </mapper>
 

@@ -1,6 +1,9 @@
 package com.our_middle_project.dao;
 
+import java.util.Map;
+
 import com.our_middle_project.dto.UserInfoDTO;
+import com.our_middle_project.dto.UserInfoReturnDTO;
 
 public interface UserInfoDAO {
 
@@ -8,8 +11,10 @@ public interface UserInfoDAO {
 
 	UserInfoDTO getIdCheck(UserInfoDTO userInfo);
 
-	UserInfoDTO getIdFind(UserInfoDTO userInfo);
+	UserInfoReturnDTO getIdFind(UserInfoDTO userInfo);
 
-	UserInfoDTO getPasswordFind(UserInfoDTO userInfo);
+	UserInfoReturnDTO getPasswordFind(UserInfoDTO userInfo);
+
+	void newPasswordSave(Map<String, Object> pram);
 	
 }

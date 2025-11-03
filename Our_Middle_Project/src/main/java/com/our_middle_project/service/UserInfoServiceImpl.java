@@ -1,10 +1,13 @@
 package com.our_middle_project.service;
 
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 
 import com.our_middle_project.dao.UserInfoDAO;
 import com.our_middle_project.dao.UserInfoDAOImpl;
 import com.our_middle_project.dto.UserInfoDTO;
+import com.our_middle_project.dto.UserInfoReturnDTO;
 import com.our_middle_project.serviceInterface.UserInfoService;
 import com.our_middle_project.util.MybatisUtil;
 
@@ -33,9 +36,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 	}
 
 	@Override
-	public UserInfoDTO getIdFind(UserInfoDTO userInfo) {
+	public UserInfoReturnDTO getIdFind(UserInfoDTO userInfo) {
 		
-		UserInfoDTO result;
+		UserInfoReturnDTO result;
 		try(SqlSession sqlSession = MybatisUtil.getSqlSession()) {
 			UserInfoDAO userInfoDao = new UserInfoDAOImpl(sqlSession);
 			result = userInfoDao.getIdFind(userInfo);
@@ -45,15 +48,23 @@ public class UserInfoServiceImpl implements UserInfoService {
 	}
 
 	@Override
-	public UserInfoDTO getPasswordFind(UserInfoDTO userInfo) {
+	public UserInfoReturnDTO getPasswordFind(UserInfoDTO userInfo) {
 		
-		UserInfoDTO result;
+		UserInfoReturnDTO result;
 		try(SqlSession sqlSession = MybatisUtil.getSqlSession()) {
 			UserInfoDAO userInfoDao = new UserInfoDAOImpl(sqlSession);
 			result = userInfoDao.getPasswordFind(userInfo);
 		}
 		return result;
 		
+	}
+
+	@Override
+	public void newPasswordSave(Map<String, Object> pram) {
+		try(SqlSession sqlSession = MybatisUtil.getSqlSession()) {
+			UserInfoDAO userInfoDao = new UserInfoDAOImpl(sqlSession);
+			userInfoDao.newPasswordSave(pram);
+		}
 	}
 
 }

@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,7 +61,7 @@
 				<div class="player">
 					<img src="" alt="*">
 					<div class="name">
-						${sessionScope.map.mem_id}
+						<c:out value="${sessionScope.map.mem_id}" />
 					</div>
 					
 				</div>
@@ -128,7 +129,7 @@
 
 	<script type="text/javascript">
 	
-		const GlovalLevel = ${sessionScope.map.level_name}
+		const GlovalLevel = "<c:out value='${sessionScope.map.level_name}' />";
 	
 	</script>
 

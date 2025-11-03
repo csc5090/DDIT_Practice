@@ -1,8 +1,12 @@
 package com.our_middle_project.dao;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 
 import com.our_middle_project.dto.UserInfoDTO;
+import com.our_middle_project.dto.UserInfoReturnDTO;
 
 public class UserInfoDAOImpl implements UserInfoDAO {
 
@@ -23,13 +27,18 @@ public class UserInfoDAOImpl implements UserInfoDAO {
 	}
 
 	@Override
-	public UserInfoDTO getIdFind(UserInfoDTO userInfo) {
+	public UserInfoReturnDTO getIdFind(UserInfoDTO userInfo) {
 		return sqlSession.selectOne("userInfoMapper.idFind", userInfo);
 	}
 
 	@Override
-	public UserInfoDTO getPasswordFind(UserInfoDTO userInfo) {
+	public UserInfoReturnDTO getPasswordFind(UserInfoDTO userInfo) {
 		return sqlSession.selectOne("userInfoMapper.pwFind", userInfo);
+	}
+
+	@Override
+	public void newPasswordSave(Map<String, Object> pram) {
+		sqlSession.update("userInfoMapper.newPasswordSave", pram);
 	}
 
 	
