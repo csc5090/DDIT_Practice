@@ -56,6 +56,24 @@
 	
 	</select>
 
+	<select id="idFind" resultType="userInfoDTO">
+	
+		SELECT *
+		FROM MEMBER
+		WHERE MEM_MAIL = #{mem_mail}
+	
+	</select>
+	
+	<select id="pwFind" resultType="userInfoDTO">
+	
+		SELECT *
+		FROM MEMBER
+		WHERE 
+			MEM_MAIL = #{mem_mail} AND
+			MEM_MAIL = #{mem_mail}
+	
+	</select>
+
 </mapper>
 
 

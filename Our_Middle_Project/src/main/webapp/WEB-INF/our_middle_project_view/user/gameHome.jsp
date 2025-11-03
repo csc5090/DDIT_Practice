@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,7 +29,7 @@
 
 	<div id="header">
 		<div id="nickname">
-		<span class="nick">닉네임님</span>
+		<span class="nick">님</span>
 		<span class="hi">안녕하세요</span>
 		</div>
 		<div id="topNav">
@@ -151,7 +152,6 @@
 	
 
 <!-- ================================================================ -->
-
 
 <script type="text/javascript" src="./js/common.js"></script>
 <script type="text/javascript" src="./js/gameHome/gameHome.js"></script>

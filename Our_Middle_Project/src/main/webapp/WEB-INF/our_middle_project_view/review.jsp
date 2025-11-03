@@ -4,274 +4,319 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>리뷰 게시판5</title>
+<title>리뷰 게시판2</title>
+
+<!-- 부트스트랩 -->
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/js/lib/bootstrap/css/bootstrap.min.css">
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/js/lib/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- 스위트어럴트2 -->
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/js/lib/sweetalert2/dist/sweetalert2.min.css">
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/js/lib/sweetalert2/dist/sweetalert2.min.js"></script>
+
+<!-- jquery -->
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/js/lib/jquery/jquery-3.7.1.min.js"></script>
+
+<!-- axios -->
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/js/lib/axios/axios.min.js"></script>
 
 <style>
 
 /* 닫기 시 숨김 (무조건) */
-.reviewModal[hidden] { display: none !important; }
+.reviewModal[hidden] {
+	display: none !important;
+}
 
 /* 모달 창 위치, inset 속성을 줘서 화면전체를 덮는 다는 설정(화면 중앙)  */
 .reviewModal {
-  display: grid;
-  position: fixed;
-  inset: 0;
-  place-items: center;
-  z-index: 50;
+	display: grid;
+	position: fixed;
+	inset: 0;
+	place-items: center;
+	z-index: 50;
 }
 
 .reviewDialog {
-  width: 40vw;
-  min-width: 340px;
-  height: 85vh;
-  background: #fff;
-  border-radius: 18px;
-  border: 1px solid #ececec;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, .25);
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  overflow: hidden;
+	display: grid;
+	width: 40vw;
+	min-width: 340px;
+	height: 85vh;
+	background: white;
+	border-radius: 18px;
+	border: 1px solid black;
+	box-shadow: 0 24px 80px rgba(0, 0, 0, .1);
+	grid-template-rows: auto 1fr auto;
+	overflow: hidden;
 }
 
+/* 모달창 상단 (수평, 좌우끝으로 )*/
 .reviewHeader {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  justify-content: space-between;
-  padding: 12px 16px;
-  border-bottom: 1px solid #ececec;        /* var(--border) */
-  background: #fff;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	justify-content: space-between;
+	padding: 15px;
+	border-bottom: 1px solid #ececec;
+	background: white;
 }
 
-.reviewTitle { font-weight: 700; }
-
-.muted {
-  color: #656565; /* var(--muted) */
-  font-size: 13px;
+.reviewTitle {
+	font-weight: 700;
+	font-size: 25px;
 }
 
-/* 공통 버튼 스타일 (닫기 / 열기 / 리뷰작성) */
-.closeModal,
-.wrtReviewBtn {
-  border: 1px solid #ececec;               /* var(--border) */
-  background: #f9f9f9;
-  color: #333;
-  font-size: 14px;
-  font-weight: 600;
-  border-radius: 10px;
-  padding: 6px 12px;
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.1s ease;
+/* 리뷰 모달창 닫기 버튼, 리뷰작성 열기 버튼 */
+.closeModal, .wrtBtn {
+	border: 1px solid #ececec;
+	background: white;
+	color: black;
+	font-size: 14px;
+	font-weight: 700;
+	border-radius: 10px;
+	padding: 6px 12px;
 }
 
-.closeModal:hover,
-.wrtReviewBtn:hover { background: #e8e8e8; }
+/* 마우스 호버 시 발생하는 효과 (기본) */
+.closeModal:hover, .wrtBtn:hover {
+	background: #e8e8e8;
+}
 
-.closeModal:active,
-.wrtReviewBtn:active { transform: scale(0.97); }
-
-/* Content area */
+/* reviewDialog 내부의 중간영역인 innerContent (스크롤 가능) */
 .innerContent {
-  overflow: auto;
-  padding: 14px 14px 10px 14px;
+	overflow: auto;
+	padding: 10px;
 }
 
-.innerContent::-webkit-scrollbar { display: none; }
+/* innerContent 스크롤 숨김 */
+.innerContent::-webkit-scrollbar {
+	display: none;
+}
 
+/* card(각 review) 정렬 */
 .reviewList {
-  display: grid;
-  gap: 14px; /* var(--gap) */
+	display: grid;
+	gap: 10px;
 }
 
+/* card, head, nickname, stars, date, body, row, thumb, text, reply */
 .card {
-  border: 1px solid #ececec;               /* var(--border) */
-  border-radius: 16px;                      /* var(--radius) */
-  box-shadow: 0 6px 20px rgba(0, 0, 0, .08);/* var(--shadow) */
-  background: #fff;
-  padding: 14px 16px 16px;
+	border: 1px solid #ececec;
+	border-radius: 16px;
+	box-shadow: 0 6px 20px rgba(0, 0, 0, .1);
+	background: white;
+	padding: 15px;
 }
 
 .head {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 10px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 10px;
 }
 
-.nickname { font-weight: 700; }
+.nickname {
+	font-weight: 700;
+	font-size: 15px;
+}
 
+/* 금색 */
 .stars {
-  color: #f7b500;
-  font-size: 15px;
+	color: #f7b500;
+	font-size: 17px;
+	transform: translateY(-3px);
 }
 
+/* 연하게 */
 .date {
-  margin-left: auto;
-  color: #656565; /* var(--muted) */
-  font-size: 12px;
+	margin-left: auto;
+	color: #656565;
+	font-size: 12px;
 }
 
 .body {
-  padding-left: 18px; /* var(--indent) */
-  display: grid;
-  gap: 10px;
+	padding-left: 18px;
+	display: grid;
+	gap: 10px;
 }
 
+/* thumb(이미지)와 text(리뷰본문) */
 .row {
-  display: grid;
-  grid-template-columns: 84px 1fr;
-  gap: 12px;
-  align-items: start;
+	display: grid;
+	grid-template-columns: 85px 1fr;
+	gap: 12px;
+	align-items: start;
 }
 
 .thumb {
-  width: 84px;
-  height: 84px;
-  border-radius: 10px;
-  border: 1px solid #ececec;               /* var(--border) */
-  overflow: hidden;
-  background: #fafafa;
+	width: 10vh;
+	min-width: 85px;
+	height: 10vh;
+	border-radius: 10px;
+	border: 1px solid #ececec;
+	overflow: hidden;
+	background: #fafafa;
 }
 
 .thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
 }
 
-.text { white-space: pre-wrap; }
+/* 리뷰 본문 */
+.text {
+	white-space: pre-wrap;
+}
 
 .reply {
-  margin-top: 4px;
-  padding-left: 16px; /* calc(34px - 18px) → var(--indent-2) - var(--indent) */
-  border-left: 3px solid #eef3ff;
-  background: #f7faff;
-  color: #2b3a55;
-  border-radius: 8px;
-  padding: 10px 12px;
-  font-size: 14px;
+	margin-top: 4px;
+	padding-left: 16px;
+	border-left: 3px solid #eef3ff;
+	background: #f7faff;
+	color: #2b3a55;
+	border-radius: 8px;
+	padding: 10px 12px;
+	font-size: 14px;
 }
 
-/* Writer (composer) */
+/* 리뷰 작성창 (닫혀 있을때) 열고 닫을 때 에니메이션 포함 */
 .wrtReview {
-  height: 64px;                             /* var(--composer-h) */
-  border-top: 1px solid #ececec;            /* var(--border) */
-  background: #fff;
-  transition: height .25s ease;
-  display: grid;
-  grid-template-rows: auto 1fr;
+	height: 7vh;
+	border-top: 1px solid #ececec;
+	background: white;
+	transition: height .25s ease;
+	display: grid;
+	grid-template-rows: auto 1fr;
 }
 
-.wrtReview.open { height: 42vh; }           /* var(--composer-open-h) */
+/* 리뷰 작성창 열었을 때 높이 */
+.wrtReview.open {
+	height: 42vh;
+}
 
 .bottomBar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	padding: 15px;
 }
 
-.wrtlabel { font-weight: 700; }
+/* Riview 작성 라벨 글자 */
+.wrtlabel {
+	font-weight: 700;
+	color: black;
+	font-size: 17px;
+}
 
 .wrtBody {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 10px;
-  padding: 0 12px 12px 12px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .2s ease;
+	display: grid;
+	grid-template-columns: 1fr auto;
+	gap: 10px;
+	padding: 0 12px 12px 12px;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity .2s ease;
 }
 
 .wrtReview.open .wrtBody {
-  opacity: 1;
-  pointer-events: auto;
+	opacity: 1;
+	pointer-events: auto;
 }
 
 textarea#iReviewText {
-  width: 100%;
-  height: 100%;
-  resize: none;
-  border: 1px solid #ececec;                /* var(--border) */
-  border-radius: 12px;
-  padding: 12px;
-  font: inherit;
-  outline: none;
+	width: 100%;
+	height: 100%;
+	resize: none;
+	border: 1px solid #ececec;
+	border-radius: 12px;
+	padding: 12px;
+	font: inherit;
+	outline: none;
 }
 
 .wrtBtns {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
 }
 
 .submitBtn {
-  border: none;
-  background: #0a84ff;                      /* var(--brand) */
-  color: #fff;
-  padding: 10px 16px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-weight: 600;
+	border: none;
+	background: #0a84ff;
+	color: #fff;
+	padding: 10px 16px;
+	border-radius: 12px;
+	cursor: pointer;
+	font-weight: 600;
 }
 
 .addImageBtn {
-  border: 1px solid #ececec;                /* var(--border) */
-  background: #fff;
-  padding: 10px 16px;
-  border-radius: 12px;
-  cursor: pointer;
+	border: 1px solid #ececec;
+	background: #fff;
+	padding: 10px 16px;
+	border-radius: 12px;
+	cursor: pointer;
 }
 
 /* Rating input */
 .starPoint {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 6px 6px 6px;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 4px 6px 6px 6px;
 }
 
 .starPoint .star {
-  font-size: 20px;
-  line-height: 1;
-  border: 1px solid #ececec;                /* var(--border) */
-  background: #fff;
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  cursor: pointer;
-  display: grid;
-  place-items: center;
-  transition: transform .05s ease, box-shadow .2s ease;
+	font-size: 20px;
+	line-height: 1;
+	border: 1px solid #ececec;
+	background: #fff;
+	width: 34px;
+	height: 34px;
+	border-radius: 10px;
+	cursor: pointer;
+	display: grid;
+	place-items: center;
+	transition: transform .05s ease, box-shadow .2s ease;
 }
 
 .starPoint .star:hover {
-  box-shadow: 0 4px 14px rgba(0, 0, 0, .08);
+	box-shadow: 0 4px 14px rgba(0, 0, 0, .08);
 }
 
 .starPoint .star:active {
-  transform: translateY(1px) scale(.98);
+	transform: translateY(1px) scale(.98);
 }
 
-.starPoint .star.filled { color: #f7b500; }
-
-@media (max-width: 760px) {
-  .reviewDialog {
-    width: min(92vw, 620px);
-    height: 88vh;
-  }
-  .row { grid-template-columns: 70px 1fr; }
+.starPoint .star.filled {
+	color: #f7b500;
 }
 
-
+@media ( max-width : 760px) {
+	.reviewDialog {
+		width: min(92vw, 620px);
+		height: 88vh;
+	}
+	.row {
+		grid-template-columns: 70px 1fr;
+	}
+}
 </style>
 
 </head>
 <body>
 
 	<div class="whiteAll-center">
-		<button id="iOpenModal" class="openModal" type="button">Review Board</button>
+		<button id="iOpenModal" class="openModal" type="button">Review
+			Board</button>
 	</div>
 
 	<div id="iReviewModal" class="reviewModal" hidden>
@@ -288,49 +333,74 @@ textarea#iReviewText {
 			<aside id="iWrtReview" class="wrtReview">
 				<div class="bottomBar">
 					<div class="wrtlabel">Review 작성</div>
-					<button id="iwrtReviewBtn" class="wrtReviewBtn" type="button">열기</button>
+					<button id="iwrtBtn" class="wrtBtn" type="button">열기</button>
 				</div>
 
-				<div class="wrtBody">
-					<div class="wrtLeft">
+				<div class="wrtBody wrtBody--twoCols">
+					<!-- 좌측: 좁게 (별점 + 이미지) -->
+					<div class="wrtColLeft">
+						<!-- 별점 -->
 						<div class="wrtRow">
-							<label class="wrtFieldLabel" for="iStarPoint">별점</label>
-							<div id="iStarPoint" class="starPoint" role="radiogroup">
-								<button class="star" type="button" data-val="1" role="radio">★</button>
-								<button class="star" type="button" data-val="2" role="radio">★</button>
-								<button class="star" type="button" data-val="3" role="radio">★</button>
-								<button class="star" type="button" data-val="4" role="radio">★</button>
-								<button class="star" type="button" data-val="5" role="radio">★</button>
+							<label for="iStarPoint" class="wrtReviewLabel">별점</label>
+							<div id="iStarPoint" class="starPoint" role="radiogroup"
+								aria-label="리뷰 별점 선택">
+								<button class="star" type="button" data-val="1" role="radio"
+									aria-checked="false">★</button>
+								<button class="star" type="button" data-val="2" role="radio"
+									aria-checked="false">★</button>
+								<button class="star" type="button" data-val="3" role="radio"
+									aria-checked="false">★</button>
+								<button class="star" type="button" data-val="4" role="radio"
+									aria-checked="false">★</button>
+								<button class="star" type="button" data-val="5" role="radio"
+									aria-checked="false">★</button>
 							</div>
 						</div>
 
-						<div class="wrtRow wrtRow-text">
-							<label class="wrtFieldLabel" for="iReviewText">내용</label>
-							<textarea id="iReviewText" placeholder="이미지(선택)와 함께 리뷰를 작성해 주세요."></textarea>
+						<div class="wrtRow">
+							<label class="wrtReviewLabel">이미지 미리보기</label>
+							<div class="previewGrid" id="iPreview"></div>
+							<div class="noImageMsg">이미지 없음</div>
+						</div>
+
+						<div class="wrtRow">
+							<label for="iImageInput" class="wrtReviewLabel">이미지 선택</label> <input
+								id="iImageInput" type="file" accept="image/*" multiple>
+							<button id="iAddImageBtn" class="addImageBtn" type="button">이미지
+								추가</button>
 						</div>
 					</div>
 
-					<div class="wrtRight">
-						<button id="iAddImageBtn" class="addImageBtn" type="button">이미지 추가</button>
-						<button id="iSubmitBtn" class="submitBtn" type="button">리뷰 등록</button>
+					<div class="wrtColRight">
+						<div class="wrtRow">
+							<label for="iReviewText" class="wrtReviewLabel">리뷰 내용</label>
+							<textarea id="iReviewText" placeholder="이미지(선택)와 함께 리뷰를 작성해 주세요."></textarea>
+						</div>
+
+						<div class="wrtBtns wrtBtns--rowEnd">
+							<button id="iSubmitBtn" class="submitBtn" type="button">리뷰 등록</button>
+						</div>
 					</div>
 				</div>
 			</aside>
 
-		</div> <!-- reviewDialog -->
-	</div> <!-- 리뷰작성 모달창 -->
+		</div>
+		<!-- reviewDialog -->
+	</div>
+	<!-- 리뷰작성 모달창 -->
 
 	<script>
-  /* 유틸 */
+  /* 더미 데이이터를 넣기 위한 함수 (별점, 리뷰본문)  */
   function starString(n){ return '★'.repeat(n) + '☆'.repeat(Math.max(0, 5-n)); }
+    
   function placeholderDataURI(text){
-    var svg = "<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'>"
-      + "<rect width='100%' height='100%' fill='#f3f6fa'/>"
-      + "<rect x='16' y='16' width='208' height='208' rx='16' fill='#dfe7f3'/>"
-      + "<text x='50%' y='52%' dominant-baseline='middle' text-anchor='middle' font-size='20' font-family='Arial, sans-serif' fill='#394b63'>" + text + "</text>"
-      + "</svg>";
-    return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
-  }
+	    var svg = "<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'>"
+	      + "<rect width='100%' height='100%' fill='#f3f6fa'/>"
+	      + "<rect x='16' y='16' width='208' height='208' rx='16' fill='#dfe7f3'/>"
+	      + "<text x='50%' y='52%' dominant-baseline='middle' text-anchor='middle' font-size='20' font-family='Arial, sans-serif' fill='#394b63'>" + text + "</text>"
+	      + "</svg>";
+	    return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+	  }
 
   /* 더미 데이터 */
   const DEMO = Array.from({length: 10}).map((_,i)=>({ 
@@ -365,6 +435,7 @@ textarea#iReviewText {
     ][i]
   }));
 
+  /* 리뷰를 작성하면 각 card(각 리뷰)에 등록되고 innerContent를 구성하는 랜더링 메서드 */
   function renderList(listEl, data){
 	  listEl.innerHTML = "";
 	  for (const item of data){
@@ -408,31 +479,27 @@ textarea#iReviewText {
     toggle(){ this.root.classList.contains('open') ? this.close() : this.open(); }
   };
 
-  window.onload = () => {
+window.onload = () => {
+	/* 더미 데이터 */
     const list = document.getElementById('iReviewList');
     renderList(list, DEMO);
 
-    /* 모달 열기/닫기 (hidden 토글) */
+    /* 모달 열기버튼 닫기버튼 */
     openBtn.addEventListener('click', ()=>{
       modalEl.hidden = false;
-      modalEl.removeAttribute('aria-hidden');
     });
     closeBtn.addEventListener('click', ()=>{
       modalEl.hidden = true;
-      modalEl.setAttribute('aria-hidden','true');
     });
-
+   
     /* 작성창 연결 */
     composer.root = document.getElementById('iWrtReview');
-    composer.toggleBtn = document.getElementById('iwrtReviewBtn');
+    composer.toggleBtn = document.getElementById('iwrtBtn');
     composer.textarea = document.getElementById('iReviewText');
     composer.toggleBtn.addEventListener('click', ()=>{
     	  	 composer.toggle();
     	  // 버튼 텍스트 토글
     	     composer.toggleBtn.textContent = composer.root.classList.contains('open') ? '닫기' : '열기';
-    });
-    composer.root.querySelector('.bottomBar').addEventListener('click', (e)=>{
-      if(!e.target.closest('button')) composer.open();
     });
 
     /* 별점 컨트롤러 */
@@ -450,7 +517,7 @@ textarea#iReviewText {
     }
     applyRatingVisual();
 
-    // mouse click
+    /* 별점 마우스 클릭 시 몇번째 별인지 읽어서 그 값을 1~5로 저장하고 별채움 */
     ratingEl.addEventListener('click', function(e){
       var btn = e.target.closest('.star');
       if(!btn) return;
@@ -458,7 +525,7 @@ textarea#iReviewText {
       applyRatingVisual();
     });
 
-    // hover preview
+    /* 별점 마우스 호버 시 미리보기 */
     ratingEl.addEventListener('mousemove', function(e){
       var btn = e.target.closest('.star');
       if(!btn) return;
@@ -466,13 +533,6 @@ textarea#iReviewText {
       applyRatingVisual(val);
     });
     ratingEl.addEventListener('mouseleave', function(){ applyRatingVisual(); });
-
-    // keyboard support
-    ratingEl.addEventListener('keydown', function(e){
-      if(e.key === 'ArrowLeft' || e.key === 'ArrowDown'){ currentRating = Math.max(1, currentRating - 1); applyRatingVisual(); e.preventDefault(); }
-      if(e.key === 'ArrowRight' || e.key === 'ArrowUp'){ currentRating = Math.min(5, currentRating + 1); applyRatingVisual(); e.preventDefault(); }
-    });
-    ratingEl.tabIndex = 0;
 
     /* 리뷰 등록 */
     document.getElementById('iSubmitBtn').addEventListener('click', ()=>{
@@ -489,12 +549,9 @@ textarea#iReviewText {
       composer.close();
       list.parentElement.scrollTop = 0;
     });
+    
+} //window.onload
 
-    /* 이미지 추가(데모) */
-    document.getElementById('iAddImageBtn').addEventListener('click', ()=>{
-      alert('데모 모드: 이미지 업로드 대신 플레이스홀더를 사용합니다.');
-    });
-  };
 </script>
 
 </body>

@@ -14,7 +14,7 @@ public class BoardController implements Action {
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("ㅎㅇㅎㅇ");
+		System.out.println("게시판 ㅎㅇ");
 		ActionForward forward = new ActionForward();
 		forward.setRedirect(false);
 		forward.setPath("/WEB-INF/our_middle_project_view/board/board.jsp");

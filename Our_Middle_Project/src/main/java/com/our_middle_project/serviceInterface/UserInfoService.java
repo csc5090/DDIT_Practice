@@ -8,4 +8,8 @@ public interface UserInfoService {
 
 	UserInfoDTO getIdCheck(UserInfoDTO userInfo);
 
+	UserInfoDTO getIdFind(UserInfoDTO userInfo);
+
+	UserInfoDTO getPasswordFind(UserInfoDTO userInfo);
+
 }

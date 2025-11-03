@@ -14,16 +14,22 @@ public class UserInfoDAOImpl implements UserInfoDAO {
 	
 	@Override
 	public void JoinUser(UserInfoDTO userInfo) {
-		
 		sqlSession.insert("userInfoMapper.joinUser", userInfo);
-		
 	}
 
 	@Override
 	public UserInfoDTO getIdCheck(UserInfoDTO userInfo) {
-		
 		return sqlSession.selectOne("userInfoMapper.idCheck", userInfo);
-		
+	}
+
+	@Override
+	public UserInfoDTO getIdFind(UserInfoDTO userInfo) {
+		return sqlSession.selectOne("userInfoMapper.idFind", userInfo);
+	}
+
+	@Override
+	public UserInfoDTO getPasswordFind(UserInfoDTO userInfo) {
+		return sqlSession.selectOne("userInfoMapper.pwFind", userInfo);
 	}
 
 	
