@@ -9,9 +9,7 @@ const DashboardPage = {
 
 	updateStats: async function() {
 		try {
-			const data = await apiClient.get('/getStats.do');
-
-
+			const data = await apiClient.post('/getStats.do', null);
 			const chartData = data.chartData || {};
 			this.renderChart('myChart', chartData);
 
