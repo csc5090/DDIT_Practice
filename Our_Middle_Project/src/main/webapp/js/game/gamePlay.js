@@ -26,6 +26,8 @@ window.onload = () => {
 	timeEl = document.getElementById("timeCount");
 	
 	addEventHandle();
+	
+	console.log(glovalLevel)
 }
 
 //======이벤트 핸들러
@@ -55,6 +57,7 @@ function startGame() {
 		startTimer();
 	});
 }
+
 
 //=====카드 생성 로직 
 let firstCard = null;	//첫 번째 카드 뽑기
@@ -146,7 +149,7 @@ function cardChoice(obj, e) {
 				dataSave();
 				return;
 				}
-			} else {	//카드 짝이 틀리다면 => 0.4초 후 다시 뒤집기
+			} else {	//카드 짝이 틀리다면 => 0.x초 후 다시 뒤집기
 			
 			comboCount = 0;  // 콤보 초기화
 			
@@ -157,7 +160,7 @@ function cardChoice(obj, e) {
 				firstCard = null;		//되돌린 상태에서 유지
 				secondCard = null;
 				lockBoard = false;
-			},400);
+			},600);
 		}
 		
 		scoreElement.textContent = totalscore;

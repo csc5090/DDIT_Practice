@@ -48,6 +48,10 @@
 .user-list-table th {
 	color: var(--text-muted);
 	font-size: 0.9rem;
+	position: sticky;
+	top: 0;
+	z-index: 10;
+	background-color: var(--bg-main);
 }
 
 .user-list-table tbody tr {
@@ -90,9 +94,10 @@
 }
 
 .user-detail-panel .detail-content {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
     height: 100%;
+    overflow: hidden;
 }
 
 .detail-header {
@@ -133,19 +138,26 @@
 }
 
 .detail-body {
-    flex-grow: 1;
     overflow-y: auto;
-    padding: 24px;
+    padding: 20px 24px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px 24px;
+    gap: 16px 24px;
     align-content: start;
+}
+
+.detail-body::-webkit-scrollbar {
+	display: none;
+}
+
+.user-list-wrapper::-webkit-scrollbar {
+    display: none;
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
 }
 
 .form-group.full-width {
@@ -161,7 +173,7 @@
 .detail-body input[type="text"],
 .detail-body select {
     width: 100%;
-    padding: 12px 15px;
+    padding: 10px 15px;
     background-color: var(--bg-main);
     border: 1px solid var(--border-color);
     border-radius: 6px;

@@ -25,10 +25,34 @@ function goExit() {
 //=====================================
 
 //게임시작 난이도별
+// 전역 변수로 난이도 저장
+/*let level = 4;*/
+
+// 난이도 선택 후 게임 시작
+function startGameLevel(selectedLevel) {
+    /*level = selectedLevel; // 난이도 설정*/
+    console.log(`선택한 난이도: ${level}x${level}`);
+
+    modal.style.display = 'none';   // 모달 닫기
+    singleMode.style.display = 'none';
+
+    // 실제 게임 시작
+    startGame(); // 기존 startGame() 호출
+}
 //로그인창 이동
 
-function startGame4() {
-    window.location.href = "gamePlay.do";
+function startGameWithLevel(obj) {
+	console.log(obj)
+	
+	let target = obj
+	let userInfo = {
+		mem_id: "test",
+		level_name: target.getAttribute("value")
+	}
+	
+	gameLevelSaveToDB(userInfo);
+	
+    /*window.location.href = `gamePlay.do`;*/
 }
 
 //function gameStart6() {
@@ -104,22 +128,27 @@ const closeModalBtn = document.getElementById('closeModal');
 const backToModeBtn = document.getElementById('backToMode');
 const backToMode2Btn = document.getElementById('backToMode2');
 const gameStartBtn = document.getElementById("gameStart");
+const modalContent = document.getElementById("modalContent");
 
 // 모달 열기
 function goGameStart() {
     modal.style.display = "flex";
-    resetModal(); // 항상 처음 화면으로 초기화
+    singleMode.style.display = 'block'; // 싱글 난이도 바로 표시
 }
 
 // 모달 닫기
 closeModalBtn.addEventListener('click', () => {
     modal.style.display = 'none';
-    resetModal(); // 닫을 때 초기화
 });
-
+//// 모달 외부 클릭 (화면 나머지 영역)
+//document.addEventListener('click', (e) => {
+//    // 모달이 열려 있고, 클릭한 곳이 모달 내부(#modalContent)가 아니면 닫기
+//    if (modal.style.display === 'flex' && !modalContent.contains(e.target)) {
+//        modal.style.display = 'none';
+//    }
+//});
 // 모달 초기화 함수
 function resetModal() {
-    modeSelect.style.display = 'block';
     singleMode.style.display = 'none';
     pvpMode.style.display = 'none';
 }
@@ -133,17 +162,6 @@ function selectSingleMode() {
 function selectPvPMode() {
     modeSelect.style.display = 'none';
     pvpMode.style.display = 'block';
-}
-
-// 뒤로가기
-backToModeBtn.addEventListener('click', resetModal);
-backToMode2Btn.addEventListener('click', resetModal);
-
-// 게임 시작 (싱글 모드)
-function startGame(level) {
-    console.log(`게임 시작! 난이도: ${level}x${level}`);
-    modal.style.display = 'none';
-    resetModal(); // 게임 시작 후에도 초기화
 }
 
 // 게임 시작 버튼 클릭 시
