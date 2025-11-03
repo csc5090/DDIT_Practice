@@ -63,21 +63,14 @@
 			   <!-- 모달 -->
 		    <div id="gameModal">
 		        <div id="modalContent">
-		            <!-- 모드 선택 영역 -->
-		            <div id="modeSelect">
-		                <h2>모드를 선택하세요</h2>
-		                <button onclick="selectSingleMode()">싱글모드</button>
-		                <button onclick="selectPvPMode()">대결모드</button>
-		            </div>
-		
+		     
 		            <!-- 싱글 모드 난이도 선택 영역 -->
 		            <div id="singleMode" style="display:none;">
-		                <h2>난이도를 선택하세요</h2>
-		                <button onclick="startGame4()">Easy (4x4)</button>
-		                <button onclick="startGame6()">Normal (6x6)</button>
-		                <button onclick="startGame8()">Hard (8x8)</button>
-		                <button id="backToMode">뒤로</button>
-		            </div>
+					    <h2>Choose Your Challenge</h2>
+					    <button onclick="startGameWithLevel(this)" value="4">Easy (4x4)</button>
+						<button onclick="startGameWithLevel(this)" value="6">Normal (6x6)</button>
+						<button onclick="startGameWithLevel(this)" value="8">Hard (8x8)</button>
+					</div>
 		
 		            <!-- 대결 모드 안내 -->
 		            <div id="pvpMode" style="display:none;">
@@ -86,7 +79,7 @@
 		            </div>
 		
 		            <!-- 모달 닫기 -->
-		            <button id="closeModal">닫기</button>
+		            <button id="closeModal">Close</button>
 		        </div>
 		    </div>
 			
@@ -126,13 +119,31 @@
 				            </div>
 				            <div class="card-back">?</div>
 				        </div>
+				   </div>
+				   
+				   <div class="card" id="gameStart">
+				        <div class="card-inner">
+				            <div class="card-front">
+				            <span>🎮</span>
+				            <span>Solo</span>
+				            </div>
+				            <div class="card-back">?</div>
+				        </div>
 				   </div>    
+				   
+				   <div  class="card">
+				        <div class="card-inner">
+				            <div class="card-front">
+				            <span>⚔️</span>
+				            <span>Coming Soon</span>
+				            </div>
+				            <div class="card-back">?</div>
+				        </div>
+				   </div>
 				
 			</div>
 			
-		    <div id="gameStart" onclick="goGameStart()">
-		    	Game Start
-		    </div>
+
 		    
 	</div>	
 	
@@ -142,7 +153,9 @@
 <!-- ================================================================ -->
 
 
-
+<script type="text/javascript" src="./js/common.js"></script>
 <script type="text/javascript" src="./js/gameHome/gameHome.js"></script>
+<script type="text/javascript" src="./js/gameHome/gameHomeToDB.js"></script>
+
 </body>
 </html>
