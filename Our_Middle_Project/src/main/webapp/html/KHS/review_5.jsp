@@ -33,36 +33,29 @@
 html, body {
 	margin: 0;
 	padding: 0;
-	width: 100%;
-	height: 100%;
 }
 
 .review-container {
-	margin: 0;
-	padding: 0;
 	width: 100%;
-	height: 100%;
-
+	height: 100vh;
 }
 
 .reviewModal {
-	margin: 0;
-	padding: 0;
 	display: grid;
 	place-items: center;
 	width: 100%;
 	height: 100%;
+	overflow: hidden;
 }
 
 .reviewMain {
-	margin: 0;
-	padding: 0;
 	border: 1px solid #ececec;
 	border-radius: 15px;
 	background-color: white;
-	width: 50%; min-width: 900px;
-	height: 95%;
-	
+	width: 35%; min-width: 650px;
+	height: 94%;
+	overflow: hidden;
+	position: relative;
 }
 
 .reviewBody {
@@ -71,7 +64,13 @@ html, body {
 	gap: 10px;
 	background-color: white;
 	width: 100%;
-	height: 100%;
+	height: 96%;
+	overflow-y: scroll;
+}
+
+.reviewBody::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
 .reviewHeader {
@@ -81,18 +80,18 @@ html, body {
 	padding: 10px;
 	border-bottom: 1px solid #ececec;
 	width: 100%;
-	height: 2%;
+	height: 6%;
 }
 
 .header-left {
 	font-weight: 700;
 	font-size: 20px;
-	width: 8%;
+	width: 12%;
 	height: 100%;
 }
 
 .header-right {
-	width: 6%;
+	width: 9%;
 	height: 100%;
 }
 
@@ -108,46 +107,47 @@ html, body {
 	gap: 10px;
 	padding: 10px;
 	border: 1px solid #ececec;
-	border-radius: 10px;
+	border-radius: 15px;
 	width: 100%;
-
 }
 
 .cardHead {
 	display: flex;
 	align-items: center;
 	gap: 10px;
-	border: 1px solid black;
 	width: 100%;
 	height: 100%;
 }
 
+/* 닉네임은 상황마다 길이가 다르기 때문에 설정하지 않음 */
 .nickname {
+	display: flex;
+	align-items: center; 
 	font-weight: 700;
 	font-size: 15px;
-	width: 9%;
 	height: 100%
 }
 
 .starPoint {
+	display: flex;
+	align-items: center; 
 	color: #f7b500;
 	font-size: 17px;
-	width: 20%;
 	height: 100%;
 	transform: translateY(-3px);
 }
 
 .date {
+	display: flex;
+	align-items: center; 
 	margin-left: auto; /* 작성일만 우측 정렬 하기 위해서 */
 	color: #656565;
 	font-size: 12px;
-	width: 8%;
 	height: 100%;
 }
 
 .cardBody {
-	border: 1px solid black;
-	margin-left: 17px;
+	margin-left: 13px;
 	width: 98%;
 }
 
@@ -164,8 +164,6 @@ html, body {
 }
 
 .reviewImg {
-	border: 1px solid #ececec;
-	border-radius: 5px;
 	object-fit: cover;  /* 비율유지 꽉채움 */
 	display: block; 	/* 하단 여백 제거 */
 	margin: 0;
@@ -175,38 +173,44 @@ html, body {
 
 .reviewContent {
 	white-space: pre-wrap; /* 텍스트 자동 줄바꿈 */
-	margin: 10px;
-	border: 1px solid black;
+	margin: 15px;
 	width: 100%;
 }
 
 .cardFooter {
-	border: 1px solid black;
-	margin-left: 17px;
+	display: flex;
+	align-items: center; 
+	border-left: 2px solid green;
+	border-radius: 8px;
+	margin-left: 13px;
+	padding-left: 10px;
+	font-size: 14px;
 	width: 98%;
 	height: 100%;
 }
 
 .reviewWrt {
-	display: grid;
+	align-items: center;
 	padding: 10px;
-	gap: 10px;
-	border: 1px solid #ececec;
 	width: 100%;
-	height: 10%;
-	border: 1px solid black;
+	height: 40%;
+	overflow: hidden;
+	position: absolute;
+	left: 0px;
+	bottom: 0px;
+	background-color: transparent;
 }
 
 .wrtBtn-div {
 	width: 100%;
-	height: 55%;
-	border: 1px solid black;
+	height: 15%;
+	display: flex;
+    justify-content: flex-end; /* 가로 방향 오른쪽 정렬 */
 }
 
 .wrtBtn-div-div {
-	width: 5%;
-	height: 100%;
-	border: 1px solid black;
+	width: 10%;
+	height: 80%;
 }
 
 .wrtBtn {
@@ -218,26 +222,26 @@ html, body {
 .wrtBody {
 	display: flex;
 	gap: 10px;
-	width: 100%;
-	height: 100%;
+ 	width: 100%; 
+	height: 85%;
 	border: 1px solid black;
+	background-color: white;
 }
 
 .wrtBody-left {
-	display: grid;
-	gap: 10px;
-	width: 30%;
+	padding: 10px;
+	width: 40%;
 	height: 100%;
-	border: 1px solid black;
 }
 
 .starsGroup {
 	display: flex;
-	gap: 3px;
+	gap: 10px;
 	width: 100%;
-	height: 100%;
-	border: 1px solid black;
+	height: 14%;
+	margin-bottom: 10px;
 }
+
 .starBtn {
 	display: flex;
 	background-color: white;
@@ -246,18 +250,110 @@ html, body {
 	align-items: center;     /* 세로 중앙 */
 	justify-content: center; /* 가로 중앙 */
 	padding: 0;
+	width: 13%;
+	height: 100%;
+}
+
+.upload {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 15px;
+	width: 100%;
+	height: 25%;
+	margin-bottom: 10px;
+}
+
+.fileBtn {
+	border: 1px solid #ececec;
+	background: white;
+	border-radius: 10px;
+	cursor: pointer;
+	width: 25%;
+	height: 100%;
+}
+
+.fileBtn:hover {
+	background: #f5f5f5;
+}
+
+.fileHint {
+	font-size: 12px;
+	color: #6b7280;
+	width: 60%;
+	height: 100%;
+}
+
+.fileCount {
+	font-size: 12px;
+	color: #10b981;
 	width: 14%;
-	height: 112%;
+	height: 100%;
+}
+
+.preview {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 10px;
+	border: 1px dashed #e2e8f0;
+	border-radius: 12px;
+	padding: 10px;
+	background: #fafcff;
+	width: 100%;
+	height: 50%;
+}
+
+.emptyBox {
+	width: 100%;
+	height: 100%;
+	border-radius: 12px;
+	overflow: hidden;
+	border: 1px solid #ececec;
+	background: #fff;
+	display: grid;
+	place-items: center;
 }
 
 .wrtBody-light {
-	display: grid;
-	border: 1px solid black;
+	gap: 10px;
+	width: 59%;
+	height: 100%;
+}
+
+.textReview {
+	display: flex;
+	justify-content: center;     /* 가로 중앙정렬 */
+    align-items: center;         /* 세로 중앙정렬 */
+	width: 100%;
+	height: 77%;
+}
+
+.wrtReviewContent {
+	resize: none;
+	width: 95%;
+	height: 90%;
+	padding: 10px;
+	border: 1px solid #ececec;
+	border-radius: 12px;
+}
+
+.submitBtn-div {
+	display: flex;
+	justify-content: center;     /* 가로 중앙정렬 */
+    align-items: center;         /* 세로 중앙정렬 */
+	width: 100%;
+	height: 18%;
+}
+
+.submitBtn {
+	width: 96%;
+	height: 80%;
+	border: 1px solid #ececec;
+	border-radius: 12px;
 }
 
 </style>
 </head>
-
 
 <body>
  
@@ -292,13 +388,7 @@ html, body {
 	            리뷰를 작성해 봅니다 리뷰를 작성해 봅니다 리뷰를 작성해 봅니다 리뷰를 작성해 봅니다 리뷰를 작성해 봅니다 리뷰를 작성해 봅니다 
 	            리뷰를 작성해 봅니다
 	            리뷰를 작성해 봅니다
-	            리뷰를 작성해 봅니다
-	            리뷰를 작성해 봅니다
-	            리뷰를 작성해 봅니다
-	            리뷰를 작성해 봅니다
-	            리뷰를 작성해 봅니다
-	            
-	            </div>
+	            리뷰를 작성해 봅니다</div>
 	          </div>
 	        </div>
 	       
@@ -320,7 +410,7 @@ html, body {
 	        <!-- 리뷰내용 -->
 	        <div class="cardBody">
 	          <div class="img-content">
-	            <div class="img-div"><img class="reviewImg" src="<%=request.getContextPath()%>/images/omg.jpg"></div>
+	            <div class="img-div"><img class="reviewImg" ></div>
 	            <div class="reviewContent">리뷰를 작성해 봅니다</div>
 	          </div>
 	        </div>
@@ -332,6 +422,28 @@ html, body {
 	      </div> <!-- reviewCard -->
 	      
 	      		  <div class="reviewCard">
+		    <!-- 작성자, 별점, 작성일 -->
+		    <div class="cardHead">
+			  <span class="nickname">네온고양이</span>
+			  <span class="starPoint">별점5</span>
+			  <span class="date">2025-10-30</span>
+	        </div>
+	      
+	        <!-- 리뷰내용 -->
+	        <div class="cardBody">
+	          <div class="img-content">
+	            <div class="img-div"><img class="reviewImg" src="<%=request.getContextPath()%>/images/omg.jpg"></div>
+	            <div class="reviewContent">리뷰를 작성해 봅니다</div>
+	          </div>
+	        </div>
+	       
+	        <!-- 관리자 답글 -->
+	        <div class="cardFooter">
+	          <div class="reply">관리자 답변을 달아 봅니다</div>
+	        </div>
+	      </div> <!-- reviewCard -->
+	      
+    	<div class="reviewCard">
 		    <!-- 작성자, 별점, 작성일 -->
 		    <div class="cardHead">
 			  <span class="nickname">네온고양이</span>
@@ -496,7 +608,9 @@ html, body {
 	        <!-- 리뷰내용 -->
 	        <div class="cardBody">
 	          <div class="img-content">
-	            <div class="img-div"><img class="reviewImg" src="<%=request.getContextPath()%>/images/omg.jpg"></div>
+	            <div class="img-div">
+	            	<img class="reviewImg" src="<%=request.getContextPath()%>/images/omg.jpg">
+            	</div>
 	            <div class="reviewContent">리뷰를 작성해 봅니다</div>
 	          </div>
 	        </div>
@@ -528,30 +642,6 @@ html, body {
 	          <div class="reply">관리자 답변을 달아 봅니다</div>
 	        </div>
 	      </div> <!-- reviewCard -->
-	      
-	      		  <div class="reviewCard">
-		    <!-- 작성자, 별점, 작성일 -->
-		    <div class="cardHead">
-			  <span class="nickname">네온고양이</span>
-			  <span class="starPoint">별점5</span>
-			  <span class="date">2025-10-30</span>
-	        </div>
-	      
-	        <!-- 리뷰내용 -->
-	        <div class="cardBody">
-	          <div class="img-content">
-	            <div class="img-div"><img class="reviewImg" src="<%=request.getContextPath()%>/images/omg.jpg"></div>
-	            <div class="reviewContent">리뷰를 작성해 봅니다</div>
-	          </div>
-	        </div>
-	       
-	        <!-- 관리자 답글 -->
-	        <div class="cardFooter">
-	          <div class="reply">관리자 답변을 달아 봅니다</div>
-	        </div>
-	      </div> <!-- reviewCard -->
-	      
-<!--  -->
 	      
 		</div> <!-- reviewBody end -->
 		
@@ -579,15 +669,15 @@ html, body {
 		    
 		    <!-- 파일 업로드 -->  
 		      <div class="upload">
-		        <button id="fileBtn" class="fileButtonNew" type="button">파일 선택</button>
+		        <button id="ifileBtn" class="fileBtn" type="button">파일<br>선택</button>
 				<input id="imageInput" type="file" accept="image/*" multiple hidden>
-				<div class="fileHintNew">최대 2장 · JPG/PNG/GIF</div>
-				<div class="fileCountNew" id="fileCount">0 / 2</div>
+				<div class="fileHint">최대 2장 · JPG/PNG/GIF</div>
+				<div class="fileCount" id="ifileCount">0 / 2</div>
 		      </div>
 		   
 		    <!-- 첨부파일 미리보기 -->  
 		      <div id="iPreview" class="preview">
-		        <div class="emptyBoxNew" data-empty>이미지 없음</div>
+		        <div class="emptyBox" data-empty>이미지 없음</div>
 		      </div>
 		    </div> <!-- wrtBody-left END -->
 		    
@@ -595,14 +685,14 @@ html, body {
 		    
 		    <!-- 리뷰 본문 작성 -->
 		      <div class="textReview">
-		        <textarea id="iWrtReviewContent" class="wrtreviewContent" maxlength="1000"
+		        <textarea id="iWrtReviewContent" class="wrtReviewContent" maxlength="1000"
 		        placeholder="리뷰를 작성해주세요 (최소 10자)&#10;게임/서비스의 장단점, 추천 여부 등을 자유롭게 적어주세요.">
 		        </textarea>
 		      </div>
 		    
 		    <!-- 등록 버튼 -->  
 		      <div class="submitBtn-div">
-		        <button id="btnSubmit" class="submitBtnNew" type="button">등록</button>
+		        <button id="sububmitBtn" class="submitBtn" type="button">등록</button>
 		      </div>
 		    </div> <!-- wrtBody-left END -->
 		    
@@ -613,7 +703,6 @@ html, body {
         </div>
     </div>
   </div>
-  
   
 <script>
 
