@@ -35,6 +35,7 @@
 html, body {
 	margin: 0;
 	height: 100%;
+	background-image: url('../../images/logins/loginBack.png');
 }
 
 .whiteAll-center {
@@ -495,10 +496,151 @@ input#imageInput[hidden] {
 	opacity: .6;
 	cursor: not-allowed;
 }
+
+/* =========================
+   Review Page – Neon Green Edition (Full)
+   ========================= */
+
+
+/* 2) 리뷰 모달 다이얼로그 – 어두운 네온 초록 */
+.reviewDialog {
+  background: rgba(0, 0, 0, 0.25);
+  border: 2px solid rgba(20, 200, 120, 0.8);
+  box-shadow:
+    0 0 20px rgba(20, 255, 160, 0.7),
+    0 0 40px rgba(20, 255, 160, 0.5),
+    0 0 80px rgba(20, 255, 160, 0.3),
+    inset 0 0 20px rgba(20, 255, 160, 0.4);
+  border-radius: 16px;
+  color: #e8fff3;
+}
+
+/* 3) 헤더 – 반투명 어두운 배경 + 부드러운 네온 라인 */
+.reviewHeader {
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  border-bottom: 1px solid rgba(16,185,129,.35);
+  box-shadow: 0 4px 12px rgba(16,185,129,.18);
+}
+
+.reviewHeader .reviewTitle {
+  color: white;
+  text-shadow:
+    0 0 8px rgba(16,185,129,.22),
+    0 0 16px rgba(16,185,129,.18);
+}
+
+/* 4) 이너 컨텐츠 – 반투명 배경 + 은은한 그린 글로우 */
+.innerContent {
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  box-shadow: inset 0 0 18px rgba(16,185,129,.12);
+  border-top: 1px solid rgba(16,185,129,.25);
+  color: #e8fff3;
+}
+
+/* 5) 작성창 열기 버튼 (열림/닫힘 동일한 기본효과) */
+#iwrtBtn {
+  color: #a7f3d0;
+  background: rgba(0, 0, 0, 0.25);
+  border: 2px solid rgba(16, 185, 129, 0.65);
+  box-shadow:
+    0 0 10px rgba(16, 185, 129, 0.3),
+    inset 0 0 12px rgba(16, 185, 129, 0.25);
+  transition: all 0.25s ease;
+}
+
+#iwrtBtn:hover {
+  color: #10b981;
+  border-color: rgba(16, 185, 129, 0.85);
+  box-shadow:
+    0 0 20px rgba(16, 185, 129, 0.45),
+    inset 0 0 16px rgba(16, 185, 129, 0.35);
+}
+
+/* 열림 상태 */
+#iwrtBtn[aria-expanded="true"] {
+  color: #34d399;
+  background: rgba(0, 0, 0, 0.35);
+  border-color: rgba(16, 185, 129, 0.85);
+  box-shadow:
+    0 0 25px rgba(16, 185, 129, 0.5),
+    inset 0 0 20px rgba(16, 185, 129, 0.4);
+}
+
+/* 6) 모달 닫기 버튼 */
+#iCloseModal {
+  color: #a7f3d0;
+  background: rgba(0, 0, 0, 0.25);
+  border: 2px solid rgba(16, 185, 129, 0.65);
+  box-shadow:
+    0 0 10px rgba(16, 185, 129, 0.3),
+    inset 0 0 12px rgba(16, 185, 129, 0.25);
+  transition: all 0.25s ease;
+}
+
+#iCloseModal:hover {
+  color: #10b981;
+  border-color: rgba(16, 185, 129, 0.85);
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow:
+    0 0 20px rgba(16, 185, 129, 0.45),
+    inset 0 0 16px rgba(16, 185, 129, 0.35);
+}
+
+/* 7) 등록 버튼 */
+#btnSubmit {
+  border: none;
+  background: rgba(16, 185, 129, 0.25);
+  color: #e8fff3;
+  border-radius: 10px;
+  transition: all 0.25s ease;
+}
+
+#btnSubmit:not([disabled]) {
+  background: #10b981;
+  box-shadow:
+    0 0 18px rgba(16, 185, 129, 0.35),
+    inset 0 0 12px rgba(16, 185, 129, 0.2);
+  color: #fff;
+}
+
+#btnSubmit:not([disabled]):hover {
+  background: #34d399;
+  box-shadow:
+    0 0 28px rgba(16, 185, 129, 0.5),
+    inset 0 0 16px rgba(16, 185, 129, 0.25);
+}
+
+/* 8) 별점 선택 강조 */
+.starsNew .starBtn.filled {
+  border-color: #10b981;
+  box-shadow:
+    0 0 16px rgba(16,185,129,.24),
+    inset 0 0 10px rgba(16,185,129,.10);
+}
+
+/* 9) 텍스트 포커스 링 */
+.textareaNew:focus {
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16,185,129,.22);
+}
+
+/* 10) 포커스 접근성 */
+#iwrtBtn:focus-visible,
+#iCloseModal:focus-visible,
+#btnSubmit:focus-visible {
+  outline: 2px solid rgba(16, 185, 129, 0.8);
+  outline-offset: 2px;
+}
+
+
 </style>
 </head>
 <body>
-
+  <div id="reviewRoot" class="reviewContainer">
 	<div class="whiteAll-center">
 		<button id="iOpenModal" class="openModal btn btn-outline-dark"
 			type="button">Review Board</button>
@@ -595,209 +737,220 @@ input#imageInput[hidden] {
 			</aside>
 		</div>
 	</div>
+  </div> <!-- 최상위 container -->
 
-	<script>
-// ===== 유틸 =====
-function starString(n){ return '★'.repeat(n) + '☆'.repeat(Math.max(0, 5-n)); }
-function placeholderDataURI(text){
-  var svg = "<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'>"
-    + "<rect width='100%' height='100%' fill='#f3f6fa'/>"
-    + "<rect x='16' y='16' width='208' height='208' rx='16' fill='#dfe7f3'/>"
-    + "<text x='50%' y='52%' dominant-baseline='middle' text-anchor='middle' font-size='20' font-family='Arial, sans-serif' fill='#394b63'>"+ text +"</text>"
-    + "</svg>";
-  return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
-}
-function notify(title, text, icon){
-  if (window.Swal && Swal.fire) return Swal.fire({title, text, icon, confirmButtonText:'확인'});
-  alert((title?title+'\n':'')+(text||''));
-}
-
-/* ===== 데모 데이터 & 렌더러 ===== */
-const DEMO = Array.from({length: 6}).map((_,i)=>({
-  id: i+1,
-  nickname:["네온고양이","사이버펑크","데이터러버","블루칩","픽셀러","광자"][i],
-  stars:[5,4,3,5,2,4][i],
-  date:["2025-10-24","2025-10-25","2025-10-26","2025-10-27","2025-10-28","2025-10-29"][i],
-  img: placeholderDataURI("REVIEW "+(i+1)),
-  text:[
-    "네온 감성 좋습니다!",
-    "작성창 토글이 자연스럽네요.",
-    "별점만으로도 충분히 표현돼요.",
-    "간결한 레이아웃이 보기 좋아요.",
-    "스크롤/리사이즈로 잘림 없이 입력 가능.",
-    "반응형에서도 안정적이에요."
-  ][i],
-  adminReply:"관리자: 소중한 의견 감사합니다!"
-}));
-function renderList(listEl, data){
-  listEl.innerHTML = "";
-  for (const item of data){
-    const el = document.createElement('article');
-    el.className = 'card';
-    el.innerHTML =
-      '<div class="head">'
-        + '<span class="nickname">'+ item.nickname +'</span>'
-        + '<span class="stars" aria-label="'+ item.stars +'점">'+ starString(item.stars) +'</span>'
-        + '<span class="date">'+ item.date +'</span>'
-      +'</div>'
-      +'<div class="body">'
-        +'<div class="row">'
-          +'<div class="thumb"><img src="'+ item.img +'" alt="리뷰 이미지 '+ item.id +'"></div>'
-          +'<div class="text">'+ item.text +'</div>'
-        +'</div>'
-        +'<div class="reply">'+ item.adminReply +'</div>'
-      +'</div>';
-    listEl.appendChild(el);
-  }
-}
-
-/* ===== 작성창 토글(기존 UX 유지) ===== */
-const composer = { root:null, toggleBtn:null, textarea:null,
-  open(){ this.root.classList.add('open'); this.toggleBtn.setAttribute('aria-expanded','true'); setTimeout(()=>this.textarea.focus(), 80); },
-  close(){ this.root.classList.remove('open'); this.toggleBtn.setAttribute('aria-expanded','false'); },
-  toggle(){ this.root.classList.contains('open') ? this.close() : this.open(); }
-};
-
+<script>
 window.onload = () => {
-  // 목록 렌더
-  const list = document.getElementById('iReviewList');
-  renderList(list, DEMO);
+  // 클릭 위임
+  window.addEventListener('click', (e) => {
+    let root = e.target.closest('#reviewRoot');
+    if (!root) return;
 
-  // 모달 열고 닫기
-  const modalEl = document.getElementById('iReviewModal');
-  document.getElementById('iOpenModal').addEventListener('click', ()=> modalEl.hidden = false);
-  document.getElementById('iCloseModal').addEventListener('click', ()=> modalEl.hidden = true);
+    // 모달 열기
+    let openBtn = e.target.closest('#iOpenModal');
+    if (openBtn) {
+      let modal = root.querySelector('#iReviewModal');
+      if (modal) modal.hidden = false;
+      return;
+    }
 
-  // 작성창 연결
-  composer.root = document.getElementById('iWrtReview');
-  composer.toggleBtn = document.getElementById('iwrtBtn');
-  composer.textarea = document.getElementById('content');
-  composer.toggleBtn.addEventListener('click', ()=>{
-	  composer.toggle();
-	  if (composer.root.classList.contains('open')) {
-		    const cur = Number(document.getElementById('ratingVal').value) || 0;
-		    if (cur === 0) setRating(5);
-		  }
-	});
+    // 모달 닫기
+    let closeBtn = e.target.closest('#iCloseModal');
+    if (closeBtn) {
+      let modal = closeBtn.closest('#iReviewModal');
+      if (modal) modal.hidden = true;
+      return;
+    }
 
-  // ===== 별점 =====
-  const starsGroup = document.getElementById('starsGroup');
-  const starBtns = Array.from(starsGroup.querySelectorAll('.starBtn'));
-  const ratingHidden = document.getElementById('ratingVal');
+    // 작성창 토글 (.wrtReview.open) — 아이콘은 aria-expanded만 토글! (텍스트/innerHTML 건드리지 않음)
+    let wrtBtn = e.target.closest('#iwrtBtn');
+    if (wrtBtn) {
+      let wrt = root.querySelector('#iWrtReview');
+      if (wrt) {
+        let isOpen = wrt.classList.contains('open');
+        wrt.classList.toggle('open', !isOpen);
+        wrtBtn.setAttribute('aria-expanded', isOpen ? 'false' : 'true'); // CSS가 이 상태로 svg를 회전
+      }
+      return;
+    }
 
-  const setRating = (val) => {
-	  ratingHidden.value = String(val);
-	  const num = Number(val) || 0;
-	  starBtns.forEach(btn => {
-	    const n = Number(btn.dataset.val);
-	    // 정확히 선택된 별: aria-checked true
-	    btn.setAttribute('aria-checked', n === num ? 'true' : 'false');
-	    // 선택값 이하 별들은 모두 채워짐
-	    btn.classList.toggle('filled', n <= num);
-	  });
-	  validate();
-	};
-  
-  starBtns.forEach((btn, i) => {
-    btn.addEventListener('click', () => setRating(i+1));
-    btn.addEventListener('keydown', (e) => {
-      const cur = Number(ratingHidden.value)||0;
-      if(e.key==='ArrowRight'||e.key==='ArrowUp'){ e.preventDefault(); const n=Math.min(5,cur+1); setRating(n); starBtns[n-1].focus(); }
-      if(e.key==='ArrowLeft'||e.key==='ArrowDown'){ e.preventDefault(); const n=Math.max(1,cur-1); setRating(n); starBtns[n-1].focus(); }
-    });
+    // 별점 선택 (#starsGroup .starBtn)
+    let star = e.target.closest('.starBtn');
+    if (star) {
+      let group = star.closest('#starsGroup') || star.parentElement;
+      if (group) {
+        let chosen = Number(star.getAttribute('data-val') || '0');
+        let stars = group.querySelectorAll('.starBtn');
+
+        // aria-checked (선택 하나) + .filled (선택값 이하에 시각 효과)
+        for (let i = 0; i < stars.length; i++) {
+          let v = Number(stars[i].getAttribute('data-val') || (i+1));
+          stars[i].setAttribute('aria-checked', v === chosen ? 'true' : 'false');
+          if (v <= chosen) stars[i].classList.add('filled');
+          else stars[i].classList.remove('filled');
+        }
+
+        let hidden = root.querySelector('#ratingVal');
+        if (hidden) hidden.value = String(chosen);
+
+        updateSubmitState(root);
+      }
+      return;
+    }
+
+    // 파일 선택 버튼 → input 클릭
+    let fileBtn = e.target.closest('#fileBtn');
+    if (fileBtn) {
+      let input = root.querySelector('#imageInput');
+      if (input) input.click();
+      return;
+    }
+
+    // 썸네일 개별 삭제 .rmNew
+    let rm = e.target.closest('.rmNew');
+    if (rm) {
+      let grid = rm.closest('#previewGrid');
+      let input = root.querySelector('#imageInput');
+      if (grid && input && input.files && window.DataTransfer) {
+        let idx = rm.getAttribute('data-idx');
+        if (idx != null) {
+          let dt = new DataTransfer();
+          for (let i = 0; i < input.files.length; i++) {
+            if (String(i) !== String(idx)) dt.items.add(input.files[i]);
+          }
+          input.files = dt.files;
+          renderPreview(grid, input.files);
+          updateCounter(root);
+          updateSubmitState(root);
+        }
+      }
+      return;
+    }
+
+    // 등록 (서버 연동 제외)
+    let submit = e.target.closest('#btnSubmit');
+    if (submit) {
+      let v = validate(root);
+      if (!v.ok) {
+        notify('확인 필요', v.msg, 'warning');
+        return;
+      }
+      notify('검증 완료', '서버 연동은 구축 후 진행합니다.', 'success');
+      resetForm(root);
+      return;
+    }
   });
 
-  // ===== 이미지 첨부 & 미리보기 =====
-  const MAX_FILES = 2; // ★ 첨부파일 2개로 제한
-  const fileBtn   = document.getElementById('fileBtn');
-  const input     = document.getElementById('imageInput');
-  const preview   = document.getElementById('previewGrid');
-  const fileCount = document.getElementById('fileCount');
-  let files = [];
-
-  const refreshCount = () => { fileCount.textContent = `${files.length} / ${MAX_FILES}`; };
-  const renderPreview = () => {
-    preview.innerHTML = '';
-    if (files.length === 0){
-      const empty = document.createElement('div');
-      empty.className = 'emptyBoxNew'; empty.dataset.empty = ''; empty.textContent = '이미지 없음';
-      preview.appendChild(empty);
-      refreshCount(); return;
+  // 입력: 글자수 카운터 + 등록 버튼 활성화
+  window.addEventListener('input', (e) => {
+    let root = e.target.closest('#reviewRoot');
+    if (!root) return;
+    let ta = e.target.closest('#content');
+    if (ta) {
+      let cnt = root.querySelector('#cnt');
+      if (cnt) cnt.textContent = (ta.value || '').length;
+      updateSubmitState(root);
     }
-    files.forEach((f, idx) => {
-      const wrap = document.createElement('div'); wrap.className = 'thumbNew';
-      const img = document.createElement('img'); img.alt = `첨부 이미지 ${idx+1}`; wrap.appendChild(img);
-      const rm = document.createElement('button'); rm.className = 'rmNew'; rm.type='button'; rm.textContent = '×';
-      rm.addEventListener('click', () => { files.splice(idx,1); renderPreview(); validate(); });
-      wrap.appendChild(rm);
-      const reader = new FileReader(); reader.onload = e => { img.src = e.target.result; }; reader.readAsDataURL(f);
-      preview.appendChild(wrap);
-    });
-    refreshCount();
+  });
+
+  // 파일 변경: 2장 제한 + 미리보기 + 카운터 + 버튼 활성화
+  window.addEventListener('change', (e) => {
+    let root = e.target.closest('#reviewRoot');
+    if (!root) return;
+    let input = e.target.closest('#imageInput');
+    if (!input) return;
+
+    let files = input.files || [];
+    let max = 2;
+    if (files.length > max && window.DataTransfer) {
+      let dt = new DataTransfer();
+      for (let i = 0; i < Math.min(files.length, max); i++) dt.items.add(files[i]);
+      input.files = dt.files;
+      files = input.files;
+    }
+
+    updateCounter(root);
+    let grid = root.querySelector('#previewGrid');
+    renderPreview(grid, files);
+    updateSubmitState(root);
+  });
+
+  // ===== 유틸 =====
+  let updateCounter = (root) => {
+    let fileCount = root.querySelector('#fileCount');
+    let input = root.querySelector('#imageInput');
+    if (fileCount && input) fileCount.textContent = ((input.files ? input.files.length : 0) + ' / 2');
   };
-  fileBtn.addEventListener('click', ()=> input.click());
-  input.addEventListener('change', (e)=>{
-    const incoming = Array.from(e.target.files || []);
-    const remain = MAX_FILES - files.length;
-    if(incoming.length > remain) notify('이미지 제한', `이미지는 최대 ${MAX_FILES}장까지 첨부할 수 있어요. (추가 가능: ${remain}장)`, 'info');
-    const pick = incoming.slice(0, Math.max(0, remain)).filter(f => /^image\//.test(f.type) && f.size > 0);
-    files = files.concat(pick);
-    input.value = ''; // 동일 파일 재선택 가능하도록 초기화
-    renderPreview(); validate();
-  });
 
-  // ===== 본문 & 유효성 =====
-  const content = document.getElementById('content');
-  const cnt = document.getElementById('cnt');
-  const btnSubmit = document.getElementById('btnSubmit');
-
-  const updateCounter = () => { cnt.textContent = String(content.value.length); };
-  function validate(){
-    const textOK = content.value.trim().length >= 10;
-    const ratingOK = Number(ratingHidden.value) >= 1;
-    btnSubmit.disabled = !(textOK && ratingOK);
-  }
-  content.addEventListener('input', ()=>{ updateCounter(); validate(); });
-  updateCounter(); validate(); setRating(5); renderPreview();
-
-  // ===== 제출 (FormData 예시) =====
-  btnSubmit.addEventListener('click', async ()=>{
-    if(btnSubmit.disabled) return;
-
-    const fd = new FormData();
-    fd.set('rating', ratingHidden.value);
-    fd.set('content', content.value.trim());
-    files.forEach((f) => fd.append('images', f, f.name));
-
-    try{
-      // 실제 서버 엔드포인트로 교체하세요.
-      // const res = await axios.post('<%=request.getContextPath()%>/review/create.do', fd, { headers:{ 'Content-Type':'multipart/form-data' } });
-
-      // 데모: 목록 갱신만
-      DEMO.unshift({
-        id: DEMO.length+1,
-        nickname: '게스트'+(DEMO.length+1),
-        stars: Number(ratingHidden.value)||0,
-        date: new Date().toISOString().slice(0,10),
-        img: files[0] ? URL.createObjectURL(files[0]) : placeholderDataURI('NEW'),
-        text: content.value.trim(),
-        adminReply: '관리자: 등록 감사합니다.'
-      });
-      renderList(list, DEMO);
-      notify('등록 완료', '리뷰가 등록되었습니다.', 'success');
-
-      // 초기화 + 닫기
-      setRating(0); files = []; renderPreview();
-      content.value=''; updateCounter(); validate();
-      composer.close(); 
-      list.parentElement.scrollTop = 0;
-    }catch(err){
-      console.error(err);
-      notify('등록 실패', '잠시 후 다시 시도해 주세요.', 'error');
+  let renderPreview = (grid, files) => {
+    if (!grid) return;
+    let arr = [];
+    files = files || [];
+    if (!files.length) {
+      arr.push('<div class="emptyBoxNew" data-empty>이미지 없음</div>');
+    } else {
+      for (let i = 0; i < files.length; i++) {
+        let url = URL.createObjectURL(files[i]);
+        arr.push(
+          '<div class="thumbNew">'
+            + '<img alt="첨부 이미지 ' + (i+1) + '" src="' + url + '">'
+            + '<button type="button" class="rmNew" data-idx="' + i + '">×</button>'
+          + '</div>'
+        );
+      }
     }
-  });
+    grid.innerHTML = arr.join('');
+  };
+
+  let validate = (root) => {
+    let content = root.querySelector('#content');
+    let chosenBtn = root.querySelector('#starsGroup .starBtn[aria-checked="true"]');
+    let star = chosenBtn ? (chosenBtn.getAttribute('data-val') || '') : '';
+    let input = root.querySelector('#imageInput');
+    let count = input && input.files ? input.files.length : 0;
+
+    if (!star) return { ok:false, msg:'별점을 선택해 주세요.' };
+    if (!content || (content.value || '').trim().length < 10) return { ok:false, msg:'리뷰를 10자 이상 작성해 주세요.' };
+    if (count > 2) return { ok:false, msg:'이미지는 최대 2장까지 업로드할 수 있습니다.' };
+    return { ok:true, msg:'' };
+  };
+
+  let updateSubmitState = (root) => {
+    let btn = root.querySelector('#btnSubmit');
+    if (!btn) return;
+    let chosenBtn = root.querySelector('#starsGroup .starBtn[aria-checked="true"]');
+    let starOk = !!chosenBtn;
+    let content = root.querySelector('#content');
+    let textOk = content ? (content.value || '').trim().length >= 10 : false;
+    btn.disabled = !(starOk && textOk);
+  };
+
+  let resetForm = (root) => {
+    let content = root.querySelector('#content');
+    if (content) content.value = '';
+    let stars = root.querySelectorAll('#starsGroup .starBtn');
+    for (let i = 0; i < stars.length; i++) {
+      stars[i].setAttribute('aria-checked','false');
+      stars[i].classList.remove('filled');
+    }
+    let input = root.querySelector('#imageInput');
+    if (input && window.DataTransfer) {
+      let dt = new DataTransfer();
+      input.files = dt.files;
+    }
+    let grid = root.querySelector('#previewGrid');
+    renderPreview(grid, (input ? input.files : []));
+    updateCounter(root);
+    updateSubmitState(root);
+  };
+
+  let notify = (title, text, icon) => {
+    if (window.Swal && window.Swal.fire) window.Swal.fire({ title, text, icon });
+    else alert((title ? (title + '\n') : '') + (text || ''));
+  };
 };
 </script>
+
 
 </body>
 </html>

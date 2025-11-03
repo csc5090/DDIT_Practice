@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>리뷰 게시판5</title>
+<title>리뷰 게시판6</title>
 
 <!-- 부트스트랩 -->
 <link rel="stylesheet"
@@ -228,6 +228,23 @@ html, body {
 	background-color: white;
 }
 
+/* 작성창 열림 */
+.wrtBody[data-open="1"] {
+	max-height: 85%;
+	overflow: auto;
+	transition: max-height .25s ease;
+}
+
+/* 작성창 닫힘 padding, margin, border 0으로 */
+.wrtBody[data-open="0"] {
+	max-height: 0;
+	overflow: hidden;
+	padding: 0;
+	border: 0;
+	box-shadow: none;
+	margin: 0;
+}
+
 .wrtBody-left {
 	padding: 10px;
 	width: 40%;
@@ -254,6 +271,11 @@ html, body {
 	height: 100%;
 }
 
+/* 별점 선택 시 강조 */
+.starBtn[aria-checked="true"] {
+	outline: 2px solid #2c7be5;
+	box-shadow: 0 0 0 3px rgba(44,123,229,.2);
+}
 .upload {
 	display: flex;
 	align-items: center;
@@ -301,6 +323,27 @@ html, body {
 	background: #fafcff;
 	width: 100%;
 	height: 50%;
+}
+
+/* 파일 미리보기 상태 => 파일 없음/있음 */
+#iPreview[data-has-files="0"] .emptyBox {
+	display: block;
+}
+#iPreview[data-has-files="1"] .emptyBox,
+#iPreview[data-has-files="2"] .emptyBox {
+	display: none;
+}
+/* 첨부파일 1개 */
+#iPreview[data-has-files="1"] {
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+}
+/* 첨부파일 2개 */
+#iPreview[data-has-files="2"] {
+	background-repeat: no-repeat, no-repeat;
+	background-position: left center, right center;
+	background-size: 50% 100%, 50% 100%;
 }
 
 .emptyBox {
@@ -706,8 +749,154 @@ html, body {
   
 <script>
 
+window.onload = () => {
+ 
+  window.addEventListener('click', (e) => {
+    
+    let wrtBtn = e.target.closest('#iwrtBtn');
+    if (wrtBtn) {
+      let root = wrtBtn.closest('#reviewRoot');
+      if (root) {
+        let body = root.querySelector('.wrtBody');
+        if (body) {
+          let open = body.getAttribute('data-open') === '1';
+          body.setAttribute('data-open', open ? '0' : '1');
 
+          let txtOpen  = wrtBtn.getAttribute('data-open-text')  || '닫기';
+          let txtClose = wrtBtn.getAttribute('data-close-text') || '열기';
+          wrtBtn.textContent = open ? txtClose : txtOpen;
+        }
+      }
+      return;
+    }
+
+    // 별점 선택
+ let star = e.target.closest('.starBtn');
+    if (star) {
+      let group = star.closest('.starsGroup') || star.parentElement;   // ★ 수정: .starsGroup 우선
+      if (group) {
+        let chosen = star.getAttribute('data-val') || '';
+        let stars = group.querySelectorAll('.starBtn');
+        for (let i = 0; i < stars.length; i++) {
+          let v = stars[i].getAttribute('data-val') || (i + 1) + '';
+          stars[i].setAttribute('aria-checked', v === chosen ? 'true' : 'false');
+        }
+      }
+      return;
+    }
+
+    // 파일 선택 트리거
+    let fileBtn = e.target.closest('#ifileBtn');
+    if (fileBtn) {
+      let root = fileBtn.closest('#reviewRoot');
+      if (root) {
+        let input = root.querySelector('#imageInput') || root.querySelector('#iImageInput');
+        if (input) input.click();
+      }
+      return;
+    }
+
+    // 모달 닫기
+    let modalClose = e.target.closest('#iModalCloseBtn');
+    if (modalClose) {
+      let modal = modalClose.closest('#iReviewModal');
+      if (modal) modal.setAttribute('data-open', '0');
+      return;
+    }
+
+    // 등록 버튼
+    let submitBtn = e.target.closest('#iSubmitBtn');
+    if (submitBtn) {
+      let root = submitBtn.closest('#reviewRoot');
+      if (root) {
+        handleSubmit(root);
+      }
+      return;
+    }
+  });
+
+  // 첨부파일
+  window.addEventListener('change', (e) => {
+    let input = e.target.closest('input[type="file"]');
+    if (!input) return;
+
+    let root = input.closest('#reviewRoot');
+    if (!root) return;
+
+    let files = input.files || [];
+    let max = 2;
+
+    // 첨부 이미지 2개 제한
+    if (files.length > max && window.DataTransfer) {
+      let dt = new DataTransfer();
+      for (let i = 0; i < max; i++) dt.items.add(files[i]);
+      input.files = dt.files;
+      files = input.files;
+    }
+
+    let count = files.length;
+    let counter = root.querySelector('#ifileCount');
+    if (counter) counter.textContent = (count + ' / ' + max);
+
+    // 미리보기
+    let preview = root.querySelector('#iPreview');
+    if (!preview) return;
+
+    if (!count) {
+      preview.style.backgroundImage = '';
+      preview.removeAttribute('style');
+      preview.setAttribute('data-has-files', '0');
+      return;
+    }
+
+    // 최대 2장으로 미리보기
+    let urls = [];
+    for (let i = 0; i < Math.min(count, max); i++) {
+      let u = URL.createObjectURL(files[i]);
+      urls.push('url("' + u + '")');
+    }
+    preview.style.backgroundImage = urls.join(', ');
+    if (urls.length === 1) {
+      preview.setAttribute('data-has-files', '1');
+      preview.style.backgroundRepeat = 'no-repeat';
+      preview.style.backgroundPosition = 'center';
+      preview.style.backgroundSize = 'cover';
+    } else {
+      preview.setAttribute('data-has-files', '2');
+      preview.style.backgroundRepeat = 'no-repeat, no-repeat';
+      preview.style.backgroundPosition = 'left center, right center';
+      preview.style.backgroundSize = '50% 100%, 50% 100%';
+    }
+  });
+
+  // 제출 처리(간단 검증)
+  let handleSubmit = (root) => {
+	  let content = root.querySelector('#iWrtReviewContent');
+
+	  let chosenBtn = root.querySelector('.starsGroup .starBtn[aria-checked="true"]');
+	  let chosen = chosenBtn ? (chosenBtn.getAttribute('data-val') || '') : '';
+
+	  let input = root.querySelector('#imageInput') || root.querySelector('#iImageInput');
+	  let files = input ? input.files : null;
+	  let count = files ? files.length : 0;
+
+	  let err = '';
+	  if (!chosen) err = '별점을 선택해 주세요.';
+	  else if (!content || (content.value || '').trim().length < 10) err = '리뷰를 10자 이상 작성해 주세요.';
+	  else if (count > 2) err = '이미지는 최대 2장까지 업로드할 수 있습니다.';
+
+	  if (err) {
+	    if (window.Swal && window.Swal.fire) window.Swal.fire({ icon: 'warning', text: err });
+	    else alert(err);
+	    return;
+	  }
+
+	  if (window.Swal && window.Swal.fire) window.Swal.fire({ icon: 'success', text: '검증 완료! (전송 로직은 별도 구현)' });
+	  else alert('검증 완료! (전송 로직은 별도 구현)');
+	};
+};
 
 </script>
+
 </body>
 </html>
