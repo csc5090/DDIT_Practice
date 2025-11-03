@@ -14,7 +14,7 @@
 	src="<%=request.getContextPath()%>/js/lib/bootstrap/js/bootstrap.min.js"></script>
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/js/lib/sweetalert2/dist/sweetalert2.min.css">
-	<script type="text/javascript"
+<script type="text/javascript"
 	src="<%=request.getContextPath()%>/js/lib/sweetalert2/dist/sweetalert2.min.js"></script>
 
 <script type="text/javascript"
@@ -33,7 +33,7 @@
 	href="${pageContext.request.contextPath}/css/admin/admin_notice.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/admin/admin_review.css">
-		
+
 
 
 </head>
@@ -199,72 +199,74 @@
 						</div>
 					</div>
 
-					<div class="user-detail-panel"> <div class="detail-content">
-												<div class="detail-header">
-													<h2 id="detail-user-id"></h2>
-													</div>
-												<div class="detail-body">
-													<div class="form-group">
-														<label for="detail-nickname">닉네임</label> <input type="text"
-															id="detail-nickname">
-													</div>
-													<div class="form-group">
-														<label for="detail-status">계정 상태</label> <select
-															id="detail-status">
-															<option value="ACTIVE">ACTIVE</option>
-															<option value="SUSPENDED">SUSPENDED</option>
-															<option value="DELETED">DELETED</option>
-														</select>
-													</div>
-													<div class="form-group">
-														<label for="detail-role">역할 (ROLE)</label> <select
-															id="detail-role">
-															<option value="USER">USER</option>
-															<option value="ADMIN">ADMIN</option>
-														</select>
-													</div>
-													<div class="form-group">
-														<label for="detail-email">이메일</label> <input type="text"
-															id="detail-email" readonly>
-													</div>
-													<div class="form-group">
-														<label for="detail-gender">성별</label> <input type="text"
-															id="detail-gender" readonly>
-													</div>
-													<div class="form-group">
-														<label for="detail-birth">생년월일</label> <input type="text"
-															id="detail-birth" readonly>
-													</div>
-													<div class="form-group">
-														<label for="detail-hp">핸드폰 번호</label> <input type="text"
-															id="detail-hp" readonly>
-													</div>
-													<div class="form-group">
-														<label for="detail-zip">우편번호</label> <input type="text"
-															id="detail-zip" readonly>
-													</div>
-													<div class="form-group full-width">
-														<label for="detail-add1">기본주소</label> <input type="text"
-															id="detail-add1" readonly>
-													</div>
-													<div class="form-group full-width">
-														<label for="detail-add2">상세주소</label> <input type="text"
-															id="detail-add2" readonly>
-													</div>
-													<div class="form-group">
-														<label for="detail-deleted-date">탈퇴일</label> <input type="text"
-															id="detail-deleted-date" readonly>
-													</div>
-													<div class="form-group">
-														<label for="detail-deleted-reason">탈퇴 사유</label> <input
-															type="text" id="detail-deleted-reason" readonly>
-													</div>
-												</div>
-												<div class="detail-footer">
-													<button id="detail-apply-btn" class="btn-apply">적용</button>
-												</div>
-											</div>
-										</div>
+					<div class="user-detail-panel">
+						<div class="detail-content">
+							<div class="detail-header">
+								<h2 id="detail-user-id"></h2>
+								<p class="header-guideline">편집할 유저를 더블클릭하세요.</p>
+							</div>
+							<div class="detail-body">
+								<div class="form-group">
+									<label for="detail-nickname">닉네임</label> <input type="text"
+										id="detail-nickname">
+								</div>
+								<div class="form-group">
+									<label for="detail-status">계정 상태</label> <select
+										id="detail-status">
+										<option value="ACTIVE">ACTIVE</option>
+										<option value="SUSPENDED">SUSPENDED</option>
+										<option value="DELETED">DELETED</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="detail-role">역할 (ROLE)</label> <select
+										id="detail-role">
+										<option value="USER">USER</option>
+										<option value="ADMIN">ADMIN</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="detail-email">이메일</label> <input type="text"
+										id="detail-email" readonly>
+								</div>
+								<div class="form-group">
+									<label for="detail-gender">성별</label> <input type="text"
+										id="detail-gender" readonly>
+								</div>
+								<div class="form-group">
+									<label for="detail-birth">생년월일</label> <input type="text"
+										id="detail-birth" readonly>
+								</div>
+								<div class="form-group">
+									<label for="detail-hp">핸드폰 번호</label> <input type="text"
+										id="detail-hp" readonly>
+								</div>
+								<div class="form-group">
+									<label for="detail-zip">우편번호</label> <input type="text"
+										id="detail-zip" readonly>
+								</div>
+								<div class="form-group full-width">
+									<label for="detail-add1">기본주소</label> <input type="text"
+										id="detail-add1" readonly>
+								</div>
+								<div class="form-group full-width">
+									<label for="detail-add2">상세주소</label> <input type="text"
+										id="detail-add2" readonly>
+								</div>
+								<div class="form-group">
+									<label for="detail-deleted-date">탈퇴일</label> <input type="text"
+										id="detail-deleted-date" readonly>
+								</div>
+								<div class="form-group">
+									<label for="detail-deleted-reason">탈퇴 사유</label> <input
+										type="text" id="detail-deleted-reason" readonly>
+								</div>
+							</div>
+							<div class="detail-footer">
+								<button id="detail-apply-btn" class="btn-apply">적용</button>
+							</div>
+						</div>
+					</div>
 				</div>
 
 				<div class="bodyArea" id="notice-management">
@@ -320,47 +322,47 @@
 					</div>
 				</div>
 
-				<div class="bodyArea" id="post-management">
-					게시판 관리
-				</div>
-				
+				<div class="bodyArea" id="post-management">게시판 관리</div>
 
-					<div class="bodyArea" id="review-management">
-															<div class="review-toolbar">
-																<h1>리뷰 관리</h1>
-																<div class="sort-options">
-																	<label for="review-sort-select">정렬 기준:</label>
-																	<select id="review-sort-select">
-																		<option value="regDate_desc">최신순</option>
-																		<option value="regDate_asc">오래된순</option>
-																		<option value="stars_desc">별점 높은순</option>
-																		<option value="stars_asc">별점 낮은순</option>
-																	</select>
-																</div>
-															</div>
-															
-															<div class="review-list-container" id="admin-review-list">
-																
-																<article class="review-card" data-review-no="###">
-																	<div class="review-card-header">
-																		<span class="review-card-nickname">###</span>
-																		<span class="review-card-stars">###</span>
-																		<span class="review-card-date">###</span>
-																	</div>
-																	<div class="review-card-body">
-																		<p class="review-card-content">###</p>
-																		<div class="review-admin-reply">
-																			<textarea placeholder="관리자 댓글을 입력하세요...">###</textarea>
-																		</div>
-																	</div>
-																	<div class="review-card-actions">
-																		<button class="action-btn" data-action="save-reply">댓글 저장</button>
-																		<button class="action-btn danger" data-action="delete-review">리뷰 삭제</button>
-																	</div>
-																</article>
-																
-															</div>
-														</div>
+
+				<div class="bodyArea" id="review-management">
+					<div class="review-toolbar">
+						<h1>리뷰 관리</h1>
+						<div class="sort-options">
+							<label for="review-sort-select">정렬 기준:</label> <select
+								id="review-sort-select">
+								<option value="regDate_desc">최신순</option>
+								<option value="regDate_asc">오래된순</option>
+								<option value="stars_desc">별점 높은순</option>
+								<option value="stars_asc">별점 낮은순</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="review-list-container" id="admin-review-list">
+
+						<article class="review-card" data-review-no="###">
+							<div class="review-card-header">
+								<span class="review-card-nickname">###</span> <span
+									class="review-card-stars">###</span> <span
+									class="review-card-date">###</span>
+							</div>
+							<div class="review-card-body">
+								<p class="review-card-content">###</p>
+								<div class="review-admin-reply">
+									<textarea placeholder="관리자 댓글을 입력하세요...">###</textarea>
+								</div>
+							</div>
+							<div class="review-card-actions">
+								<button class="action-btn" data-action="save-reply">댓글
+									저장</button>
+								<button class="action-btn danger" data-action="delete-review">리뷰
+									삭제</button>
+							</div>
+						</article>
+
+					</div>
+				</div>
 
 				<div class="bodyArea" id="stats-main">데이터/통계</div>
 			</main>
@@ -376,15 +378,18 @@
 
 	<script src="${pageContext.request.contextPath}/js/common.js"></script>
 	<script src="${pageContext.request.contextPath}/js/admin/api-client.js"></script>
-	<script src="${pageContext.request.contextPath}/js/admin/page-dashboard.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/js/admin/page-dashboard.js"></script>
 	<script src="${pageContext.request.contextPath}/js/admin/page-user.js"></script>
-	<script src="${pageContext.request.contextPath}/js/admin/page-notice.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/js/admin/page-notice.js"></script>
 	<script src="${pageContext.request.contextPath}/js/admin/page-post.js"></script>
 	<script src="${pageContext.request.contextPath}/js/admin/page-stats.js"></script>
 	<script src="${pageContext.request.contextPath}/js/admin/admin-core.js"></script>
 	<script src="${pageContext.request.contextPath}/js/admin/admin-main.js"></script>
-	<script src="${pageContext.request.contextPath}/js/admin/page-review.js"></script>
-	
-	
+	<script
+		src="${pageContext.request.contextPath}/js/admin/page-review.js"></script>
+
+
 </body>
 </html>
