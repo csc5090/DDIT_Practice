@@ -7,5 +7,9 @@ public interface UserInfoDAO {
 	void JoinUser(UserInfoDTO userInfo);
 
 	UserInfoDTO getIdCheck(UserInfoDTO userInfo);
+
+	UserInfoDTO getIdFind(UserInfoDTO userInfo);
+
+	UserInfoDTO getPasswordFind(UserInfoDTO userInfo);
 	
 }

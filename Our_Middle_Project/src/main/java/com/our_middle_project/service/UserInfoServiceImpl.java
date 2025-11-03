@@ -32,4 +32,28 @@ public class UserInfoServiceImpl implements UserInfoService {
 		
 	}
 
+	@Override
+	public UserInfoDTO getIdFind(UserInfoDTO userInfo) {
+		
+		UserInfoDTO result;
+		try(SqlSession sqlSession = MybatisUtil.getSqlSession()) {
+			UserInfoDAO userInfoDao = new UserInfoDAOImpl(sqlSession);
+			result = userInfoDao.getIdFind(userInfo);
+		}
+		return result;
+		
+	}
+
+	@Override
+	public UserInfoDTO getPasswordFind(UserInfoDTO userInfo) {
+		
+		UserInfoDTO result;
+		try(SqlSession sqlSession = MybatisUtil.getSqlSession()) {
+			UserInfoDAO userInfoDao = new UserInfoDAOImpl(sqlSession);
+			result = userInfoDao.getPasswordFind(userInfo);
+		}
+		return result;
+		
+	}
+
 }

@@ -17,7 +17,7 @@ function addEventHandle() {
 	
 	let closeBtns = document.querySelectorAll('.close-btn');
 	closeBtns.forEach(btn => {
-	  btn.addEventListener('click', (e) => { closeModalHandle(e) });
+	  btn.addEventListener('click', (e) => { closeModalHandle(e, "default") });
 	});
 
 	/*
@@ -101,11 +101,13 @@ function findPwHandle() {
 
 /* 조승희 수정 20251103 */
 let searchValue = {
+	type: '',
 	id: '',
 	email: ''
 }
 
 function idSearchInputHandle(e) {
+	
 	let target = e.target;
 	let value = target.value;
 	
@@ -115,7 +117,7 @@ function idSearchInputHandle(e) {
 	}
 	else {
 		
-		searchValue.id = value
+		searchValue.email = value
 		
 	}
 	
@@ -144,24 +146,81 @@ function pwSearchInputsHandle(e) {
 	
 }
 
-function searchHandle(e) {
-	let target = e.target
+async function searchHandle(e) {
 	
-	searchToDB(searchValue);
+	let target = e.target;
+	let type = target.getAttribute('data-type'); 
+
+	searchValue.type = type;
+	if(type === 'id') {
+		if(searchValue.email === '') {
+			onlyCheckAlert('error', '이메일을 입력해주세요.');
+			return;
+		}
+	}
+	else {
+		if(searchValue.id === '' || searchValue.email === '') {
+			onlyCheckAlert('error', '모든 정보를 입력해주세요.');
+			return;
+		}
+	}
+	
+	let result = await searchToDB(searchValue);
+	console.log(result)
+	
+	if(type === 'id') {
+		if(result === null) {
+			onlyCheckAlert('error', '입력한 E-mail의 회원 정보가 없습니다.');
+		}
+		else {
+			onlyCheckAlert('success', result.mem_id);
+			let piInput = document.getElementById('inputId')
+			piInput.value = result.mem_id
+		}
+	}
+	else {
+		if(result === null) {
+			onlyCheckAlert('error', '입력한 회원의 정보가 없습니다.');
+		}
+		else {
+			onlyCheckAlert('success', '입력한 E-Mail로 임시 비밀번호를 전송했습니다.');
+		}
+	}
+	
+	closeModalHandle("none", "auto");
+	
 }
 
 
-function closeModalHandle(e) {
-	let modal = e.target.closest('.modal-on');
+function closeModalHandle(e, action) {
+	
+	let modal;
+	if(action === "default") {
+		modal = e.target.closest('.modal-on');
+	}
+	else {
+		modal = document.getElementsByClassName('modal-on')[0]
+	}
+	
 	modal.className = "modal-off";
+	
+	searchValue = {
+		type: '',
+		id: '',
+		email: ''
+	}
+	
+	let searchInputs = document.getElementsByClassName('searchInputs')
+	for(let i=0 ; i<searchInputs.length ; i++) {
+		searchInputs[i].value = ''
+	}
+	
 };
 
 
 /* 조승희 수정 20251102 */
 function pressSpaceHandle(e) {
 	let target = e.code;
-	
-	console.log(target)
 	
 	if(target === 'Space') {
 		window.scrollBy({
@@ -171,22 +230,19 @@ function pressSpaceHandle(e) {
 	}
 	else if(target === 'F11') {
 		
-	  setTimeout(() => {
-		if(window.scrollX === 0 && window.scrollY === 0) {
-			// pass
-		} 
-		else {
-			if(window.innerHeight === screen.height) {
-				window.scrollBy({
-					top: document.body.scrollHeight,
-					behavior: 'smooth'
-				});
-		    } 
+		setTimeout(() => {
+			if(window.scrollX === 0 && window.scrollY === 0) {
+				// pass
+			} 
 			else {
-		      console.log('F11 전체화면 해제');
-		    }
-		}
-	  }, 500);
+				if(window.innerHeight === screen.height) {
+					window.scrollBy({
+						top: document.body.scrollHeight,
+						behavior: 'smooth'
+					});
+				}
+			}
+		}, 500);
 	  
 	}
 	

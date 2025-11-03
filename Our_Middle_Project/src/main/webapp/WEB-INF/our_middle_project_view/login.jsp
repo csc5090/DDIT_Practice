@@ -42,7 +42,7 @@
 	
 		<div id="c-loginBox" class="c-login-box">
 			<h2>로그인</h2>
-			<input type="text" class="logininputs" placeholder="아이디" >
+			<input id="inputId" type="text" class="logininputs" placeholder="아이디" >
 			<input type="password" class="logininputs" placeholder="비밀번호">
 			<div class="div-links">
 				<div class="find-id">아이디 찾기</div>
@@ -56,7 +56,7 @@
 		
 		<div id="idModal" class="modal-off">
 			<div class="modal-content">
-				<input id="idSearchInput" type="text" placeholder="이메일">
+				<input id="idSearchInput" class="searchInputs" type="text" placeholder="이메일">
 				<button class="search-btns" data-type="id">아이디 찾기</button>
 				<div class="close-btn">닫기</div>
 			</div>
@@ -64,8 +64,8 @@
 		
 		<div id="pwModal" class="modal-off">
 			<div class="modal-content">
-				<input type="text" class="pwSearchInputs" data-type="id" placeholder="아이디">
-				<input type="text" class="pwSearchInputs" data-type="email" placeholder="이메일">
+				<input type="text" class="pwSearchInputs searchInputs" data-type="id" placeholder="아이디">
+				<input type="text" class="pwSearchInputs searchInputs" data-type="email" placeholder="이메일">
 				<button class="search-btns" data-type="pw">비밀번호 재설정</button>
 				<div class="close-btn">닫기</div>
 			</div>
