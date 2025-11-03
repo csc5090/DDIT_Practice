@@ -14,7 +14,8 @@ function gameLevelSaveToDB(jsonData) {
 		data: jsonData
 	})
 	.then(function (response) {
-		/*console.log(response)*/
+		
+		window.location.href = response.data
 	})
 	.catch(function (err) {
     	console.error(err);	// errror

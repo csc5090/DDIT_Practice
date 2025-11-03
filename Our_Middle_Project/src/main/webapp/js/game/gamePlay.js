@@ -20,14 +20,14 @@ let gamePlay = false;
 //======페이지 로드
 window.onload = () => {
 	
+	console.log(GlovalLevel)
+	
 	scoreElement = document.querySelector(".score");	//점수 반영하기 위해서 score클래스 참조
 	comboElement = document.querySelector(".combo");
 	maxComboElement = document.querySelector(".max-combo");
 	timeEl = document.getElementById("timeCount");
 	
 	addEventHandle();
-	
-	console.log(glovalLevel)
 }
 
 //======이벤트 핸들러
@@ -52,7 +52,7 @@ function startGame() {
 	startBtn.style.cursor = 'default';
 	/*document.body.appendChild();*/
 	
-	if(level == 4 || level == 6 || level == 8) createCard(level);
+	if(GlovalLevel == 4 || GlovalLevel == 6 || GlovalLevel == 8) createCard(GlovalLevel);
 	countDown(()=>{ 
 		startTimer();
 	});
@@ -143,7 +143,7 @@ function cardChoice(obj, e) {
 								//콤보 카운트
 			
 			// 모든 카드 맞출 시 ★ 종료 시점 ★
-			let endCard = (level * level) / 2;
+			let endCard = (GlovalLevel * GlovalLevel) / 2;
 			if(count == endCard){
 			/*	================종료 로직 테스트중========================== */
 				dataSave();
@@ -190,7 +190,7 @@ function countDown(callback){
 
 //======레벨별 기본 시간
 function getDefaultTimeByLevel() {
-    switch(level){
+    switch(GlovalLevel){
         case 4: return 30.9;		//딜레이가 있어서 0.9초 더 부여
         case 6: return 180.9;
         case 8: return 300.9;

@@ -59,7 +59,10 @@
 			
 				<div class="player">
 					<img src="" alt="*">
-					<div class="name">내 이름</div>
+					<div class="name">
+						${sessionScope.map.mem_id}
+					</div>
+					
 				</div>
 				
 				<div class="other">
@@ -122,6 +125,12 @@
 		</div>
 		
 	</div>
+
+	<script type="text/javascript">
+	
+		const GlovalLevel = ${sessionScope.map.level_name}
+	
+	</script>
 
 	<script type="text/javascript" src="./js/game/gamePlay.js"></script>
 	<script type="text/javascript" src="./js/game/gameEnding.js"></script>

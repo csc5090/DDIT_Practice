@@ -2,11 +2,12 @@ package com.our_middle_project.controller;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Map;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.our_middle_project.action.Action;
 import com.our_middle_project.action.ActionForward;
-import com.our_middle_project.dto.UserInfoDTO;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,11 +28,32 @@ public class levelSaveController implements Action {
 	        sb.append(line);
 	    }
 	    
-	    String json = sb.toString();	    
-	    Gson gson = new Gson();
+	    String json = sb.toString();	
+	    System.out.println(json);
 	    
-	    UserInfoDTO userInfo = gson.fromJson(json, UserInfoDTO.class);
-	    System.out.println(userInfo);
+	    Gson gson = new Gson();
+	    Map<String, Object> map = gson.fromJson(json, new TypeToken<Map<String, Object>>(){}.getType());
+	    
+	    request.getSession().setAttribute("map", map);
+	    
+	    String test = gson.toJson(map);
+	    
+		response.setContentType("application/json; charset=UTF-8");
+		response.getWriter().write(request.getContextPath() + "/gamePlay.do");
+	    
+		/*
+		 * ActionForward forward = new ActionForward();
+		 * forward.setPath("/WEB-INF/our_middle_project_view/user/gamePlay.jsp");
+		 * forward.setRedirect(false);
+		 * 
+		 * System.out.println("123123123111111111111a1");
+		 */
+		/*
+		 * 
+		 * 
+		 * UserInfoDTO userInfo = gson.fromJson(json, UserInfoDTO.class);
+		 * System.out.println(userInfo);
+		 */
 		
 			
 	    
