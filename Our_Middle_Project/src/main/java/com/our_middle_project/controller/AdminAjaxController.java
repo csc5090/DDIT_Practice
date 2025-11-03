@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.our_middle_project.action.Action;
 import com.our_middle_project.action.ActionForward;
 import com.our_middle_project.dto.MemberDTO;
+import com.our_middle_project.dto.ReviewDTO;
 import com.our_middle_project.service.AdminServiceImpl;
 import com.our_middle_project.serviceInterface.AdminService;
 
@@ -126,6 +127,11 @@ public class AdminAjaxController implements Action {
 			    }
 				
 			    response.getWriter().write(gson.toJson(responseData));
+			} else if ("/getReviewList.do".equals(command)) {
+				System.out.println("AJAX 요청: /getReviewList.do");
+
+			    List<ReviewDTO> reviewList = adminService.getReviewList();
+			    response.getWriter().write(gson.toJson(reviewList));
 			}
 
 		} catch (Exception e) {

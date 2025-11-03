@@ -2,117 +2,206 @@
 
 const ReviewPage = {
 	currentList: [],
-	currentSort: { key: 'regDate', order: 'desc' },
+	currentSort: { key: 'createdDate', order: 'desc' },
+	selectedReviewNo: null,
 
 	init: function() {
 		const reviewPage = document.getElementById('review-management');
 		if (reviewPage) {
 			reviewPage.addEventListener('click', this.handleClick.bind(this));
-			
-			const sortSelect = document.getElementById('review-sort-select');
-			sortSelect.addEventListener('change', this.handleSortChange.bind(this));
+			const listContainer = document.getElementById('admin-review-list');
+			if (listContainer) {
+				listContainer.addEventListener('dblclick', this.handleDblClick.bind(this));
+			}
 		}
 	},
 
 	loadAndRender: async function() {
+		this.clearDetailViews();
 		try {
-			// 임시 더미 데이터 (나중에 삭제) ---
-			this.currentList = [
-				{ reviewNo: 1, nickname: '네온고양이', stars: 5, regDate: '2025-10-12', content: '빛나는 네온이 분위기 끝판왕입니다.', adminReply: '좋은 피드백 감사합니다!' },
-				{ reviewNo: 2, nickname: '사이버펑크', stars: 4, regDate: '2025-10-13', content: '고정된 작성창 아이디어가 좋네요.', adminReply: null }
-			];
-			this.renderList();
+			this.currentList = await apiClient.post('/getReviewList.do', null);
+			this.sortAndRenderTable(this.currentSort.key, this.currentSort.order);
 		} catch (error) {
 			console.error("리뷰 목록 로딩 실패:", error);
-			const container = document.getElementById('admin-review-list');
-			if (container) container.innerHTML = '<p class="error-message">리뷰 목록을 불러오는 데 실패했습니다.</p>';
+			const tableBody = document.querySelector('#admin-review-list tbody');
+			if (tableBody) tableBody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 40px;">리뷰 목록을 불러오는 데 실패했습니다.</td></tr>`;
 		}
 	},
 
 	renderList: function() {
-		const container = document.getElementById('admin-review-list');
-		if (!container) return;
-		
-		// 정렬 로직
-		this.currentList.sort((a, b) => {
-			const valA = a[this.currentSort.key];
-			const valB = b[this.currentSort.key];
-			let compare = 0;
-			if (valA < valB) compare = -1;
-			if (valA > valB) compare = 1;
-			return this.currentSort.order === 'asc' ? compare : compare * -1;
-		});
+		const tableBody = document.querySelector('#admin-review-list tbody');
+		if (!tableBody) return;
 
-		container.innerHTML = '';
-		if (!this.currentList || this.currentList.length === 0) {
-			container.innerHTML = '<p>표시할 리뷰가 없습니다.</p>';
+		let listToRender = this.currentList;
+
+		tableBody.innerHTML = '';
+		if (!listToRender || listToRender.length === 0) {
+			tableBody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 40px;">표시할 리뷰가 없습니다.</td></tr>`;
 			return;
 		}
 
-		this.currentList.forEach(review => {
-			const card = document.createElement('article');
-			card.className = 'review-card';
-			card.dataset.reviewNo = review.reviewNo;
-			const stars = '★'.repeat(review.stars) + '☆'.repeat(5 - review.stars);
+		listToRender.forEach(review => {
+			const row = document.createElement('tr');
+			row.className = 'review-list-item';
+			row.dataset.reviewNo = review.boardNo;
 
-			card.innerHTML = `
-                <div class="review-card-header">
-                    <span class="review-card-nickname">${review.nickname}</span>
-                    <span class="review-card-stars">${stars}</span>
-                    <span class="review-card-date">${review.regDate}</span>
-                </div>
-                <div class="review-card-body">
-                    <p class="review-card-content">${review.content}</p>
-                    <div class="review-admin-reply">
-                        <textarea placeholder="관리자 댓글을 입력하세요...">${review.adminReply || ''}</textarea>
-                    </div>
-                </div>
-                <div class="review-card-actions">
-                    <button class="action-btn" data-action="save-reply">댓글 저장</button>
-                    <button class="action-btn danger" data-action="delete-review">리뷰 삭제</button>
-                </div>
-            `;
-			container.appendChild(card);
+			const starsHTML = `<span class="stars-filled">${'★'.repeat(review.stars)}</span><span class="stars-empty">${'☆'.repeat(5 - review.stars)}</span>`;
+			const imageIcon = review.hasImage === 'Y' ? 'O' : 'X';
+			const adminReplyStatus = review.adminReply ? 'O' : 'X';
+
+			row.innerHTML = `
+	                <td>${review.boardTitle}</td>
+	                <td>${review.nickname}</td>
+	                <td>${starsHTML}</td>
+	                <td>${imageIcon}</td>
+	                <td>${adminReplyStatus}</td>
+	                <td>${review.createdDate}</td>
+	            `;
+			tableBody.appendChild(row);
 		});
 	},
 
-	handleClick: function(e) {
-		const reviewCard = e.target.closest('.review-card');
-		if (!reviewCard) return;
+	sortAndRenderTable: function(key, order) {
+		if (!this.currentList || this.currentList.length === 0) {
+			this.renderList();
+			return;
+		}
+		this.currentList.sort((a, b) => {
+			const valA = a[key];
+			const valB = b[key];
+			let compare = 0;
+			const replyA = valA || '';
+			const replyB = valB || '';
 
-		const reviewNo = reviewCard.dataset.reviewNo;
-		const action = e.target.dataset.action;
+			if (typeof valA === 'string' || typeof valB === 'string') {
+				compare = replyA.localeCompare(replyB);
+			} else {
+				if (valA < valB) compare = -1;
+				if (valA > valB) compare = 1;
+			}
+			return order === 'asc' ? compare : compare * -1;
+		});
+		this.updateSortIcons(key, order);
+		this.renderList();
+	},
 
-		if (action === 'delete-review') {
-			this.deleteReview(reviewNo);
-		} else if (action === 'save-reply') {
-			const replyText = reviewCard.querySelector('.review-admin-reply textarea').value;
-			this.saveReply(reviewNo, replyText);
+	updateSortIcons: function(key, order) {
+		document.querySelectorAll('#review-management .sortable').forEach(th => {
+			const icon = th.querySelector('.sort-icon');
+			if (icon) {
+				th.dataset.sortOrder = 'none';
+				icon.textContent = '';
+			}
+		});
+		const activeHeader = document.querySelector(`#review-management .sortable[data-sort-key="${key}"]`);
+		if (activeHeader) {
+			const icon = activeHeader.querySelector('.sort-icon');
+			if (icon) {
+				activeHeader.dataset.sortOrder = order;
+				icon.textContent = (order === 'asc' ? ' ▲' : ' ▼');
+			}
 		}
 	},
 
-	handleSortChange: function(e) {
-		const [key, order] = e.target.value.split('_');
-		this.currentSort = { key, order };
-		this.renderList();
+	clearDetailViews: function() {
+		document.querySelector('.review-detail-placeholder').style.display = 'flex';
+		document.querySelector('.review-detail-content').style.display = 'none';
+		this.selectedReviewNo = null;
+
+		const currentSelected = document.querySelector('.review-list-item.selected');
+		if (currentSelected) currentSelected.classList.remove('selected');
+	},
+
+	populateDetailViews: function(reviewNo) {
+		const review = this.currentList.find(r => r.boardNo == reviewNo);
+		if (!review) return;
+
+		document.querySelector('.review-detail-placeholder').style.display = 'none';
+		document.querySelector('.review-detail-content').style.display = 'block';
+
+		this.selectedReviewNo = review.boardNo;
+		document.getElementById('detail-review-title').textContent = review.boardTitle;
+		document.getElementById('detail-review-nickname').textContent = review.nickname;
+		document.getElementById('detail-review-date').textContent = review.createdDate;
+
+		const starsHTML = `<span class="stars-filled">${'★'.repeat(review.stars)}</span><span class="stars-empty">${'☆'.repeat(5 - review.stars)}</span>`;
+		document.getElementById('detail-review-stars').innerHTML = starsHTML;
+
+		document.getElementById('detail-review-image').innerHTML = review.hasImage === 'Y' ? `<img src="/path/to/image/${review.boardNo}" alt="리뷰 이미지">` : '<span>이미지 없음</span>';
+		document.getElementById('detail-review-content').textContent = review.boardContent;
+		document.getElementById('admin-reply-date').textContent = review.adminReplyDate || '미작성';
+		document.getElementById('admin-reply-textarea').value = review.adminReply || '';
+	},
+
+	handleClick: function(e) {
+		const sortHeader = e.target.closest('.sortable');
+		if (sortHeader) {
+			const clickedKey = sortHeader.dataset.sortKey;
+			let newOrder = 'asc';
+			if (this.currentSort.key === clickedKey) {
+				newOrder = (this.currentSort.order === 'asc' ? 'desc' : 'asc');
+			}
+			this.currentSort.key = clickedKey;
+			this.currentSort.order = newOrder;
+			this.sortAndRenderTable(clickedKey, newOrder);
+			return;
+		}
+
+		const button = e.target.closest('.action-btn');
+		if (!button) return;
+
+		const action = button.dataset.action;
+		if (!this.selectedReviewNo) {
+			Swal.fire('알림', '먼저 왼쪽 목록에서 리뷰를 더블클릭하여 선택해주세요.', 'info');
+			return;
+		}
+
+		if (action === 'save-reply') {
+			const replyText = document.getElementById('admin-reply-textarea').value;
+			this.saveReply(this.selectedReviewNo, replyText);
+		} else if (action === 'delete-image') {
+			this.deleteImage(this.selectedReviewNo);
+		} else if (action === 'delete-review') {
+			this.deleteReview(this.selectedReviewNo);
+		}
+	},
+
+	handleDblClick: function(e) {
+		const reviewItem = e.target.closest('[data-review-no]');
+		if (reviewItem) {
+			document.querySelectorAll('.review-list-item').forEach(item => item.classList.remove('selected'));
+			reviewItem.classList.add('selected');
+			this.populateDetailViews(reviewItem.dataset.reviewNo);
+		}
 	},
 
 	deleteReview: async function(reviewNo) {
 		const result = await Swal.fire({ title: '정말 삭제하시겠습니까?', text: "삭제된 리뷰는 복구할 수 없습니다.", icon: 'warning', showCancelButton: true, confirmButtonText: '삭제', cancelButtonText: '취소' });
 		if (result.isConfirmed) {
 			try {
-				console.log(`(axios) /deleteReview.do 호출, reviewNo: ${reviewNo}`);
+				await apiClient.post('/deleteReview.do', { reviewNo: reviewNo });
 				Swal.fire('삭제 완료!', '리뷰가 성공적으로 삭제되었습니다.', 'success');
 				this.loadAndRender();
-			} catch (error) {}
+			} catch (error) { }
 		}
 	},
 
 	saveReply: async function(reviewNo, replyText) {
 		try {
-			console.log(`(axios) /updateReviewReply.do 호출, reviewNo: ${reviewNo}, replyText: ${replyText}`);
+			await apiClient.post('/updateAdminReply.do', { reviewNo: reviewNo, replyContent: replyText });
 			Swal.fire('저장 완료!', '관리자 댓글이 저장되었습니다.', 'success');
 			this.loadAndRender();
-		} catch (error) {}
+		} catch (error) { }
+	},
+
+	deleteImage: async function(reviewNo) {
+		const result = await Swal.fire({ title: '이미지를 삭제하시겠습니까?', text: "삭제된 이미지는 복구할 수 없습니다.", icon: 'warning', showCancelButton: true, confirmButtonText: '삭제', cancelButtonText: '취소' });
+		if (result.isConfirmed) {
+			try {
+				await apiClient.post('/deleteReviewImage.do', { reviewNo: reviewNo });
+				Swal.fire('삭제 완료!', '이미지가 성공적으로 삭제되었습니다.', 'success');
+				this.loadAndRender();
+			} catch (error) { }
+		}
 	}
 };

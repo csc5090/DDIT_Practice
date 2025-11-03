@@ -328,45 +328,97 @@
 				<div class="bodyArea" id="review-management">
 					<div class="review-toolbar">
 						<h1>리뷰 관리</h1>
-						<div class="sort-options">
-							<label for="review-sort-select">정렬 기준:</label> <select
-								id="review-sort-select">
-								<option value="regDate_desc">최신순</option>
-								<option value="regDate_asc">오래된순</option>
-								<option value="stars_desc">별점 높은순</option>
-								<option value="stars_asc">별점 낮은순</option>
-							</select>
-						</div>
 					</div>
 
-					<div class="review-list-container" id="admin-review-list">
+					<div class="review-main-content">
+						<div class="review-list-container" id="admin-review-list">
+							<table class="review-list-table">
+								<thead>
+									<tr>
+										<th class="sortable" data-sort-key="boardTitle">리뷰 제목 <span
+											class="sort-icon"></span></th>
+										<th class="sortable" data-sort-key="nickname">작성자 <span
+											class="sort-icon"></span></th>
+										<th class="sortable" data-sort-key="stars">별점 <span
+											class="sort-icon"></span></th>
+										<th class="sortable" data-sort-key="hasImage">사진 <span
+											class="sort-icon"></span></th>
+										<th class="sortable" data-sort-key="adminReply">관리자 댓글 <span
+											class="sort-icon"></span></th>
+										<th class="sortable" data-sort-key="createdDate">작성일 <span
+											class="sort-icon"></span></th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+						</div>
 
-						<article class="review-card" data-review-no="###">
-							<div class="review-card-header">
-								<span class="review-card-nickname">###</span> <span
-									class="review-card-stars">###</span> <span
-									class="review-card-date">###</span>
+						<div class="review-detail-container">
+							<div class="review-detail-placeholder">
+								<p>
+									왼쪽 목록에서 리뷰를 더블클릭하여<br>상세 정보를 확인하세요.
+								</p>
 							</div>
-							<div class="review-card-body">
-								<p class="review-card-content">###</p>
-								<div class="review-admin-reply">
-									<textarea placeholder="관리자 댓글을 입력하세요...">###</textarea>
+
+							<div class="review-detail-content" style="display: none;">
+								<div class="review-detail-view">
+									<h2>리뷰 상세 정보</h2>
+									<div class="detail-grid">
+										<div class="detail-item full-width">
+											<label>리뷰 제목</label><span id="detail-review-title"></span>
+										</div>
+										<div class="detail-item">
+											<label>작성자</label><span id="detail-review-nickname"></span>
+										</div>
+										<div class="detail-item">
+											<label>작성일</label><span id="detail-review-date"></span>
+										</div>
+										<div class="detail-item">
+											<label>별점</label><span id="detail-review-stars"></span>
+										</div>
+										<div class="detail-item">
+											<label>사진</label>
+											<div id="detail-review-image"></div>
+										</div>
+										<div class="detail-item full-width">
+											<label>내용</label>
+											<p id="detail-review-content"></p>
+										</div>
+									</div>
+								</div>
+								<div class="review-crud-panel">
+									<h3>관리</h3>
+									<div class="form-group">
+										<label for="admin-reply-textarea">관리자 댓글 (작성일: <span
+											id="admin-reply-date">###</span>)
+										</label>
+										<textarea id="admin-reply-textarea"
+											placeholder="관리자 댓글을 입력하거나 수정하세요.">###</textarea>
+									</div>
+									<div class="crud-actions">
+										<button class="action-btn" data-action="save-reply">댓글
+											저장</button>
+										<button class="action-btn secondary"
+											data-action="delete-image">이미지 삭제</button>
+										<button class="action-btn danger" data-action="delete-review">리뷰
+											삭제</button>
+									</div>
 								</div>
 							</div>
-							<div class="review-card-actions">
-								<button class="action-btn" data-action="save-reply">댓글
-									저장</button>
-								<button class="action-btn danger" data-action="delete-review">리뷰
-									삭제</button>
-							</div>
-						</article>
-
+						</div>
 					</div>
 				</div>
 
 				<div class="bodyArea" id="stats-main">데이터/통계</div>
 			</main>
 		</div>
+	</div>
+
+	<div id="review-image-modal" class="image-modal-overlay"
+		style="display: none;">
+		<span class="image-modal-close">&times;</span> <img
+			class="image-modal-content" id="modal-image-src">
 	</div>
 
 	<script
