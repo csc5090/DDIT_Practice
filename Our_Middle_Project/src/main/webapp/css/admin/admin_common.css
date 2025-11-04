@@ -1,0 +1,49 @@
+/* 1. 공통 버튼 (base) */
+.action-btn {
+	padding: 8px 16px;
+	font-size: 0.95rem; /* 15px */
+	font-weight: 500;
+	border: none;
+	border-radius: 6px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	line-height: 1.5;
+}
+
+/* 2. Primary 버튼 (댓글 저장, 검색 등) */
+.action-btn.primary {
+	background-color: var(--active-border);
+	color: var(--text-light);
+}
+
+.action-btn.primary:hover {
+	opacity: 0.85;
+}
+
+/* 3. Secondary 버튼 (이미지 삭제 - 기본 상태) */
+.action-btn.secondary {
+	background-color: #6c757d;
+	color: white;
+}
+
+.action-btn.secondary:hover {
+	background-color: #5a6268;
+}
+
+/* 4. Danger 버튼 (리뷰 삭제) */
+.action-btn.danger {
+	background-color: #e53935;
+	color: white;
+}
+
+.action-btn.danger:hover {
+	background-color: #c62828;
+}
+
+/* 5. Disabled 버튼 (이미지 없을 때 등) */
+.action-btn:disabled, .action-btn.secondary:disabled {
+	background-color: var(--border-color);
+	color: var(--text-muted);
+	cursor: not-allowed;
+	opacity: 0.6;
+}
