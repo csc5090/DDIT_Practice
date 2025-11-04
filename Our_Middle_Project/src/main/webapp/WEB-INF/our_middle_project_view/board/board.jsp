@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>    
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,8 +32,12 @@
 
 <!-- ==================================================================================== -->
 <body>
+	<div id="home">
+		<button id="homeBtn">⌂</button>
+	</div>
 <div class="container">
-        <h1 class="neon-text title">⭐ NEON BOARD ⭐</h1>
+	
+        <h1 class="neon-text title">⭐ 게시판 ⭐</h1>
         
         <div class="board-header">
           	 <button class="neon-button" onclick="goToWritePage()">글쓰기</button>
@@ -46,100 +53,9 @@
                     <th class="neon-text-small">조회수</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="boardTableBody">
                
-                <tr class="board-row" onclick="viewPost(1)">
-                    <td>1</td>
-                    <td class="post-title">네온 컨셉 게시판을 만들었어요!</td>
-                    <td>관리자</td>
-                    <td>2025.11.03</td>
-                    <td>811</td>
-                </tr>
                 
-                <tr class="board-row" onclick="viewPost(2)">
-                    <td>2</td>
-                    <td class="post-title">CSS 네온 효과 적용 예시</td>
-                    <td>User123</td>
-                    <td>2025.11.02</td>
-                    <td>122</td>
-                </tr>
-                <tr class="board-row" onclick="viewPost(2)">
-                    <td>2</td>
-                    <td class="post-title">CSS 네온 효과 적용 예시</td>
-                    <td>User123</td>
-                    <td>2025.11.02</td>
-                    <td>122</td>
-                </tr>
-                <tr class="board-row" onclick="viewPost(2)">
-                    <td>2</td>
-                    <td class="post-title">CSS 네온 효과 적용 예시</td>
-                    <td>User123</td>
-                    <td>2025.11.02</td>
-                    <td>122</td>
-                </tr>
-                <tr class="board-row" onclick="viewPost(2)">
-                    <td>2</td>
-                    <td class="post-title">CSS 네온 효과 적용 예시</td>
-                    <td>User123</td>
-                    <td>2025.11.02</td>
-                    <td>122</td>
-                </tr>
-                <tr class="board-row" onclick="viewPost(2)">
-                    <td>2</td>
-                    <td class="post-title">CSS 네온 효과 적용 예시</td>
-                    <td>User123</td>
-                    <td>2025.11.02</td>
-                    <td>122</td>
-                </tr>
-                <tr class="board-row" onclick="viewPost(2)">
-                    <td>2</td>
-                    <td class="post-title">CSS 네온 효과 적용 예시</td>
-                    <td>User123</td>
-                    <td>2025.11.02</td>
-                    <td>122</td>
-                </tr>
-                <tr class="board-row" onclick="viewPost(2)">
-                    <td>2</td>
-                    <td class="post-title">CSS 네온 효과 적용 예시</td>
-                    <td>User123</td>
-                    <td>2025.11.02</td>
-                    <td>122</td>
-                </tr>
-                <tr class="board-row" onclick="viewPost(2)">
-                    <td>2</td>
-                    <td class="post-title">CSS 네온 효과 적용 예시</td>
-                    <td>User123</td>
-                    <td>2025.11.02</td>
-                    <td>122</td>
-                </tr>
-                <tr class="board-row" onclick="viewPost(2)">
-                    <td>2</td>
-                    <td class="post-title">CSS 네온 효과 적용 예시</td>
-                    <td>User123</td>
-                    <td>2025.11.02</td>
-                    <td>122</td>
-                </tr>
-                <tr class="board-row" onclick="viewPost(2)">
-                    <td>2</td>
-                    <td class="post-title">CSS 네온 효과 적용 예시</td>
-                    <td>User123</td>
-                    <td>2025.11.02</td>
-                    <td>122</td>
-                </tr>
-                <tr class="board-row" onclick="viewPost(2)">
-                    <td>2</td>
-                    <td class="post-title">CSS 네온 효과 적용 예시</td>
-                    <td>User123</td>
-                    <td>2025.11.02</td>
-                    <td>122</td>
-                </tr>
-                <tr class="board-row" onclick="viewPost(2)">
-                    <td>2</td>
-                    <td class="post-title">CSS 네온 효과 적용 예시</td>
-                    <td>User123</td>
-                    <td>2025.11.02</td>
-                    <td>122</td>
-                </tr>
                 
                
                 
@@ -155,7 +71,9 @@
             
            		<div class="search-area">
 				    <input type="text" id="searchInput" class="neon-input" size="16" placeholder="검색어를 입력하세요...">
+
 				    <button class="neon-button" onclick="searchPosts()">검색</button>
+
 				</div>
 				
             
@@ -164,8 +82,9 @@
     </div>
 	
 <!-- ==================================================================================== -->
-<script type="text/javascript" src="./js/board/board.js"></script>
 <script type="text/javascript" src="./js/common.js"></script>
+<script type="text/javascript" src="./js/board/board.js"></script>
+
 
 </body>
 </html>

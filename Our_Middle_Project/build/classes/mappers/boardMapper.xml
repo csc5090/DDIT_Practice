@@ -5,5 +5,15 @@
 
 <mapper namespace="boardMapper">
 
-
+	<select id="selectFreeBoard" resultType="com.our_middle_project.dto.BoardDTO" parameterType="com.our_middle_project.dto.BoardDTO">
+		SELECT  A.BOARD_NO AS boardNo,
+		        A.BOARD_TITLE AS boardTitle,
+		        A.BOARD_CONTENT AS boardContent,
+		        A.CREATED_DATE AS createdDate,
+		        A.VIEW_COUNT AS viewCount,
+		        B.MEM_ID AS memId
+		FROM BOARD A
+		INNER JOIN MEMBER B ON (A.MEM_NO = B.MEM_NO)
+		WHERE A.TYPE_NO = #{findBoard}
+	</select>
 </mapper>
