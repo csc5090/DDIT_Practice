@@ -17,4 +17,6 @@ public interface UserInfoService {
 
 	void newPasswordSave(Map<String, Object> pram);
 
+	UserInfoDTO loginCheck(UserInfoDTO userInfo);
+
 }

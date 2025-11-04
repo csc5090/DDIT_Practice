@@ -16,5 +16,7 @@ public interface UserInfoDAO {
 	UserInfoReturnDTO getPasswordFind(UserInfoDTO userInfo);
 
 	void newPasswordSave(Map<String, Object> pram);
+
+	UserInfoDTO loginCheck(UserInfoDTO userInfo);
 	
 }

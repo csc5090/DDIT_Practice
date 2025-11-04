@@ -43,7 +43,7 @@
 		<div id="c-loginBox" class="c-login-box">
 			<h2>로그인</h2>
 			<input id="inputId" type="text" class="logininputs" placeholder="아이디" >
-			<input type="password" class="logininputs" placeholder="비밀번호">
+			<input id="inputPw" type="password" class="logininputs" placeholder="비밀번호">
 			<div class="div-links">
 				<div class="find-id">아이디 찾기</div>
 				<div class="find-pw">비밀번호 찾기</div>

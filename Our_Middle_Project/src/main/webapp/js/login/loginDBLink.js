@@ -48,7 +48,7 @@ async function idCheckToDB(jsonData) {
 }
 
 async function loginCheckToDB(jsonData) {
-	
+	let result
 	await axios({
 		baseURL: BASE_URL,
 		url: 'loginCheck.do',
@@ -60,11 +60,13 @@ async function loginCheckToDB(jsonData) {
 		data: jsonData
 	})
 	.then(function (response) {
-		result = response.data.idCheck;
+		console.log(response)
 	})
 	.catch(function (err) {
     	console.error(err);
 	});
+	
+	return result
 	
 }
 
@@ -92,4 +94,7 @@ async function searchToDB(jsonData) {
 	return result
 	
 }
+
+
+
 

@@ -221,7 +221,6 @@ function closeModalHandle(e, action) {
 /* 조승희 수정 20251102 */
 function pressSpaceHandle(e) {
 	let target = e.code;
-	
 	if(target === 'Space') {
 		window.scrollBy({
 			top: document.body.scrollHeight,
@@ -245,12 +244,22 @@ function pressSpaceHandle(e) {
 		}, 500);
 	  
 	}
+	else if(target === "Enter") {
+		
+		let focusElement = document.activeElement
+		let value = focusElement.getAttribute('id')
+		
+		if(value === 'inputPw') {
+			loginCheckHandle();
+		}
+		
+	}
 	
 }
 
 let loginInfo = {
-	id: "",
-	pw: ""
+	mem_id: "",
+	mem_pass: ""
 }
 
 function loginInfoSaveHandle(e) {
@@ -258,18 +267,22 @@ function loginInfoSaveHandle(e) {
 	let target = e.target
 	let value = target.value
 	let type = target.type
+	
+	let loginBtn = document.getElementById('loginBtn')
+	
 	let pattern = /\s/
 	if(pattern.test(value)) {
 		onlyCheckAlert("error", "공백 없이 입력해주세요.")
+		loginBtn.className = "login-btn"
 	}
 	else {
 		
-		type == "text" ? loginInfo.id = value : loginInfo.pw = value;
+		type == "text" ? loginInfo.mem_id = value : loginInfo.mem_pass = value;
 		
-		let loginId = loginInfo.id
-		let loginPw = loginInfo.pw
+		let loginId = loginInfo.mem_id
+		let loginPw = loginInfo.mem_pass
 		
-		let loginBtn = document.getElementById('loginBtn')
+		
 		if(loginId != "" && loginPw != "") {
 			loginBtn.className = "login-btn-active"
 		}
@@ -283,14 +296,14 @@ function loginInfoSaveHandle(e) {
 
 function loginCheckHandle() {
 	
-	let loginId = loginInfo.id
-	let loginPw = loginInfo.pw
-	
+	let loginId = loginInfo.mem_id
+	let loginPw = loginInfo.mem_pass
+
 	if(loginId.trim() == "" || loginPw.trim() == "") {
 		// pass
 	}
 	else {
-		loginCheckToDB(loginInfo)
+		let result = loginCheckToDB(loginInfo)
 	}
 	
 }

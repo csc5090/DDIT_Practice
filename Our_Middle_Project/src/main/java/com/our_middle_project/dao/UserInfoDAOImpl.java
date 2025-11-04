@@ -41,5 +41,10 @@ public class UserInfoDAOImpl implements UserInfoDAO {
 		sqlSession.update("userInfoMapper.newPasswordSave", pram);
 	}
 
+	@Override
+	public UserInfoDTO loginCheck(UserInfoDTO userInfo) {
+		return sqlSession.selectOne("userInfoMapper.loginCheck", userInfo);
+	}
+
 	
 }
