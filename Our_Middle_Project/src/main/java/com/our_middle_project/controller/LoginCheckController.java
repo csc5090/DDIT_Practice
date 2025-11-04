@@ -55,6 +55,20 @@ public class LoginCheckController implements Action {
 		
 		Map<String, Object> result = new HashMap<>();
         if (idCheckValue != null) {
+        	
+        	if(idCheckValue.getRole().equals("USER")) {
+        		System.out.println("이 사람은 USER 이다.");
+        		System.out.println(idCheckValue);
+        	}
+        	else if(idCheckValue.getRole().equals("ADMIN")) {
+        		System.out.println("이 사람은 ADMIN 이다.");
+        		System.out.println(idCheckValue);
+        	}
+        	else {
+        		System.out.println(idCheckValue);
+        		System.out.println("이녀석의 신분을 알 수 없다.");
+        	}
+        	
             // 입력받은 비밀번호 + DB에 저장된 salt로 암호화
             String inputEncryptedPw = PWencrypt.hashPassword(userInfo.getMem_pass(), idCheckValue.getSalt());
             System.out.println("입력한 비밀번호 암호화 결과: " + inputEncryptedPw);

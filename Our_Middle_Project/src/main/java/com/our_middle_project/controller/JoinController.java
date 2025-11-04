@@ -47,6 +47,8 @@ public class JoinController implements Action {
 	    
 		/* ACTIVE SUSPENDED DELETED */
 	    
+	    System.out.println(userInfo);
+	    
 		UserInfoService userInfoService = new UserInfoServiceImpl();
 		userInfoService.JoinUser(userInfo);
 	    
