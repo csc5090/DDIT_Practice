@@ -71,7 +71,7 @@ function viewPost(boardNo) {
 		Swal.fire({ icon: 'error', title: '오류', text: '게시물 정보를 찾을 수 없습니다.', confirmButtonText: '확인' });
 		return;
 	}
-	window.location.href = "boardCont.do?board_no=" + boardNo;
+	window.location.href = "boardCont.do?boardNo=" + boardNo;
 }
 
 

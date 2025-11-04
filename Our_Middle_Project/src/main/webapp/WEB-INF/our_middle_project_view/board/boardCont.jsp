@@ -28,7 +28,7 @@
 
 
 
-<link rel="stylesheet"href="./css/board/boardCont.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/board/boardCont.css">
 
 
 <!-- ==================================================================================== -->
@@ -64,16 +64,16 @@
         </div>
         
         <div class="detail-actions">
-            <button class="neon-button" onclick="goToEditPage(${board.boardNum})">수정</button>
-            <button class="neon-button" onclick="deletePost(${board.boardNum})">삭제</button>
-            <button class="neon-button right-align-btn" onclick="goToList()">목록</button>
+            <button class="neon-button" onclick="goToEditPage(${b.boardNo})">수정</button>
+            <button class="neon-button" onclick="deletePost(${b.boardNo})">삭제</button>
+			<button class="neon-button right-align-btn" onclick="goToList()">목록</button>
         </div>
 
     </div>
 	
 <!-- ==================================================================================== -->
-<script type="text/javascript" src="./js/board/boardCont.js"></script>
-<script type="text/javascript" src="./js/common.js"></script>
+<script src="<%=request.getContextPath()%>/js/board/boardCont.js"></script>
+<script src="<%=request.getContextPath()%>/js/common.js"></script>
 
 </body>
 </html>

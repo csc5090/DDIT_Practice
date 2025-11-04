@@ -7,24 +7,21 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("Board Detail Script Loaded!");
+
+	
 });
 
-/**
- * 목록 페이지로 이동합니다. ('목록으로' 버튼)
- */
+// 목록 페이지 이동
 function goToList() {
-    console.log("Moving back to List Page...");
     window.location.href = "board.do";
 }
 
-/**
- * 게시물 수정 페이지로 이동합니다. ('수정' 버튼)
- * @param {number} postId - 게시물 ID
- */
+
+ //게시물 수정 페이지로 이동합니다. ('수정' 버튼)
+ //@param {number} postId - 게시물 ID
+
 function goToEditPage(postId) {
-    console.log("Moving to Edit Page for Post ID: " + postId);
-    window.location.href = "boardEdit.do?board_no=" + postId;
+    window.location.href = "boardEdit.do?boardNo=" + postId;
 }
 
 /**
@@ -46,15 +43,11 @@ function deletePost(postId) {
         if (result.isConfirmed) {
             console.log(`Deleting Post ID: ${postId}`);
 
-            // TODO: 서버측 삭제 요청 axios 호출 들어올 곳
-
-
             // 삭제 성공 가정 후 알림
             Swal.fire('삭제 완료', '게시물이 성공적으로 삭제되었습니다.', 'success')
                 .then(() => {
                     goToList(); // 삭제 후 목록으로 이동
                 });
         }
-
     });
 }

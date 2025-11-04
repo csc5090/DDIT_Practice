@@ -18,4 +18,8 @@ public class BoardDTO {
 	//닉네임을 가져오기위한 변수
 	private String memId;
 	private int findBoard;
+	
+	//검색 필드
+	private String findField;
+	private String findName;
 }
