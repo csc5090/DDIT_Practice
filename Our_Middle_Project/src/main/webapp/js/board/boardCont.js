@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // 게시물 수정
 // @param {number} postId - 게시물 ID
 function goToEditPage(postId) {
-    // window.location.href = 'boardEdit.jsp?id=' + postId;
+     window.location.href = "boardEdit.do"
 }
 
 
@@ -23,10 +23,10 @@ function deletePost(postId) {
 }
 
 
-// 목록 페이지로 이동합니다.
+// 목록 페이지로 이동
 
 function goToList() {
 
-    // window.location.href = 'boardList.jsp';
+    window.location.href = 'board.do';
 
 }

@@ -4,21 +4,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // 글쓰기 페이지
 function goToWritePage() {
-    // window.location.href = 'boardWrite.jsp'; 
+    window.location.href = "boardWrite.do"; 
 }
 
 
  // 특정 게시물 상세 보기 페이지
  //@param {number} postId - 게시물 ID
 function viewPost(postId) {
-    alert(postId + "번 게시물 상세 페이지로 이동합니다.");
+   window.location.href = "boardCont.do?board_no=" + postId;
 }
 
 
 // 특정 페이지
 // @param {number} pageNum - 페이지 번호
  function goToPage(pageNum) {
-    // window.location.href = 'boardList.jsp?page=' + pageNum; 
+    window.location.href = "board.do?page=" + pageNum;
 
 }
 

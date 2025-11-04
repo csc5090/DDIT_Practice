@@ -154,7 +154,7 @@
             <span class="neon-link">Next</span>
             
            		<div class="search-area">
-				    <input type="text" id="searchInput" class="neon-input" placeholder="검색어를 입력하세요...">
+				    <input type="text" id="searchInput" class="neon-input" size="16" placeholder="검색어를 입력하세요...">
 				    <button class="neon-button" onclick="searchPosts()">검색</button>
 				</div>
 				
