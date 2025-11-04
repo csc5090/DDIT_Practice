@@ -60,6 +60,7 @@
 
 .review-list-table th.sortable {
 	cursor: pointer;
+	background-color: var(--bg-main);
 }
 
 .review-list-table tbody tr {
