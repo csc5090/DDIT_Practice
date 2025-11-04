@@ -1,12 +1,4 @@
 
-/*
- * =======================================================
- * JavaScript: board.js
- * (게시판 목록 페이지 전용 로직)
- * =======================================================
- * 포함 함수: viewPost, goToWritePage, goToList, goToPage, searchPosts
- */
-
 window.onload = async () => {
 	
 	const boardDBList = await boardListCallDB();
@@ -79,35 +71,27 @@ function viewPost(boardNo) {
 		Swal.fire({ icon: 'error', title: '오류', text: '게시물 정보를 찾을 수 없습니다.', confirmButtonText: '확인' });
 		return;
 	}
-
 	window.location.href = "boardCont.do?board_no=" + boardNo;
 }
 
 
 // 글쓰기 페이지로 이동합니다. ('글쓰기' 버튼)
 function goToWritePage() {
-
 	window.location.href = "boardWrite.do";
+
 }
-
-
-// 목록 페이지로 이동합니다. ('전체목록' 버튼)
-function goToList() {
-	console.log("Moving back to List Page...");
-	// 목록 페이지 URL: /board.do"
-	window.location.href = "board.do";
-}
-
 
  // 페이징 이동 함수 (페이지 번호 클릭)
  // @param {number} pageNum - 이동할 페이지 번호
- 
 function goToPage(pageNum) {
 	console.log(`Moving to page: ${pageNum}`);
-	// 페이징 URL: /board.do?page=2
 	window.location.href = "board.do?page=" + pageNum;
 }
 
+// 목록 페이지로 이동합니다. ('전체목록' 버튼)
+function goToList() {
+	window.location.href = "board.do";
+}
 
  // 게시물 검색 기능을 수행합니다. ('검색' 버튼)
 function searchPosts() {

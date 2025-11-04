@@ -24,7 +24,7 @@ function goToList() {
  */
 function goToEditPage(postId) {
     console.log("Moving to Edit Page for Post ID: " + postId);
-    window.location.href = "boardEdit.do";
+    window.location.href = "boardEdit.do?board_no=" + postId;
 }
 
 /**
@@ -42,14 +42,19 @@ function deletePost(postId) {
         confirmButtonText: '삭제',
         cancelButtonText: '취소'
     }).then((result) => {
+
         if (result.isConfirmed) {
             console.log(`Deleting Post ID: ${postId}`);
-            
-            // TODO: 서버측 삭제 요청
-            
-            Swal.fire('삭제 완료', '게시물이 성공적으로 삭제되었습니다.', 'success').then(() => {
-                goToList();
-            });
+
+            // TODO: 서버측 삭제 요청 axios 호출 들어올 곳
+
+
+            // 삭제 성공 가정 후 알림
+            Swal.fire('삭제 완료', '게시물이 성공적으로 삭제되었습니다.', 'success')
+                .then(() => {
+                    goToList(); // 삭제 후 목록으로 이동
+                });
         }
+
     });
 }

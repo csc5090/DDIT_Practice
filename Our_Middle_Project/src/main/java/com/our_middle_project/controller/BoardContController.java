@@ -14,7 +14,7 @@ public class BoardContController implements Action {
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException { 
-		
+
 		System.out.println("게시판 내용 ㅎㅇ");
 		ActionForward forward = new ActionForward();
 		forward.setRedirect(false);

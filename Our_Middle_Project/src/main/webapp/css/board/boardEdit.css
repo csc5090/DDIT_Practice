@@ -1,9 +1,4 @@
 
-/* =======================================================
- * CSS 통합본: board_common.css
- * (모든 게시판 페이지 공통 스타일 - 사용자 지정 배경 포함)
- * ======================================================= */
-
 /* 전체 글 색상  */
 :root {
     --neon-color-pink: #ff66a9; /* 주 네온 색상 (핑크) */
@@ -33,7 +28,7 @@ body {
     border-radius: 5px;
 }
 
-/* --- 텍스트 및 애니메이션 --- */
+
 
 /* 네온 텍스트 스타일 (큰 제목) */
 .neon-text {
@@ -49,7 +44,9 @@ body {
     animation: flicker 1.5s infinite alternate; 
 }
 
+
 /* 사용자가 수정한 깜빡이는 애니메이션 */
+
 @keyframes flicker {
     0%, 18%, 22%, 25%, 53%, 57%, 100% {
         text-shadow:
@@ -64,6 +61,7 @@ body {
     }
 }
 
+
 /* 네온 텍스트 스타일 (작은 제목/글자) */
 .neon-text-small {
     font-size: 1.2rem;
@@ -73,6 +71,7 @@ body {
         0 0 8px var(--neon-color-pink),
         0 0 15px var(--neon-color-pink);
 }
+
 
 /* --- 버튼 스타일 --- */
 
@@ -153,6 +152,7 @@ body {
 	display:flex;
 }
 
+
 /* 게시판 테이블 스타일 */
 .board-table {
     width: 100%;
@@ -170,6 +170,12 @@ body {
 
 .board-table th {
     background-color: rgba(255, 102, 169, 0.1); 
+
+}
+
+.board-table th {
+    background-color: rgba(255, 102, 169, 0.1); /* 약간의 배경색 */
+
 }
 
 /* 게시물 행 스타일 */
@@ -187,13 +193,17 @@ body {
 .post-title {
     text-align: left;
 }
+
 /* 페이징 및 검색 */
 
 .footer {
     margin-top: 20px;
     display:flex;
     justify-content: space-between;
-	.board-header{
+}
+
+
+.board-header{
 	display:flex;
 }
 
@@ -218,10 +228,7 @@ body {
 }
 
 /* 페이징 및 링크 스타일 */
-.footer {
-    margin-top: 20px;
-    display:flex;
-}
+
 
 .neon-link {
     display: inline-block;
@@ -242,6 +249,7 @@ body {
 .search-area {
 	margin-left: auto;
 }
+
 
 /* --- 상세 보기 스타일 --- */
 

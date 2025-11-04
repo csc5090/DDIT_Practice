@@ -32,11 +32,13 @@
 
 <!-- ==================================================================================== -->
 <body>
+
 	<div id="home">
 		<button id="homeBtn">⌂</button>
 	</div>
-<div class="container">
 	
+<div class="container">
+
         <h1 class="neon-text title">⭐ 게시판 ⭐</h1>
         
         <div class="board-header">

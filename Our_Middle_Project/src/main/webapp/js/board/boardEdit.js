@@ -59,6 +59,6 @@ function validateEdit() {
  * @returns {boolean} 폼 전송 허용 여부
  */
 function validateReply() {
-    // 답글은 기본적으로 글쓰기와 동일한 유효성 검사를 사용
+    // 답글은 기본적으로 글쓰기와 동일한 유효성 검사를 사용합니다.
     return validateWrite();
 }
