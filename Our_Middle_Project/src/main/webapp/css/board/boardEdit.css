@@ -1,0 +1,246 @@
+/* =======================================================
+ * CSS 통합본: board_common.css
+ * (모든 게시판 페이지 공통 스타일 - 사용자 지정 배경 포함)
+ * ======================================================= */
+
+/* 전체 글 색상 */
+:root {
+    --neon-color-pink: #ff66a9; /* 주 네온 색상 (핑크) */
+    --neon-color-white: #fff;   /* 네온 중심 색상 (화이트) */
+    --background-color: #0c001c; /* 어두운 배경 */
+}
+
+body {
+    background-image: url('../../images/logins/loginBack.png');
+	background-size: 50% 100%;
+    background-attachment: fixed;
+    background-color: var(--background-color); /* 배경 이미지 로드 실패 시 대체 색상 */
+    
+    color: var(--neon-color-white);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(255, 102, 169, 0.3); 
+    border-radius: 5px;
+}
+
+/* --- 텍스트 및 애니메이션 --- */
+
+/* 네온 텍스트 스타일 (큰 제목) */
+.neon-text {
+    font-family: 'cursive', sans-serif; 
+    font-size: 3.5rem;
+    color: var(--neon-color-white);
+    text-shadow:
+        0 0 5px var(--neon-color-white), 
+        0 0 10px var(--neon-color-white),
+        0 0 20px var(--neon-color-pink), 
+        0 0 40px var(--neon-color-pink),
+        0 0 80px var(--neon-color-pink);
+    animation: flicker 1.5s infinite alternate; 
+}
+
+/* 사용자가 수정한 깜빡이는 애니메이션 */
+@keyframes flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        text-shadow:
+            0 0 5px var(--neon-color-white),
+            0 0 10px var(--neon-color-white),
+            0 0 20px var(--neon-color-pink),
+            0 0 40px var(--neon-color-pink),
+            0 0 80px var(--neon-color-pink);
+    }
+    20%, 24%, 55% {        
+	  text-shadow: none; /*잠시 네온 효과를 끔 */
+    }
+}
+
+/* 네온 텍스트 스타일 (작은 제목/글자) */
+.neon-text-small {
+    font-size: 1.2rem;
+    color: var(--neon-color-white);
+    text-shadow:
+        0 0 3px var(--neon-color-white), 
+        0 0 8px var(--neon-color-pink),
+        0 0 15px var(--neon-color-pink);
+}
+
+/* --- 버튼 스타일 --- */
+
+.neon-button {
+    background-color: transparent;
+    color: var(--neon-color-white);
+    border: 2px solid var(--neon-color-pink);
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 0 10px var(--neon-color-pink);
+    transition: all 0.3s ease;
+    margin-left: auto;
+}
+
+.neon-button:hover {
+    background-color: var(--neon-color-pink);
+    color: var(--background-color);
+    box-shadow: 0 0 20px var(--neon-color-pink), 0 0 40px var(--neon-color-pink);
+}
+
+/* --- 입력 폼 (쓰기/수정) 스타일 --- */
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.neon-input, .neon-textarea {
+    width: 100%;
+    background-color: transparent;
+    color: var(--neon-color-white);
+    border: 2px solid var(--neon-color-pink);
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 5px;
+    caret-color: var(--neon-color-pink); 
+    box-shadow: 0 0 5px rgba(255, 102, 169, 0.5); 
+    box-sizing: border-box; 
+    transition: box-shadow 0.3s ease;
+}
+
+.neon-textarea {
+    min-height: 250px;
+    resize: vertical;
+    padding: 15px;
+}
+
+.neon-input:focus, .neon-textarea:focus {
+    outline: none;
+    border-color: var(--neon-color-white);
+    box-shadow: 0 0 10px var(--neon-color-pink), 0 0 20px rgba(255, 102, 169, 0.7);
+}
+
+.neon-input::placeholder, .neon-textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5); 
+}
+
+/* 쓰기/수정/답글 페이지 버튼 영역 */
+.write-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 30px;
+}
+.right-align-btn {
+    margin-left: auto;
+}
+
+/* --- 목록 페이지 스타일 --- */
+
+.board-header{
+	display:flex;
+}
+
+.board-table {
+    width: 100%;
+    margin-top: 30px;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    border: 1px solid rgba(255, 102, 169, 0.5); 
+}
+
+.board-table th, .board-table td {
+    padding: 12px 8px;
+    border: 1px solid rgba(255, 102, 169, 0.2);
+    text-align: center;
+}
+
+.board-table th {
+    background-color: rgba(255, 102, 169, 0.1); 
+}
+
+/* 게시물 행 스타일 */
+.board-row {
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.board-row:hover {
+    background-color: rgba(255, 102, 169, 0.15);
+    color: var(--neon-color-pink);
+    text-shadow: 0 0 5px var(--neon-color-pink);
+}
+
+.post-title {
+    text-align: left;
+}
+
+/* 페이징 및 검색 */
+
+.footer {
+    margin-top: 20px;
+    display:flex;
+    justify-content: space-between;
+}
+
+.neon-link {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 0 5px;
+    color: var(--neon-color-pink);
+    cursor: pointer;
+    text-shadow: 0 0 5px var(--neon-color-pink);
+    transition: text-shadow 0.3s;
+}
+
+.neon-link:hover, .neon-link.current {
+    text-shadow: 0 0 10px var(--neon-color-pink), 0 0 20px rgba(255, 102, 169, 0.8);
+    font-weight: bold;
+}
+
+.search-area {
+	margin-left: auto;
+}
+
+/* --- 상세 보기 스타일 --- */
+
+.post-detail-box {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5); 
+    border: 2px solid rgba(255, 102, 169, 0.4); 
+    border-radius: 5px;
+    text-align: left;
+}
+.detail-header {
+    border-bottom: 1px solid rgba(255, 102, 169, 0.3);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+.post-title-detail {
+    margin: 0;
+    font-size: 1.8rem;
+}
+.detail-content {
+    min-height: 200px;
+    padding: 20px 0;
+    border-top: 1px dashed rgba(255, 102, 169, 0.2);
+    border-bottom: 1px dashed rgba(255, 102, 169, 0.2);
+    white-space: pre-wrap;
+    line-height: 1.6;
+}
+.detail-actions {
+    display: flex; 
+    gap: 10px; 
+    margin-top: 20px;
+}

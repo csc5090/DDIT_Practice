@@ -109,7 +109,7 @@ body {
     background-color: transparent;
     color: var(--neon-color-white);
     border: 2px solid var(--neon-color-pink);
-    padding: 10px 20px;
+    padding: 5px 10px;
     cursor: pointer;
     font-size: 1rem;
     border-radius: 5px;

@@ -1,0 +1,142 @@
+:root {
+    --neon-color-pink: #ff66a9; /* 주 네온 색상 (핑크) */
+    --neon-color-white: #fff;   /* 네온 중심 색상 (화이트) */
+    --background-color: #0c001c; /* 어두운 배경 */
+}
+
+body {
+    background-image: url('../../images/logins/loginBack.png');
+	background-size: 50% 100%;
+
+    background-attachment: fixed;
+    
+    color: var(--neon-color-white);
+    font-family: Arial, sans-serif; /* 폰트는 취향에 따라 변경 */
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(255, 102, 169, 0.3); 
+    border-radius: 5px;
+}
+
+/* 네온 텍스트 스타일 (큰 제목) */
+.neon-text {
+    font-family: 'cursive', sans-serif;
+    font-size: 3.5rem;
+    color: var(--neon-color-white);
+    text-shadow:
+        0 0 5px var(--neon-color-white),
+        0 0 10px var(--neon-color-white),
+        0 0 20px var(--neon-color-pink),
+        0 0 40px var(--neon-color-pink),
+        0 0 80px var(--neon-color-pink);
+    animation: flicker 1.5s infinite alternate;
+}
+
+/* 네온 텍스트 스타일 (작은 제목/글자) */
+.neon-text-small {
+    font-size: 1.2rem;
+    color: var(--neon-color-white);
+    text-shadow:
+        0 0 3px var(--neon-color-white), 
+        0 0 8px var(--neon-color-pink),
+        0 0 15px var(--neon-color-pink);
+}
+
+/* 네온 버튼 스타일 */
+.neon-button {
+    background-color: transparent;
+    color: var(--neon-color-white);
+    border: 2px solid var(--neon-color-pink);
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 0 10px var(--neon-color-pink);
+    transition: all 0.3s ease;
+}
+.neon-button:hover {
+    background-color: var(--neon-color-pink);
+    color: var(--background-color);
+    box-shadow: 0 0 20px var(--neon-color-pink), 0 0 40px var(--neon-color-pink);
+}
+
+
+/* --- 상세 보기 전용 스타일 --- */
+
+/* 게시물 상세 보기 박스 */
+.post-detail-box {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5); 
+    border: 2px solid rgba(255, 102, 169, 0.4); 
+    border-radius: 5px;
+    text-align: left;
+}
+
+/* 상세 제목 영역 */
+.detail-header {
+    border-bottom: 1px solid rgba(255, 102, 169, 0.3);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.post-title-detail {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+.detail-label {
+    color: var(--neon-color-pink);
+    margin-right: 5px;
+}
+
+/* 정보 영역 (작성자, 날짜 등) */
+.detail-info {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 20px;
+}
+
+/* 내용 영역 */
+.detail-content {
+    min-height: 200px; 
+    padding: 20px 0;
+    border-top: 1px dashed rgba(255, 102, 169, 0.2);
+    border-bottom: 1px dashed rgba(255, 102, 169, 0.2);
+    white-space: pre-wrap;
+    line-height: 1.6;
+}
+
+/* 버튼 그룹 영역 */
+.detail-actions {
+    display: flex; 
+    gap: 10px; 
+    margin-top: 20px;
+}
+
+/* 목록 버튼 우측 정렬 */
+.right-align-btn {
+    margin-left: auto; 
+}
+
+/* 깜빡이는 애니메이션 */
+@keyframes flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        text-shadow:
+            0 0 5px var(--neon-color-white),
+            0 0 10px var(--neon-color-white),
+            0 0 20px var(--neon-color-pink),
+            0 0 40px var(--neon-color-pink),
+            0 0 80px var(--neon-color-pink);
+    }
+    20%, 24%, 55% {        
+        text-shadow: none;
+    }
+}
