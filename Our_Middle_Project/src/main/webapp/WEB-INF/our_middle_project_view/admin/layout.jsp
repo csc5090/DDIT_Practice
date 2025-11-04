@@ -22,7 +22,8 @@
 
 <%-- <script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/axios/axios.min.js"></script> --%>
 
-
+<link rel="stylesheet" 
+	href="${pageContext.request.contextPath}/css/admin/admin_common.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/admin/admin_layout.css">
 <link rel="stylesheet"
@@ -263,7 +264,7 @@
 								</div>
 							</div>
 							<div class="detail-footer">
-								<button id="detail-apply-btn" class="btn-apply">적용</button>
+								<button id="detail-apply-btn" class="action-btn primary">적용</button>
 							</div>
 						</div>
 					</div>
@@ -363,41 +364,45 @@
 
 							<div class="review-detail-content" style="display: none;">
 								<div class="review-detail-view">
-									<h2>리뷰 상세 정보</h2>
-									<div class="detail-grid">
-										<div class="detail-item full-width">
-											<label>리뷰 제목</label><span id="detail-review-title"></span>
+									<h3 id="detail-review-title" class="review-card-title"></h3>
+
+									<div class="review-card-meta-list">
+										<div class="meta-item">
+											<span class="meta-label">닉네임</span> <span
+												id="detail-review-nickname" class="meta-value"></span>
 										</div>
-										<div class="detail-item">
-											<label>작성자</label><span id="detail-review-nickname"></span>
+										<div class="meta-item">
+											<span class="meta-label">작성일</span> <span
+												id="detail-review-date" class="meta-value"></span>
 										</div>
-										<div class="detail-item">
-											<label>작성일</label><span id="detail-review-date"></span>
-										</div>
-										<div class="detail-item">
-											<label>별점</label><span id="detail-review-stars"></span>
-										</div>
-										<div class="detail-item">
-											<label>사진</label>
-											<div id="detail-review-image"></div>
-										</div>
-										<div class="detail-item full-width">
-											<label>내용</label>
-											<p id="detail-review-content"></p>
+										<div class="meta-item">
+											<span class="meta-label">별점</span> <span
+												id="detail-review-stars"
+												class="meta-value review-card-stars"></span>
 										</div>
 									</div>
-								</div>
-								<div class="review-crud-panel">
-									<h3>관리</h3>
-									<div class="form-group">
-										<label for="admin-reply-textarea">관리자 댓글 (작성일: <span
-											id="admin-reply-date">###</span>)
-										</label>
-										<textarea id="admin-reply-textarea"
-											placeholder="관리자 댓글을 입력하거나 수정하세요.">###</textarea>
+
+									<div class="review-card-body">
+										<p id="detail-review-content"></p>
+										<div id="detail-review-image"
+											class="review-card-image-wrapper"></div>
 									</div>
+
+									<div class="review-crud-panel">
+										<h3>관리</h3>
+										<div class="review-admin-box">
+											<div class="form-group">
+												<label for="admin-reply-textarea">관리자 댓글 (작성일: <span
+													id="admin-reply-date"></span>)
+												</label>
+												<textarea id="admin-reply-textarea"
+													placeholder="관리자 댓글을 입력하거나 수정하세요."></textarea>
+											</div>
+										</div>
+									</div>
+
 									<div class="crud-actions">
-										<button class="action-btn" data-action="save-reply">댓글
+										<button class="action-btn primary" data-action="save-reply">댓글
 											저장</button>
 										<button class="action-btn secondary"
 											data-action="delete-image">이미지 삭제</button>
@@ -408,9 +413,8 @@
 							</div>
 						</div>
 					</div>
-				</div>
 
-				<div class="bodyArea" id="stats-main">데이터/통계</div>
+					<div class="bodyArea" id="stats-main">데이터/통계</div>
 			</main>
 		</div>
 	</div>

@@ -47,12 +47,12 @@ const AdminCore = {
 		}
 	},
 
-	// 1. 모든 함수를 'key: function() {}' 형태의 메소드로 변경
+	// 모든 함수를 'key: function() {}' 형태의 메소드로 변경
 	sideBarToggleHandle: function(e) {
 		let clicked = e.currentTarget;
 		let parentLi = clicked.parentElement;
 		let childElement = clicked.nextElementSibling;
-		this.closeOtherSubmenus(parentLi); // 'this.' 추가
+		this.closeOtherSubmenus(parentLi);
 
 		if (childElement != null && childElement.classList.contains('ul-container-none')) {
 			childElement.classList.toggle('active');
