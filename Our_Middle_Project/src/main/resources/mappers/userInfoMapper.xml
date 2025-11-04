@@ -25,7 +25,8 @@
 			DELETED_DATE,
 			DELETED_REASON,
 			STATUS,
-			ROLE
+			ROLE,
+			SALT
 		)
 		VALUES (
 			SEQ_MEMBER.NEXTVAL,
@@ -44,7 +45,8 @@
 			NULL,
 			NULL,
 			#{status},
-			NULL
+			NULL,
+			#{salt}
 		)
 	
 	</insert>
@@ -78,7 +80,9 @@
 	<update id="newPasswordSave">
 	
 	    UPDATE MEMBER
-	    SET MEM_PASS = #{mem_pass}
+	    SET 
+	    	MEM_PASS = #{mem_pass},
+	    	SALT = #{salt}
 	    WHERE MEM_ID = #{mem_id}
 	
 	</update>
@@ -88,8 +92,7 @@
 	    SELECT *
 		FROM MEMBER
 		WHERE 
-			MEM_ID = #{mem_id} AND
-			MEM_PASS = #{mem_pass}
+			MEM_ID = #{mem_id}
 	
 	</select>
 

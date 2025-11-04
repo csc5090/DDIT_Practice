@@ -82,6 +82,7 @@ public class UserSearchController implements Action {
 			Map<String, Object> pram = new HashMap<>();
 			pram.put("mem_id", mem_id);
 			pram.put("mem_pass", mem_pass);
+			pram.put("salt", salt);
 			
 		    userInfoService.newPasswordSave(pram);
 		    

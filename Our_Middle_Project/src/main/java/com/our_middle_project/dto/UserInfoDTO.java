@@ -22,5 +22,6 @@ public class UserInfoDTO {
 	private String delete_reason;
 	private String status;
 	private String role;
+	private String salt;
 	
 }
