@@ -131,6 +131,19 @@ const ReviewPage = {
 		document.getElementById('detail-review-content').textContent = review.boardContent;
 		document.getElementById('admin-reply-date').textContent = review.adminReplyDate || '미작성';
 		document.getElementById('admin-reply-textarea').value = review.adminReply || '';
+
+		const deleteImageBtn = document.querySelector('.review-crud-panel .action-btn[data-action="delete-image"]');
+		if (deleteImageBtn) {
+			if (review.hasImage === 'Y') {
+				deleteImageBtn.classList.add('image-active');
+				deleteImageBtn.classList.remove('secondary');
+				deleteImageBtn.disabled = false;
+			} else {
+				deleteImageBtn.classList.remove('image-active');
+				deleteImageBtn.classList.add('secondary');
+				deleteImageBtn.disabled = true;
+			}
+		}
 	},
 
 	handleClick: function(e) {
