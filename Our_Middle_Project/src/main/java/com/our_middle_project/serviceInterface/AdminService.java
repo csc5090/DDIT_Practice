@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.our_middle_project.dto.MemberDTO;
-import com.our_middle_project.dto.ReviewDTO;
+import com.our_middle_project.dto.AdminReviewDTO;
 
 public interface AdminService {
 	public int getTotalUserCount();
@@ -13,5 +13,5 @@ public interface AdminService {
 	List<Map<String, Object>> getDailySignupStats();
 	public boolean updateUser(MemberDTO memberDTO);
 	public MemberDTO getUserDetails(String memberId);
-	public List<ReviewDTO> getReviewList();
+	public List<AdminReviewDTO> getReviewList();
 }

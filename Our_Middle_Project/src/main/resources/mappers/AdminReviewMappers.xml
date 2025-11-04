@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="reviewMapper">
+<mapper namespace="AdminReviewMappers">
 
-    <select id="selectAllReviews" resultType="com.our_middle_project.dto.ReviewDTO">
+    <select id="selectAllReviews" resultType="com.our_middle_project.dto.AdminReviewDTO">
         SELECT
             B.BOARD_NO AS boardNo,
             B.BOARD_TITLE AS boardTitle,

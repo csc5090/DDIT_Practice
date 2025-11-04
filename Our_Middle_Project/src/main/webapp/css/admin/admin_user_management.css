@@ -87,10 +87,8 @@
 	display: flex;
 	flex-direction: column;
 	flex: 1;
-	margin-left: 20px;
 	background-color: var(--bg-sidebar);
 	border: 1px solid var(--border-color);
-	border-radius: 8px;
 	width: 50%;
 }
 

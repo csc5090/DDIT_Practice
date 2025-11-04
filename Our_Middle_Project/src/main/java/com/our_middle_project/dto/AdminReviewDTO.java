@@ -1,6 +1,6 @@
 package com.our_middle_project.dto;
 
-public class ReviewDTO {
+public class AdminReviewDTO {
 	private int boardNo;         	// 리뷰 고유 번호 (BOARD.BOARD_NO)
     private String boardTitle;      // 리뷰 제목 (BOARD.BOARD_TITLE)
     private String boardContent;    // 리뷰 내용 (BOARD.BOARD_CONTENT)

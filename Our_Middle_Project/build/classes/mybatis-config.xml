@@ -8,6 +8,7 @@
 	<typeAliases>
 		<typeAlias type="com.our_middle_project.dto.UserInfoDTO" alias="userInfoDTO" />
 		<typeAlias type="com.our_middle_project.dto.UserInfoReturnDTO" alias="UserInfoReturnDTO" />
+		<typeAlias type="com.our_middle_project.dto.AdminReviewDTO" alias="AdminReviewDTO" />
 	</typeAliases>
 
 	<environments default="development">
@@ -25,5 +26,6 @@
 	<mappers>
 		<mapper resource="mappers/memberMapper.xml" />
 		<mapper resource="mappers/userInfoMapper.xml" />
+		<mapper resource="mappers/AdminReviewMappers.xml" />
 	</mappers>
 </configuration>

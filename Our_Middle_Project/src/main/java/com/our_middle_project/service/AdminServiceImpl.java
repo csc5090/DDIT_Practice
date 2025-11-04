@@ -7,10 +7,10 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.our_middle_project.dao.MemberDAO;
 import com.our_middle_project.dao.MemberDAOImpl;
-import com.our_middle_project.dao.ReviewDAO;
-import com.our_middle_project.dao.ReviewDAOImpl;
+import com.our_middle_project.dao.AdminReviewDAO;
+import com.our_middle_project.dao.AdminReviewDAOImpl;
 import com.our_middle_project.dto.MemberDTO;
-import com.our_middle_project.dto.ReviewDTO;
+import com.our_middle_project.dto.AdminReviewDTO;
 import com.our_middle_project.serviceInterface.AdminService;
 import com.our_middle_project.util.MybatisUtil;
 
@@ -81,10 +81,10 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<ReviewDTO> getReviewList() {
+	public List<AdminReviewDTO> getReviewList() {
 		try (SqlSession sqlSession = MybatisUtil.getSqlSession()) {
 	        // 리뷰 관련 DAO를 새로 만들어 호출하는 것을 권장합니다.
-	        ReviewDAO reviewDAO = new ReviewDAOImpl(sqlSession);
+	        AdminReviewDAO reviewDAO = new AdminReviewDAOImpl(sqlSession);
 	        return reviewDAO.selectAllReviews();
 		}
 	}
