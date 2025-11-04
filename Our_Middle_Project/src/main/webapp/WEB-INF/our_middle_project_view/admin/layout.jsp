@@ -443,6 +443,9 @@
 	<script
 		src="${pageContext.request.contextPath}/js/admin/page-review.js"></script>
 
-
+	<script type="text/javascript">
+		const GlovalLevel = "<c:out value='${sessionScope.loginAdmin.mem_id}' />";
+		console.log(GlovalLevel);
+	</script>
 </body>
 </html>
