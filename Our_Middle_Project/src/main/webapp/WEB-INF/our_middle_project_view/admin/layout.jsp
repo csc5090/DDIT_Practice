@@ -327,9 +327,6 @@
 
 
 				<div class="bodyArea" id="review-management">
-					<div class="review-toolbar">
-						<h1>리뷰 관리</h1>
-					</div>
 
 					<div class="review-main-content">
 						<div class="review-list-container" id="admin-review-list">

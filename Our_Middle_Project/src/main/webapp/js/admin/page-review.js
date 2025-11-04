@@ -50,7 +50,7 @@ const ReviewPage = {
 			const adminReplyStatus = review.adminReply ? 'O' : 'X';
 
 			row.innerHTML = `
-	                <td>${review.boardTitle}</td>
+	                <td>${review.boardTitle ?? '[제목 없음]'}</td>
 	                <td>${review.nickname}</td>
 	                <td>${starsHTML}</td>
 	                <td>${imageIcon}</td>
@@ -120,7 +120,7 @@ const ReviewPage = {
 		document.querySelector('.review-detail-content').style.display = 'block';
 
 		this.selectedReviewNo = review.boardNo;
-		document.getElementById('detail-review-title').textContent = review.boardTitle;
+		document.getElementById('detail-review-title').textContent = review.boardTitle ?? '[제목 없음]';
 		document.getElementById('detail-review-nickname').textContent = review.nickname;
 		document.getElementById('detail-review-date').textContent = review.createdDate;
 
