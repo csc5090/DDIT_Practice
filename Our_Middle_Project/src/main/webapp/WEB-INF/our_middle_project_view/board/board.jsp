@@ -65,11 +65,11 @@
         </table>
         
         <div class="footer">
-            <span class="neon-link">Prev</span>
-            <span class="neon-link current">1</span>
-            <span class="neon-link" onclick="goToPage(2)">2</span>
-            <span class="neon-link" onclick="goToPage(3)">3</span>
-            <span class="neon-link">Next</span>
+<!--             <span class="neon-link">Prev</span> -->
+<!--             <span class="neon-link current">1</span> -->
+<!--             <span class="neon-link" onclick="goToPage(2)">2</span> -->
+<!--             <span class="neon-link" onclick="goToPage(3)">3</span> -->
+<!--             <span class="neon-link">Next</span> -->
             
            		<div class="search-area">
 				    <input type="text" id="searchInput" class="neon-input" size="16" placeholder="검색어를 입력하세요...">

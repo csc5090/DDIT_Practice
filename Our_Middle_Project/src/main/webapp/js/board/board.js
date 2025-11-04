@@ -67,11 +67,11 @@ async function boardListCallDB() {
  * @param {number} boardNo - 클릭한 게시물의 고유 번호
  */
 function viewPost(boardNo) {
-	if (!boardNo) {
-		Swal.fire({ icon: 'error', title: '오류', text: '게시물 정보를 찾을 수 없습니다.', confirmButtonText: '확인' });
-		return;
-	}
-	window.location.href = "boardCont.do?boardNo=" + boardNo;
+    if(!boardNo){
+        Swal.fire({ icon: 'error', title: '오류', text: '게시물 정보를 찾을 수 없습니다.', confirmButtonText: '확인' });
+        return;
+    }
+    window.location.href = `boardCont.do?boardNo=${boardNo}&state=cont`;
 }
 
 
@@ -82,11 +82,9 @@ function goToWritePage() {
 }
 
  // 페이징 이동 함수 (페이지 번호 클릭)
- // @param {number} pageNum - 이동할 페이지 번호
-function goToPage(pageNum) {
-	console.log(`Moving to page: ${pageNum}`);
-	window.location.href = "board.do?page=" + pageNum;
-}
+ function goToPage(pageNum) {
+     window.location.href = "board.do?page=" + pageNum;
+ }
 
 // 목록 페이지로 이동합니다. ('전체목록' 버튼)
 function goToList() {
@@ -112,3 +110,4 @@ function searchPosts() {
 document.getElementById("homeBtn").addEventListener("click", () => {
     window.location.href = "gameHome.do";  
 });
+

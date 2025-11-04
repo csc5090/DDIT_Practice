@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import com.our_middle_project.dto.BoardDTO;
-import com.our_middle_project.util.MybatisUtil;
 
 public class BoardDAOImpl implements BoardDAO {
 	
@@ -24,17 +23,23 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public BoardDTO selectBoardCont(String boardNo) {
-		SqlSession session = MybatisUtil.getSqlSession(); 
-		BoardDTO dto = null;
+	public BoardDTO selectBoardCont(String boardNo, SqlSession session) {
+		return session.selectOne("boardMapper.selectBoardCont", boardNo);
+	}//게시물 상세내용
 
-		try {
-			dto = session.selectOne("boardMapper.selectBoardCont", boardNo);
-		} finally {
-			session.close();
-		}
-		return dto;
+	
+	@Override
+	public List<BoardDTO> selectBoardList(int start, int pageSize, SqlSession session) {
+        return session.selectList("BoardMapper.selectBoardList", 
+                new java.util.HashMap<String, Integer>() {{
+                    put("start", start);
+                    put("pageSize", pageSize);
+                }});
 	}
 
+	@Override
+	public int selectBoardCount(SqlSession session) {
+		return session.selectOne("boardMapper.selectBoardCount");
+	}
 
 }

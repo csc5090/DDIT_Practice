@@ -12,9 +12,7 @@ import com.our_middle_project.serviceInterface.BoardService;
 import com.our_middle_project.util.MybatisUtil;
 
 public class BoardServiceImpl implements BoardService {
-	
-	private BoardDAO boardDao;
-	
+
 	@Override
 	public List<BoardDTO> selectFreeBoard(BoardDTO board) {
 		
@@ -29,13 +27,50 @@ public class BoardServiceImpl implements BoardService {
 		}
 		return list;
 	}
-	
-	@Override
-	public BoardDTO getBoardCont(int boardNo) {
-		return this.boardDao.getBoardCont(boardNo);
-	}//번호에 해당하는 게시판 내용보기
 
-	
-	
+	@Override
+	public BoardDTO selectBoardCont(String boardNo) {
+
+		BoardDTO dto = null;
+
+		try {
+			SqlSession session = MybatisUtil.getSqlSession();
+			BoardDAO dao = new BoardDAOImpl(session);
+			dto = dao.selectBoardCont(boardNo, session);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dto;
+	}
+
+	@Override
+	public List<BoardDTO> getBoardList(int page, int pageSize) {
+	    List<BoardDTO> list = new ArrayList<>();
+	    int start = (page - 1) * pageSize; // 페이지 시작 글 번호 계산
+
+	    try {
+	        SqlSession session = MybatisUtil.getSqlSession();
+	        BoardDAO dao = new BoardDAOImpl(session); // DAO 객체 생성
+	        list = dao.selectBoardList(start, pageSize, session); // 객체 메서드 호출
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return list;
+	}
+
+	@Override
+	public int getTotalCount() {
+	    int total = 0;
+	    try {
+	        SqlSession session = MybatisUtil.getSqlSession();
+	        BoardDAO dao = new BoardDAOImpl(session);
+	        total = dao.selectBoardCount(session); // 객체 메서드 호출
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return total;
+	}
 	
 }
