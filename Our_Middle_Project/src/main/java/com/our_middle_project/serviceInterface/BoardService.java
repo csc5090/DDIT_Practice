@@ -22,6 +22,6 @@ public interface BoardService {
     // 수정폼 열기 전에 본인 글 체크
     public BoardDTO selectBoardForEdit(String boardNo, String memNo);	
     
-    // 백업반영됨
+    // 백업반영됨1
 
 }

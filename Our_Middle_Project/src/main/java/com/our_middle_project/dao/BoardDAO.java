@@ -8,7 +8,7 @@ import com.our_middle_project.dto.BoardDTO;
 
 public interface BoardDAO {
 	
-	// 백업 됨
+	// 백업 됨11
 	
 	// 자유게시판 목록
 	public List<BoardDTO> selectFreeBoard(BoardDTO board,SqlSession session);

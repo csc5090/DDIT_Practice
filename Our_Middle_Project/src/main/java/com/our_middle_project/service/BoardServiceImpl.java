@@ -13,7 +13,7 @@ import com.our_middle_project.util.MybatisUtil;
 
 public class BoardServiceImpl implements BoardService {
 
-	// 백업 반영됨
+	// 백업 반영됨1
 	
 	@Override
 	public List<BoardDTO> selectFreeBoard(BoardDTO board) {

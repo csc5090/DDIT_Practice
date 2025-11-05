@@ -18,7 +18,7 @@ public class BoardEditController implements Action {
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+		// test
 		
 		 BoardService boardService = new BoardServiceImpl();
 	        ActionForward forward = new ActionForward();
