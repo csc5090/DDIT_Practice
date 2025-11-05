@@ -37,7 +37,10 @@ public class BoardFreeController implements Action {
 		BoardService boardService = new BoardServiceImpl();
 
 		List<BoardDTO> boardList = new ArrayList<>();
-				
+		System.out.println("==================");		
+		System.out.println(boardList);	
+		System.out.println("==================");	
+		
 		Gson gson = new Gson();
 		
 		System.out.println(gson.toJson(boardList));

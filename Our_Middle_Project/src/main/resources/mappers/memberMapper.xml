@@ -101,4 +101,27 @@
 </update>
 
 
+<insert id="insertBoard" parameterType="com.our_middle_project.dto.MemberDTO">
+
+INSERT INTO BOARD (
+   	    	BOARD_NO,
+   	 	    BOARD_TITLE,
+   		    BOARD_CONTENT,
+		    MEM_NO,
+		    CREATED_DATE,
+		    VIEW_COUNT
+		  )
+		  VALUES (
+		    SEQ_MEMBER.NEXTVAL,
+		    #{boardNo},
+		    #{boardTitle},
+		    #{boardContent},
+		    #{memNo},
+		    SYSDATE,
+		    0
+		  )
+
+</insert>
+
+
 </mapper>

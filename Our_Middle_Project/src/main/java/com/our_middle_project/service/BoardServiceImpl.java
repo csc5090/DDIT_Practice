@@ -97,5 +97,19 @@ public class BoardServiceImpl implements BoardService {
         }
         return dto;
     }
-	
+
+	//새 글 작성
+	@Override
+	public int insertBoard(BoardDTO dto) {
+	    int result = 0;
+	    try (SqlSession session = MybatisUtil.getSqlSession()) {
+	        BoardDAO dao = new BoardDAOImpl(session); // 생성자에 session 전달
+	        result = dao.insertBoard(dto, session);
+	        session.commit();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return result;
+    }
+
 }

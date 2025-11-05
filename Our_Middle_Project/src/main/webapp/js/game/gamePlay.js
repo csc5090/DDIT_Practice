@@ -20,7 +20,6 @@ let gamePlay = false;
 //======페이지 로드
 window.onload = () => {
 	
-	console.log(GlovalLevel)
 	
 	scoreElement = document.querySelector(".score");	//점수 반영하기 위해서 score클래스 참조
 	comboElement = document.querySelector(".combo");

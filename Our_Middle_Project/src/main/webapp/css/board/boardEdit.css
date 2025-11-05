@@ -85,7 +85,24 @@ body {
     border-radius: 5px;
     box-shadow: 0 0 10px var(--neon-color-pink);
     transition: all 0.3s ease;
-    margin-left: auto;
+}
+.write-actions{
+  position:relative;
+  height:30px;
+  margin-top:30px;
+}
+
+/* 가운데 버튼 */
+.write-actions .edit-btn{
+  position:absolute;
+  left:5%;
+  transform:translateX(-50%);
+}
+
+/* 오른쪽 버튼  */
+.write-actions .cancel-btn{
+  position:absolute;
+  right:5px; 
 }
 
 .neon-button:hover {
@@ -136,15 +153,8 @@ body {
     color: rgba(255, 255, 255, 0.5); 
 }
 
-/* 쓰기/수정/답글 페이지 버튼 영역 */
-.write-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 30px;
-}
-.right-align-btn {
-    margin-left: auto;
-}
+
+
 
 /* --- 목록 페이지 스타일 --- */
 
@@ -207,19 +217,7 @@ body {
 	display:flex;
 }
 
-/* 네온 버튼 스타일 */
-.neon-button {
-    background-color: transparent;
-    color: var(--neon-color-white);
-    border: 2px solid var(--neon-color-pink);
-    padding: 5px 10px;
-    cursor: pointer;
-    font-size: 1rem;
-    border-radius: 5px;
-    box-shadow: 0 0 10px var(--neon-color-pink); /* 버튼 자체에 네온 효과 */
-    transition: all 0.3s ease;
-    margin-left: auto;
-}
+
 
 .neon-button:hover {
     background-color: var(--neon-color-pink);

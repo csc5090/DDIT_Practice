@@ -25,5 +25,8 @@ public interface BoardDAO {
     
     // 2) (선택) 본인 글 확인용
 	public BoardDTO selectBoardForEdit(String boardNo, String memNo, SqlSession session);
+	
+	//새 글 작성
+	int insertBoard(BoardDTO dto, SqlSession session);
 
 }

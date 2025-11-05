@@ -38,6 +38,8 @@ public class BoardController implements Action {
 	    request.setAttribute("pageSize", pageSize);
 	    request.setAttribute("totalCount", totalCount);
 
+		System.out.println("1231231232");		
+		System.out.println(boardList);		
 	    ActionForward forward = new ActionForward();
 	    forward.setRedirect(false);
 	    forward.setPath("/WEB-INF/our_middle_project_view/board/board.jsp");

@@ -62,4 +62,9 @@ public class BoardDAOImpl implements BoardDAO {
         return session.selectOne("boardMapper.selectBoardForEdit", param);
     }
 
+    @Override
+    public int insertBoard(BoardDTO dto, SqlSession session) {
+        return session.insert("boardMapper.insertBoard", dto);
+    }
+
 }
