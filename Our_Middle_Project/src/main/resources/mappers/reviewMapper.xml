@@ -4,15 +4,13 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
+
 <mapper namespace="mappers.reviewMapper">
 
-  <!--
-    전제: BOARD.BOARD_TITLE은 NULL 허용으로 변경 완료.
-    → INSERT에서 BOARD_TITLE 컬럼 자체를 생략한다.
-    (만약 아직 NOT NULL이면, VALUES에 임시 문자열을 추가하도록 알려줘)
-  -->
-
-  <!-- BOARD INSERT (PK=트리거). AFTER에서 CURRVAL 회수 -->
+  <!-- BOARD INSERT
+       - BOARD_TITLE 제외(제목 없음, NULL 허용 전제)
+       - PK는 트리거(SEQ_BOARD.NEXTVAL)로 생성
+       - INSERT 후 SEQ_BOARD.CURRVAL 회수하여 dto.boardNo 세팅 -->
   <insert id="insertBoard" parameterType="com.our_middle_project.dto.ReviewDTO">
     <selectKey keyProperty="boardNo" resultType="int" order="AFTER">
       SELECT SEQ_BOARD.CURRVAL FROM DUAL
@@ -24,7 +22,7 @@
     )
   </insert>
 
-  <!-- BOARD_IMAGE INSERT (FILE_DATA 미사용, FILE_NO는 트리거) -->
+  <!-- BOARD_IMAGE INSERT (파일 메타 저장; FILE_NO는 트리거) -->
   <insert id="insertImage" parameterType="com.our_middle_project.dto.FileImageDTO">
     INSERT INTO BOARD_IMAGE (
       FILE_NAME, FILE_PATH, FILE_SIZE, FILE_TYPE, TYPE_NO, BOARD_NO, UPLOAD_DATE
@@ -33,7 +31,7 @@
     )
   </insert>
 
-  <!-- 작성자 별점 upsert (1인1회, 정수 1~5 사용) -->
+  <!-- 작성자 1회 별점(정수 1~5) UPSERT -->
   <update id="mergeAuthorStar" parameterType="map">
     MERGE INTO BOARD_STAR T
     USING (

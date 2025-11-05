@@ -1,4 +1,4 @@
-package com.our_middle_project.service;
+package com.our_middle_project.serviceInterface;
 
 import java.util.List;
 
