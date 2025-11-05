@@ -8,7 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import com.our_middle_project.dto.BoardDTO;
 
 public class BoardDAOImpl implements BoardDAO {
-	// 백업
+	
 	private SqlSession sqlSession;
 	
     public BoardDAOImpl(SqlSession sqlSession) {
@@ -30,16 +30,36 @@ public class BoardDAOImpl implements BoardDAO {
 	
 	@Override
 	public List<BoardDTO> selectBoardList(int start, int pageSize, SqlSession session) {
-        return session.selectList("BoardMapper.selectBoardList", 
-                new java.util.HashMap<String, Integer>() {{
-                    put("start", start);
-                    put("pageSize", pageSize);
-                }});
+	    int end = start + pageSize - 1; // 끝 인덱스 계산
+
+	    return session.selectList("boardMapper.selectBoardList", 
+	            new java.util.HashMap<String, Integer>() {{
+	                put("start", start);
+	                put("end", end);
+	            }});
 	}
+	
 
 	@Override
 	public int selectBoardCount(SqlSession session) {
-		return session.selectOne("boardMapper.selectBoardCount");
+	    return session.selectOne("boardMapper.selectBoardCount");
 	}
+
+
+
+	// 게시글 수정
+    @Override
+    public int updateBoard(BoardDTO board, SqlSession session) {
+        return session.update("boardMapper.updateBoard", board);
+    }
+
+    // 본인 글 체크용
+    @Override
+    public BoardDTO selectBoardForEdit(String boardNo, String memNo, SqlSession session) {
+        BoardDTO param = new BoardDTO();
+        param.setBoardNo(boardNo);
+        param.setMemNo(memNo);
+        return session.selectOne("boardMapper.selectBoardForEdit", param);
+    }
 
 }

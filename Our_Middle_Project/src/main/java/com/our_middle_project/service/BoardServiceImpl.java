@@ -12,7 +12,7 @@ import com.our_middle_project.serviceInterface.BoardService;
 import com.our_middle_project.util.MybatisUtil;
 
 public class BoardServiceImpl implements BoardService {
-//백업
+
 	@Override
 	public List<BoardDTO> selectFreeBoard(BoardDTO board) {
 		
@@ -72,5 +72,30 @@ public class BoardServiceImpl implements BoardService {
 	    }
 	    return total;
 	}
+
+	
+	@Override
+    public int updateBoard(BoardDTO board) {
+        int result = 0;
+        try (SqlSession session = MybatisUtil.getSqlSession()) {
+            BoardDAO dao = new BoardDAOImpl(session);
+            result = dao.updateBoard(board, session);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+	@Override
+    public BoardDTO selectBoardForEdit(String boardNo, String memNo) {
+        BoardDTO dto = null;
+        try (SqlSession session = MybatisUtil.getSqlSession()) {
+            BoardDAO dao = new BoardDAOImpl(session);
+            dto = dao.selectBoardForEdit(boardNo, memNo, session);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return dto;
+    }
 	
 }

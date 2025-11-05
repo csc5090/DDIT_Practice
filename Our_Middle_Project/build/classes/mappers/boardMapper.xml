@@ -30,4 +30,45 @@
 		WHERE A.BOARD_NO=#{boardNo}
 	</select>
 	
+	<select id="selectBoardForEdit" parameterType="map" resultType="com.our_middle_project.dto.BoardDTO">
+	    SELECT 
+	        BOARD_NO AS boardNo,
+	        BOARD_TITLE AS boardTitle,
+	        BOARD_CONTENT AS boardContent,
+	        MEM_ID AS memId
+	    FROM BOARD
+	    WHERE BOARD_NO = #{boardNo}
+	      AND MEM_ID = #{memId}
+	</select>
+	
+	<update id="updateBoard" parameterType="com.our_middle_project.dto.BoardDTO">
+			UPDATE BOARD 
+			   SET BOARD_TITLE=#{boardTitle},
+		    	   BOARD_CONTENT=#{boardContent}
+			 WHERE BOARD_NO=#{boardNo} AND MEM_NO=#{memNo}
+	</update>
+	
+	
+	<select id="selectBoardList" resultType="com.our_middle_project.dto.BoardDTO" parameterType="map">
+		SELECT  BOARD_NO AS boardNo,
+		        BOARD_TITLE AS boardTitle,
+		        CREATED_DATE AS createdDate,
+		        VIEW_COUNT AS viewCount,
+		        MEM_ID AS memId
+		FROM (
+		    SELECT ROWNUM AS RNUM, A.*
+		    FROM (
+		        SELECT A.BOARD_NO, A.BOARD_TITLE, A.CREATED_DATE, A.VIEW_COUNT, B.MEM_ID
+		        FROM BOARD A
+		        INNER JOIN MEMBER B ON (A.MEM_NO = B.MEM_NO)
+		        ORDER BY A.BOARD_NO DESC
+		    ) A
+		)
+		WHERE RNUM BETWEEN #{start} AND #{end}
+	</select>
+	
+    <select id="selectBoardCount" resultType="int">
+		SELECT COUNT(*)
+		FROM BOARD
+	</select>
 </mapper>
