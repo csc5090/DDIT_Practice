@@ -528,6 +528,10 @@ input#imageInput[hidden] {
 					</button>
 				</div>
 
+				<form id="iReviewForm" action="<%=request.getContextPath()%>/review/write" method="post" enctype="multipart/form-data"
+      			 onsubmit="return iSubmit(this)">
+      			 <input type="hidden" name="typeNo" value="2">
+      			 
 				<div class="wrtBody wrtBody--new" aria-live="polite">
 					<!-- 좌: 별점 + 파일선택 + 미리보기 -->
 					<div class="wrtColLeftNew">
@@ -552,13 +556,16 @@ input#imageInput[hidden] {
 									<span>★</span>
 								</button>
 							</div>
+							
+							<input type="hidden" name="star" value="">
+							
 						</div>
 
 						<div class="rowNew">
 
 							<div class="uploaderNew">
 								<button id="fileBtn" class="fileButtonNew" type="button">파일 선택</button>
-								<input id="imageInput" type="file" accept="image/*" multiple hidden>
+								<input id="imageInput" name="image" type="file" accept="image/*" multiple hidden>
 								<div class="fileHintNew">최대 2장 · JPG/PNG/GIF</div>
 								<div class="fileCountNew" id="fileCount">0 / 2</div>
 							</div>
@@ -576,7 +583,7 @@ input#imageInput[hidden] {
 					<div class="wrtColRightNew">
 						<div class="rowNew">
 							<div class="textareaWrapNew">
-								<textarea id="content" class="textareaNew" maxlength="1000"
+								<textarea id="content" name="boardContent" class="textareaNew" required maxlength="1000"
 									placeholder="리뷰를 작성해주세요 (최소 10자)&#10;게임/서비스의 장단점, 추천 여부 등을 자유롭게 적어주세요."></textarea>
 								<div class="counterNew">
 									<span id="cnt">0</span>/1000
@@ -585,12 +592,14 @@ input#imageInput[hidden] {
 						</div>
 
 						<div class="btnRowNew">
-							<button id="btnSubmit" class="submitBtnNew" type="button"
+							<button id="btnSubmit" name="btnSubmit" class="submitBtnNew" type="submit"
 								disabled>등록</button>
 						</div>
 					</div>
 				</div>
 
+				</form>
+				
 				<input type="hidden" id="ratingVal" value="0">
 			</aside>
 		</div>
@@ -629,6 +638,8 @@ const DEMO = Array.from({length: 6}).map((_,i)=>({
   ][i],
   adminReply:"관리자: 소중한 의견 감사합니다!"
 }));
+
+
 function renderList(listEl, data){
   listEl.innerHTML = "";
   for (const item of data){
@@ -650,6 +661,7 @@ function renderList(listEl, data){
     listEl.appendChild(el);
   }
 }
+
 
 /* ===== 작성창 토글(기존 UX 유지) ===== */
 const composer = { root:null, toggleBtn:null, textarea:null,
@@ -756,7 +768,7 @@ window.onload = () => {
     const textOK = content.value.trim().length >= 10;
     const ratingOK = Number(ratingHidden.value) >= 1;
     btnSubmit.disabled = !(textOK && ratingOK);
-  }
+   }
   content.addEventListener('input', ()=>{ updateCounter(); validate(); });
   updateCounter(); validate(); setRating(5); renderPreview();
 
@@ -796,7 +808,60 @@ window.onload = () => {
       notify('등록 실패', '잠시 후 다시 시도해 주세요.', 'error');
     }
   });
+  
+  /////////////////////////////////////////////////////////////////
+  
+  let bindStars = (formEl) => {
+	    let starBtns = formEl.querySelectorAll('.starBtn');
+	    let starHidden = formEl.querySelector('input[name="star"]');
+	    for (let b of starBtns) {
+	      b.addEventListener('click', (e) => {
+	        let me = e.currentTarget;
+	        let val = me.getAttribute('data-val');
+	        starHidden.value = val;
+
+	        // 선택 표시 토글(접근성 aria-checked 포함)
+	        for (let x of starBtns) {
+	          let on = (x === me) || (+x.getAttribute('data-val') <= +val);
+	          x.setAttribute('aria-checked', on ? 'true' : 'false');
+	          x.classList.toggle('is-on', on);
+	        }
+	      });
+	    }
+	  };
+
+	  // 미리보기(선택): input[type=file][name=image] → 같은 form 내 프리뷰 영역 사용
+	  let bindPreview = (formEl) => {
+	    let fileInput = formEl.querySelector('input[type="file"][name="image"]');
+	    let preview = formEl.querySelector('.imgPreview'); // 선택사항: 있으면 사용
+	    if (!fileInput || !preview) return;
+	    fileInput.addEventListener('change', (e) => {
+	      preview.innerHTML = '';
+	      let files = fileInput.files;
+	      for (let i = 0; i < files.length; i++) {
+	        let url = URL.createObjectURL(files[i]);
+	        let img = new Image();
+	        img.src = url; img.className = 'previewImg';
+	        preview.appendChild(img);
+	      }
+	    });
+	  };
+
+	  // 폼 바인딩 (inline onsubmit으로 들어오는 iSubmit에 form 전달)
+	  // 여기서는 document.* 참조 없이 함수만 준비
+	  window.iSubmit = (formEl) => {
+	    // 필요 시 추가 검증만 수행
+	    let content = formEl.querySelector('textarea[name="boardContent"]');
+	    if (!content || !content.value.trim()) {
+	      alert('내용을 입력하세요.');
+	      return false;
+	    }
+	    return true; // submit 진행
+	  };
+  
+  
 };
+
 </script>
 
 </body>

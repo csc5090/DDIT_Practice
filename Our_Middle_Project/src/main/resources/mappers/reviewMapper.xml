@@ -4,14 +4,11 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-
-
   <!-- 글 INSERT (PK는 트리거), AFTER에 CURRVAL로 회수 -->
-
 <mapper namespace="mappers.reviewMapper">
 
   <!-- BOARD INSERT
-       - BOARD_TITLE 제외(제목 없음, NULL 허용 전제)
+       - BOARD_TITLE 제외(제목 없음, NULL 허용)
        - PK는 트리거(SEQ_BOARD.NEXTVAL)로 생성
        - INSERT 후 SEQ_BOARD.CURRVAL 회수하여 dto.boardNo 세팅 -->
 
@@ -20,10 +17,9 @@
       SELECT SEQ_BOARD.CURRVAL FROM DUAL
     </selectKey>
       INSERT INTO BOARD (
-      BOARD_TITLE, BOARD_CONTENT, CREATED_DATE, UPDATED_DATE, MEM_NO, TYPE_NO) 
-      VALUES (#{boardTitle}, #{boardContent}, SYSDATE, SYSDATE, #{memNo}, #{typeNo})
+      BOARD_CONTENT, CREATED_DATE, UPDATED_DATE, MEM_NO, TYPE_NO) 
+      VALUES (#{#{boardContent, jdbcType=VARCHAR}, SYSDATE, SYSDATE, 1, 2)
   </insert>
-
 
   <!-- 이미지 INSERT (FILE_DATA는 NULL 저장) -->
   <!-- BOARD_IMAGE INSERT (파일 메타 저장; FILE_NO는 트리거) -->
@@ -37,21 +33,16 @@
       UPLOAD_DATE, TYPE_NO, BOARD_NO
     ) VALUES (
       #{fileName}, NULL, #{filePath}, #{fileSize}, #{fileType},
-      SYSDATE, #{typeNo}, #{boardNo}
+      SYSDATE, 2, #{boardNo}
     )
   </insert>
-
-  <!-- 작성자 1회 별점(정수 1~5) -->
-  <select id="existsAuthorStar" resultType="int">
-    SELECT COUNT(*) FROM BOARD_STAR WHERE BOARD_NO = #{boardNo} AND MEM_NO = #{memNo}
-  </select>
 
   <insert id="insertAuthorStar">
     <selectKey keyProperty="starNo" resultType="int" order="AFTER">
       SELECT SEQ_BOARD_STAR.CURRVAL FROM DUAL
     </selectKey>
     INSERT INTO BOARD_STAR (STAR, CREATED_DATE, UPDATED_DATE, MEM_NO, BOARD_NO)
-    VALUES (#{star}, SYSDATE, SYSDATE, #{memNo}, #{boardNo})
+    VALUES (#{star}, SYSDATE, SYSDATE, 1, #{boardNo})
   </insert>
 
   <!-- 완료 화면 조회: DATE → String (TO_CHAR), 이미지 별도 조회 -->
@@ -60,7 +51,7 @@
     SELECT
       B.BOARD_NO      AS boardNo,
       B.MEM_NO        AS memNo,
-      M.NICKNAME      AS nickname,
+      M.NICKNAME      AS nickName,
       B.BOARD_CONTENT AS boardContent,
       TO_CHAR(B.CREATED_DATE, 'YYYY-MM-DD HH24:MI:SS') AS createdDate,
       TO_CHAR(B.UPDATED_DATE, 'YYYY-MM-DD HH24:MI:SS') AS updatedDate,

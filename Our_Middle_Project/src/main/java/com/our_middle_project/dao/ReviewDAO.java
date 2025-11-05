@@ -7,6 +7,6 @@ public interface ReviewDAO {
 	
 	int insertBoard(ReviewDTO dto);            
 	int insertImage(FileImageDTO img);
-	int mergeAuthorStar(int boardNo, int memNo, int star);
+	int insertAuthorStar(int boardNo, int memNo, int star);
 	
 }

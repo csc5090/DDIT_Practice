@@ -1,16 +1,10 @@
 package com.our_middle_project.dto;
 
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Getter
+@Setter
 public class ReviewDTO {
 	
 	// DB: BOARD_NO (NUMBER)
@@ -40,7 +34,4 @@ public class ReviewDTO {
 	// DB: BOARD_STAR.STAR (NUMBER)
 	private int star;
 	
-	// DB: BOARD_IMAGE 테이블
-	private List<FileImageDTO> images;
-
 }

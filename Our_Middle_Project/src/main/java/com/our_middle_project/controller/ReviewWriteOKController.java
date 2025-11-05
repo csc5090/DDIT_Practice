@@ -1,10 +1,13 @@
 package com.our_middle_project.controller;
 
-import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.Collection;
 import java.util.UUID;
 
 import com.our_middle_project.action.Action;
@@ -15,147 +18,110 @@ import com.our_middle_project.service.ReviewServiceImpl;
 import com.our_middle_project.serviceInterface.ReviewService;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 
-/** 리뷰 저장(JSON 응답) — web.xml 수정 없이 @MultipartConfig 사용 */
-@MultipartConfig(
-    fileSizeThreshold = 1024 * 1024,   // 1MB 메모리 임계
-    maxFileSize = 10 * 1024 * 1024,    // 개별 파일 10MB
-    maxRequestSize = 20 * 1024 * 1024  // 전체 요청 20MB
-)
+/** 리뷰 글/이미지 저장 컨트롤러 (로그인 세션 없이도 저장 가능) */
+
 public class ReviewWriteOKController implements Action {
 
-    private final ReviewService reviewService = new ReviewServiceImpl();
+	private final ReviewService reviewService = new ReviewServiceImpl();
 
     @Override
-    public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, java.io.IOException {
-
-        response.setContentType("application/json; charset=UTF-8");
+    public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+       
+    	response.setContentType("text/html; charset=UTF-8");
         PrintWriter out = response.getWriter();
-        request.setCharacterEncoding("UTF-8");
 
-        /*
-        // 로그인 체크
-        HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("LOGIN_MEM_NO") == null) {
-            response.setStatus(401);
-            out.write("{\"ok\":false,\"error\":\"LOGIN_REQUIRED\"}");
-            return null;
-        }
-        int memNo = (int) session.getAttribute("LOGIN_MEM_NO");
-   		*/
- 
- // 로그인 되면 지우자        
+        // 0) 업로드 경로 준비 (/uploads)
+        String uploadPath = request.getServletContext().getRealPath("/uploads");
+        Path uploadDir = Paths.get(uploadPath);
+        Files.createDirectories(uploadDir);
+
+        // 1) 파라미터 수집
+        String boardContent = request.getParameter("boardContent");
+        String typeStr = request.getParameter("typeNo");    // 리뷰게시판 타입 번호(없으면 2 가정)
+        int typeNo = (typeStr == null || typeStr.isBlank()) ? 2 : Integer.parseInt(typeStr.trim());
+
+        // 로그인 없이 저장: 게스트/더미 사용자 번호 사용 (예: MEM_NO=1)
         int memNo = 1;
-        String memNoStr = request.getParameter("memNo");
-        if (memNoStr != null && !memNoStr.isBlank()) {
-            try { memNo = Integer.parseInt(memNoStr.trim()); } catch (NumberFormatException ignore) { /* 기본값 1 */ }
-        }
-// 여기까지
-        
-        // 필수: 내용
-        String content = nz(request.getParameter("boardContent"));
-        if (content.isBlank()) {
-            response.setStatus(400);
-            out.write("{\"ok\":false,\"error\":\"boardContent required\"}");
-            return null;
+
+        // 2) 글 INSERT (selectKey AFTER-CURRVAL 로 boardNo가 dto에 세팅됨)
+        ReviewDTO dto = new ReviewDTO();
+        dto.setMemNo(memNo);
+        dto.setTypeNo(typeNo);
+        dto.setBoardContent(boardContent);
+
+        reviewService.insertBoard(dto);
+        int boardNo = dto.getBoardNo(); // ↑ 매퍼에서 자동 주입됨
+
+        // 3) 첨부파일 저장 (input name="image", multiple 가정)
+        Collection<Part> parts = request.getParts();
+        for (Part part : parts) {
+            if (!"image".equals(part.getName()) || part.getSize() == 0) continue;
+
+            // 원본 파일명
+            String originalName = extractOriginalName(part);
+            // 저장 파일명: UUID + 확장자
+            String storedName = buildStoredName(originalName);
+            Path filePath = uploadDir.resolve(storedName);
+
+            // 실제 파일 저장
+            try (InputStream in = part.getInputStream()) {
+                Files.copy(in, filePath, StandardCopyOption.REPLACE_EXISTING);
+            }
+
+            // 이미지 메타 DB 저장
+            FileImageDTO img = new FileImageDTO();
+            img.setBoardNo(boardNo);
+            img.setTypeNo(typeNo);
+            img.setFileName(originalName);
+            // DB에는 웹 기준 경로 저장(필요에 따라 절대경로 저장도 가능)
+            img.setFilePath(request.getContextPath() + "/uploads/" + storedName);
+            img.setFileSize((int) part.getSize());
+            img.setFileType(part.getContentType());
+
+            reviewService.insertImage(img);
         }
 
-        // 선택: 별점(1~5 정수)
-        Integer star = null;
+        // 4) (선택) 별점 — 로그인 없으니 게스트로 넣을지, 스킵할지 정책 선택
         String starStr = request.getParameter("star");
         if (starStr != null && !starStr.isBlank()) {
-            try {
-                int st = Integer.parseInt(starStr);
-                if (st < 1 || st > 5) throw new NumberFormatException();
-                star = st;
-            } catch (NumberFormatException e) {
-                response.setStatus(400);
-                out.write("{\"ok\":false,\"error\":\"star must be 1..5\"}");
-                return null;
-            }
+            int star = Integer.parseInt(starStr.trim());
+            // 게스트로도 별점을 저장하려면 아래 라인 유지, 아니라면 주석 처리
+            reviewService.insertAuthorStar(boardNo, memNo, star);
         }
 
-        // 첨부(name="images") 최대 2개
-        List<Part> parts = new ArrayList<>();
-        for (Part p : request.getParts()) {
-            if ("images".equals(p.getName()) && p.getSize() > 0) {
-                parts.add(p);
-            }
-        }
-        if (parts.size() > 2) {
-            response.setStatus(400);
-            out.write("{\"ok\":false,\"error\":\"max 2 images allowed\"}");
-            return null;
-        }
+        // 5) 완료 안내 및 목록/완료페이지로 이동
+        out.println("<script>");
+        out.println("alert('등록이 완료되었습니다.');");
+        out.println("location.href='" + "/WEB-INF/our_middle_project_view/reviewWrite.do");
+        out.println("</script>");
+        out.flush();
 
-        // 저장 경로 /uploads/review/YYYY/MM/DD/
-        String root = request.getServletContext().getRealPath("/");
-        LocalDate d = LocalDate.now();
-        String base = "uploads" + File.separator + "review" + File.separator
-                    + String.format("%04d", d.getYear()) + File.separator
-                    + String.format("%02d", d.getMonthValue()) + File.separator
-                    + String.format("%02d", d.getDayOfMonth());
-        File dir = new File(root, base);
-        if (!dir.exists()) dir.mkdirs();
-
-        // DTO 조립
-        ReviewDTO dto = ReviewDTO.builder()
-                .boardContent(content)
-                .memNo(memNo)
-                .typeNo(2)
-                .build();
-
-        List<FileImageDTO> imgs = new ArrayList<>();
-        for (Part p : parts) {
-            String orig = fileName(p);
-            String saved = UUID.randomUUID().toString().replace("-", "") + "_" + orig;
-
-            File dest = new File(dir, saved);
-            p.write(dest.getAbsolutePath());
-
-            FileImageDTO f = FileImageDTO.builder()
-                    .fileName(saved)
-                    .filePath(("/" + base + "/" + saved).replace(File.separatorChar, '/'))
-                    .fileSize((int) p.getSize())
-                    .fileType(p.getContentType())
-                    .typeNo(2)
-                    .build();
-            imgs.add(f);
-        }
-
-        try {
-            int boardNo = reviewService.writeOnly(dto, imgs, star);
-            out.write("{\"ok\":true,\"boardNo\":" + boardNo + "}");
-        } catch (IllegalArgumentException e) {
-            response.setStatus(400);
-            out.write("{\"ok\":false,\"error\":\"" + esc(e.getMessage()) + "\"}");
-        } catch (Exception e) {
-            response.setStatus(500);
-            out.write("{\"ok\":false,\"error\":\"INTERNAL_ERROR\"}");
-        }
-        return null; // JSON 직접 출력
+        return null; // JS로 리다이렉트
     }
 
-    // ===== util =====
-    private String nz(String s){ return s==null? "" : s.trim(); }
-    private String esc(String s){ return s==null? "" : s.replace("\"","\\\""); }
-    private String fileName(Part part){
-        String cd = part.getHeader("content-disposition");
+    private String extractOriginalName(Part part) {
+        String cd = part.getHeader("Content-Disposition");
         if (cd == null) return "unknown";
-        for (String t : cd.split(";")) {
-            t = t.trim();
-            if (t.startsWith("filename=")) {
-                String fn = t.substring(t.indexOf('=')+1).trim().replace("\"","");
-                int idx = Math.max(fn.lastIndexOf('/'), fn.lastIndexOf('\\'));
-                return (idx>=0? fn.substring(idx+1): fn);
+        for (String seg : cd.split(";")) {
+            String s = seg.trim();
+            if (s.startsWith("filename=")) {
+                String fn = s.substring("filename=".length()).trim().replace("\"", "");
+                // IE 경로 포함 케이스 제거
+                int slash = Math.max(fn.lastIndexOf('/'), fn.lastIndexOf('\\'));
+                return (slash >= 0) ? fn.substring(slash + 1) : fn;
             }
         }
         return "unknown";
+    }
+
+    private String buildStoredName(String originalName) {
+        String ext = "";
+        int dot = originalName.lastIndexOf('.');
+        if (dot != -1) ext = originalName.substring(dot);
+        return UUID.randomUUID().toString().replace("-", "") + ext;
     }
 }
