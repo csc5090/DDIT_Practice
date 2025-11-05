@@ -27,7 +27,7 @@ function addEventHandle() {
 		addEvent +
 	*/
 	
-	window.addEventListener('keydown', (e) => { pressSpaceHandle(e) });
+	window.addEventListener('keydown', pressSpaceHandle );
 	
 	let searchAddrBtn = document.getElementById('mem-addr-search');
 	searchAddrBtn.addEventListener('click', () => { addrSearchAPI() });
@@ -68,7 +68,8 @@ function addEventHandle() {
 	
 	let logininputs = document.getElementsByClassName('logininputs')
 	for(let i=0 ; i<logininputs.length ; i++) {
-		logininputs[i].addEventListener('change', (e) => { loginInfoSaveHandle(e) })
+		/*logininputs[i].addEventListener('change', (e) => { loginInfoSaveHandle(e) })*/
+		logininputs[i].addEventListener('input', (e) => { loginInfoSaveHandle(e) })
 	}
 		
 	let loginBtn = document.getElementById('loginBtn');
@@ -220,12 +221,21 @@ function closeModalHandle(e, action) {
 
 /* 조승희 수정 20251102 */
 function pressSpaceHandle(e) {
+	
 	let target = e.code;
+	console.log(target)
 	if(target === 'Space') {
 		window.scrollBy({
 			top: document.body.scrollHeight,
 			behavior: 'smooth'
 		});
+		
+		setTimeout(() => {
+			
+			let bText = document.getElementById('b-text');
+			bText.style.display = 'none';
+			
+		},1000)
 	}
 	else if(target === 'F11') {
 		
@@ -244,8 +254,8 @@ function pressSpaceHandle(e) {
 		}, 500);
 	  
 	}
-	else if(target === "Enter") {
-		
+	else if(target === "Enter" || target === "NumpadEnter") {
+		e.preventDefault();
 		let focusElement = document.activeElement
 		let value = focusElement.getAttribute('id')
 		
@@ -270,41 +280,87 @@ function loginInfoSaveHandle(e) {
 	
 	let loginBtn = document.getElementById('loginBtn')
 	
-	let pattern = /\s/
-	if(pattern.test(value)) {
-		onlyCheckAlert("error", "공백 없이 입력해주세요.")
-		loginBtn.className = "login-btn"
-	}
-	else {
-		
-		type == "text" ? loginInfo.mem_id = value : loginInfo.mem_pass = value;
-		
-		let loginId = loginInfo.mem_id
-		let loginPw = loginInfo.mem_pass
-		
-		
-		if(loginId != "" && loginPw != "") {
-			loginBtn.className = "login-btn-active"
-		}
-		else {
-			loginBtn.className = "login-btn"
-		}
-		
+	type == "text" ? loginInfo.mem_id = value : loginInfo.mem_pass = value;
+			
+	let loginId = loginInfo.mem_id
+	let loginPw = loginInfo.mem_pass
+	
+	
+	if(loginId != "" && loginPw != "") {
+		loginBtn.className = "login-btn-active"
 	}
 
 }
 
-function loginCheckHandle() {
+async function loginCheckHandle() {
 	
 	let loginId = loginInfo.mem_id
 	let loginPw = loginInfo.mem_pass
+	
+	
+	let pattern = /\s/
+	if(pattern.test(loginId) || pattern.test(loginPw)) {
 
-	if(loginId.trim() == "" || loginPw.trim() == "") {
-		// pass
+		onlyCheckAlert("error", "공백 없이 입력해주세요.")
+		loginBtn.className = "login-btn"
+		
 	}
 	else {
-		let result = loginCheckToDB(loginInfo)
+		let result = await loginCheckToDB(loginInfo)
+		adminUserCheck(result)
+		
 	}
 	
 }
+
+function adminUserCheck(obj) {
+	console.log(obj)
+	let value = obj.role
+	
+	
+	
+	if(value === "undefined") {
+		onlyCheckAlert("error", "존재하지 아이디 입니다.")
+	}
+	else if(value === "null") {
+		onlyCheckAlert("error", "권한이 없는 아이디 입니다. <br> 관리자에게 문의 해주세요.")
+	}
+	else if(value === "USER") {
+		console.log("USER 입니다.")
+		
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth'
+		});
+		
+		setTimeout(() => {
+			window.location.href = obj.url		
+		}, 1000)
+	}
+	else if(value === "ADMIN") {
+		window.location.href = obj.url
+	}
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

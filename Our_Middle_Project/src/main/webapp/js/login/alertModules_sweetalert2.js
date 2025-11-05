@@ -2,7 +2,8 @@ async function onlyCheckAlert(type, text) {
 	
 	const result = await Swal.fire({
 		icon: type,
-		text: text,
+		// text: text,
+		html: text,
 		confirmButtonText: '확인',
 		allowOutsideClick: false,
 		customClass: {

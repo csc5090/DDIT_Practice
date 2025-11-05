@@ -16,18 +16,15 @@ import com.our_middle_project.serviceInterface.UserInfoService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 public class LoginCheckController implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		
 		BufferedReader reader = request.getReader();
 		StringBuilder sb = new StringBuilder();
-		
-		
 		
 	    String line;
 	    while ((line = reader.readLine()) != null) {
@@ -56,48 +53,94 @@ public class LoginCheckController implements Action {
 		Map<String, Object> result = new HashMap<>();
         if (idCheckValue != null) {
         	
-        	if(idCheckValue.getRole().equals("USER")) {
-        		System.out.println("이 사람은 USER 이다.");
-        		System.out.println(idCheckValue);
-        	}
-        	else if(idCheckValue.getRole().equals("ADMIN")) {
-        		System.out.println("이 사람은 ADMIN 이다.");
-        		System.out.println(idCheckValue);
+        	if(idCheckValue.getRole() != null) {
+        		
+        		if(idCheckValue.getRole().equals("USER")) {
+        			System.out.println("이 사람은 USER 이다.");
+        			System.out.println(idCheckValue);
+        			
+        			// 입력받은 비밀번호 + DB에 저장된 salt로 암호화
+        			String inputEncryptedPw = PWencrypt.hashPassword(userInfo.getMem_pass(), idCheckValue.getSalt());
+        			System.out.println("입력한 비밀번호 암호화 결과: " + inputEncryptedPw);
+        			System.out.println("DB 저장된 비밀번호: " + idCheckValue.getMem_pass());
+        			
+        			// 비밀번호 비교
+        			if (inputEncryptedPw.equals(idCheckValue.getMem_pass())) {
+        				
+        				result.put("pwCheck", true);
+        				
+        				idCheckValue.setMem_pass("");
+        				idCheckValue.setSalt("");
+        				
+        				request.getSession().setAttribute("loginUser", gson.toJson(idCheckValue));
+        				
+        			}
+        			else {
+        				
+        				result.put("pwCheck", false);
+        				
+        			}
+        			
+        			result.put("idCheck", true);
+        			result.put("role", idCheckValue.getRole());
+        			result.put("url", request.getContextPath() + "/gameHome.do");
+        			
+        			
+        		}
+        		else if(idCheckValue.getRole().equals("ADMIN")) {
+        			
+        			// admin 계정은 암호화 없이 비밀번호만 대조 합낟.
+        			if (userInfo.getMem_pass().equals(idCheckValue.getMem_pass())) {
+        				
+        				result.put("pwCheck", true);
+        				
+        				System.out.println("=============================");
+        				System.out.println(gson.toJson(idCheckValue));
+        				request.getSession().setAttribute("loginAdmin", idCheckValue);
+        				System.out.println("세션 ID: " + request.getSession().getId());
+        				System.out.println(">>> 세션 저장 완료: " + request.getSession().getAttribute("loginAdmin"));
+        				
+        				idCheckValue.setMem_pass("");
+        				
+        			}
+        			else {
+        				
+        				result.put("pwCheck", false);
+        				
+        			}
+        			
+        			result.put("idCheck", true);
+        			result.put("role", idCheckValue.getRole());
+        			result.put("url", request.getContextPath() + "/adminMain.do");
+        			
+        		}
+        		
         	}
         	else {
+        		
+        		System.out.println("LoginCheckController NULL Error");
+        		System.out.println(idCheckValue.getRole());
         		System.out.println(idCheckValue);
-        		System.out.println("이녀석의 신분을 알 수 없다.");
+        		
+				result.put("idCheck", false);
+				result.put("pwCheck", false);
+				result.put("role", "null");
+        		
         	}
         	
-            // 입력받은 비밀번호 + DB에 저장된 salt로 암호화
-            String inputEncryptedPw = PWencrypt.hashPassword(userInfo.getMem_pass(), idCheckValue.getSalt());
-            System.out.println("입력한 비밀번호 암호화 결과: " + inputEncryptedPw);
-            System.out.println("DB 저장된 비밀번호: " + idCheckValue.getMem_pass());
-
-            // 비밀번호 비교
-            if (inputEncryptedPw.equals(idCheckValue.getMem_pass())) {
-            	result.put("idCheck", true);
-            	result.put("pwCheck", true);
-
-            	idCheckValue.setMem_pass("");
-            	idCheckValue.setSalt("");
-            	
-            	HttpSession session = request.getSession(); 
-            	session.setAttribute("loginUser", idCheckValue);
-            	
-            }
-            else {
-            	result.put("idCheck", true);
-            	result.put("pwCheck", false);
-            }
         }
         else {
+        	
         	result.put("idCheck", false);
         	result.put("pwCheck", false);
+        	result.put("role", "undefined");
+        	
         }
 		
 		String resultJson = gson.toJson(result); 
 
+		System.out.println(resultJson);
+		
 		response.setContentType("application/json; charset=UTF-8");
 		response.getWriter().write(resultJson);
 

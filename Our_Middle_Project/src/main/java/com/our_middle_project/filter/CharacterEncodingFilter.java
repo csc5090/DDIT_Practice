@@ -26,7 +26,22 @@ public class CharacterEncodingFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
         HttpServletRequest req = (HttpServletRequest) request;
         
-        res.setHeader("Access-Control-Allow-Origin", "*");
+        // 요청 Origin 가져오기
+        String origin = req.getHeader("Origin");
+
+        // 허용할 Origin 체크
+        if (
+        		origin != null && 
+        		(
+					origin.equals("http://localhost:8080") || 
+					origin.equals("http://192.168.142.30:8080")
+				)
+    		) {
+            res.setHeader("Access-Control-Allow-Origin", origin); // Origin 동적 허용
+        }
+
+        
+        res.setHeader("Access-Control-Allow-Credentials", "true"); // 쿠키 전송 허용
         res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
         res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 

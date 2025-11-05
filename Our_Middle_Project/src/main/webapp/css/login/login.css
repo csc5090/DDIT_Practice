@@ -37,6 +37,23 @@ body {
 	overflow: hidden;
 	
 }
+
+/* Chrome, Edge, Safari */
+.c-login-container input:-webkit-autofill,
+.c-login-container input:-webkit-autofill:hover, 
+.c-login-container input:-webkit-autofill:focus, 
+.c-login-container input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0px 1000px rgba(0, 0, 0, 0) inset;
+    -webkit-text-fill-color: white !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Firefox */
+.c-login-container input:-moz-autofill {
+    box-shadow: 0 0 0px 1000px rgba(0, 0, 0, 0) inset;
+    -moz-text-fill-color: white;
+}
+
 .c-login-box {
 	
 	/* 조승희 수정 20251102 */

@@ -53,6 +53,7 @@ async function loginCheckToDB(jsonData) {
 		baseURL: BASE_URL,
 		url: 'loginCheck.do',
 		method: 'post',
+		withCredentials: true,
 		headers: {
 			"Content-Type": "application/json; charset=UTF-8"
 		},
@@ -61,6 +62,7 @@ async function loginCheckToDB(jsonData) {
 	})
 	.then(function (response) {
 		console.log(response)
+		result = response.data;
 	})
 	.catch(function (err) {
     	console.error(err);
