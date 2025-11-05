@@ -19,11 +19,12 @@ body {
 }
 
 .container {
-    max-width: 1000px;
+    
     margin: 0 auto;
     padding: 20px;
     box-shadow: 0 0 10px rgba(255, 102, 169, 0.3); 
     border-radius: 5px;
+    height:860px;
   
 }
 
@@ -81,22 +82,59 @@ body {
 }
 
 /* 게시판 테이블 스타일 */
-.board-table {
-    width: 100%;
+.board-table-container {
+    max-height: 500px;      /* 테이블 최대 높이 */
+    overflow-y: auto;       /* 세로 스크롤 활성화 */
     margin-top: 30px;
+    border: 1px solid rgba(255, 102, 169, 0.5);
+    border-radius: 5px;
+}
+
+.board-table {
+    display: block;          /* 테이블 블록화 */
+    width: 100%;             /* 기존 너비 유지 */
     border-collapse: collapse;
     font-size: 0.95rem;
+    overflow-y: auto;        /* 테이블 내부 세로 스크롤 */
     border: 1px solid rgba(255, 102, 169, 0.5); 
+}
+
+.board-table thead {
+    display: table;
+    width: 100%;
+    table-layout: fixed;     /* 컬럼 폭 고정 */
+}
+
+.board-table-container {
+    height: 600px;
+    overflow-y: auto;       /* 세로 스크롤 활성화 */
+    margin-top: 30px;
+    border: 1px solid rgba(255, 102, 169, 0.5);
+    border-radius: 5px;
+}
+
+.board-table tbody {
+    display: block;
+    max-height: 450px;       /* tbody만 스크롤 */
+    overflow-y: auto;
+    width: 100%;
 }
 
 .board-table th, .board-table td {
     padding: 12px 8px;
     border: 1px solid rgba(255, 102, 169, 0.2);
+    width: 20%;              /* 총 5컬럼, 100% 맞춤 */
+    box-sizing: border-box;
 }
 
-.board-table th {
-    background-color: rgba(255, 102, 169, 0.1); /* 약간의 배경색 */
+.board-table thead th {
+    position: sticky;
+    top: 0;
+    background-color: rgba(255, 102, 169, 0.1);
+    z-index: 2;
 }
+
+
 
 /* 게시물 행 스타일 */
 .board-row {

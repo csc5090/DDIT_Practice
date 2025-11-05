@@ -60,3 +60,29 @@ function validateEdit() {
 function validateReply() {
     return validateWrite(); 
 }
+
+const titleInput = document.getElementById('title');
+const fixedPrefix = "[자유] ";
+
+// 초기값
+titleInput.value = fixedPrefix;
+
+// 입력 시 접두사 삭제 방지
+titleInput.addEventListener('input', () => {
+    if (!titleInput.value.startsWith(fixedPrefix)) {
+        titleInput.value = fixedPrefix;
+    }
+});
+
+// 커서 위치 제한
+titleInput.addEventListener('keydown', (e) => {
+    if (titleInput.selectionStart < fixedPrefix.length) {
+        titleInput.setSelectionRange(fixedPrefix.length, fixedPrefix.length);
+    }
+});
+
+titleInput.addEventListener('click', () => {
+    if (titleInput.selectionStart < fixedPrefix.length) {
+        titleInput.setSelectionRange(fixedPrefix.length, fixedPrefix.length);
+    }
+});

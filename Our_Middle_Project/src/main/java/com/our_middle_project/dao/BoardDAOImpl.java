@@ -16,9 +16,9 @@ public class BoardDAOImpl implements BoardDAO {
     }
 	
 	@Override
-	public List<BoardDTO> selectFreeBoard(BoardDTO board, SqlSession session) {
+	public List<BoardDTO> selectFreeBoard(SqlSession session) {
 		List<BoardDTO> list = new ArrayList<>();
-		list = sqlSession.selectList("boardMapper.selectFreeBoard",board);
+		list = sqlSession.selectList("boardMapper.selectFreeBoard");
 		return list;
 	}
 

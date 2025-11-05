@@ -14,7 +14,7 @@
 		        B.MEM_ID AS memId
 		FROM BOARD A
 		INNER JOIN MEMBER B ON (A.MEM_NO = B.MEM_NO)
-		WHERE A.TYPE_NO = #{findBoard}
+		WHERE A.TYPE_NO IN (1, 3)
 		ORDER BY boardNo
 	</select>
 	

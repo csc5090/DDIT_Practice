@@ -26,13 +26,14 @@ public class BoardFreeController implements Action {
 		System.out.println("BoardFreeController Start");
 		
 		try{
-			BoardDTO board = new BoardDTO();
-			board.setFindBoard(3);
+			/*
+			 * BoardDTO board = new BoardDTO(); board.setFindBoard(3);
+			 */
 			
 			BoardService boardService = new BoardServiceImpl();
 			
 			List<BoardDTO> boardList = new ArrayList<>();
-			boardList = boardService.selectFreeBoard(board);
+			boardList = boardService.selectFreeBoard();
 			for(int i=0 ; i<boardList.size() ; i++) {
 				System.out.println(boardList.get(i));
 			}

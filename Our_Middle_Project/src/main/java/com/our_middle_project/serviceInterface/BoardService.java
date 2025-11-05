@@ -6,7 +6,7 @@ import com.our_middle_project.dto.BoardDTO;
 import com.our_middle_project.dto.UserInfoDTO;
 
 public interface BoardService {
-	public List<BoardDTO> selectFreeBoard(BoardDTO board);
+	public List<BoardDTO> selectFreeBoard();
 	
 	// 게시글 상세 1건 가져오기
 	public BoardDTO selectBoardCont(String boardNo);

@@ -9,7 +9,7 @@ import com.our_middle_project.dto.BoardDTO;
 public interface BoardDAO {
 	
 	// 자유게시판 목록
-	public List<BoardDTO> selectFreeBoard(BoardDTO board,SqlSession session);
+	public List<BoardDTO> selectFreeBoard(SqlSession session);
 	
 	// 게시글 상세
 	public BoardDTO selectBoardCont(String boardNo, SqlSession session);

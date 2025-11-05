@@ -41,7 +41,7 @@
                <div class="form-group">
                    <label for="title" class="neon-text-small">제목</label>
                    <input type="text" id="title" name="title" class="neon-input" 
-                          placeholder="게시물 제목을 입력하세요" required>
+                          placeholder="[자유] 게시물 제목을 입력하세요" required>
                </div>
                
                <div class="form-group">

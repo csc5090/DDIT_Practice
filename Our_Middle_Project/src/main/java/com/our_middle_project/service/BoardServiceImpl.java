@@ -14,14 +14,14 @@ import com.our_middle_project.util.MybatisUtil;
 public class BoardServiceImpl implements BoardService {
 
 	@Override
-	public List<BoardDTO> selectFreeBoard(BoardDTO board) {
+	public List<BoardDTO> selectFreeBoard() {
 		
 		List<BoardDTO> list = new ArrayList<>();
 		
 		try {
 			SqlSession session = MybatisUtil.getSqlSession();
 			BoardDAO dao = new BoardDAOImpl(session);
-			list = dao.selectFreeBoard(board,session);
+			list = dao.selectFreeBoard(session);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
