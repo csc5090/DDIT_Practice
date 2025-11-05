@@ -72,7 +72,9 @@ public class LoginCheckController implements Action {
         				idCheckValue.setMem_pass("");
         				idCheckValue.setSalt("");
         				
-        				request.getSession().setAttribute("loginUser", gson.toJson(idCheckValue));
+        				request.getSession().setAttribute("loginUser", idCheckValue);
+        				System.out.println("세션 loginAdmin ID: " + request.getSession().getId());
+        				System.out.println(">>> 세션 저장 완료: " + request.getSession().getAttribute("loginAdmin"));
         				
         			}
         			else {
@@ -93,11 +95,9 @@ public class LoginCheckController implements Action {
         			if (userInfo.getMem_pass().equals(idCheckValue.getMem_pass())) {
         				
         				result.put("pwCheck", true);
-        				
-        				System.out.println("=============================");
-        				System.out.println(gson.toJson(idCheckValue));
+
         				request.getSession().setAttribute("loginAdmin", idCheckValue);
-        				System.out.println("세션 ID: " + request.getSession().getId());
+        				System.out.println("세션 loginAdmin ID: " + request.getSession().getId());
         				System.out.println(">>> 세션 저장 완료: " + request.getSession().getAttribute("loginAdmin"));
         				
         				idCheckValue.setMem_pass("");
