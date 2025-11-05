@@ -61,7 +61,7 @@
 				<div class="player">
 					<img src="" alt="*">
 					<div class="name">
-						<c:out value="${sessionScope.map.mem_id}" />
+						<c:out value="${sessionScope.loginUser.mem_id}" />
 					</div>
 					
 				</div>
@@ -127,10 +127,18 @@
 		
 	</div>
 
+	<%@ page import="com.google.gson.Gson" %>
+	<%@ page import="com.our_middle_project.dto.UserInfoDTO" %>
+	
+	<%
+	    Gson gson = new Gson();
+	    UserInfoDTO user = (UserInfoDTO) session.getAttribute("loginUser");
+	    String userJson = gson.toJson(user);
+	%>
+	
 	<script type="text/javascript">
-	
-		const GlovalLevel = "<c:out value='${sessionScope.map.level_name}' />";
-	
+		const userDataCase = JSON.parse('<%= userJson %>');
+		console.log(userDataCase);
 	</script>
 
 	<script type="text/javascript" src="./js/game/gamePlay.js"></script>

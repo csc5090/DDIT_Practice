@@ -22,4 +22,6 @@ public interface BoardService {
     // 수정폼 열기 전에 본인 글 체크
     public BoardDTO selectBoardForEdit(String boardNo, String memNo);	
 
+    //새 글 작성
+    int insertBoard(BoardDTO dto);
 }

@@ -35,7 +35,7 @@
 	
        <h1 class="neon-text title">⭐ 새 글 작성 ⭐</h1>
 
-       <form id="writeForm" action="writeAction.jsp" method="post">
+       <form id="writeForm" action="boardWrite.do" method="post">
            <div class="write-box">
                <div class="form-group">
                    <label for="title" class="neon-text-small">제목</label>
@@ -55,11 +55,7 @@
                              placeholder="게시물 내용을 입력하세요." required></textarea>
                </div>
                
-               <div class="form-group">
-                   <label for="password" class="neon-text-small">비밀번호 (수정/삭제 시 필요)</label>
-                   <input type="password" id="password" name="password" class="neon-input" 
-                          placeholder="비밀번호를 입력하세요" required>
-               </div>
+
            </div>
            
            <div class="write-actions">

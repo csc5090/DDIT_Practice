@@ -28,23 +28,24 @@ public class BoardEditController implements Action {
 	        String boardNo = request.getParameter("boardNo");
 
 	        HttpSession session = request.getSession();
+	     // test
 	        session.setAttribute("memId", "testUser01");
+
+	        String loginUserId = (String) session.getAttribute("memId"); // 이제 null 아님
 	        
-	        String loginUserId = (String) session.getAttribute("memId"); // 로그인 세션
 	        
+	        System.out.println("내가 테스트로 넣은 userId = " + loginUserId);
 	        System.out.println("loginUserId = " + loginUserId);
 	        System.out.println("boardNo = " + boardNo);
 	        System.out.println("state = " + state);
 
-	        // 로그인 안했으면 바로 로그인으로 보내기
-//	        if (loginUserId == null) {
-//	            ActionForward f = new ActionForward();
-//	            f.setRedirect(true);
-//	            f.setPath("/login.do");   
-//	            System.out.println("로그인 안된 유저 or 본인 글 아닌 유저 ");
-//	            return f;
-//	        }
-	        
+	     // 로그인 안했으면 로그인으로 보내기
+	        if(loginUserId == null) {
+	            ActionForward f = new ActionForward();
+	            f.setRedirect(true);
+	            f.setPath("/login.do");
+	            return f;
+	        }
 
 	        
 	        if ("form".equals(state)) { 

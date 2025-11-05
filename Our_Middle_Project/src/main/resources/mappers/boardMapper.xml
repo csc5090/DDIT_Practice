@@ -32,13 +32,14 @@
 	
 	<select id="selectBoardForEdit" parameterType="map" resultType="com.our_middle_project.dto.BoardDTO">
 	    SELECT 
-	        BOARD_NO AS boardNo,
-	        BOARD_TITLE AS boardTitle,
-	        BOARD_CONTENT AS boardContent,
-	        MEM_ID AS memId
-	    FROM BOARD
-	    WHERE BOARD_NO = #{boardNo}
-	      AND MEM_ID = #{memId}
+	        A.BOARD_NO AS boardNo,
+	        A.BOARD_TITLE AS boardTitle,
+	        A.BOARD_CONTENT AS boardContent,
+	        B.MEM_ID AS memId
+	    FROM BOARD A
+	    INNER JOIN MEMBER B ON A.MEM_NO = B.MEM_NO
+	    WHERE A.BOARD_NO = #{boardNo}
+<!-- 	      AND B.MEM_ID = #{memId} -->
 	</select>
 	
 	<update id="updateBoard" parameterType="com.our_middle_project.dto.BoardDTO">
@@ -71,4 +72,22 @@
 		SELECT COUNT(*)
 		FROM BOARD
 	</select>
+	
+	<insert id="insertBoard" parameterType="com.our_middle_project.dto.BoardDTO">
+    INSERT INTO BOARD (
+          BOARD_NO
+        , BOARD_TITLE
+        , BOARD_CONTENT
+        , MEM_NO
+        , CREATED_DATE
+        , VIEW_COUNT
+    ) VALUES (
+          SEQ_BOARD.NEXTVAL
+        , #{boardTitle}
+        , #{boardContent}
+        , #{memNo}
+        , SYSDATE
+        , 0
+    )
+	</insert>
 </mapper>

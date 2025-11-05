@@ -60,15 +60,16 @@
             <label for="content" class="neon-text-small">내용</label>
             <textarea id="content" name="boardContent" class="neon-textarea" required>${b.boardContent}</textarea>
         </div>
-            
+
+        	<!-- 버튼 -->
+		<div class="write-actions">
+		    <button type="submit" class="neon-button edit-btn">수정 완료</button>
+		    <button type="button" class="neon-button cancel-btn" onclick="goBack()">취소</button>
+		</div>            
            
         </div>
         
-        	<!-- 버튼 -->
-        <div class="write-actions">
-            <button type="submit" class="neon-button">수정 완료</button>
-            <button type="button" class="neon-button right-align-btn" onclick="goBack()">취소</button>
-        </div>
+
         
     </form>
 </div>
