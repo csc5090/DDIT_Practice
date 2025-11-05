@@ -1,5 +1,6 @@
 package com.our_middle_project.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;

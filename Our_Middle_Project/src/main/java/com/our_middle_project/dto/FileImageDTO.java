@@ -30,5 +30,7 @@ public class FileImageDTO {
 	
 	// DB: BOARD_NO (NUMBER)
 	private int boardNo;
+	
+	
 
 }
