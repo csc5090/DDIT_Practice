@@ -36,41 +36,40 @@
 <div class="container">
     <h1 class="neon-text title">⭐ 게시물 수정 ⭐</h1>
 
-    <form id="editForm" action="editAction.do" method="post">
-        <input type="hidden" name="boardNum" value="${param.boardNo}">
+    <form id="editForm" action="boardEdit.do?state=submit" method="post" onsubmit="return validateEdit()">
+    
+        	<!-- 게시물 번호 -->
+        <input type="hidden" name="boardNo" value="${b.boardNo}">
         
-        <div class="write-box">
-            <div class="form-group">
-                <label for="title" class="neon-text-small">제목</label>
-                <input type="text" id="title" name="title" class="neon-input" 
-                       value="${board.title}" required> 
-                <%-- JSTL 미사용 시: value="<%= boardTitle %>" --%>
-            </div>
+         	<!-- 제목 -->
+        <div class="form-group">
+            <label for="title" class="neon-text-small">제목</label>
+            <input type="text" id="title" name="boardTitle" class="neon-input"
+                   value="${b.boardTitle}" required>
+        </div>
             
-            <div class="form-group">
-                <label for="writer" class="neon-text-small">작성자</label>
-                <input type="text" id="writer" name="writer" class="neon-input" 
-                       value="${board.writer}" readonly>
-                <%-- JSTL 미사용 시: value="<%= boardWriter %>" --%>
-            </div>
+            <!-- 작성자 (읽기전용) -->
+        <div class="form-group">
+            <label for="writer" class="neon-text-small">작성자</label>
+            <input type="text" id="writer" name="memId" class="neon-input" 
+                   value="${b.memId}" readonly>
+        </div>
 
-            <div class="form-group">
-                <label for="content" class="neon-text-small">내용</label>
-                <textarea id="content" name="content" class="neon-textarea" required>${board.content}</textarea>
-                <%-- JSTL 미사용 시: <%= boardContent %> --%>
-            </div>
+             <!-- 내용 -->
+        <div class="form-group">
+            <label for="content" class="neon-text-small">내용</label>
+            <textarea id="content" name="boardContent" class="neon-textarea" required>${b.boardContent}</textarea>
+        </div>
             
-            <div class="form-group">
-                <label for="password" class="neon-text-small">비밀번호 확인</label>
-                <input type="password" id="password" name="password" class="neon-input" 
-                       placeholder="수정을 위해 비밀번호를 입력하세요" required>
-            </div>
+           
         </div>
         
+        	<!-- 버튼 -->
         <div class="write-actions">
-            <button type="submit" class="neon-button" onclick="return validateEdit()">수정 완료</button>
+            <button type="submit" class="neon-button">수정 완료</button>
             <button type="button" class="neon-button right-align-btn" onclick="goBack()">취소</button>
         </div>
+        
     </form>
 </div>
 

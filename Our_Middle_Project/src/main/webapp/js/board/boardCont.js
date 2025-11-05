@@ -18,12 +18,10 @@ function goToList() {
 
 
  //게시물 수정 페이지로 이동합니다. ('수정' 버튼)
- //@param {number} postId - 게시물 ID
 
-function goToEditPage(postId) {
-    window.location.href = "boardEdit.do?boardNo=" + postId;
-}
-
+ function goToEditPage(boardNo) {
+     window.location.href = "boardEdit.do?boardNo=" + boardNo + "&state=form";
+ }
 /**
  * 게시물을 삭제합니다. ('삭제' 버튼)
  * @param {number} postId - 게시물 ID

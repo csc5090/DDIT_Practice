@@ -62,7 +62,7 @@
         </div>
         
         <div class="detail-actions">
-            <button class="neon-button" onclick="goToEditPage(${b.boardNo})">수정</button>
+            <button class="neon-button" onclick="goToEditPage('${b.boardNo}')">수정</button>
             <button class="neon-button" onclick="deletePost(${b.boardNo})">삭제</button>
 			<button class="neon-button right-align-btn" onclick="goToList()">목록</button>
         </div>

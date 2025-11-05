@@ -16,8 +16,10 @@ public interface BoardService {
 	// 2) 전체 게시글 수를 가져오기
     int getTotalCount();
 
-
+    // 게시글 수정
+    public int updateBoard(BoardDTO board);
 	
-	
+    // 수정폼 열기 전에 본인 글 체크
+    public BoardDTO selectBoardForEdit(String boardNo, String memNo);	
 
 }

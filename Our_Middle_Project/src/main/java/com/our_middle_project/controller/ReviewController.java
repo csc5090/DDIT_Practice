@@ -9,18 +9,16 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class BoardEditOKController implements Action {
+public class ReviewController implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		System.out.println("게시판 수정 ㅎㅇ");
 		ActionForward forward = new ActionForward();
-		forward.setRedirect(false);
-		forward.setPath("/WEB-INF/our_middle_project_view/board/boardEdit.jsp");
-		
-		return forward;
-	}
+        forward.setPath("/WEB-INF/our_middle_project_view/review.jsp");
+        forward.setRedirect(false);
+        return forward;
+}
 
 }

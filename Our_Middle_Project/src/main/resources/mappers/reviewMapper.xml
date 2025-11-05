@@ -4,9 +4,17 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="com.our_middle_project.review.mapper.ReviewMapper">
+
 
   <!-- 글 INSERT (PK는 트리거), AFTER에 CURRVAL로 회수 -->
+
+<mapper namespace="mappers.reviewMapper">
+
+  <!-- BOARD INSERT
+       - BOARD_TITLE 제외(제목 없음, NULL 허용 전제)
+       - PK는 트리거(SEQ_BOARD.NEXTVAL)로 생성
+       - INSERT 후 SEQ_BOARD.CURRVAL 회수하여 dto.boardNo 세팅 -->
+
   <insert id="insertBoard" parameterType="com.our_middle_project.dto.ReviewDTO">
     <selectKey keyProperty="boardNo" resultType="int" order="AFTER">
       SELECT SEQ_BOARD.CURRVAL FROM DUAL
@@ -16,7 +24,10 @@
       VALUES (#{boardTitle}, #{boardContent}, SYSDATE, SYSDATE, #{memNo}, #{typeNo})
   </insert>
 
+
   <!-- 이미지 INSERT (FILE_DATA는 NULL 저장) -->
+  <!-- BOARD_IMAGE INSERT (파일 메타 저장; FILE_NO는 트리거) -->
+
   <insert id="insertImage" parameterType="com.our_middle_project.dto.FileImageDTO">
     <selectKey keyProperty="fileNo" resultType="int" order="AFTER">
       SELECT SEQ_BOARD_IMAGE.CURRVAL FROM DUAL
