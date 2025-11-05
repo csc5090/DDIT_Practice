@@ -143,6 +143,8 @@ public class LoginCheckController implements Action {
 		
 		response.setContentType("application/json; charset=UTF-8");
 		response.getWriter().write(resultJson);
+		
+		//test
 
 	    
 		return null;

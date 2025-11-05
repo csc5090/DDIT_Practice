@@ -33,8 +33,11 @@ public class CharacterEncodingFilter implements Filter {
         if (
         		origin != null && 
         		(
-					origin.equals("http://localhost:8080") || 
-					origin.equals("http://192.168.142.30:8080")
+					origin.equals("http://192.168.142.30:3001")	||	// 조승희
+					origin.equals("http://192.168.142.14:3001")	||	// 김형수
+					origin.equals("http://192.168.142.4:3001")	||	// 남현식
+					origin.equals("http://192.168.142.15:3001")	 	// 최상철
+					// 192.168.142.35 시연PC IP
 				)
     		) {
             res.setHeader("Access-Control-Allow-Origin", origin); // Origin 동적 허용
