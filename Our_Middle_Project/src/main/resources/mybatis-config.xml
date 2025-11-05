@@ -9,6 +9,7 @@
 		<typeAlias type="com.our_middle_project.dto.UserInfoDTO" alias="userInfoDTO" />
 		<typeAlias type="com.our_middle_project.dto.UserInfoReturnDTO" alias="UserInfoReturnDTO" />
 		<typeAlias type="com.our_middle_project.dto.AdminReviewDTO" alias="AdminReviewDTO" />
+		<typeAlias type="com.our_middle_project.dto.GameLevelDTO" alias="GameLevelDTO" />
 	</typeAliases>
 
 	<environments default="development">
@@ -29,5 +30,6 @@
 		<mapper resource="mappers/AdminReviewMappers.xml" />
 		<mapper resource="mappers/boardMapper.xml" />
 		<mapper resource="mappers/reviewMapper.xml" />
+		<mapper resource="mappers/gameMapper.xml" />
 	</mappers>
 </configuration>

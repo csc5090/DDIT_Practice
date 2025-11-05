@@ -1,8 +1,6 @@
 
 function gameLevelSaveToDB(jsonData) {
 	
-	console.log(jsonData)
-	console.log(BASE_URL)
 	axios({
 		baseURL: BASE_URL,
 		url: 'levelSave.do',

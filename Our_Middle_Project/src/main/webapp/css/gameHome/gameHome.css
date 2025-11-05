@@ -1,31 +1,44 @@
 /* 게임홈  */
 
 body{
-	background-image: url('../../images/logins/loginBack.png');
-	background-size: 50% 100%;
-
-        		
-    background-attachment: fixed;
-    
-	width:100%;
-	height:100vh;
 	margin: 0;
+	padding: 0;
+	
+	color: white;
+	
+	overflow: hidden;
+		
+	min-width: 1500px;
+	min-height: 100vh;
 	
 	user-select: none;
+	
+	background-image: url('../../images/logins/loginBack.png');
+	background-size: 50% 100%;
 }
 
 
+/* 조승희 수정 1105 */
 
+#container-top {
+	
+	width: 100%;
+	height: 100vh;
+	
+}
 
 /* 전체요소 */
 #container{
 
+	width: 100%;
+	height: 100vh; 
+	
 }
 
 /* 상단요소 */
 #header{
     width:100%;
-    height:10vh;
+    height:10%;
     display: flex;
     justify-content: flex-end; /* 우측 정렬 */
     align-items: center;       /* 세로 중앙 */
@@ -36,6 +49,9 @@ body{
 /* 우측 상단에 버튼 네비게이션  */
 #topNav{
    
+    /* 조승희 수정 251105 */
+    position: relative;
+
 }
 
 #nickname{
@@ -94,14 +110,18 @@ body{
 #center {
     display: flex;      /* 좌우 나란히 */
     width: 100%;
-    height: 85vh;        /* 헤더 15% 제외 */
+    height: 90%;        /* 헤더 10% 제외 */
 }
 
 
 /* ========================좌측 구역======================== */
 #left{
 	width:40%;
- 	height: 85vh; 
+ 	 
+ 	/* 조승희 수정 251105*/
+ 	height: 100%;
+ 	position: relative;
+ 	
 }
 
 .twinCards{			/* 좌측 이미지 */
@@ -119,13 +139,14 @@ body{
 	
     display: none; /* 초기 숨김 */
     position: absolute;
+    top: 53%; 
+    left: 57%;
     
-    top: 53%; left: 24%;
     transform: translate(-50%, -50%);
     
-    width: 60%;
+    width: 100%;
     max-width: 750px;
-    height: 70%;
+    height: 80%;
    
     border-radius: 20px;
     
@@ -203,7 +224,7 @@ body{
     flex-direction: column;    /* 세로 배치 */
     justify-content: flex-start;
     padding: 20px;
-    margin:30px;
+/*     margin:30px; */
     box-sizing: border-box;
     gap: 20px;                 /* 카드와 버튼 간격 */
 }

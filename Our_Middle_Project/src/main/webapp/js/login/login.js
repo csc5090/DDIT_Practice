@@ -28,6 +28,7 @@ function addEventHandle() {
 	*/
 	
 	window.addEventListener('keydown', pressSpaceHandle );
+	window.addEventListener('pageshow', pageshow );
 	
 	let searchAddrBtn = document.getElementById('mem-addr-search');
 	searchAddrBtn.addEventListener('click', () => { addrSearchAPI() });
@@ -223,19 +224,12 @@ function closeModalHandle(e, action) {
 function pressSpaceHandle(e) {
 	
 	let target = e.code;
-	console.log(target)
 	if(target === 'Space') {
 		window.scrollBy({
 			top: document.body.scrollHeight,
 			behavior: 'smooth'
 		});
-		
-		setTimeout(() => {
-			
-			let bText = document.getElementById('b-text');
-			bText.style.display = 'none';
-			
-		},1000)
+
 	}
 	else if(target === 'F11') {
 		
@@ -306,6 +300,11 @@ async function loginCheckHandle() {
 		
 	}
 	else {
+		
+		let bText = document.getElementById('b-text');
+		bText.style.display = 'none';
+		console.log("b-text none")
+		
 		let result = await loginCheckToDB(loginInfo)
 		adminUserCheck(result)
 		
@@ -326,24 +325,41 @@ function adminUserCheck(obj) {
 		onlyCheckAlert("error", "권한이 없는 아이디 입니다. <br> 관리자에게 문의 해주세요.")
 	}
 	else if(value === "USER") {
-		console.log("USER 입니다.")
 		
-		window.scrollTo({
-			top: 0,
-			behavior: 'smooth'
-		});
+		if(obj.pwCheck === false) {
+			onlyCheckAlert("error", "비밀번호를 틀렸습니다.")
+		}
+		else {
+			window.scrollTo({
+				top: 0,
+				behavior: 'smooth'
+			});
+			
+			setTimeout(() => {
+				window.location.href = obj.url		
+			}, 1000)			
+		}
 		
-		setTimeout(() => {
-			window.location.href = obj.url		
-		}, 1000)
 	}
 	else if(value === "ADMIN") {
-		window.location.href = obj.url
+		
+		if(obj.pwCheck === false) {
+			onlyCheckAlert("error", "비밀번호를 틀렸습니다.")
+		}
+		else {
+			window.location.href = obj.url				
+		}
 	}
 	
 }
 
-
+function pageshow(event) {
+	
+	if (event.persisted) {	
+		location.reload(); // 캐시된 페이지 방지용
+	}
+	
+}
 
 
 
