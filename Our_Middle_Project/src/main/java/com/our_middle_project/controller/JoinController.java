@@ -2,12 +2,12 @@ package com.our_middle_project.controller;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Map;
+import java.nio.charset.StandardCharsets;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.our_middle_project.action.Action;
 import com.our_middle_project.action.ActionForward;
+import com.our_middle_project.dashboardendpt.DashboardEndPoint;
 import com.our_middle_project.dto.UserInfoDTO;
 import com.our_middle_project.pwencrypt.PWencrypt;
 import com.our_middle_project.service.UserInfoServiceImpl;
@@ -50,11 +50,23 @@ public class JoinController implements Action {
 	    System.out.println(userInfo);
 	    
 		UserInfoService userInfoService = new UserInfoServiceImpl();
-		userInfoService.JoinUser(userInfo);
-	    
+		
+		try {
+			userInfoService.JoinUser(userInfo);
+			DashboardEndPoint.broadCastAlarm();
+			response.setContentType("application/json");
+	        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+	        response.getWriter().write("{\"status\": \"success\"}");
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.setContentType("application/json");
+	        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+	        // 500 Internal Server Error 상태 코드 전송
+	        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); 
+	        response.getWriter().write("{\"status\": \"error\", \"message\": \"회원가입 중 오류가 발생했습니다.\"}");
+		}    
 	    // Map<String, Object> data = gson.fromJson(json, new TypeToken<Map<String, Object>>(){}.getType());
-	    
-	    
+
 		return null;
 	}
 

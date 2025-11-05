@@ -102,7 +102,7 @@ const DashboardPage = {
 			data: {
 				labels: labels,
 				datasets: [{
-					label: '일일 가입자 수',
+					label: '가입자 수 추이',
 					data: dataValues,
 
 					// 꺾은선 그래프 스타일로 변경 ---
