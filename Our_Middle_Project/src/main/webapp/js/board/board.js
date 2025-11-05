@@ -4,6 +4,8 @@ window.onload = async () => {
 	const boardDBList = await boardListCallDB();
 	boardListMake(boardDBList)
 	
+	console.log("백업 자료 반영됨")
+	
 }
 
 function boardListMake(Lists) {

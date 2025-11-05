@@ -9,6 +9,8 @@ import com.our_middle_project.dto.BoardDTO;
 
 public class BoardDAOImpl implements BoardDAO {
 	
+	// 백업 됨
+	
 	private SqlSession sqlSession;
 	
     public BoardDAOImpl(SqlSession sqlSession) {

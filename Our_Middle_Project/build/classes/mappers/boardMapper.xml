@@ -37,4 +37,6 @@
 			 WHERE BOARD_NO=#{boardNo} AND MEM_NO=#{memNo}
 	</update>
 	
+	<!-- 백업반영됨 -->
+	
 </mapper>
