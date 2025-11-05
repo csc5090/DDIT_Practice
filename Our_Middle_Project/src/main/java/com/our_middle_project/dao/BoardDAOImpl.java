@@ -8,7 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import com.our_middle_project.dto.BoardDTO;
 
 public class BoardDAOImpl implements BoardDAO {
-	
+	// 백업
 	private SqlSession sqlSession;
 	
     public BoardDAOImpl(SqlSession sqlSession) {

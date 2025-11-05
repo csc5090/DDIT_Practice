@@ -21,7 +21,7 @@ function goBack() {
 function validateEdit() {
     const title = document.getElementById('title').value.trim();
     const content = document.getElementById('content').value.trim();
-
+// 백업
     if (title === "" || content === "") {
         Swal.fire({ 
             icon: 'warning', 
