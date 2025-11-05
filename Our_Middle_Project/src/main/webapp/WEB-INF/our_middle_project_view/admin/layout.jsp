@@ -438,8 +438,7 @@
 	%>
 
 	<script type="text/javascript">
-		const DataCase = JSON.parse('<%=adminJson%>
-		');
+		const DataCase = JSON.parse('<%=adminJson%>');
 		console.log(DataCase);
 	</script>
 
