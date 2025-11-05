@@ -19,11 +19,5 @@ public interface BoardDAO {
 	
 	//전체 게시글 수를 가져옴
 	int selectBoardCount(SqlSession session);
-	
-	 // 1) 게시글 수정
-	public int updateBoard(BoardDTO board, SqlSession session);
-    
-    // 2) (선택) 본인 글 확인용
-	public BoardDTO selectBoardForEdit(String boardNo, String memNo, SqlSession session);
 
 }
