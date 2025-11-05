@@ -42,19 +42,4 @@ public class BoardDAOImpl implements BoardDAO {
 		return session.selectOne("boardMapper.selectBoardCount");
 	}
 
-	// 게시글 수정
-    @Override
-    public int updateBoard(BoardDTO board, SqlSession session) {
-        return session.update("boardMapper.updateBoard", board);
-    }
-
-    // 본인 글 체크용
-    @Override
-    public BoardDTO selectBoardForEdit(String boardNo, String memNo, SqlSession session) {
-        BoardDTO param = new BoardDTO();
-        param.setBoardNo(boardNo);
-        param.setMemNo(memNo);
-        return session.selectOne("boardMapper.selectBoardForEdit", param);
-    }
-
 }

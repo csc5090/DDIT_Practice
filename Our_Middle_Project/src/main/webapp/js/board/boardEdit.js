@@ -1,10 +1,13 @@
 /**
- * JavaScript: boardEdit.js
- * 게시물 수정 전용 로직
+ * =======================================================
+ * JavaScript: board_form.js
+ * (게시물 작성, 수정, 답글 폼 전용 로직)
+ * =======================================================
+ * 포함 함수: goBack, validateWrite, validateEdit, validateReply
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("Board Edit Script Loaded!");
+    console.log("Board Form Script Loaded!");
 });
 
 /**
@@ -15,11 +18,12 @@ function goBack() {
 }
 
 /**
- * 게시물 수정 전 유효성 검사를 수행합니다.
+ * 새 글 등록 전 유효성 검사를 수행합니다. (boardWrite.jsp에서 사용)
  * @returns {boolean} 폼 전송 허용 여부
  */
-function validateEdit() {
+function validateWrite() {
     const title = document.getElementById('title').value.trim();
+    const writer = document.getElementById('writer').value.trim();
     const content = document.getElementById('content').value.trim();
 // 백업
     if (title === "" || content === "") {
@@ -34,4 +38,13 @@ function validateEdit() {
     
     console.log("Edit form validation successful.");
     return true; 
+}
+
+/**
+ * 답글 등록 전 유효성 검사를 수행합니다. (boardReply.jsp에서 사용)
+ * @returns {boolean} 폼 전송 허용 여부
+ */
+function validateReply() {
+    // 답글은 기본적으로 글쓰기와 동일한 유효성 검사를 사용합니다.
+    return validateWrite();
 }

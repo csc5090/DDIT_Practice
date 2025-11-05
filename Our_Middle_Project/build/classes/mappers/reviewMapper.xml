@@ -4,81 +4,50 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="com.our_middle_project.review.mapper.ReviewMapper">
+<mapper namespace="mappers.reviewMapper">
 
-  <!-- 글 INSERT (PK는 트리거), AFTER에 CURRVAL로 회수 -->
+  <!--
+    전제: BOARD.BOARD_TITLE은 NULL 허용으로 변경 완료.
+    → INSERT에서 BOARD_TITLE 컬럼 자체를 생략한다.
+    (만약 아직 NOT NULL이면, VALUES에 임시 문자열을 추가하도록 알려줘)
+  -->
+
+  <!-- BOARD INSERT (PK=트리거). AFTER에서 CURRVAL 회수 -->
   <insert id="insertBoard" parameterType="com.our_middle_project.dto.ReviewDTO">
     <selectKey keyProperty="boardNo" resultType="int" order="AFTER">
       SELECT SEQ_BOARD.CURRVAL FROM DUAL
     </selectKey>
-      INSERT INTO BOARD (
-      BOARD_TITLE, BOARD_CONTENT, CREATED_DATE, UPDATED_DATE, MEM_NO, TYPE_NO) 
-      VALUES (#{boardTitle}, #{boardContent}, SYSDATE, SYSDATE, #{memNo}, #{typeNo})
-  </insert>
-
-  <!-- 이미지 INSERT (FILE_DATA는 NULL 저장) -->
-  <insert id="insertImage" parameterType="com.our_middle_project.dto.FileImageDTO">
-    <selectKey keyProperty="fileNo" resultType="int" order="AFTER">
-      SELECT SEQ_BOARD_IMAGE.CURRVAL FROM DUAL
-    </selectKey>
-    INSERT INTO BOARD_IMAGE (
-      FILE_NAME, FILE_DATA, FILE_PATH, FILE_SIZE, FILE_TYPE,
-      UPLOAD_DATE, TYPE_NO, BOARD_NO
+    INSERT INTO BOARD (
+      BOARD_CONTENT, CREATED_DATE, UPDATED_DATE, MEM_NO, TYPE_NO
     ) VALUES (
-      #{fileName}, NULL, #{filePath}, #{fileSize}, #{fileType},
-      SYSDATE, #{typeNo}, #{boardNo}
+      #{boardContent}, SYSDATE, SYSDATE, #{memNo}, 2
     )
   </insert>
 
-  <!-- 작성자 1회 별점(정수 1~5) -->
-  <select id="existsAuthorStar" resultType="int">
-    SELECT COUNT(*) FROM BOARD_STAR WHERE BOARD_NO = #{boardNo} AND MEM_NO = #{memNo}
-  </select>
-
-  <insert id="insertAuthorStar">
-    <selectKey keyProperty="starNo" resultType="int" order="AFTER">
-      SELECT SEQ_BOARD_STAR.CURRVAL FROM DUAL
-    </selectKey>
-    INSERT INTO BOARD_STAR (STAR, CREATED_DATE, UPDATED_DATE, MEM_NO, BOARD_NO)
-    VALUES (#{star}, SYSDATE, SYSDATE, #{memNo}, #{boardNo})
+  <!-- BOARD_IMAGE INSERT (FILE_DATA 미사용, FILE_NO는 트리거) -->
+  <insert id="insertImage" parameterType="com.our_middle_project.dto.FileImageDTO">
+    INSERT INTO BOARD_IMAGE (
+      FILE_NAME, FILE_PATH, FILE_SIZE, FILE_TYPE, TYPE_NO, BOARD_NO, UPLOAD_DATE
+    ) VALUES (
+      #{fileName}, #{filePath}, #{fileSize}, #{fileType}, #{typeNo}, #{boardNo}, SYSDATE
+    )
   </insert>
 
-  <!-- 완료 화면 조회: DATE → String (TO_CHAR), 이미지 별도 조회 -->
-  <select id="selectWriteOK" parameterType="int"
-          resultType="com.our_middle_project.dto.ReviewDTO">
-    SELECT
-      B.BOARD_NO      AS boardNo,
-      B.MEM_NO        AS memNo,
-      M.NICKNAME      AS nickname,
-      B.BOARD_CONTENT AS boardContent,
-      TO_CHAR(B.CREATED_DATE, 'YYYY-MM-DD HH24:MI:SS') AS createdDate,
-      TO_CHAR(B.UPDATED_DATE, 'YYYY-MM-DD HH24:MI:SS') AS updatedDate,
-      NVL((
-        SELECT S.STAR
-          FROM BOARD_STAR S
-         WHERE S.BOARD_NO = B.BOARD_NO
-           AND S.MEM_NO   = B.MEM_NO
-         FETCH FIRST 1 ROWS ONLY
-      ), NULL) AS star
-    FROM BOARD B
-    JOIN MEMBER M ON M.MEM_NO = B.MEM_NO
-    WHERE B.BOARD_NO = #{boardNo}
-  </select>
-
-  <select id="selectImagesByBoard" parameterType="int"
-          resultType="com.our_middle_project.dto.FileImageDTO">
-    SELECT
-      FILE_NO       AS fileNo,
-      BOARD_NO      AS boardNo,
-      TYPE_NO       AS typeNo,
-      FILE_NAME     AS fileName,
-      FILE_PATH     AS filePath,
-      FILE_SIZE     AS fileSize,
-      FILE_TYPE     AS fileType,
-      TO_CHAR(UPLOAD_DATE, 'YYYY-MM-DD HH24:MI:SS') AS uploadDate
-    FROM BOARD_IMAGE
-    WHERE BOARD_NO = #{boardNo}
-    ORDER BY FILE_NO
-  </select>
+  <!-- 작성자 별점 upsert (1인1회, 정수 1~5 사용) -->
+  <update id="mergeAuthorStar" parameterType="map">
+    MERGE INTO BOARD_STAR T
+    USING (
+      SELECT #{boardNo} AS BOARD_NO,
+             #{memNo}  AS MEM_NO,
+             #{star}   AS STAR
+      FROM DUAL
+    ) S
+    ON (T.BOARD_NO = S.BOARD_NO AND T.MEM_NO = S.MEM_NO)
+    WHEN MATCHED THEN
+      UPDATE SET T.STAR = S.STAR, T.UPDATED_DATE = SYSDATE
+    WHEN NOT MATCHED THEN
+      INSERT (STAR_NO, BOARD_NO, MEM_NO, STAR, CREATED_DATE, UPDATED_DATE)
+      VALUES (SEQ_BOARD_STAR.NEXTVAL, S.BOARD_NO, S.MEM_NO, S.STAR, SYSDATE, SYSDATE)
+  </update>
 
 </mapper>
