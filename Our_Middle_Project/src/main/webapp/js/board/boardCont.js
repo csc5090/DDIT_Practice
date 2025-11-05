@@ -8,6 +8,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+	writerCheck()
 	
 });
 
@@ -48,4 +49,25 @@ function deletePost(postId) {
                 });
         }
     });
+}
+
+function writerCheck() {
+	console.log(userDataCase)
+	let userDataID = userDataCase.mem_id
+	console.log(userDataID)
+	
+	let choiceBoard = document.getElementById("writerUser");
+	let writerID = choiceBoard.getAttribute("data-writer")
+	
+	if(userDataID === writerID) {
+		console.log("작성자임")
+		let editBtns = document.getElementsByClassName("edit-btns");
+		for(let i=0 ; editBtns.length ; i++){
+			editBtns[i].style.display = "block";
+		}
+	}
+	else {
+		console.log("작성자가 아닙니다.")
+	}
+	
 }

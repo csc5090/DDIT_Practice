@@ -103,9 +103,9 @@ public class BoardServiceImpl implements BoardService {
 	public int insertBoard(BoardDTO dto) {
 	    int result = 0;
 	    try (SqlSession session = MybatisUtil.getSqlSession()) {
-	        BoardDAO dao = new BoardDAOImpl(session); // 생성자에 session 전달
+	        BoardDAO dao = new BoardDAOImpl(session);
 	        result = dao.insertBoard(dto, session);
-	        session.commit();
+	        session.commit();  // 트랜잭션 커밋 필수
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }

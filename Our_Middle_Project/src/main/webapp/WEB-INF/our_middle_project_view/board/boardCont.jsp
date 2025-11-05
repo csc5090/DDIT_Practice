@@ -48,7 +48,7 @@
             </div>
             
             <div class="detail-info">
-                <span>작성자: ${b.memId}</span> |
+                <span id="writerUser" data-writer="${b.memId}">작성자: ${b.memId}</span> |
                 <span>작성일: ${b.createdDate}</span> |
        			<span>조회수: ${b.viewCount}</span>
             </div>
@@ -62,16 +62,30 @@
         </div>
         
         <div class="detail-actions">
-            <button class="neon-button" onclick="goToEditPage('${b.boardNo}')">수정</button>
-            <button class="neon-button" onclick="deletePost(${b.boardNo})">삭제</button>
+            <button class="neon-button edit-btns" onclick="goToEditPage('${b.boardNo}')">수정</button>
+            <button class="neon-button edit-btns" onclick="deletePost(${b.boardNo})">삭제</button>
 			<button class="neon-button right-align-btn" onclick="goToList()">목록</button>
         </div>
 
     </div>
 	
 <!-- ==================================================================================== -->
-<script src="<%=request.getContextPath()%>/js/board/boardCont.js"></script>
-<script src="<%=request.getContextPath()%>/js/common.js"></script>
+	<%@ page import="com.google.gson.Gson" %>
+	<%@ page import="com.our_middle_project.dto.UserInfoDTO" %>
+	
+	<%
+	    Gson gson = new Gson();
+	    UserInfoDTO user = (UserInfoDTO) session.getAttribute("loginUser");
+	    String userJson = gson.toJson(user);
+	%>
+	
+	<script type="text/javascript">
+		const userDataCase = JSON.parse('<%= userJson %>');
+		console.log(userDataCase);
+	</script>
+
+	<script src="<%=request.getContextPath()%>/js/common.js"></script>
+	<script src="<%=request.getContextPath()%>/js/board/boardCont.js"></script>
 
 </body>
 </html>

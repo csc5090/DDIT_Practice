@@ -17,7 +17,9 @@ public class BoardController implements Action {
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		System.out.println("게시판목록 ㅎㅇ");
 		
+		/*
 	    BoardService boardService = new BoardServiceImpl();
 
 	    // 1) 페이지 정보 받기 (파라미터 없으면 1페이지)
@@ -37,9 +39,8 @@ public class BoardController implements Action {
 	    request.setAttribute("currentPage", page);
 	    request.setAttribute("pageSize", pageSize);
 	    request.setAttribute("totalCount", totalCount);
+		*/
 
-		System.out.println("1231231232");		
-		System.out.println(boardList);		
 	    ActionForward forward = new ActionForward();
 	    forward.setRedirect(false);
 	    forward.setPath("/WEB-INF/our_middle_project_view/board/board.jsp");

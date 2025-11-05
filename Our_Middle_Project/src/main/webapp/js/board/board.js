@@ -2,6 +2,7 @@
 window.onload = async () => {
 	
 	const boardDBList = await boardListCallDB();
+	console.log(boardDBList)
 	boardListMake(boardDBList)
 	console.log("백업")
 	

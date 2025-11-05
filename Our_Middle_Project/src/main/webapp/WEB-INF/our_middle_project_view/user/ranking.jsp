@@ -418,6 +418,17 @@
 			
 		</div>
 	</div>	
+	
+<!--==================================================  -->
+<%@ page import="com.google.gson.Gson" %>
+<%@ page import="com.our_middle_project.dto.UserInfoDTO" %>
+
+<%
+    Gson gson = new Gson();
+    UserInfoDTO user = (UserInfoDTO) session.getAttribute("loginUser");
+    String userJson = gson.toJson(user);
+%>
+<script type="text/javascript" src="./js/common.js"></script>
 <script type="text/javascript" src="./js/ranking/ranking_Layout.js"></script>
 </body>
 </html>

@@ -42,12 +42,12 @@ function validateWrite() {
 function validateEdit() {
     const title = document.getElementById('title').value.trim();
     const content = document.getElementById('content').value.trim();
-    const password = document.getElementById('password').value.trim();
+
     
-    if (title === "" || content === "" || password === "") {
-        Swal.fire({ icon: 'warning', title: '입력 오류', text: '제목, 내용, 비밀번호를 모두 입력해주세요.', confirmButtonText: '확인' });
-        return false;
-    }
+	if (title === "" || writer === "" || content === "") {
+	    Swal.fire({ icon: 'warning', title: '입력 오류', text: '모든 필드를 입력해주세요.', confirmButtonText: '확인' });
+	    return false;
+	}
     
     console.log("Edit form validation successful.");
     return true; 
@@ -58,5 +58,5 @@ function validateEdit() {
  * @returns {boolean} 폼 전송 허용 여부
  */
 function validateReply() {
-    return validateWrite(); // 답글은 기본적으로 글쓰기와 동일한 유효성 검사
+    return validateWrite(); 
 }

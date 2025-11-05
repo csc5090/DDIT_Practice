@@ -61,6 +61,11 @@ body {
     box-shadow: 0 0 10px var(--neon-color-pink);
     transition: all 0.3s ease;
 }
+
+.edit-btns{
+	display: none
+}
+
 .neon-button:hover {
     background-color: var(--neon-color-pink);
     color: var(--background-color);

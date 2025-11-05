@@ -52,7 +52,7 @@
         <div class="form-group">
             <label for="writer" class="neon-text-small">작성자</label>
             <input type="text" id="writer" name="memId" class="neon-input" 
-                   value="${b.memId}" readonly>
+            		value="${b.memId}" readonly>
         </div>
 
              <!-- 내용 -->
@@ -77,6 +77,20 @@
 
 	
 <!-- ==================================================================================== -->
+	<%@ page import="com.google.gson.Gson" %>
+	<%@ page import="com.our_middle_project.dto.UserInfoDTO" %>
+	
+	<%
+	    Gson gson = new Gson();
+	    UserInfoDTO user = (UserInfoDTO) session.getAttribute("loginUser");
+	    String userJson = gson.toJson(user);
+	%>
+	
+	<script type="text/javascript">
+		const userDataCase = JSON.parse('<%= userJson %>');
+		console.log(userDataCase);
+	</script>
+
 <script type="text/javascript" src="./js/board/boardEdit.js"></script>
 <script type="text/javascript" src="./js/common.js"></script>
 

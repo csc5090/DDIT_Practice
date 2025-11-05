@@ -18,6 +18,9 @@ public class BoardContController implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException { 
 
+		System.out.println("게시물 상세보기 ㅎㅇ");
+		
+		
 		BoardService boardService = new BoardServiceImpl();
 
 		int boardNo = Integer.parseInt(request.getParameter("boardNo"));

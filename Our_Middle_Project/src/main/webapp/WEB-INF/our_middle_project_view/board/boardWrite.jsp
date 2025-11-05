@@ -36,6 +36,7 @@
        <h1 class="neon-text title">⭐ 새 글 작성 ⭐</h1>
 
        <form id="writeForm" action="boardWrite.do" method="post">
+       <input type="hidden" name="state" value="submit">
            <div class="write-box">
                <div class="form-group">
                    <label for="title" class="neon-text-small">제목</label>
@@ -44,10 +45,10 @@
                </div>
                
                <div class="form-group">
-                   <label for="writer" class="neon-text-small">작성자</label>
-                   <input type="text" id="writer" name="writer" class="neon-input" 
-                          placeholder="작성자를 입력하세요" required>
-               </div>
+				    <label for="writer" class="neon-text-small">작성자</label>
+				    <input type="text" id="writer" name="writer" class="neon-input"
+				           value="${sessionScope.loginUser.mem_id != null ? sessionScope.loginUser.mem_id : ''}" readonly>
+				</div>
 
                <div class="form-group">
                    <label for="content" class="neon-text-small">내용</label>
@@ -67,6 +68,20 @@
    </div>
 
 <!-- ==================================================================================== -->
+	<%@ page import="com.google.gson.Gson" %>
+	<%@ page import="com.our_middle_project.dto.UserInfoDTO" %>
+	
+	<%
+	    Gson gson = new Gson();
+	    UserInfoDTO user = (UserInfoDTO) session.getAttribute("loginUser");
+	    String userJson = gson.toJson(user);
+	%>
+	
+	<script type="text/javascript">
+		const userDataCase = JSON.parse('<%= userJson %>');
+		console.log(userDataCase);
+	</script>
+<script type="text/javascript" src="./js/common.js"></script>
 <script type="text/javascript" src="./js/board/boardWrite.js"></script>
 
 </body>

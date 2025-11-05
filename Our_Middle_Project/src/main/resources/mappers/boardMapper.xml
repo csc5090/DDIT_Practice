@@ -38,8 +38,8 @@
 	        B.MEM_ID AS memId
 	    FROM BOARD A
 	    INNER JOIN MEMBER B ON A.MEM_NO = B.MEM_NO
-	    WHERE A.BOARD_NO = #{boardNo}
-<!-- 	      AND B.MEM_ID = #{memId} -->
+	   WHERE A.BOARD_NO = #{boardNo} 
+	   			AND B.MEM_ID = #{memId}
 	</select>
 	
 	<update id="updateBoard" parameterType="com.our_middle_project.dto.BoardDTO">
@@ -73,21 +73,27 @@
 		FROM BOARD
 	</select>
 	
-	<insert id="insertBoard" parameterType="com.our_middle_project.dto.BoardDTO">
+<insert id="insertBoard" parameterType="com.our_middle_project.dto.BoardDTO">
     INSERT INTO BOARD (
-          BOARD_NO
-        , BOARD_TITLE
-        , BOARD_CONTENT
-        , MEM_NO
-        , CREATED_DATE
-        , VIEW_COUNT
+        BOARD_NO,
+        BOARD_TITLE,
+        BOARD_CONTENT,
+        MEM_NO,
+        TYPE_NO,
+        CREATED_DATE,
+        VIEW_COUNT,
+        LIKE_COUNT,
+        DISLIKE_COUNT
     ) VALUES (
-          SEQ_BOARD.NEXTVAL
-        , #{boardTitle}
-        , #{boardContent}
-        , #{memNo}
-        , SYSDATE
-        , 0
+        SEQ_BOARD.NEXTVAL,
+        #{boardTitle},
+        #{boardContent},
+        #{memNo},
+        #{typeNo},
+        SYSDATE,
+	    #{viewCount},
+	    #{likeCount},
+	    #{dislikeCount}
     )
-	</insert>
+</insert>
 </mapper>

@@ -22,33 +22,24 @@ public class BoardFreeController implements Action {
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
-
-//		  String findBoardType = request.getParameter("findBoard");
-//		  
-//		  int findBoard = Integer.parseInt(findBoardType);
 		
+		System.out.println("BoardFreeController Start");
 		
-		BoardDTO board = new BoardDTO();
-		
-		board.setFindBoard(3);
-		
-		BoardService boardService = new BoardServiceImpl();
-
-		List<BoardDTO> boardList = new ArrayList<>();
-		System.out.println("==================");		
-		System.out.println(boardList);	
-		System.out.println("==================");	
-		
-		Gson gson = new Gson();
-		
-		System.out.println(gson.toJson(boardList));
-		try {
+		try{
+			BoardDTO board = new BoardDTO();
+			board.setFindBoard(3);
 			
+			BoardService boardService = new BoardServiceImpl();
+			
+			List<BoardDTO> boardList = new ArrayList<>();
 			boardList = boardService.selectFreeBoard(board);
+			for(int i=0 ; i<boardList.size() ; i++) {
+				System.out.println(boardList.get(i));
+			}
 			
+			Gson gson = new Gson();
 			response.getWriter().write(gson.toJson(boardList));
+			System.out.println(gson.toJson(boardList));
 			
 		} catch (Exception e) {
 			e.printStackTrace();
