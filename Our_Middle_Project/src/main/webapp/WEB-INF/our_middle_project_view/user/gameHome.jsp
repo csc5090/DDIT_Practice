@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
@@ -29,7 +29,9 @@
 
 	<div id="header">
 		<div id="nickname">
-		<span class="nick">님</span>
+		<span class="nick">
+			<c:out value="${sessionScope.loginUser.mem_id}" />
+		</span>
 		<span class="hi">안녕하세요</span>
 		</div>
 		<div id="topNav">
@@ -152,6 +154,20 @@
 	
 
 <!-- ================================================================ -->
+
+<%@ page import="com.google.gson.Gson" %>
+<%@ page import="com.our_middle_project.dto.UserInfoDTO" %>
+
+<%
+    Gson gson = new Gson();
+    UserInfoDTO user = (UserInfoDTO) session.getAttribute("loginUser");
+    String userJson = gson.toJson(user);
+%>
+
+<script type="text/javascript">
+	const userDataCase = JSON.parse('<%= userJson %>');
+	console.log(userDataCase);
+</script>
 
 <script type="text/javascript" src="./js/common.js"></script>
 <script type="text/javascript" src="./js/gameHome/gameHome.js"></script>
