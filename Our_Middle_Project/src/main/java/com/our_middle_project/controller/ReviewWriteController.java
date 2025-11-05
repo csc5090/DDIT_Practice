@@ -6,10 +6,13 @@ import com.our_middle_project.action.Action;
 import com.our_middle_project.action.ActionForward;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class ReviewController implements Action {
+@MultipartConfig
+
+public class ReviewWriteController implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
@@ -23,3 +26,5 @@ public class ReviewController implements Action {
 	}
 
 }
+
+
