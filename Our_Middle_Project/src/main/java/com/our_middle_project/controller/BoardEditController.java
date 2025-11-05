@@ -64,7 +64,7 @@ public class BoardEditController implements Action {
 	                forward.setPath("/WEB-INF/our_middle_project_view/error.jsp");
 	            }
 	        }
-
+	        // 푸시 테스트
 	        // 디버깅용 로그
 	        System.out.println("[BoardEditController] Forward Path: " + forward.getPath());
 	        return forward;
