@@ -22,7 +22,7 @@
 
 <%-- <script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/axios/axios.min.js"></script> --%>
 
-<link rel="stylesheet" 
+<link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/admin/admin_common.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/admin/admin_layout.css">
@@ -108,9 +108,11 @@
 				<div class="user-profile">
 					<button type="button" class="user-profile-toggle">
 						<%-- <span>${sessionScope.adminName eq null ? '관리자' : sessionScope.adminName}</span> --%>
-						<span>${sessionScope.loginAdmin.mem_id}</span>
-						<span>세션 ID: ${pageContext.session.id}</span>
-						
+						<span> <c:out value="${sessionScope.loginAdmin.mem_name}" />
+						</span> <span> 세션 ID: <c:out value="${pageContext.session.id}" />
+						</span>
+
+
 						<svg width="12" height="12" viewBox="0 0 24 24" fill="none"
 							stroke="currentColor" stroke-width="2" stroke-linecap="round"
 							stroke-linejoin="round">
@@ -425,6 +427,23 @@
 			class="image-modal-content" id="modal-image-src">
 	</div>
 
+
+	<%@ page import="com.google.gson.Gson"%>
+	<%@ page import="com.our_middle_project.dto.UserInfoDTO"%>
+
+	<%
+	Gson gson = new Gson();
+	UserInfoDTO admin = (UserInfoDTO) session.getAttribute("loginAdmin");
+	String adminJson = gson.toJson(admin);
+	%>
+
+	<script type="text/javascript">
+		const DataCase = JSON.parse('<%=adminJson%>
+		');
+		console.log(DataCase);
+	</script>
+
+
 	<script
 		src="${pageContext.request.contextPath}/js/lib/axios/axios.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -447,19 +466,7 @@
 		src="${pageContext.request.contextPath}/js/admin/page-review.js"></script>
 
 
-	<%@ page import="com.google.gson.Gson" %>
-	<%@ page import="com.our_middle_project.dto.UserInfoDTO" %>
-	
-	<%
-	    Gson gson = new Gson();
-	    UserInfoDTO admin = (UserInfoDTO) session.getAttribute("loginAdmin");
-	    String adminJson = gson.toJson(admin);
-	%>
-	
-	<script type="text/javascript">
-		const GlovalLevel = JSON.parse('<%= adminJson %>');
-		console.log(GlovalLevel);
-	</script>
+
 
 </body>
 </html>
