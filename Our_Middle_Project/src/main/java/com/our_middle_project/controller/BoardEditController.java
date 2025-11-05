@@ -42,7 +42,7 @@ public class BoardEditController implements Action {
 
 	            request.setAttribute("b", dto);
 	            forward.setPath("/WEB-INF/our_middle_project_view/board/boardEdit.jsp");
-
+	            // 푸시테스트
 	        } else if ("submit".equals(state)) { 
 	            // 수정 처리
 	            String title = request.getParameter("boardTitle");
