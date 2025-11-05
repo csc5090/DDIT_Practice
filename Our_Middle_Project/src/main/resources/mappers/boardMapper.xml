@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="boardMapper">
-
+<!-- 백업 -->
 	<select id="selectFreeBoard" resultType="com.our_middle_project.dto.BoardDTO" parameterType="com.our_middle_project.dto.BoardDTO">
 		SELECT  A.BOARD_NO AS boardNo,
 		        A.BOARD_TITLE AS boardTitle,
