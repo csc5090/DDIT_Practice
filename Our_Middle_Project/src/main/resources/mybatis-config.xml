@@ -34,5 +34,6 @@
 		<mapper resource="mappers/reviewMapper.xml" />
 		<mapper resource="mappers/gameMapper.xml" />
 		<mapper resource="mappers/AdminBoardMapper.xml" />
+		<mapper resource="mappers/rankingMapper.xml" />
 	</mappers>
 </configuration>

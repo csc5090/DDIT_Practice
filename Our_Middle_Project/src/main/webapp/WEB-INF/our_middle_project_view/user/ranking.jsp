@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,10 +28,17 @@
 	<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="./css/fonts.css">
 	
-
+<!-- ===================================================================================== -->
 </head>
 <body>
 	<div id="container">
+	
+	<div id="nickname">
+		<span class="nick">
+			<c:out value="${sessionScope.loginUser.mem_id}" />
+		</span>
+		<span class="hi">님 안녕하세요</span>
+	</div>
 	
 		<div class="home-button-container">
    			 <button class="home-button" onclick="goHome()">
@@ -419,15 +428,21 @@
 		</div>
 	</div>	
 	
-<!--==================================================  -->
-<%@ page import="com.google.gson.Gson" %>
-<%@ page import="com.our_middle_project.dto.UserInfoDTO" %>
+<!-- ==================================================================================== -->
+	<%@ page import="com.google.gson.Gson" %>
+	<%@ page import="com.our_middle_project.dto.UserInfoDTO" %>
+	
+	<%
+	    Gson gson = new Gson();
+	    UserInfoDTO user = (UserInfoDTO) session.getAttribute("loginUser");
+	    String userJson = gson.toJson(user);
+	%>
+	
+	<script type="text/javascript">
+		const userDataCase = JSON.parse('<%= userJson %>');
+		console.log(userDataCase);
+	</script>
 
-<%
-    Gson gson = new Gson();
-    UserInfoDTO user = (UserInfoDTO) session.getAttribute("loginUser");
-    String userJson = gson.toJson(user);
-%>
 <script type="text/javascript" src="./js/common.js"></script>
 <script type="text/javascript" src="./js/ranking/ranking_Layout.js"></script>
 </body>

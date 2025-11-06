@@ -7,15 +7,36 @@
 
 
 body {
+	
     background-image: url('../../images/logins/loginBack.png');
 	background-size: 50% 100%;
     background-attachment: fixed;
+    
     color: var(--neon-color-white);
     font-family: Arial, sans-serif; 
+    
     margin: 0;
     padding: 20px;
+    
     text-align: center;
-   
+ 
+}
+
+#nickname {
+	
+    position: absolute;  
+    top: 40px;           
+    right: 140px;         
+    
+    display: flex;
+    align-items: center;
+    gap: 5px;            
+    
+    font-size: 15px;
+    color: #fff;        
+    
+    z-index: 1000;       
+    
 }
 
 .container {
@@ -24,8 +45,8 @@ body {
     padding: 20px;
     box-shadow: 0 0 10px rgba(255, 102, 169, 0.3); 
     border-radius: 5px;
-    height:860px;
-    width: 59%; 
+    height:875px;
+    width: 58%; 
   
 }
 
@@ -117,9 +138,13 @@ body {
 
 .board-table tbody {
     display: block;
-    max-height: 600px;  /* 스크롤 영역 높이 */
-    overflow-y: auto;  /* ↓ 스크롤 여기만 */
+    max-height: 600px;       /* 스크롤 영역 높이 */
+    overflow-y: scroll;      /* 스크롤 가능하게 */
     width: 100%;
+
+    /* 스크롤 숨기기 */
+    scrollbar-width: none;   /* Firefox */
+    -ms-overflow-style: none; /* IE 10+ */
 }
 
 .board-table th, .board-table td {
@@ -153,6 +178,9 @@ body {
 
 .post-title {
     text-align: left;
+    white-space: nowrap;   /* 줄바꿈 방지 */
+    overflow: hidden;      /* 넘치는 내용 숨김 */
+    text-overflow: ellipsis; /* ...으로 표시 */
 }
 .board-header{
 	display:flex;
@@ -170,7 +198,7 @@ body {
     box-shadow: 0 0 10px var(--neon-color-pink); /* 버튼 자체에 네온 효과 */
     transition: all 0.3s ease;
     margin-left: auto;
-    margin-bottom: 5px; 
+    margin-bottom: 7px; 
 }
 
 .neon-button:hover {
@@ -205,4 +233,7 @@ body {
 	margin-left: auto;
 }
 
-
+tr.notice {
+    background-color: rgba(255, 0, 0, 0.1); /* 연한 빨강 */
+    font-weight: bold; /* 원하면 글자 강조 */
+}

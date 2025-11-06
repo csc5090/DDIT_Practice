@@ -36,6 +36,22 @@ body {
     box-sizing: border-box;    
 }
 
+#nickname {
+	
+    position: absolute;  
+    top: 40px;           
+    right: 140px;         
+    
+    display: flex;
+    align-items: center;
+    gap: 5px;            
+    
+    font-size: 15px;
+    color: #fff;        
+    
+    z-index: 1000;       
+    
+}
 /*===우측 상단에 메인홈 이동  */
 .home-button-container {
     position: absolute;

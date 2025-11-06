@@ -11,7 +11,6 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/js/lib/bootstrap/css/bootstrap.min.css">
 </head>
 
-
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/bootstrap/js/bootstrap.min.js"></script>
 	
 	<!-- 스위트어럴트2 -->
@@ -24,15 +23,18 @@
 	<!-- axios -->
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/axios/axios.min.js"></script>
 
-
-
-
-<link rel="stylesheet"href="./css/board/board.css">
+	<link rel="stylesheet"href="./css/board/board.css">
 
 
 <!-- ==================================================================================== -->
 <body>
-
+	<div id="nickname">
+		<span class="nick">
+			<c:out value="${sessionScope.loginUser.mem_id}" />
+		</span>
+		<span class="hi">님 안녕하세요</span>
+	</div>
+	
 	<div id="home">
 		<button id="homeBtn">⌂</button>
 	</div>
