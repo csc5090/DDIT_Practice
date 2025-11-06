@@ -4,9 +4,7 @@
 // 모달 요소
 let modal;
 let modeSelect
-let singleMode
 let pvpMode
-let closeModalBtn
 let backToModeBtn
 let backToMode2Btn
 let gameStartBtn
@@ -46,34 +44,30 @@ window.onload = () => {
 	});
 	
 	// 모달 요소 객체반영
-	modal = document.getElementById("gameModal");
 	modeSelect = document.getElementById('modeSelect');
-	singleMode = document.getElementById('singleMode');
 	pvpMode = document.getElementById('pvpMode');
-	closeModalBtn = document.getElementById('closeModal');
 	backToModeBtn = document.getElementById('backToMode');
 	backToMode2Btn = document.getElementById('backToMode2');
 	gameStartBtn = document.getElementById("gameStart");
 	modalContent = document.getElementById("modalContent");
 	
-	// 모달 닫기
-	closeModalBtn.addEventListener('click', () => {
-	    modal.style.display = 'none';
-	});
-	
 	// 게임 시작 버튼 클릭 시
 	gameStartBtn.addEventListener("click", goGameStart);
 	
+	let closeModalBtn = document.getElementById('closeModal');
+	closeModalBtn.addEventListener("click", (e) => { modalClose(e) })
+	
 	setTimeout(() => {
-		console.log(window.innerHeight)
-		console.log(screen.height)
-		console.log('1234')
 		window.scrollBy({
 			top: document.body.scrollHeight,
 			behavior: 'smooth'
 		});
 		
 	}, 300)
+}
+
+function modalClose(e) {
+	document.getElementById("gameModal").className = "level-modal-off"
 }
 
 //========== 버튼 클릭 시 이동 로직======
@@ -173,8 +167,134 @@ function startGameWithLevel(obj) {
 
 // 모달 열기
 function goGameStart() {
+	
+	/*
     modal.style.display = "flex";
     singleMode.style.display = 'block'; // 싱글 난이도 바로 표시
+	*/
+
+	const modal = document.getElementById('gameModal');
+	const container = document.getElementById('modalContent');
+	const cards = document.querySelectorAll('.level-card-box');
+	const containerRect = container.getBoundingClientRect();
+	const containerWidth = containerRect.width;
+	const containerHeight = containerRect.height;
+
+	modal.className = "level-modal-on"
+
+	const placedCards = [];
+
+	/* 🎯 중앙 근처로 모이되 왼쪽/위쪽 편향 없이 자연스러운 가우시안 랜덤 */
+	function centeredRandomPos(max, axis = 'x') {
+		// 중심 비율 (0.5 = 완전 중앙)
+		let centerBias = axis === 'y' ? 0.55 : 0.5;
+
+		// spread: 값이 작을수록 중앙에 모이고, 클수록 퍼짐
+		const spread = 0.25;
+
+		// Box–Muller transform으로 가우시안 분포 생성 (-1 ~ +1 범위)
+		let u = 0, v = 0;
+		while (u === 0) u = Math.random();
+		while (v === 0) v = Math.random();
+		const gaussian = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+
+		// 가우시안 결과를 0~1 범위로 변환 후 중심 오프셋 적용
+		const value = centerBias + gaussian * spread;
+
+		// 0~1 범위로 제한 (넘어가면 컷)
+		const clamped = Math.max(0, Math.min(1, value));
+
+		return clamped * max;
+	}
+
+	/* 🔍 겹침 영역 계산 (너무 겹치면 배치 거부) */
+	function getOverlapArea(x1, y1, w1, h1, x2, y2, w2, h2) {
+		const overlapX = Math.max(0, Math.min(x1 + w1, x2 + w2) - Math.max(x1, x2));
+		const overlapY = Math.max(0, Math.min(y1 + h1, y2 + h2) - Math.max(y1, y2));
+		return overlapX * overlapY;
+	}
+
+	/* 📐 회전 후 실제 bounding box 크기 계산 */
+	function getRotatedBoundingBoxSize(width, height, angleDeg) {
+		const rad = Math.abs(angleDeg) * Math.PI / 180;
+		const rotatedWidth = Math.abs(width * Math.cos(rad)) + Math.abs(height * Math.sin(rad));
+		const rotatedHeight = Math.abs(width * Math.sin(rad)) + Math.abs(height * Math.cos(rad));
+		return { rotatedWidth, rotatedHeight };
+	}
+
+	/* 🃏 카드 배치 */
+	cards.forEach((card, index) => {
+		const cardRect = card.getBoundingClientRect();
+		const cardWidth = cardRect.width;
+		const cardHeight = cardRect.height;
+
+		// 도착 후 랜덤 회전 (-25° ~ +25°)
+		const finalRotate = (Math.random() - 0.5) * 50;
+		const { rotatedWidth, rotatedHeight } = getRotatedBoundingBoxSize(cardWidth, cardHeight, finalRotate);
+
+		const maxX = containerWidth - rotatedWidth;
+		const maxY = containerHeight - rotatedHeight;
+
+		let x, y, tryCount = 0;
+		let overlapOK = false;
+
+		/* 🎯 최종 도착 위치 계산 (중앙 집중 + 겹침 최소화 + 거리 보정) */
+		do {
+			tryCount++;
+			x = centeredRandomPos(maxX, 'x');
+			y = centeredRandomPos(maxY, 'y');
+
+			overlapOK = placedCards.every(prev => {
+				const overlapArea = getOverlapArea(x, y, rotatedWidth, rotatedHeight, prev.x, prev.y, prev.w, prev.h);
+				const overlapRatio = overlapArea / (rotatedWidth * rotatedHeight);
+
+				// 카드 간 거리 계산
+				const dx = Math.abs(prev.x - x);
+				const dy = Math.abs(prev.y - y);
+				const tooClose = dx < cardWidth * 0.7 && dy < cardHeight * 0.7;
+
+				// 1/2 이상 겹치거나 너무 가까우면 배치 거부
+				return overlapRatio <= 0.5 && !tooClose;
+			});
+		} while (!overlapOK && tryCount < 250);
+
+		const finalX = x;
+		const finalY = y;
+
+		/* 🌀 출발 위치 (왼쪽 / 왼쪽 아래 대각선 랜덤) */
+		const side = Math.random();
+		let startX, startY;
+
+		if (side < 0.6) {
+			startX = -cardWidth * (1 + Math.random());
+			startY = Math.random() * containerHeight * 0.8;
+		} else {
+			startX = -cardWidth * (0.5 + Math.random());
+			startY = containerHeight + Math.random() * cardHeight * 2;
+		}
+
+		/* 🪄 초기 상태 */
+		card.style.left = `${startX}px`;
+		card.style.top = `${startY}px`;
+		card.style.transform = `rotate(${Math.random() * -60}deg) scale(0.6)`;
+		card.style.transition = '0';
+		card.style.opacity = 0;
+
+		/* ✨ 애니메이션 (카드가 날아와 자리 잡음) */
+		setTimeout(() => {
+			setTimeout(() => {
+				card.style.transition = 'all 1.2s cubic-bezier(0.22, 1, 0.36, 1)';
+				card.style.left = `${finalX}px`;
+				card.style.top = `${finalY}px`;
+				card.style.transform = `rotate(${finalRotate}deg) scale(1)`;
+				card.style.opacity = 1;
+				card.style.visibility = "visible";
+			}, 300 * index + Math.random() * 250);
+		}, 500);
+
+		placedCards.push({ x, y, w: rotatedWidth, h: rotatedHeight });
+	});
+	
 }
 
 
@@ -201,4 +321,6 @@ function selectPvPMode() {
     modeSelect.style.display = 'none';
     pvpMode.style.display = 'block';
 }
+
+
 
