@@ -36,13 +36,4 @@ public class ReviewServiceImpl implements ReviewService {
 		return dao.selectReview(limit);
 	}
 
-	@Override
-	public List<ReviewDTO> selectMoreReview(int ltBoardNo, int limit) {
-		return dao.selectMoreReview(ltBoardNo, limit);
-	}
-
-	@Override
-	public List<FileImageDTO> selectImagesByBoard(int boardNo) {
-		return dao.selectImagesByBoard(boardNo);
-	}
 }

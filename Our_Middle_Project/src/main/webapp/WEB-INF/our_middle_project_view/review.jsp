@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" isELIgnored="true" %>
 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>리뷰 게시판4</title>
+<title>리뷰 게시판</title>
 
 <!-- 부트스트랩 -->
 <link rel="stylesheet"
@@ -151,6 +151,12 @@ html, body {
 .nickname {
    font-weight: 700;
    font-size: 15px;
+}
+
+.memId {
+  color: #aaa;
+  font-size: 0.9em;
+  margin-left: 4px;
 }
 
 .stars {
@@ -516,40 +522,7 @@ input#imageInput[hidden] {
          <!-- 목록 -->
          <div class="innerContent">
 				<section id="iReviewList" class="reviewList">
-					<c:if test="${empty reviews}">
-						<div class="card">
-							<div class="body">등록된 리뷰가 없습니다.</div>
-						</div>
-					</c:if>
 
-					<c:forEach var="r" items="${reviews}">
-						<article class="card">
-							<div class="head">
-								<span class="nickname">${fn:escapeXml(r.nickName)}</span>
-								<span class="stars" aria-label="${r.star}점">
-								  <c:set var="s" value="${r.star}" />
-								  <c:forEach begin="1" end="5" var="i">
-								    <c:choose>
-									  <c:when test="${i <= s}">★</c:when>
-									  <c:otherwise>☆</c:otherwise>
-									</c:choose>
-								  </c:forEach>
-								</span>
-								<span class="date">${r.createdDate}</span>
-							</div>
-
-							<div class="body">
-								<div class="row">
-									<!-- 썸네일: firstImagePath 필드가 DTO에 없으므로 당장은 플레이스홀더 표시 -->
-									<div class="thumb">
-										<div style="width: 100%; height: 100%; display: flex; align-items: center; 
-										     justify-content: center; color: #888; font-size: 12px;">이미지 없음</div>
-									</div>
-									<div class="text">${fn:escapeXml(r.boardContent)}</div>
-								</div>
-							</div>
-						</article>
-					</c:forEach>
 				</section>
 			</div> <!-- DB데이터 불러오기 (select) -->
 
@@ -567,6 +540,7 @@ input#imageInput[hidden] {
             <form id="iReviewForm" action="<%=request.getContextPath()%>/reviewWriteOK.do" method="post" enctype="multipart/form-data"
                 onsubmit="return iSubmit(this)">
                 <input type="hidden" name="typeNo" value="2">
+                <input type="hidden" name="memNo" value="10">
                 
             <div class="wrtBody wrtBody--new" aria-live="polite">
                <!-- 좌: 별점 + 파일선택 + 미리보기 -->
@@ -593,7 +567,7 @@ input#imageInput[hidden] {
                         </button>
                      </div>
                      
-                     <input type="hidden" name="star" value="">
+                     <input type="hidden" name="star" value="1">
                      
                   </div>
 
@@ -633,10 +607,10 @@ input#imageInput[hidden] {
                   </div>
                </div>
             </div>
-
+			
             </form>
             
-            <input type="hidden" id="ratingVal" value="0">
+            
          </aside>
       </div>
    </div>
@@ -658,25 +632,7 @@ function notify(title, text, icon){
   alert((title?title+'\n':'')+(text||''));
 }
 
-/* ===== 데모 데이터 & 렌더러 ===== 
-const DEMO = Array.from({length: 6}).map((_,i)=>({
-  id: i+1,
-  nickname:["네온고양이","사이버펑크","데이터러버","블루칩","픽셀러","광자"][i],
-  stars:[5,4,3,5,2,4][i],
-  date:["2025-10-24","2025-10-25","2025-10-26","2025-10-27","2025-10-28","2025-10-29"][i],
-  img: placeholderDataURI("REVIEW "+(i+1)),
-  text:[
-    "네온 감성 좋습니다!",
-    "작성창 토글이 자연스럽네요.",
-    "별점만으로도 충분히 표현돼요.",
-    "간결한 레이아웃이 보기 좋아요.",
-    "스크롤/리사이즈로 잘림 없이 입력 가능.",
-    "반응형에서도 안정적이에요."
-  ][i],
-  adminReply:"관리자: 소중한 의견 감사합니다!"
-}));
-
-
+/* 
 function renderList(listEl, data){
   listEl.innerHTML = "";
   for (const item of data){
@@ -713,8 +669,7 @@ const composer = { root:null, toggleBtn:null, textarea:null,
 window.onload = () => {
   // 목록 렌더
   const list = document.getElementById('iReviewList');
-  renderList(list, DEMO);
-
+  
   // 모달 열고 닫기
   const modalEl = document.getElementById('iReviewModal');
   document.getElementById('iOpenModal').addEventListener('click', ()=> modalEl.hidden = false);
@@ -796,7 +751,7 @@ window.onload = () => {
     if(incoming.length > remain) notify('이미지 제한', `이미지는 최대 ${MAX_FILES}장까지 첨부할 수 있어요. (추가 가능: ${remain}장)`, 'info');
     const pick = incoming.slice(0, Math.max(0, remain)).filter(f => /^image\//.test(f.type) && f.size > 0);
     files = files.concat(pick);
-    input.value = ''; // 동일 파일 재선택 가능하도록 초기화
+    input.value = '';
     renderPreview(); validate();
   });
 
@@ -856,6 +811,7 @@ window.onload = () => {
 }; // wimdow.onload  
 /////////////////////////////////////////////////////////////////////
 
+// 리뷰 등록
 function iSubmit(form){
   // 1) 별점(name="star")에 값 밀어넣기
   let starHidden = form.querySelector('input[name="star"]');
@@ -875,7 +831,7 @@ function iSubmit(form){
   if (Array.isArray(files) && files.length > 0 && input){
     const dt = new DataTransfer();
     files.forEach(f => dt.items.add(f));
-    input.files = dt.files;  // 폼이 실파일을 전송할 수 있게 복구
+    input.files = dt.files;
   }
   
   // 3) 최종 검증(본문 최소 길이)
@@ -888,8 +844,67 @@ function iSubmit(form){
   return true; // 폼 제출 진행
 }
 
+/////////////////  DB 데이터를 REVIEW 게시판에 출력 (ReviewListController)  //////////////////////
 
+// 별점 계산
+// n을 숫자로 반환하고 실패하면 0 => n개 만큼 ★ 반복(최대 5개) 나머지 개수만큼 ☆ 반복
+function starString(n){ 
+	n = Number(n)||0;
+	return '★'.repeat(Math.max(0,Math.min(5,n))) + '☆'.repeat(Math.max(0,5-n)); 
+}
+function esc(s){ 
+	return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); 
+}
 
+async function loadReviews(limit){
+  const cp = '<%=request.getContextPath()%>';
+  const url = cp + '/reviewList.do?limit=' + encodeURIComponent(limit);
+  const res = await axios.get(url);
+  if(!res.data || res.data.ok !== true) throw new Error('API 실패');
+  return res.data.items || [];
+}
+
+function renderReviews(list){
+  const $list = document.getElementById('iReviewList');
+  $list.innerHTML = '';
+  if(!list.length){
+    $list.innerHTML = '<div class="card"><div class="body">등록된 리뷰가 없습니다.</div></div>';
+    return;
+  }
+  for(const r of list){
+    const html = `
+      <article class="card" data-board-no="${r.boardNo}">
+        <div class="head">
+          <span class="nickname">${esc(r.nickName)}</span>
+          <span class="memID">#${esc(r.memId)}</span>
+          <span class="stars" aria-label="${r.star}점">${starString(r.star)}</span>
+          <span class="date">${esc(r.createdDate)}</span>
+        </div>
+        <div class="body">
+          <div class="row">
+            <div class="thumb">
+              <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#888;font-size:12px;">이미지 없음</div>
+            </div>
+            <div class="text">${esc(r.boardContent)}</div>
+          </div>
+        </div>
+      </article>`;
+    $list.insertAdjacentHTML('beforeend', html);
+  }
+}
+
+window.addEventListener('DOMContentLoaded', async () => {
+  try{
+    const items = await loadReviews(200); // 리뷰 표시 수 10개
+    renderReviews(items);
+  }catch(err){
+    console.error(err);
+    document.getElementById('iReviewList').innerHTML =
+      '<div class="card"><div class="body">목록을 불러오는 중 오류가 발생했습니다.</div></div>';
+  }
+});
+
+////////////////////////////////////////////////////////////
 
 
 

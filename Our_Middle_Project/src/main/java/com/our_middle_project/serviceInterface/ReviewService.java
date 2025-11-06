@@ -18,8 +18,4 @@ public interface ReviewService {
     // select
     List<ReviewDTO> selectReview(int limit);
     
-    List<ReviewDTO> selectMoreReview(int ltBoardNo, int limit);
-    
-    // 무한스크롤 안 쓰면 호출 안 하면 됨
-    List<FileImageDTO> selectImagesByBoard(int boardNo);
 }

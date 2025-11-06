@@ -37,19 +37,10 @@ public class ReviewDAOImpl implements ReviewDAO {
 	}
 
 	@Override
-	public int insertAuthorStar(int boardNo, int memNo, int star) {
-		try (SqlSession session = MybatisUtil.getSqlSession()) {
-			Map<String, Object> param = new HashMap<>();
-			param.put("boardNo", boardNo);
-			param.put("memNo", memNo);
-			param.put("star", star);
-			int result = session.insert(NS + "insertAuthorStar", param);
-			session.commit();
-			return result;
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}
+	public int insertAuthorStar(Map<String, Object> map) {
+		try (SqlSession s = MybatisUtil.getSqlSession()) { // auto-commit
+	        return s.insert("mappers.reviewMapper.insertAuthorStar", map);
+	    }
 	}
 
 	// select
@@ -62,20 +53,4 @@ public class ReviewDAOImpl implements ReviewDAO {
 		}
 	}
 
-	@Override
-	public List<ReviewDTO> selectMoreReview(int ltBoardNo, int limit) {
-		try (SqlSession session = MybatisUtil.getSqlSession()) {
-			Map<String, Object> p = new HashMap<>();
-			p.put("ltBoardNo", ltBoardNo);
-			p.put("limit",     limit);
-			return session.selectList(NS + "selectMoreReview", p);
-		}
-	}
-
-	@Override
-	public List<FileImageDTO> selectImagesByBoard(int boardNo) {
-		try (SqlSession session = MybatisUtil.getSqlSession()) {
-			return session.selectList(NS + "selectImagesByBoard", boardNo);
-		}
-	}
 }

@@ -29,6 +29,8 @@ public class ReviewWriteOKController implements Action {
     @Override
     public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
        
+    	System.out.println("ReviewWriteOKController Start");
+    	
     	request.setCharacterEncoding("UTF-8");
     	response.setContentType("text/html; charset=UTF-8");
         PrintWriter out = response.getWriter();
@@ -41,20 +43,21 @@ public class ReviewWriteOKController implements Action {
         // 1) 파라미터 수집
         String boardContent = request.getParameter("boardContent");
         String typeStr = request.getParameter("typeNo");    // 리뷰게시판 타입 번호(없으면 2 가정)
+        System.out.println(typeStr);
         int typeNo = (typeStr == null || typeStr.isBlank()) ? 2 : Integer.parseInt(typeStr.trim());
 
-        // 로그인 없이 저장: 게스트/더미 사용자 번호 사용 (예: MEM_NO=1)
+        // 로그인 없이 저장 하려면 게스트/더미 사용자 번호 사용 (int memNo = 1;)
+//        int memNo = (int) request.getSession().getAttribute("mem_no");
         int memNo = 1;
-       // int memNo = (int) request.getSession().getAttribute("LOGIN_MEM_NO");
 
-        // 2) 리뷰글 INSERT (selectKey AFTER-CURRVAL 로 boardNo가 dto에 세팅됨)
+        // 2) 리뷰글 INSERT
         ReviewDTO dto = new ReviewDTO();
         dto.setMemNo(memNo);
         dto.setTypeNo(typeNo);
         dto.setBoardContent(boardContent);
 
         reviewService.insertBoard(dto);
-        int boardNo = dto.getBoardNo(); // ↑ 매퍼에서 자동 주입됨
+        int boardNo = dto.getBoardNo();
 
         // 3) 첨부파일 저장 (input name="image", multiple 가정)
         Collection<Part> parts = request.getParts();
@@ -64,6 +67,7 @@ public class ReviewWriteOKController implements Action {
 
             // 원본 파일명
             String originalName = extractOriginalName(part);
+            
             // 저장 파일명: UUID + 확장자
             String storedName = buildStoredName(originalName);
             Path filePath = uploadDir.resolve(storedName);
@@ -86,14 +90,6 @@ public class ReviewWriteOKController implements Action {
             reviewService.insertImage(img);
         }
 
- /*       // 4) (선택) 별점 — 로그인 없으니 게스트로 넣을지, 스킵할지 정책 선택
-        String starStr = request.getParameter("star");
-        if (starStr != null && !starStr.isBlank()) {
-            int star = Integer.parseInt(starStr.trim());
-            // 게스트로도 별점을 저장하려면 아래 라인 유지, 아니라면 주석 처리
-            reviewService.insertAuthorStar(boardNo, memNo, star);
-        }
-*/
         // 5) 완료 안내 및 목록/완료페이지로 이동
         String cp = request.getContextPath();
         out.println("<script>");
@@ -102,9 +98,10 @@ public class ReviewWriteOKController implements Action {
         out.println("</script>");
         out.flush();
 
-        return null; // JS로 리다이렉트
+        return null;
     }
 
+    // 업로드된 파일명 추출
     private String extractOriginalName(Part part) {
         String cd = part.getHeader("Content-Disposition");
         if (cd == null) return "unknown";
@@ -112,14 +109,15 @@ public class ReviewWriteOKController implements Action {
             String s = seg.trim();
             if (s.startsWith("filename=")) {
                 String fn = s.substring("filename=".length()).trim().replace("\"", "");
-                // IE 경로 포함 케이스 제거
+                
                 int slash = Math.max(fn.lastIndexOf('/'), fn.lastIndexOf('\\'));
                 return (slash >= 0) ? fn.substring(slash + 1) : fn;
             }
         }
         return "unknown";
     }
-
+    
+    // 서버 저장용 파일명 생성
     private String buildStoredName(String originalName) {
         String ext = "";
         int dot = originalName.lastIndexOf('.');
