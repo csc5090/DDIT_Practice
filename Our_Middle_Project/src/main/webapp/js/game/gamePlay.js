@@ -145,7 +145,7 @@ function cardChoice(obj, e) {
 								//콤보 카운트
 			
 			// 모든 카드 맞출 시 ★ 종료 시점 ★
-			let endCard = (GlovalLevel * GlovalLevel) / 2;
+			let endCard = (savedLevel * savedLevel) / 2;
 			if(count == endCard){
 			/*	================종료 로직 테스트중========================== */
 				dataSave();
@@ -192,7 +192,7 @@ function countDown(callback){
 
 //======레벨별 기본 시간
 function getDefaultTimeByLevel() {
-    switch(GlovalLevel){
+    switch(savedLevel){
         case 4: return 30.9;		//딜레이가 있어서 0.9초 더 부여
         case 6: return 180.9;
         case 8: return 300.9;
@@ -372,7 +372,7 @@ function dataSave() {
 
 function submitGameLog() {
     const form = document.getElementById("gameLogForm");
-    form.levelNo.value = GlovalLevel; // 현재 레벨
+    form.levelNo.value = savedLevel; // 현재 레벨
     form.score.value = totalscore;
     form.combo.value = maxCombo;
     form.clearTime.value = parseInt((getDefaultTimeByLevel() - pausedTime / 10) || 0); // 클리어 시간

@@ -65,9 +65,9 @@ public class GameLogController implements Action {
         gameLogService.saveGameLog(gameLog);
 
         // 완료 후 페이지 이동 (예: 게임 종료 페이지)
-        ActionForward forward = new ActionForward();
-        forward.setRedirect(true);
+//        ActionForward forward = new ActionForward();
+//        forward.setRedirect(true);
 //        forward.setPath("gameEndSuccess.do"); // JSP나 다른 컨트롤러 URL
-        return forward;
+          return null;
     }
 }

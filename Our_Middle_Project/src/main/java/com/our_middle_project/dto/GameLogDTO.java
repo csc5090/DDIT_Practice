@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class GameLogDTO {
+	
     private int gameLogNo;
     private int memNo;
     private int levelNo;
