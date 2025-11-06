@@ -11,7 +11,7 @@ public class ReviewDTO {
 	private int boardNo;
 
 	// DB: BOARD_TITLE (VARCHAR2)
-//	private String boardTitle;
+	private String boardTitle;
 	
 	// DB: BOARD_CONTENT (CLOB)
 	private String boardContent;
