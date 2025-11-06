@@ -24,6 +24,9 @@ public interface BoardService {
     //새 글 작성
     int insertBoard(BoardDTO dto);
     
- // 수정폼 열기 전에 본인 글 체크
+    //수정폼 열기 전에 본인 글 체크
 	public com.our_middle_project.dto.BoardDTO selectBoardForEdit(String boardNo, String loginUserMemNo);
+	
+	// 삭제 처리
+	boolean deleteBoard(BoardDTO boardDTO); 
 }

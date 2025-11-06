@@ -33,7 +33,7 @@
 
 <!-- ==================================================================================== -->
 <body>
-<div class="container">
+	<div class="container">
 
         <h1 class="neon-text title">⭐ 내 용 ⭐</h1>
 
@@ -57,17 +57,23 @@
                 <p>
                  	<c:out value="${fn:replace(b.boardContent, '
 									', '<br/>')}" escapeXml="false"/>
+								
                 </p>
             </div>
         </div>
         
         <div class="detail-actions">
-            <button class="neon-button edit-btns" onclick="goToEditPage('${b.boardNo}')">수정</button>
-            <button class="neon-button edit-btns" onclick="deletePost(${b.boardNo})">삭제</button>
-			<button class="neon-button right-align-btn" onclick="goToList()">목록</button>
+       		<form id="editForm" action="<%=request.getContextPath()%>/boardDel.do" method="post" onsubmit="deletePost(event, this, ${b.boardNo})">
+				<input id="boardTarget" type="hidden" name="boardNo" value="${b.boardNo}">     		
+       		
+	            <button class="neon-button edit-btns" onclick="goToEditPage('${b.boardNo}')">수정</button>
+	            <button type="submit" class="neon-button edit-btns">삭제</button>
+				<button class="neon-button right-align-btn" onclick="goToList()">목록</button>
+			</form>
         </div>
 
     </div>
+
 	
 <!-- ==================================================================================== -->
 	<%@ page import="com.google.gson.Gson" %>
@@ -83,8 +89,8 @@
 		const userDataCase = JSON.parse('<%= userJson %>');
 		console.log(userDataCase);
 	</script>
-
 	<script src="<%=request.getContextPath()%>/js/common.js"></script>
+	<script src="<%=request.getContextPath()%>/js/publicAlert.js"></script>
 	<script src="<%=request.getContextPath()%>/js/board/boardCont.js"></script>
 
 </body>

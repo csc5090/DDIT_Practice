@@ -22,4 +22,5 @@ public class BoardDTO {
 	//검색 필드
 	private String findField;
 	private String findName;
+	
 }

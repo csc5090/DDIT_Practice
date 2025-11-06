@@ -67,11 +67,10 @@ public class BoardDAOImpl implements BoardDAO {
         return session.insert("boardMapper.insertBoard", dto);
     }
 
-	@Override
-	public int deleteBoard(BoardDTO boardDTO) {
-        int result = sqlSession.update("deleteBoard", boardDTO);
-        sqlSession.commit(); // 반드시 커밋
-        return result;
+    //삭제 폼
+    @Override
+    public int deleteBoard(BoardDTO boardDTO, SqlSession session) {
+        return session.update("deleteBoard", boardDTO);
     }
 
 }
