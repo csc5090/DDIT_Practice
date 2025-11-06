@@ -16,75 +16,75 @@ import jakarta.servlet.http.HttpSession;
 
 public class BoardEditController implements Action {
 
-	@Override
-	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+    @Override
+    public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-		System.out.println("BoardEditController 실행");
+        System.out.println("BoardEditController 실행");
 
-		BoardService boardService = new BoardServiceImpl();
-		ActionForward forward = new ActionForward();
-		forward.setRedirect(false);
+        BoardService boardService = new BoardServiceImpl();
+        ActionForward forward = new ActionForward();
+        forward.setRedirect(false);
 
-		String state = request.getParameter("state"); // form / submit
-		String boardNo = request.getParameter("boardNo");
+        String state = request.getParameter("state"); // form / submit
+        String boardNo = request.getParameter("boardNo");
 
-		HttpSession session = request.getSession();
-		// MEM_NO 가져오기
-		String loginUserMemNo = (String) session.getAttribute("memNo"); // 세션에 memNo가 들어있어야 함
-		System.out.println("loginUserMemNo = " + loginUserMemNo);
-		//        // 로그인 안했으면 로그인 페이지로
-		//        if (loginUser == null) {
-		//            ActionForward f = new ActionForward();
-		//            f.setRedirect(true);
-		//            f.setPath("/login.do");
-		//            return f;
-		//        }
+        HttpSession session = request.getSession();
 
+        // 세션에서 로그인 사용자 DTO 꺼내기
+        UserInfoDTO loginUser = (UserInfoDTO) session.getAttribute("loginUser");
 
+        // 로그인 안했으면 로그인 페이지로
+        if (loginUser == null) {
+            ActionForward f = new ActionForward();
+            f.setRedirect(true);
+            f.setPath("/login.do");
+            return f;
+        }
 
-		System.out.println("loginUserMemNo = " + loginUserMemNo);
-		System.out.println("boardNo = " + boardNo);
-		System.out.println("state = " + state);
+        // 로그인 되었으면 memNo 꺼내기
+        String memNo = String.valueOf(loginUser.getMem_no());
 
-		if ("form".equals(state)) {
-			// 수정폼 보여주기
-			BoardDTO dto = boardService.selectBoardForEdit(boardNo, loginUserMemNo);
+        System.out.println("memNo = " + memNo);
+        System.out.println("boardNo = " + boardNo);
+        System.out.println("state = " + state);
 
-			if (dto == null) {
-				request.setAttribute("msg", "본인 글이 아니거나 존재하지 않는 게시물입니다.");
-				forward.setPath("/WEB-INF/our_middle_project_view/error.jsp");
-				return forward;
-			}
+        if ("form".equals(state)) {
+            // 수정폼 보여주기
+            BoardDTO dto = boardService.selectBoardForEdit(boardNo, memNo);
 
-			request.setAttribute("b", dto);
-			forward.setPath("/WEB-INF/our_middle_project_view/board/boardEdit.jsp");
+            if (dto == null) {
+                request.setAttribute("msg", "본인 글이 아니거나 존재하지 않는 게시물입니다.");
+                forward.setPath("/WEB-INF/our_middle_project_view/error.jsp");
+                return forward;
+            }
 
-		} else if ("submit".equals(state)) {
-			// 수정 처리
-			String title = request.getParameter("boardTitle");
-			String content = request.getParameter("boardContent");
+            request.setAttribute("b", dto);
+            forward.setPath("/WEB-INF/our_middle_project_view/board/boardEdit.jsp");
 
-			BoardDTO dto = new BoardDTO();
-			dto.setBoardNo(boardNo);
-			dto.setBoardTitle(title);
-			dto.setBoardContent(content);
-			dto.setMemNo(loginUserMemNo); // DB의 MEM_NO 컬럼 기준
+        } else if ("submit".equals(state)) {
+            // 수정 처리
+            String title = request.getParameter("boardTitle");
+            String content = request.getParameter("boardContent");
 
-			int result = boardService.updateBoard(dto);
+            BoardDTO dto = new BoardDTO();
+            dto.setBoardNo(boardNo);
+            dto.setBoardTitle("[자유]" + title);
+            dto.setBoardContent(content);
+            dto.setMemNo(memNo); // DB의 MEM_NO 컬럼 기준
 
+            int result = boardService.updateBoard(dto);
 
+            if (result > 0) {
+            	forward.setRedirect(true);
+            	forward.setPath("/board.do");
+            } else {
+                request.setAttribute("msg", "수정 실패! 본인 글만 수정 가능합니다.");
+                forward.setPath("/WEB-INF/our_middle_project_view/error.jsp");
+            }
+        }
 
-			if (result > 0) {
-				forward.setRedirect(true);
-				forward.setPath("boardCont.do?boardNo=" + boardNo + "&state=cont");
-			} else {
-				request.setAttribute("msg", "수정 실패! 본인 글만 수정 가능합니다.");
-				forward.setPath("/WEB-INF/our_middle_project_view/error.jsp");
-			}
-		}
-
-		System.out.println("[BoardEditController] Forward Path: " + forward.getPath());
-		return forward;
-	}
+        System.out.println("[BoardEditController] Forward Path: " + forward.getPath());
+        return forward;
+    }
 }

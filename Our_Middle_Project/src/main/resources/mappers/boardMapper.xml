@@ -38,8 +38,8 @@
 	        B.MEM_ID AS memId
 	    FROM BOARD A
 	    INNER JOIN MEMBER B ON A.MEM_NO = B.MEM_NO
-	   WHERE A.BOARD_NO = #{boardNo} 
-	   			AND B.MEM_ID = #{memId}
+	    WHERE A.BOARD_NO = #{boardNo}
+	      AND A.MEM_NO = #{memNo,jdbcType=VARCHAR}
 	</select>
 	
 	<update id="updateBoard" parameterType="com.our_middle_project.dto.BoardDTO">
@@ -96,4 +96,13 @@
 	    #{dislikeCount}
     )
 </insert>
+
+<update id="deleteBoard" parameterType="com.our_middle_project.dto.BoardDTO">
+	UPDATE BOARD 
+	SET TYPE_NO = 999 
+	WHERE BOARD_NO = #{boardNo} 
+</update>
+
+
+
 </mapper>

@@ -33,46 +33,46 @@
 
 <!-- ==================================================================================== -->
 <body>
+
 <div class="container">
     <h1 class="neon-text title">⭐ 게시물 수정 ⭐</h1>
 
-    <form id="editForm" action="boardEdit.do?state=submit" method="post" onsubmit="return validateEdit()">
+    <form id="editForm" action="<%=request.getContextPath()%>/boardEdit.do?state=submit" method="post">
     
-        	<!-- 게시물 번호 -->
         <input type="hidden" name="boardNo" value="${b.boardNo}">
-        
-         	<!-- 제목 -->
+
         <div class="form-group">
-            <label for="title" class="neon-text-small">제목</label>
-            <input type="text" id="title" name="boardTitle" class="neon-input"
-                   value="${b.boardTitle}" required>
-        </div>
-            
-            <!-- 작성자 (읽기전용) -->
+		    <label for="title" class="neon-text-small">제목</label>
+		
+		    <div style="display:flex;align-items:center;gap:6px;">
+		        <span class="category-tag">[자유]</span>
+		        <input type="text" id="title" name="boardTitle"
+		               class="neon-input"
+		               value="${empty b.boardTitle ? '' : fn:replace(b.boardTitle,'[자유]','')}"
+		               required>
+		    </div>
+		</div>
+
         <div class="form-group">
             <label for="writer" class="neon-text-small">작성자</label>
             <input type="text" id="writer" name="memId" class="neon-input" 
-            		value="${b.memId}" readonly>
+                   value="${b.memId}" readonly>
         </div>
 
-             <!-- 내용 -->
         <div class="form-group">
             <label for="content" class="neon-text-small">내용</label>
             <textarea id="content" name="boardContent" class="neon-textarea" required>${b.boardContent}</textarea>
         </div>
 
-        	<!-- 버튼 -->
-		<div class="write-actions">
-		    <button type="submit" class="neon-button edit-btn">수정 완료</button>
-		    <button type="button" class="neon-button cancel-btn" onclick="goBack()">취소</button>
-		</div>            
-           
-        </div>
-        
+        <div class="write-actions">
+            <button type="submit" class="neon-button edit-btn">수정 완료</button>
+            <button type="button" class="neon-button cancel-btn" onclick="goBack()">취소</button>
+        </div>            
 
-        
-    </form>
-</div>
+    </form>  <!-- ← 이렇게 form 닫아야함 -->
+
+</div> <!-- container 닫기 -->
+
 
 
 	
