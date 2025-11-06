@@ -59,9 +59,9 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 	// --- 게시물 관리 ---
 
 	@Override
-	public List<AdminBoardDTO> getAdminPostList() {
+	public List<AdminBoardDTO> getAdminPostList(String keyword) {
 		try (SqlSession session = MybatisUtil.getSqlSession()) {
-			return session.selectList(namespace + ".getAdminPostList");
+			return session.selectList(namespace + ".getAdminPostList", keyword);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("AdminBoardDAOImpl getAdminPostList() 문제 발생.");

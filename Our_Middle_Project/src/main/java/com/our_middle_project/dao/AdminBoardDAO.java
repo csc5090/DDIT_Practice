@@ -17,7 +17,7 @@ public interface AdminBoardDAO {
 	int deleteNotice(int board_no);
 
 	// 게시물
-	List<AdminBoardDTO> getAdminPostList();
+	List<AdminBoardDTO> getAdminPostList(String keyword);
 
 	int deletePost(int board_no);
 

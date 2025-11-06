@@ -4,30 +4,66 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="AdminReviewMappers">
 
-	<select id="selectAllReviews"
+	<select id="selectAllReviews" parameterType="java.lang.String"
 		resultType="com.our_middle_project.dto.AdminReviewDTO">
 		SELECT
-		B.BOARD_NO AS boardNo,
-		B.BOARD_TITLE AS boardTitle,
-		B.BOARD_CONTENT AS boardContent,
-		M.NICKNAME AS nickname,
-		TO_CHAR(B.CREATED_DATE, 'YYYY-MM-DD') AS createdDate,
+		B.BOARD_NO AS boardNo, B.BOARD_TITLE AS boardTitle, B.BOARD_CONTENT AS
+		boardContent,
+		M.NICKNAME AS nickname, TO_CHAR(B.CREATED_DATE, 'YYYY-MM-DD') AS createdDate,
 		S.STAR AS stars,
 		CASE WHEN I.FILE_NO IS NOT NULL THEN 'Y' ELSE 'N' END AS hasImage,
-		R.REPLY_CONTENT AS adminReply,
-		TO_CHAR(R.CREATE_DATE, 'YYYY-MM-DD') AS adminReplyDate
-
+		R.REPLY_CONTENT AS adminReply, TO_CHAR(R.CREATE_DATE, 'YYYY-MM-DD') AS
+		adminReplyDate
 		FROM
 		BOARD B
 		JOIN MEMBER M ON B.MEM_NO = M.MEM_NO
-		LEFT JOIN BOARD_STAR S ON B.BOARD_NO = S.BOARD_NO
-		LEFT JOIN BOARD_IMAGE I ON B.BOARD_NO = I.BOARD_NO
-		LEFT JOIN BOARD_REPLY R ON B.BOARD_NO = R.BOARD_NO AND R.UP_REPLY_NO IS
-		NULL
-
+		LEFT JOIN BOARD_STAR S ON
+		B.BOARD_NO = S.BOARD_NO
+		LEFT JOIN BOARD_IMAGE I ON B.BOARD_NO =
+		I.BOARD_NO
+		LEFT JOIN BOARD_REPLY R ON B.BOARD_NO = R.BOARD_NO AND
+		R.UP_REPLY_NO IS NULL
 		WHERE
-		B.TYPE_NO = 2 ORDER BY
+		B.TYPE_NO = 2
+		<if test="_parameter != null and _parameter != ''">
+			AND (B.BOARD_TITLE LIKE '%' || #{_parameter} || '%' OR M.NICKNAME LIKE
+			'%' || #{_parameter} || '%')
+		</if>
+		ORDER BY
 		B.CREATED_DATE DESC
 	</select>
+
+	<update id="upsertAdminReply" parameterType="java.util.Map">
+		MERGE INTO BOARD_REPLY R
+		USING (
+		SELECT #{boardNo} AS BOARD_NO FROM DUAL
+		) D ON (R.BOARD_NO = D.BOARD_NO AND R.UP_REPLY_NO IS NULL)
+		WHEN MATCHED THEN
+		UPDATE SET
+		R.REPLY_CONTENT = #{replyContent},
+		R.UPDATE_DATE = SYSDATE
+		WHERE
+		R.BOARD_NO = #{boardNo}
+		AND R.UP_REPLY_NO IS NULL
+		WHEN NOT MATCHED THEN
+		INSERT (
+		R.REPLY_NO, R.BOARD_NO, R.MEM_NO,
+		R.REPLY_CONTENT, R.CREATE_DATE, R.UPDATE_DATE
+		)
+		VALUES (
+		SEQ_BOARD_REPLY.NEXTVAL, #{boardNo}, #{adminMemNo},
+		#{replyContent}, SYSDATE, SYSDATE
+		)
+	</update>
+
+	<delete id="deleteReviewImage" parameterType="int">
+		DELETE FROM BOARD_IMAGE WHERE BOARD_NO = #{boardNo}
+	</delete>
+
+	<update id="deleteReview" parameterType="int">
+		UPDATE BOARD
+		SET TYPE_NO = 99
+		WHERE BOARD_NO = #{boardNo} AND TYPE_NO = 2
+	</update>
 
 </mapper>

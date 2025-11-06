@@ -22,4 +22,6 @@ public class AdminBoardDTO {
 
     private String nickname;
     private String userId; 
+    
+    private int comment_count;
 }

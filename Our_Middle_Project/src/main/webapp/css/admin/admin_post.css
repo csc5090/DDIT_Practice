@@ -1,6 +1,10 @@
 #post-management .user-list-table {
 	table-layout: fixed;
-	cursor: default; # post-management .user-list-table .cell-title {
+	cursor: default; 
+	
+}
+
+#post-management .user-list-table .cell-title {
 	white-space : nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -135,7 +139,6 @@
 	opacity: 0.7;
 }
 
-
 .deleted-post .action-btn:disabled {
 	background-color: var(--border-color);
 	color: #e53935 !important;
@@ -145,4 +148,29 @@
 
 .deleted-post .action-btn.danger:disabled {
 	background-color: var(--border-color);
+}
+
+#post-management .detail-footer .action-btn {
+	display: none;
+}
+
+#post-management .detail-footer .action-btn.active {
+	display: inline-block;
+}
+
+#post-management .detail-footer .action-btn.restore {
+	background-color: #fd7e14;
+    color: white;
+}
+
+#post-management .detail-footer .action-btn.restore:hover {
+	background-color: #e67312;
+}
+
+.deleted-post-detail #detail-post-title, .deleted-post-detail #detail-post-content
+	{
+	background-color: var(--bg-main) !important;
+	opacity: 0.6;
+	color: var(--text-muted) !important;
+	cursor: not-allowed;
 }

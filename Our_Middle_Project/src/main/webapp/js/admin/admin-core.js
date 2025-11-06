@@ -43,7 +43,7 @@ const AdminCore = {
 			} else if (targetId === 'review-management') {
 				ReviewPage.loadAndRender();
 			} else if (targetId === 'notice-management') {
-				Notice.Start();
+				NoticePage.Start();
 			} else if (targetId === 'post-management') {
 				PostPage.Start();
 			}

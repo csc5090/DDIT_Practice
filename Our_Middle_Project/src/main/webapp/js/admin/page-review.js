@@ -14,12 +14,33 @@ const ReviewPage = {
 				listContainer.addEventListener('dblclick', this.handleDblClick.bind(this));
 			}
 		}
+
+		const searchBtn = document.getElementById('review-search-btn');
+		const searchInput = document.getElementById('review-search-input');
+
+		if (searchBtn) {
+			searchBtn.addEventListener('click', () => this.handleSearch());
+		}
+		if (searchInput) {
+			searchInput.addEventListener('keydown', (e) => {
+				if (e.key === 'Enter') {
+					e.preventDefault();
+					this.handleSearch();
+				}
+			});
+		}
+	},
+	
+	handleSearch: function() {
+	    const keyword = document.getElementById('review-search-input').value;
+	    this.loadAndRender(keyword.trim());
 	},
 
-	loadAndRender: async function() {
+	loadAndRender: async function(keyword = null) {
 		this.clearDetailViews();
 		try {
-			this.currentList = await apiClient.post('/getReviewList.do', null);
+			const payload = keyword ? { keyword: keyword } : null;
+			this.currentList = await apiClient.post('/getReviewList.do', payload);
 			this.sortAndRenderTable(this.currentSort.key, this.currentSort.order);
 		} catch (error) {
 			console.error("리뷰 목록 로딩 실패:", error);
@@ -131,7 +152,9 @@ const ReviewPage = {
 		document.getElementById('detail-review-content').textContent = review.boardContent;
 		document.getElementById('admin-reply-date').textContent = review.adminReplyDate || '미작성';
 		document.getElementById('admin-reply-textarea').value = review.adminReply || '';
-
+		document.getElementById('detail-review-image').innerHTML = review.hasImage === 'Y' 
+		    ? `<img src="${CONTEXT_PATH}/uploads/review_${review.boardNo}.jpg" alt="리뷰 이미지">` // (경로는 예시입니다)
+		    : '<span>이미지 없음</span>';
 		const deleteImageBtn = document.querySelector('.review-crud-panel .action-btn[data-action="delete-image"]');
 		if (deleteImageBtn) {
 			if (review.hasImage === 'Y') {

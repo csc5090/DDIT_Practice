@@ -1,17 +1,22 @@
 package com.our_middle_project.service;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.our_middle_project.dao.AdminBoardDAO;
 import com.our_middle_project.dao.AdminBoardDAOImpl;
+import com.our_middle_project.dao.AdminReviewDAO;
+import com.our_middle_project.dao.AdminReviewDAOImpl;
 import com.our_middle_project.dto.AdminBoardDTO;
-import com.our_middle_project.dto.AdminCommentDTO; // [추가]
+import com.our_middle_project.dto.AdminCommentDTO;
 import com.our_middle_project.serviceInterface.AdminBoardService;
 
 public class AdminBoardServiceImpl implements AdminBoardService {
 
 	private AdminBoardDAO adminBoardDAO = new AdminBoardDAOImpl();
+	private AdminReviewDAO adminReviewDAO = new AdminReviewDAOImpl();
 
 	@Override
 	public List<AdminBoardDTO> getAdminBoardList() {
@@ -63,9 +68,9 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	// --- 게시물 관리 ---
 
 	@Override
-	public List<AdminBoardDTO> getAdminPostList() {
+	public List<AdminBoardDTO> getAdminPostList(String keyword) { // [수정] keyword 파라미터
 		try {
-			List<AdminBoardDTO> postList = adminBoardDAO.getAdminPostList();
+			List<AdminBoardDTO> postList = adminBoardDAO.getAdminPostList(keyword); // [수정] keyword 전달
 			return postList != null ? postList : Collections.emptyList();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -83,7 +88,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		return adminBoardDAO.updatePost(dto) > 0;
 	}
 
-	// 댓글 관리
+	// --- 댓글 관리 ---
 
 	@Override
 	public List<AdminCommentDTO> getPostComments(int board_no) {
@@ -111,4 +116,24 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		return adminBoardDAO.hardDeletePost(board_no) > 0;
 	}
 
+	// --- 리뷰 관리 (신규 추가) ---
+
+	@Override
+	public boolean updateAdminReply(int boardNo, int adminMemNo, String replyContent) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("boardNo", boardNo);
+		params.put("adminMemNo", adminMemNo);
+		params.put("replyContent", replyContent);
+		return adminReviewDAO.upsertAdminReply(params) > 0;
+	}
+
+	@Override
+	public boolean deleteReviewImage(int boardNo) {
+		return adminReviewDAO.deleteReviewImage(boardNo) > 0;
+	}
+
+	@Override
+	public boolean deleteReview(int boardNo) {
+		return adminReviewDAO.deleteReview(boardNo) > 0;
+	}
 }

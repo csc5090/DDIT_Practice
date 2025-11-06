@@ -10,29 +10,27 @@
 
 <%-- 라이브러리 CSS --%>
 <link rel="stylesheet"
-	  href="<%=request.getContextPath()%>/js/lib/bootstrap/css/bootstrap.min.css">
+	href="<%=request.getContextPath()%>/js/lib/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet"
-	  href="<%=request.getContextPath()%>/js/lib/sweetalert2/dist/sweetalert2.min.css">
+	href="<%=request.getContextPath()%>/js/lib/sweetalert2/dist/sweetalert2.min.css">
 
 <%-- 공통 CSS --%>
 <link rel="stylesheet"
-	  href="${pageContext.request.contextPath}/css/admin/admin_common.css">
+	href="${pageContext.request.contextPath}/css/admin/admin_common.css">
 <link rel="stylesheet"
-	  href="${pageContext.request.contextPath}/css/admin/admin_layout.css">
+	href="${pageContext.request.contextPath}/css/admin/admin_layout.css">
 
 <%-- 페이지별 CSS --%>
 <link rel="stylesheet"
-	  href="${pageContext.request.contextPath}/css/admin/admin_dashboard.css">
+	href="${pageContext.request.contextPath}/css/admin/admin_dashboard.css">
 <link rel="stylesheet"
-	  href="${pageContext.request.contextPath}/css/admin/admin_user_management.css">
+	href="${pageContext.request.contextPath}/css/admin/admin_user_management.css">
 <link rel="stylesheet"
-	  href="${pageContext.request.contextPath}/css/admin/admin_notice.css">
+	href="${pageContext.request.contextPath}/css/admin/admin_notice.css">
 <link rel="stylesheet"
-	  href="${pageContext.request.contextPath}/css/admin/admin_review.css">
+	href="${pageContext.request.contextPath}/css/admin/admin_review.css">
 <link rel="stylesheet"
-	  href="${pageContext.request.contextPath}/css/admin/admin_post.css">
-<link rel="stylesheet"
-	  href="${pageContext.request.contextPath}/css/admin/admin_post.css">
+	href="${pageContext.request.contextPath}/css/admin/admin_post.css">
 
 
 </head>
@@ -329,8 +327,9 @@
 										<th class="sortable" data-sort-key="nickname"
 											style="width: 20%;">작성자 <span class="sort-icon"></span></th>
 										<th class="sortable" data-sort-key="created_date"
-											style="width: 20%;">작성일 <span class="sort-icon"></span></th>
-										<th style="width: 10%;">관리</th>
+											style="width: 20%;">작성일 <span class="sort-icon">▼</span></th>
+										<th class="sortable" data-sort-key="comment_count"
+											style="width: 10%;">댓글<span class="sort-icon"></span></th>
 									</tr>
 								</thead>
 								<tbody id="post-list-tbody">
@@ -374,8 +373,11 @@
 
 							<%-- 2-3. 하단 버튼 --%>
 							<div class="detail-footer">
-								<button id="detail-post-apply-btn" class="action-btn primary"
-									disabled>적용</button>
+								<button id="detail-post-apply-btn" class="action-btn primary">적용</button>
+								<button id="detail-post-deactivate-btn"
+									class="action-btn restore">비활성화</button>
+								<button id="detail-post-hard-delete-btn"
+									class="action-btn danger">완전 삭제</button>
 							</div>
 						</div>
 					</div>
@@ -384,6 +386,14 @@
 				<%-- ================= 리뷰 관리 ================= --%>
 				<div class="bodyArea" id="review-management">
 					<%-- ... (리뷰 관리 HTML) ... --%>
+					<div class="review-toolbar">
+						<%-- 툴바 --%>
+						<div class="search-bar" style="width: 400px;">
+							<input type="text" id="review-search-input"
+								placeholder="리뷰 제목 또는 닉네임으로 검색">
+							<button id="review-search-btn" class="action-btn primary">검색</button>
+						</div>
+					</div>
 					<div class="review-main-content">
 						<div class="review-list-container" id="admin-review-list">
 							<table class="review-list-table">
@@ -496,6 +506,9 @@
 			? adminNickname.replace("\\", "\\\\").replace("\"", "\\\"").replace("\r", "\\r").replace("\n", "\\n")
 			: "";
 	%>
+
+
+	<!-- 따옴표 구간 -->
 	<script type="text/javascript">
 		const ADMIN_DATA = {
 			name: "<%=adminName%>",
