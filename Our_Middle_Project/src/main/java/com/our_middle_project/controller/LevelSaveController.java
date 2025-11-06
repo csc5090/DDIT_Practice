@@ -29,8 +29,8 @@ public class LevelSaveController implements Action {
 	    }
 	    
 	    String json = sb.toString();	
-	    System.out.println(json);
-	    
+	    System.out.println("테스트"+json);
+
 	    Gson gson = new Gson();
 	    Map<String, Object> map = gson.fromJson(json, new TypeToken<Map<String, Object>>(){}.getType());
 	    
