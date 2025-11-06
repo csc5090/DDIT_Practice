@@ -110,7 +110,11 @@ body {
     margin-top: 30px;
     border: 1px solid rgba(255, 102, 169, 0.5);
     border-radius: 5px;
+    
+    table-layout: fixed;
 }
+
+
 
 .board-table {
     display: block;          /* 테이블 블록화 */
@@ -119,13 +123,14 @@ body {
     border-collapse: collapse;
     font-size: 0.95rem;
 
+	table-layout: fixed; /* 너비 고정 */
     border: 1px solid rgba(255, 102, 169, 0.5); 
 }
 
 .board-table thead {
     display: table;
-    width: 100%;
-    table-layout: fixed;     /* 컬럼 폭 고정 */
+    width: 100%; /* 스크롤바 너비만큼 너비 줄이기 */
+    table-layout: fixed;
 }
 
 .board-table-container {
@@ -234,6 +239,32 @@ body {
 }
 
 tr.notice {
-    background-color: rgba(255, 0, 0, 0.1); /* 연한 빨강 */
+    background-color: rgba(255, 0, 0, 0.2);
     font-weight: bold; /* 원하면 글자 강조 */
 }
+
+/* /* 컬럼별 너비 조정 */ */
+/* .board-table th:nth-child(1), */
+/* .board-table td:nth-child(1) { 번호 */
+/*     width: 20%; */
+/* } */
+
+/* .board-table th:nth-child(2), */
+/* .board-table td:nth-child(2) { 제목 */
+/*     width: 35%; */
+/* } */
+
+/* .board-table th:nth-child(3), */
+/* .board-table td:nth-child(3) { 작성자 */
+/*     width: 15%; */
+/* } */
+
+/* .board-table th:nth-child(4), */
+/* .board-table td:nth-child(4) { 작성일 */
+/*     width: 25%; */
+/* } */
+
+/* .board-table th:nth-child(5), */
+/* .board-table td:nth-child(5) { 조회수 */
+/*     width: 15%; */
+/* } */

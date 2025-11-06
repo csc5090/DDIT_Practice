@@ -14,14 +14,8 @@ public class RankingController implements Action {
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("ddddd");
-		System.out.println("ddddd");
-		System.out.println("ddddd");
-		System.out.println("ddddd");
-		System.out.println("ddddd");
-		System.out.println("ddddd");
-		System.out.println("ddddd");
-		System.out.println("ddddd");
+		System.out.println("랭킹ㅎㅇ");
+
 		ActionForward forward = new ActionForward();
 		forward.setRedirect(false);
 		forward.setPath("/WEB-INF/our_middle_project_view/user/ranking.jsp");
