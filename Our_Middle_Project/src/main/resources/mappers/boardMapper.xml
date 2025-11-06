@@ -99,8 +99,8 @@
 
 <update id="deleteBoard" parameterType="com.our_middle_project.dto.BoardDTO">
 	UPDATE BOARD 
-	SET TYPE_NO = 999 
-	WHERE BOARD_NO = #{boardNo} 
+	SET TYPE_NO = 99
+	WHERE BOARD_NO = TO_NUMBER(#{boardNo})
 </update>
 
 

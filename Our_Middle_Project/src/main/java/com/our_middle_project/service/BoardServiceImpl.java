@@ -112,4 +112,17 @@ public class BoardServiceImpl implements BoardService {
 	    return result;
     }
 
+	@Override
+	public boolean deleteBoard(BoardDTO boardDTO) {
+	    int result = 0;
+	    try (SqlSession session = MybatisUtil.getSqlSession()) {
+	        BoardDAO dao = new BoardDAOImpl(session);
+	        result = dao.deleteBoard(boardDTO, session);  // DAO 메서드에 session 전달
+	        session.commit();  // 트랜잭션 커밋 필수
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return result > 0;
+	}
+
 }

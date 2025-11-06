@@ -30,5 +30,5 @@ public interface BoardDAO {
 	int insertBoard(BoardDTO dto, SqlSession session);
 
 	// 삭제 처리(TYPE_NO=999)
-	int deleteBoard(BoardDTO boardDTO); 
+	 int deleteBoard(BoardDTO boardDTO, SqlSession session);
 }
