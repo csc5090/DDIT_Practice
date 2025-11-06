@@ -8,39 +8,38 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Good Day, Commander.</title>
 
+<%-- 라이브러리 CSS --%>
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/js/lib/bootstrap/css/bootstrap.min.css">
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/js/lib/bootstrap/js/bootstrap.min.js"></script>
+	  href="<%=request.getContextPath()%>/js/lib/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/js/lib/sweetalert2/dist/sweetalert2.min.css">
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/js/lib/sweetalert2/dist/sweetalert2.min.js"></script>
+	  href="<%=request.getContextPath()%>/js/lib/sweetalert2/dist/sweetalert2.min.css">
 
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/js/lib/jquery/jquery-3.7.1.min.js"></script>
+<%-- 공통 CSS --%>
+<link rel="stylesheet"
+	  href="${pageContext.request.contextPath}/css/admin/admin_common.css">
+<link rel="stylesheet"
+	  href="${pageContext.request.contextPath}/css/admin/admin_layout.css">
 
-<%-- <script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/axios/axios.min.js"></script> --%>
-
+<%-- 페이지별 CSS --%>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/admin/admin_common.css">
+	  href="${pageContext.request.contextPath}/css/admin/admin_dashboard.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/admin/admin_layout.css">
+	  href="${pageContext.request.contextPath}/css/admin/admin_user_management.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/admin/admin_dashboard.css">
+	  href="${pageContext.request.contextPath}/css/admin/admin_notice.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/admin/admin_user_management.css">
+	  href="${pageContext.request.contextPath}/css/admin/admin_review.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/admin/admin_notice.css">
+	  href="${pageContext.request.contextPath}/css/admin/admin_post.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/admin/admin_review.css">
-
+	  href="${pageContext.request.contextPath}/css/admin/admin_post.css">
 
 
 </head>
 <body>
 	<div id="admin-wrapper">
 		<nav class="sidearea">
+			<%-- ... (로고, 사이드바 메뉴) ... --%>
 			<div class="logo-wrapper">
 				<span class="logo-span"> 로고 들어갈 자리 </span>
 			</div>
@@ -100,17 +99,15 @@
 					<span class="span-big"> 설정 </span>
 				</div>
 			</div>
-
 		</nav>
 
 		<div class="main-area-wrapper">
 			<header class="main-header">
+				<%-- ... (유저 프로필 드롭다운) ... --%>
 				<div class="user-profile">
 					<button type="button" class="user-profile-toggle">
 						<span> <c:out value="${sessionScope.loginAdmin.mem_name}" />
 						</span>
-
-
 						<svg width="12" height="12" viewBox="0 0 24 24" fill="none"
 							stroke="currentColor" stroke-width="2" stroke-linecap="round"
 							stroke-linejoin="round">
@@ -127,10 +124,10 @@
 			</header>
 
 			<main class="main-content-area">
-				<%-- <jsp:include page="${requestScope.viewPage}" flush="true" /> --%>
+				<%-- ================= 대시보드 ================= --%>
 				<div class="bodyArea active" id="dashboard-main">
+					<%-- ... (대시보드 HTML) ... --%>
 					<div class="card-container">
-
 						<div class="card-row">
 							<div class="card">
 								<div class="card-header">
@@ -160,11 +157,12 @@
 						<div class="chart">
 							<canvas id="myChart"></canvas>
 						</div>
-
 					</div>
 				</div>
 
+				<%-- ================= 유저 관리 ================= --%>
 				<div class="bodyArea" id="user-management">
+					<%-- ... (유저 관리 HTML) ... --%>
 					<div class="user-list-panel">
 						<div class="list-toolbar">
 							<div class="search-bar">
@@ -173,37 +171,26 @@
 								<button id="user-search-btn" class="action-btn primary">검색</button>
 							</div>
 						</div>
-
 						<div class="user-list-wrapper">
 							<table class="user-list-table">
 								<thead>
 									<tr>
 										<th class="sortable" data-sort-key="userId"
-											data-sort-order="none">아이디 <span class="sort-icon"></span>
-										</th>
+											data-sort-order="none">아이디 <span class="sort-icon"></span></th>
 										<th class="sortable" data-sort-key="userName"
-											data-sort-order="none">이름 <span class="sort-icon"></span>
-										</th>
+											data-sort-order="none">이름 <span class="sort-icon"></span></th>
 										<th class="sortable" data-sort-key="nickname"
-											data-sort-order="none">닉네임 <span class="sort-icon"></span>
-										</th>
+											data-sort-order="none">닉네임 <span class="sort-icon"></span></th>
 										<th class="sortable" data-sort-key="status"
-											data-sort-order="none">상태 <span class="sort-icon"></span>
-										</th>
+											data-sort-order="none">상태 <span class="sort-icon"></span></th>
 										<th class="sortable" data-sort-key="regDate">가입일 <span
-											class="sort-icon"></span>
-										</th>
+											class="sort-icon"></span></th>
 									</tr>
 								</thead>
-								<tbody id="user-list-tbody">
-									<tr class="no-results-row" style="display: none;">
-										<td colspan="5">검색 결과가 없습니다.</td>
-									</tr>
-								</tbody>
+								<tbody id="user-list-tbody"></tbody>
 							</table>
 						</div>
 					</div>
-
 					<div class="user-detail-panel">
 						<div class="detail-content">
 							<div class="detail-header">
@@ -217,18 +204,14 @@
 								</div>
 								<div class="form-group">
 									<label for="detail-status">계정 상태</label> <select
-										id="detail-status">
-										<option value="ACTIVE">ACTIVE</option>
+										id="detail-status"><option value="ACTIVE">ACTIVE</option>
 										<option value="SUSPENDED">SUSPENDED</option>
-										<option value="DELETED">DELETED</option>
-									</select>
+										<option value="DELETED">DELETED</option></select>
 								</div>
 								<div class="form-group">
 									<label for="detail-role">역할 (ROLE)</label> <select
-										id="detail-role">
-										<option value="USER">USER</option>
-										<option value="ADMIN">ADMIN</option>
-									</select>
+										id="detail-role"><option value="USER">USER</option>
+										<option value="ADMIN">ADMIN</option></select>
 								</div>
 								<div class="form-group">
 									<label for="detail-email">이메일</label> <input type="text"
@@ -274,9 +257,9 @@
 					</div>
 				</div>
 
+				<%-- ================= 공지사항 관리 ================= --%>
+
 				<div class="bodyArea" id="notice-management">
-				</div>
-				
 					<div id="notice-list-view" class="notice-view">
 						<div class="notice-toolbar">
 							<h1>공지사항 관리</h1>
@@ -293,24 +276,10 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>[점검] 10월 30일 정기 점검 안내</td>
-										<td>운영팀</td>
-										<td>2025-10-29</td>
-										<td><button class="action-btn">수정</button></td>
-									</tr>
-									<tr>
-										<td>[이벤트] 할로윈 이벤트 시작!</td>
-										<td>이벤트팀</td>
-										<td>2025-10-28</td>
-										<td><button class="action-btn">수정</button></td>
-									</tr>
 								</tbody>
 							</table>
 						</div>
 					</div>
-
-
 					<div class="editor-view" id="notice-editor-view"
 						style="display: none;">
 						<div class="toolbar">
@@ -333,151 +302,201 @@
 							</div>
 						</div>
 					</div>
+				</div>
 
-					<div class="bodyArea" id="post-management" style="display: none;">
-						<div class="toolbar">
-							<h1>게시물 관리 (자유게시판)</h1>
+				<%-- ================= 게시물 관리 ================= --%>
+
+				<div class="bodyArea" id="post-management">
+
+					<%-- 1. 왼쪽: 목록 패널 --%>
+					<div class="user-list-panel">
+						<div class="list-toolbar">
+							<div class="search-bar">
+								<input type="text" id="post-search-input"
+									placeholder="게시물 제목으로 검색">
+								<button id="post-search-btn" class="action-btn primary">검색</button>
+							</div>
 						</div>
 
-						<div class="list-container">
-							<table class="data-table" id="post-management-list">
+						<div class="user-list-wrapper">
+							<table class="user-list-table">
 								<thead>
 									<tr>
-										<th style="width: 10%;">번호</th>
-										<th style="width: 45%;">제목</th>
-										<th style="width: 15%;">작성자(MemNo)</th>
-										<th style="width: 20%;">작성일</th>
+										<th class="sortable" data-sort-key="board_no"
+											style="width: 10%;">번호 <span class="sort-icon"></span></th>
+										<th class="sortable" data-sort-key="board_title"
+											style="width: 40%;">제목 <span class="sort-icon"></span></th>
+										<th class="sortable" data-sort-key="nickname"
+											style="width: 20%;">작성자 <span class="sort-icon"></span></th>
+										<th class="sortable" data-sort-key="created_date"
+											style="width: 20%;">작성일 <span class="sort-icon"></span></th>
 										<th style="width: 10%;">관리</th>
 									</tr>
 								</thead>
-								<tbody>
-									<tr>
-										<td colspan="5" style="text-align: center; padding: 40px;">게시물
-											목록을 로드하는 중...</td>
-									</tr>
+								<tbody id="post-list-tbody">
+									<%-- JS로 채워짐 --%>
 								</tbody>
 							</table>
 						</div>
 					</div>
 
-
-					<div class="bodyArea" id="review-management">
-
-						<div class="review-main-content">
-							<div class="review-list-container" id="admin-review-list">
-								<table class="review-list-table">
-									<thead>
-										<tr>
-											<th class="sortable" data-sort-key="boardTitle">리뷰 제목 <span
-												class="sort-icon"></span></th>
-											<th class="sortable" data-sort-key="nickname">작성자 <span
-												class="sort-icon"></span></th>
-											<th class="sortable" data-sort-key="stars">별점 <span
-												class="sort-icon"></span></th>
-											<th class="sortable" data-sort-key="hasImage">사진 <span
-												class="sort-icon"></span></th>
-											<th class="sortable" data-sort-key="adminReply">관리자 댓글 <span
-												class="sort-icon"></span></th>
-											<th class="sortable" data-sort-key="createdDate">작성일 <span
-												class="sort-icon"></span></th>
-										</tr>
-									</thead>
-									<tbody>
-									</tbody>
-								</table>
+					<%-- 2. 오른쪽: 상세정보/댓글 패널 --%>
+					<div class="user-detail-panel">
+						<div class="detail-content">
+							<div class="detail-header">
+								<h2 id="detail-post-id"></h2>
+								<p class="header-guideline">편집할 게시물을 더블클릭하세요.</p>
 							</div>
 
-							<div class="review-detail-container">
-								<div class="review-detail-placeholder">
-									<p>
-										왼쪽 목록에서 리뷰를 더블클릭하여<br>상세 정보를 확인하세요.
-									</p>
+							<%-- 2-1. 상세정보 폼 --%>
+							<div class="detail-body">
+								<div class="form-group full-width">
+									<label for="detail-post-title">제목</label> <input type="text"
+										id="detail-post-title" readonly>
+								</div>
+								<div class="form-group full-width">
+									<label for="detail-post-content">내용</label>
+									<textarea id="detail-post-content"
+										style="height: 250px; resize: vertical;" readonly></textarea>
 								</div>
 
-								<%-- ▼▼▼ (수정) 버튼(crud-actions)이 view 밖으로 이동된 올바른 구조 ▼▼▼ --%>
-								<div class="review-detail-content" style="display: none;">
-
-									<div class="review-detail-view">
-										<h3 id="detail-review-title" class="review-card-title"></h3>
-
-										<div class="review-card-meta-list">
-											<div class="meta-item">
-												<span class="meta-label">닉네임</span> <span
-													id="detail-review-nickname" class="meta-value"></span>
-											</div>
-											<div class="meta-item">
-												<span class="meta-label">작성일</span> <span
-													id="detail-review-date" class="meta-value"></span>
-											</div>
-											<div class="meta-item">
-												<span class="meta-label">별점</span> <span
-													id="detail-review-stars"
-													class="meta-value review-card-stars"></span>
-											</div>
+								<%-- 2-2. 댓글 영역 (추가) --%>
+								<div class="form-group full-width">
+									<label>댓글 관리</label>
+									<div class="post-comment-wrapper">
+										<div class="post-comment-list" id="post-comment-list">
+											<%-- JS로 댓글 목록이 채워질 영역 --%>
+											<div class="comment-placeholder">게시물을 선택하면 댓글이 표시됩니다.</div>
 										</div>
+									</div>
+								</div>
+							</div>
 
-										<div class="review-card-body">
-											<p id="detail-review-content"></p>
-											<div id="detail-review-image"
-												class="review-card-image-wrapper"></div>
+							<%-- 2-3. 하단 버튼 --%>
+							<div class="detail-footer">
+								<button id="detail-post-apply-btn" class="action-btn primary"
+									disabled>적용</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<%-- ================= 리뷰 관리 ================= --%>
+				<div class="bodyArea" id="review-management">
+					<%-- ... (리뷰 관리 HTML) ... --%>
+					<div class="review-main-content">
+						<div class="review-list-container" id="admin-review-list">
+							<table class="review-list-table">
+								<thead>
+									<tr>
+										<th class="sortable" data-sort-key="boardTitle">리뷰 제목 <span
+											class="sort-icon"></span></th>
+										<th class="sortable" data-sort-key="nickname">작성자 <span
+											class="sort-icon"></span></th>
+										<th class="sortable" data-sort-key="stars">별점 <span
+											class="sort-icon"></span></th>
+										<th class="sortable" data-sort-key="hasImage">사진 <span
+											class="sort-icon"></span></th>
+										<th class="sortable" data-sort-key="adminReply">관리자 댓글 <span
+											class="sort-icon"></span></th>
+										<th class="sortable" data-sort-key="createdDate">작성일 <span
+											class="sort-icon"></span></th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+						</div>
+						<div class="review-detail-container">
+							<div class="review-detail-placeholder">
+								<p>
+									왼쪽 목록에서 리뷰를 더블클릭하여<br>상세 정보를 확인하세요.
+								</p>
+							</div>
+							<div class="review-detail-content" style="display: none;">
+								<div class="review-detail-view">
+									<h3 id="detail-review-title" class="review-card-title"></h3>
+									<div class="review-card-meta-list">
+										<div class="meta-item">
+											<span class="meta-label">닉네임</span> <span
+												id="detail-review-nickname" class="meta-value"></span>
 										</div>
-
-										<div class="review-crud-panel">
-											<h3>관리</h3>
-											<div class="review-admin-box">
-												<div class="form-group">
-													<label for="admin-reply-textarea">관리자 댓글 (작성일: <span
-														id="admin-reply-date"></span>)
-													</label>
-													<textarea id="admin-reply-textarea"
-														placeholder="관리자 댓글을 입력하거나 수정하세요."></textarea>
-												</div>
+										<div class="meta-item">
+											<span class="meta-label">작성일</span> <span
+												id="detail-review-date" class="meta-value"></span>
+										</div>
+										<div class="meta-item">
+											<span class="meta-label">별점</span> <span
+												id="detail-review-stars"
+												class="meta-value review-card-stars"></span>
+										</div>
+									</div>
+									<div class="review-card-body">
+										<p id="detail-review-content"></p>
+										<div id="detail-review-image"
+											class="review-card-image-wrapper"></div>
+									</div>
+									<div class="review-crud-panel">
+										<h3>관리</h3>
+										<div class="review-admin-box">
+											<div class="form-group">
+												<label for="admin-reply-textarea">관리자 댓글 (작성일: <span
+													id="admin-reply-date"></span>)
+												</label>
+												<textarea id="admin-reply-textarea"
+													placeholder="관리자 댓글을 입력하거나 수정하세요."></textarea>
 											</div>
 										</div>
 									</div>
-
-
-									<div class="crud-actions">
-
-										<button class="action-btn primary" data-action="save-reply">댓글
-											저장</button>
-										<button class="action-btn secondary"
-											data-action="delete-image">이미지 삭제</button>
-										<button class="action-btn danger" data-action="delete-review">리뷰
-											삭제</button>
-									</div>
+								</div>
+								<div class="crud-actions">
+									<button class="action-btn primary" data-action="save-reply">댓글
+										저장</button>
+									<button class="action-btn secondary" data-action="delete-image">이미지
+										삭제</button>
+									<button class="action-btn danger" data-action="delete-review">리뷰
+										삭제</button>
 								</div>
 							</div>
 						</div>
 					</div>
+				</div>
 
-
-					<div class="bodyArea" id="stats-main">데이터/통계</div>
+				<%-- ================= 데이터/통계 ================= --%>
+				<div class="bodyArea" id="stats-main">데이터/통계</div>
 			</main>
 		</div>
 	</div>
 
+	<%-- ... (모달, ADMIN_DATA 스크립트) ... --%>
 	<div id="review-image-modal" class="image-modal-overlay"
 		style="display: none;">
 		<span class="image-modal-close">&times;</span> <img
 			class="image-modal-content" id="modal-image-src">
 	</div>
-
-
 	<%@ page import="com.our_middle_project.dto.UserInfoDTO"%>
 	<%
 	UserInfoDTO admin = (UserInfoDTO) session.getAttribute("loginAdmin");
 	String adminName = "관리자";
 	String adminId = "";
 	String adminNickname = "";
+
 	if (admin != null) {
 		adminName = admin.getMem_name();
 		adminId = admin.getMem_id();
 		adminNickname = admin.getNickname();
 	}
+
+	// JS 특수 문자 이스케이프
+	adminName = adminName.replace("\\", "\\\\").replace("\"", "\\\"").replace("\r", "\\r").replace("\n", "\\n");
+	adminId = (adminId != null)
+			? adminId.replace("\\", "\\\\").replace("\"", "\\\"").replace("\r", "\\r").replace("\n", "\\n")
+			: "";
+	adminNickname = (adminNickname != null)
+			? adminNickname.replace("\\", "\\\\").replace("\"", "\\\"").replace("\r", "\\r").replace("\n", "\\n")
+			: "";
 	%>
 	<script type="text/javascript">
-      
 		const ADMIN_DATA = {
 			name: "<%=adminName%>",
             id: "<%=adminId%>",
@@ -486,56 +505,56 @@
 		console.log(ADMIN_DATA);
 	</script>
 
-	<!-- <script type="text/javascript">
-		(function() {
+	<%-- F5/뒤로가기 차단 스크립트--%>
+	<%--
+    <script type="text/javascript">
+        (function() {
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'F5' || (e.ctrlKey && e.key === 'r') || (e.ctrlKey && e.key === 'R')) {
+                    e.preventDefault();
+                    Swal.fire({
+                        icon : 'error',
+                        title : '새로고침 금지',
+                        text : '이 페이지에서는 새로고침을 사용할 수 없습니다.',
+                    });
+                }
+            });
+        })();
+    </script>
+    --%>
 
-			document.addEventListener('keydown', function(e) {
-				if (e.key === 'F5' || (e.ctrlKey && e.key === 'r')
-						|| (e.ctrlKey && e.key === 'R')) {
-					e.preventDefault();
-
-					Swal.fire({
-						icon : 'error',
-						title : '새로고침 금지',
-						text : '이 페이지에서는 새로고침을 사용할 수 없습니다.',
-					});
-				}
-			});
-
-			window.addEventListener('pageshow', function(event) {
-				if (event.persisted) {
-					window.location.reload();
-				}
-			});
-		})();
-	</script> -->
-
-
-
-
+	<%-- 라이브러리 JS --%>
 	<script
 		src="${pageContext.request.contextPath}/js/lib/axios/axios.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/js/lib/jquery/jquery-3.7.1.min.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/js/lib/bootstrap/js/bootstrap.min.js"></script>
+	<script
+		src="<%=request.getContextPath()%>/js/lib/sweetalert2/dist/sweetalert2.min.js"></script>
+
+	<%-- 공통 스크립트 --%>
 	<script>
 		const CONTEXT_PATH = "${pageContext.request.contextPath}";
 	</script>
-
 	<script src="${pageContext.request.contextPath}/js/common.js"></script>
 	<script src="${pageContext.request.contextPath}/js/admin/api-client.js"></script>
+
+	<%-- 페이지별 스크립트 --%>
 	<script
 		src="${pageContext.request.contextPath}/js/admin/page-dashboard.js"></script>
 	<script src="${pageContext.request.contextPath}/js/admin/page-user.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/js/admin/page-notice.js"></script>
 	<script src="${pageContext.request.contextPath}/js/admin/page-post.js"></script>
-	<script src="${pageContext.request.contextPath}/js/admin/page-stats.js"></script>
-	<script src="${pageContext.request.contextPath}/js/admin/admin-core.js"></script>
-	<script src="${pageContext.request.contextPath}/js/admin/admin-main.js"></script>
 	<script
 		src="${pageContext.request.contextPath}/js/admin/page-review.js"></script>
+	<script src="${pageContext.request.contextPath}/js/admin/page-stats.js"></script>
 
-
-
+	<%-- 메인 스크립트 (가장 마지막에) --%>
+	<script src="${pageContext.request.contextPath}/js/admin/admin-core.js"></script>
+	<script src="${pageContext.request.contextPath}/js/admin/admin-main.js"></script>
 
 </body>
 </html>

@@ -1,6 +1,6 @@
 // page-notice.js
 
-const Notice = {
+const NoticePage = {
 	currentList: [],
 	selectedNoticeNo: null, // 선택된 공지사항 번호
 	isEditing: false, // 현재 수정 모드인지 확인

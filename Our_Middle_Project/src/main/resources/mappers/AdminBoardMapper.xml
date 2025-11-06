@@ -3,79 +3,117 @@
 
 <mapper namespace="com.our_middle_project.dao.AdminBoardDAO">
 
-    <select id="getAdminBoardList"
-		resultType="com.our_middle_project.dto.AdminBoardDTO">
+    <select id="getAdminBoardList" resultType="com.our_middle_project.dto.AdminBoardDTO">
 		SELECT
-		BOARD_NO as board_no,
-		BOARD_TITLE as board_title,
-		BOARD_CONTENT as board_content,
-		CREATED_DATE as created_date,
-		UPDATED_DATE as updated_date,
-		VIEW_COUNT as view_count,
-		LIKE_COUNT as
-		like_count,
-		DISLIKE_COUNT as dislike_count,
-		MEM_NO as mem_no,
-		TYPE_NO as type_no
-		FROM BOARD
-		WHERE TYPE_NO = 1
-		ORDER BY BOARD_NO DESC
+		    BOARD_NO as board_no, BOARD_TITLE as board_title, BOARD_CONTENT as board_content,
+		    TO_CHAR(CREATED_DATE, 'YYYY-MM-DD HH24:MI') as created_date,
+		    UPDATED_DATE as updated_date, VIEW_COUNT as view_count, LIKE_COUNT as like_count,
+		    DISLIKE_COUNT as dislike_count, MEM_NO as mem_no, TYPE_NO as type_no
+		FROM BOARD WHERE TYPE_NO = 1 ORDER BY BOARD_NO DESC
 	</select>
-
     <insert id="insertNotice" parameterType="com.our_middle_project.dto.AdminBoardDTO">
 		<selectKey keyProperty="board_no" resultType="int" order="BEFORE">
-		SELECT SEQ_BOARD.NEXTVAL FROM DUAL
-		</selectKey>
+		SELECT SEQ_BOARD.NEXTVAL FROM DUAL</selectKey>
 		INSERT INTO BOARD (
-		BOARD_NO, BOARD_TITLE, BOARD_CONTENT, MEM_NO, TYPE_NO,
-		CREATED_DATE, UPDATED_DATE, VIEW_COUNT, LIKE_COUNT, DISLIKE_COUNT
+		    BOARD_NO, BOARD_TITLE, BOARD_CONTENT, MEM_NO, TYPE_NO,
+		    CREATED_DATE, UPDATED_DATE, VIEW_COUNT, LIKE_COUNT, DISLIKE_COUNT
 		) VALUES (
-		#{board_no}, #{board_title}, #{board_content}, #{mem_no}, 1,
-		SYSDATE, SYSDATE, 0, 0, 0
+		    #{board_no}, #{board_title}, #{board_content}, #{mem_no}, 1,
+		    SYSDATE, SYSDATE, 0, 0, 0
 		)
 	</insert>
-	
     <update id="updateNotice" parameterType="com.our_middle_project.dto.AdminBoardDTO">
-        UPDATE BOARD
-        SET
-        BOARD_TITLE = #{board_title},
-        BOARD_CONTENT = #{board_content},
-        UPDATED_DATE = SYSDATE
-        WHERE
-        BOARD_NO = #{board_no} AND TYPE_NO = 1
+        UPDATE BOARD SET BOARD_TITLE = #{board_title}, BOARD_CONTENT = #{board_content},
+        UPDATED_DATE = SYSDATE WHERE BOARD_NO = #{board_no} AND TYPE_NO = 1
     </update>
-    
     <delete id="deleteNotice" parameterType="int">
-        DELETE FROM BOARD
-        WHERE BOARD_NO = #{board_no} AND TYPE_NO = 1
+        DELETE FROM BOARD WHERE BOARD_NO = #{board_no} AND TYPE_NO = 1
     </delete>
+
     
     <select id="getAdminPostList" resultType="com.our_middle_project.dto.AdminBoardDTO">
         SELECT 
-            BOARD_NO        as board_no,
-            BOARD_TITLE     as board_title,
-            BOARD_CONTENT   as board_content,
-            CREATED_DATE    as created_date,
-            UPDATED_DATE    as updated_date,
-            VIEW_COUNT      as view_count,
-            LIKE_COUNT      as like_count,
-            DISLIKE_COUNT   as dislike_count,
-            MEM_NO          as mem_no,
-            TYPE_NO         as type_no
+            B.BOARD_NO        as board_no,
+            B.BOARD_TITLE     as board_title,
+            B.BOARD_CONTENT   as board_content,
+            TO_CHAR(B.CREATED_DATE, 'YYYY-MM-DD HH24:MI') as created_date,
+            B.UPDATED_DATE    as updated_date,
+            B.VIEW_COUNT      as view_count,
+            B.LIKE_COUNT      as like_count,
+            B.DISLIKE_COUNT   as dislike_count,
+            B.MEM_NO          as mem_no,
+            B.TYPE_NO         as type_no,
+            M.NICKNAME        as nickname,
+            M.MEM_ID          as userId
         FROM 
-            BOARD
+            BOARD B
+        JOIN MEMBER M ON B.MEM_NO = M.MEM_NO
         WHERE 
-            TYPE_NO = 3
+            B.TYPE_NO IN (3, 99)
         ORDER BY 
-            BOARD_NO DESC
+            B.BOARD_NO DESC
     </select>
     
-    <delete id="deletePost" parameterType="int">
-        DELETE FROM 
-            BOARD
+    <update id="deletePost" parameterType="int">
+        UPDATE BOARD
+        SET
+            TYPE_NO = 99,
+            UPDATED_DATE = SYSDATE
         WHERE 
             BOARD_NO = #{board_no} 
             AND TYPE_NO = 3
+    </update>
+    
+    <update id="updatePost" parameterType="com.our_middle_project.dto.AdminBoardDTO">
+        UPDATE BOARD
+        SET
+            BOARD_TITLE = #{board_title},
+            BOARD_CONTENT = #{board_content},
+            UPDATED_DATE = SYSDATE
+        WHERE
+            BOARD_NO = #{board_no}
+            AND TYPE_NO = 3
+    </update>
+    
+    <select id="getPostComments" parameterType="int" resultType="com.our_middle_project.dto.AdminCommentDTO">
+        SELECT
+            R.REPLY_NO      as reply_no,
+            R.BOARD_NO      as board_no,
+            R.MEM_NO        as mem_no,
+            R.REPLY_CONTENT as reply_content,
+            TO_CHAR(R.CREATE_DATE, 'YYYY-MM-DD HH24:MI') as create_date,
+            M.NICKNAME      as nickname,
+            M.MEM_ID        as userId
+        FROM
+            BOARD_REPLY R
+        JOIN
+            MEMBER M ON R.MEM_NO = M.MEM_NO
+        WHERE
+            R.BOARD_NO = #{board_no}
+        ORDER BY
+            R.CREATE_DATE ASC
+    </select>
+    
+    <delete id="deleteComment" parameterType="int">
+        DELETE FROM BOARD_REPLY
+        WHERE REPLY_NO = #{reply_no}
+    </delete>
+    
+    <update id="restorePost" parameterType="int">
+        UPDATE BOARD
+        SET
+            TYPE_NO = 3,
+            UPDATED_DATE = SYSDATE
+        WHERE
+            BOARD_NO = #{board_no}
+            AND TYPE_NO = 99
+    </update>
+    
+    <delete id="hardDeletePost" parameterType="int">
+        DELETE FROM BOARD
+        WHERE
+            BOARD_NO = #{board_no}
+            AND TYPE_NO = 99
     </delete>
 
 </mapper>
