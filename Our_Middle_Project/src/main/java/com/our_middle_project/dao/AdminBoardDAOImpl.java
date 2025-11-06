@@ -1,16 +1,16 @@
 package com.our_middle_project.dao;
 
 import java.util.List;
-
 import org.apache.ibatis.session.SqlSession;
-
 import com.our_middle_project.dto.AdminBoardDTO;
-import com.our_middle_project.dto.AdminCommentDTO; // [추가]
+import com.our_middle_project.dto.AdminCommentDTO;
 import com.our_middle_project.util.MybatisUtil;
 
 public class AdminBoardDAOImpl implements AdminBoardDAO {
 
 	private String namespace = "com.our_middle_project.dao.AdminBoardDAO";
+
+	// --- 공지사항 관리 ---
 
 	@Override
 	public List<AdminBoardDTO> getAdminBoardList() {
@@ -91,7 +91,7 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 		}
 	}
 
-	// 댓글 관리
+	// --- 댓글 관리 ---
 
 	@Override
 	public List<AdminCommentDTO> getPostComments(int board_no) {
@@ -115,6 +115,8 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 		}
 	}
 
+	// --- 게시물 복원 / 완전 삭제 ---
+
 	@Override
 	public int restorePost(int board_no) {
 		try (SqlSession session = MybatisUtil.getSqlSession()) {
@@ -136,5 +138,4 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 			return 0;
 		}
 	}
-
 }

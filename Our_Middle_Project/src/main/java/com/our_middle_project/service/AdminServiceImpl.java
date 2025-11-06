@@ -1,107 +1,85 @@
 package com.our_middle_project.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.session.SqlSession;
-
-import com.our_middle_project.dao.MemberDAO;
-import com.our_middle_project.dao.MemberDAOImpl;
 import com.our_middle_project.dao.AdminReviewDAO;
 import com.our_middle_project.dao.AdminReviewDAOImpl;
-import com.our_middle_project.dto.MemberDTO;
+import com.our_middle_project.dao.MemberDAO;
+import com.our_middle_project.dao.MemberDAOImpl;
 import com.our_middle_project.dto.AdminReviewDTO;
+import com.our_middle_project.dto.MemberDTO;
 import com.our_middle_project.serviceInterface.AdminService;
-import com.our_middle_project.util.MybatisUtil;
 
 public class AdminServiceImpl implements AdminService {
 
+	// [수정] DAO가 MybatisUtil을 사용하도록 new()로 생성
+	private MemberDAO memberDAO = new MemberDAOImpl();
+	private AdminReviewDAO reviewDAO = new AdminReviewDAOImpl();
+
 	@Override
 	public int getTotalUserCount() {
-		// try-with-resources: 이 블록이 끝나면 sqlSession이 자동으로 닫힘.
-		try (SqlSession sqlSession = MybatisUtil.getSqlSession()) {
-			// 1. DAO 작업자(Impl)를 생성하고, 일할 도구(sqlSession)를 준다.
-			MemberDAO memberDAO = new MemberDAOImpl(sqlSession);
-
-			// 2. 작업자에게 일을 시키고 결과를 받는다.
-			return memberDAO.getTotalUserCount();
-		}
+		// [수정] try-with-resources 제거
+		return memberDAO.getTotalUserCount();
 	}
 
 	@Override
 	public int getNewUserCountToday() {
-		try (SqlSession sqlSession = MybatisUtil.getSqlSession()) {
-			MemberDAO memberDAO = new MemberDAOImpl(sqlSession);
-			return memberDAO.getNewUserCountToday();
-		}
+		return memberDAO.getNewUserCountToday();
 	}
 
 	@Override
 	public List<MemberDTO> getUsersByKeyword(String keyword) {
-		try (SqlSession sqlSession = MybatisUtil.getSqlSession()) {
-			MemberDAO memberDAO = new MemberDAOImpl(sqlSession);
-			// DAO에게는 이제 'keyword' 정보만 전달합니다.
-			return memberDAO.selectUsersByKeyword(keyword);
-		}
+		return memberDAO.selectUsersByKeyword(keyword);
 	}
 
 	@Override
 	public List<Map<String, Object>> getDailySignupStats() {
-		try (SqlSession sqlSession = MybatisUtil.getSqlSession()) {
-
-			MemberDAO memberDAO = new MemberDAOImpl(sqlSession);
-			return memberDAO.selectDailySignupStats();
-		}
+		return memberDAO.selectDailySignupStats();
 	}
 
 	@Override
 	public MemberDTO getUserDetails(String memberId) {
-		try (SqlSession sqlSession = MybatisUtil.getSqlSession()) {
-			// 1. DAO 작업자를 생성하고, 일할 도구(sqlSession)를 줍니다.
-			MemberDAO memberDAO = new MemberDAOImpl(sqlSession);
-
-			// 2. 작업자에게 memberId를 전달하여 사용자 한 명의 정보를 가져오도록 시킵니다.
-			return memberDAO.selectUserDetails(memberId);
-		}
+		return memberDAO.selectUserDetails(memberId);
 	}
 
 	@Override
 	public boolean updateUser(MemberDTO memberDTO) {
-		try (SqlSession sqlSession = MybatisUtil.getSqlSession()) {
-			MemberDAO memberDAO = new MemberDAOImpl(sqlSession);
-			
-			int result = memberDAO.updateUser(memberDTO);
-
-			// 중요: UPDATE, INSERT, DELETE 후에는 반드시 commit()!
-			sqlSession.commit();
-			
-			return result > 0;
+		if ("USER".equals(memberDTO.getRole())) {
+			memberDTO.setRole(null);
 		}
+		int result = memberDAO.updateUser(memberDTO);
+		return result > 0;
+	}
 
+	// --- 리뷰 관리 ---
+
+	@Override
+	public List<AdminReviewDTO> getReviewList(String keyword) {
+		return reviewDAO.selectAllReviews(keyword);
+	}
+
+	// ▼▼▼ [추가] 3개 메소드 구현 ▼▼▼
+
+	@Override
+	public boolean updateAdminReply(int boardNo, int adminMemNo, String replyContent) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("boardNo", boardNo);
+		params.put("adminMemNo", adminMemNo);
+		params.put("replyContent", replyContent);
+
+		return reviewDAO.upsertAdminReply(params) > 0;
 	}
 
 	@Override
-	public List<AdminReviewDTO> getReviewList() {
-		try (SqlSession sqlSession = MybatisUtil.getSqlSession()) {
-	        // 리뷰 관련 DAO를 새로 만들어 호출하는 것을 권장합니다.
-	        AdminReviewDAO reviewDAO = new AdminReviewDAOImpl(sqlSession);
-	        return reviewDAO.selectAllReviews();
-		}
+	public boolean deleteReviewImage(int boardNo) {
+		return reviewDAO.deleteReviewImage(boardNo) > 0;
 	}
-	
-	/*   //null 작업 후에 교체할 것.
-	 * @Override public boolean updateUser(MemberDTO memberDTO) { try (SqlSession
-	 * sqlSession = MybatisUtil.getSqlSession()) { MemberDAO memberDAO = new
-	 * MemberDAOImpl(sqlSession);
-	 * 
-	 * // 비즈니스 규칙 적용: 'USER' 역할은 DB에 NULL로 저장 if
-	 * ("USER".equals(memberDTO.getRole())) { memberDTO.setRole(null); }
-	 * 
-	 * int result = memberDAO.updateUser(memberDTO); sqlSession.commit(); return
-	 * result > 0; } }
-	 */
-	
 
-
-	
+	@Override
+	public boolean deleteReview(int boardNo) {
+		// (소프트 삭제 99)
+		return reviewDAO.deleteReview(boardNo) > 0;
+	}
 }

@@ -4,52 +4,72 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
-
 import com.our_middle_project.dto.MemberDTO;
+import com.our_middle_project.util.MybatisUtil; // [추가]
 
 public class MemberDAOImpl implements MemberDAO {
-	
-    private SqlSession sqlSession;
 
-    // 이 클래스는 SqlSession을 받아야만 일할 수 있음.
-    public MemberDAOImpl(SqlSession sqlSession) {
-        this.sqlSession = sqlSession;
-    }
-    
-    // selectOne : 쿼리 결과가 **반드시 한 개(1 row) 또는 없는 것(0 row)**이 확실할 때 사용
-    // selectList() : 2개 이상일 때.
+	public MemberDAOImpl() {
+	}
 
-    @Override
-    public int getTotalUserCount() {
-        // Mapper XML의 namespace와 id를 "네임스페이스.id" 형태로 직접 호출.
-        return sqlSession.selectOne("memberMapper.getTotalUserCount");
-    }
+	@Override
+	public int getTotalUserCount() {
+		// [수정] MybatisUtil을 사용
+		try (SqlSession session = MybatisUtil.getSqlSession()) {
+			return session.selectOne("memberMapper.getTotalUserCount");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
 
 	@Override
 	public int getNewUserCountToday() {
-		return sqlSession.selectOne("memberMapper.getNewUserCountToday");
+		try (SqlSession session = MybatisUtil.getSqlSession()) {
+			return session.selectOne("memberMapper.getNewUserCountToday");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
 	}
 
 	@Override
 	public List<MemberDTO> selectUsersByKeyword(String keyword) {
-		return this.sqlSession.selectList("memberMapper.selectUsersByKeyword", keyword);
+		try (SqlSession session = MybatisUtil.getSqlSession()) {
+			return session.selectList("memberMapper.selectUsersByKeyword", keyword);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
-	
+
 	@Override
-    public List<Map<String, Object>> selectDailySignupStats() {
-        return this.sqlSession.selectList("memberMapper.getDailySignupStatsForLast7Days");
-    }
+	public List<Map<String, Object>> selectDailySignupStats() {
+		try (SqlSession session = MybatisUtil.getSqlSession()) {
+			return session.selectList("memberMapper.getDailySignupStatsForLast7Days");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	@Override
 	public int updateUser(MemberDTO memberDTO) {
-		return sqlSession.update("memberMapper.updateUser", memberDTO);
+		try (SqlSession session = MybatisUtil.getSqlSession()) {
+			return session.update("memberMapper.updateUser", memberDTO);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
 	}
 
 	@Override
 	public MemberDTO selectUserDetails(String memberId) {
-		return sqlSession.selectOne("memberMapper.selectUserDetails", memberId);
+		try (SqlSession session = MybatisUtil.getSqlSession()) {
+			return session.selectOne("memberMapper.selectUserDetails", memberId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
-	
-	
-	
 }
