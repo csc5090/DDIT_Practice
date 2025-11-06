@@ -10,6 +10,8 @@
 		<typeAlias type="com.our_middle_project.dto.UserInfoReturnDTO" alias="UserInfoReturnDTO" />
 		<typeAlias type="com.our_middle_project.dto.AdminReviewDTO" alias="AdminReviewDTO" />
 		<typeAlias type="com.our_middle_project.dto.GameLevelDTO" alias="GameLevelDTO" />
+		<typeAlias type="com.our_middle_project.dto.ReviewDTO" alias="ReviewDTO" />
+		<typeAlias type="com.our_middle_project.dto.FileImageDTO" alias="FileImageDTO" />
 	</typeAliases>
 
 	<environments default="development">

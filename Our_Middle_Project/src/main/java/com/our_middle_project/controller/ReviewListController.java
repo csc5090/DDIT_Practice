@@ -20,7 +20,7 @@ import jakarta.servlet.http.Part;
 
 @WebServlet("/review/write")
 @MultipartConfig
-public class ReviewWriteController extends HttpServlet {
+public class ReviewListController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private final ReviewService svc = new ReviewServiceImpl();

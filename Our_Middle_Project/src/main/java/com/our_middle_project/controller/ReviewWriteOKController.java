@@ -22,8 +22,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 
-/** 리뷰 글/이미지 저장 컨트롤러 (로그인 세션 없이도 저장 가능) */
-
 public class ReviewWriteOKController implements Action {
 
 	private final ReviewService reviewService = new ReviewServiceImpl();
@@ -31,6 +29,7 @@ public class ReviewWriteOKController implements Action {
     @Override
     public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
        
+    	request.setCharacterEncoding("UTF-8");
     	response.setContentType("text/html; charset=UTF-8");
         PrintWriter out = response.getWriter();
 
@@ -46,8 +45,9 @@ public class ReviewWriteOKController implements Action {
 
         // 로그인 없이 저장: 게스트/더미 사용자 번호 사용 (예: MEM_NO=1)
         int memNo = 1;
+       // int memNo = (int) request.getSession().getAttribute("LOGIN_MEM_NO");
 
-        // 2) 글 INSERT (selectKey AFTER-CURRVAL 로 boardNo가 dto에 세팅됨)
+        // 2) 리뷰글 INSERT (selectKey AFTER-CURRVAL 로 boardNo가 dto에 세팅됨)
         ReviewDTO dto = new ReviewDTO();
         dto.setMemNo(memNo);
         dto.setTypeNo(typeNo);
@@ -58,6 +58,7 @@ public class ReviewWriteOKController implements Action {
 
         // 3) 첨부파일 저장 (input name="image", multiple 가정)
         Collection<Part> parts = request.getParts();
+      
         for (Part part : parts) {
             if (!"image".equals(part.getName()) || part.getSize() == 0) continue;
 
@@ -77,7 +78,7 @@ public class ReviewWriteOKController implements Action {
             img.setBoardNo(boardNo);
             img.setTypeNo(typeNo);
             img.setFileName(originalName);
-            // DB에는 웹 기준 경로 저장(필요에 따라 절대경로 저장도 가능)
+            // DB에는 웹 기준 경로 저장
             img.setFilePath(request.getContextPath() + "/uploads/" + storedName);
             img.setFileSize((int) part.getSize());
             img.setFileType(part.getContentType());
@@ -85,18 +86,19 @@ public class ReviewWriteOKController implements Action {
             reviewService.insertImage(img);
         }
 
-        // 4) (선택) 별점 — 로그인 없으니 게스트로 넣을지, 스킵할지 정책 선택
+ /*       // 4) (선택) 별점 — 로그인 없으니 게스트로 넣을지, 스킵할지 정책 선택
         String starStr = request.getParameter("star");
         if (starStr != null && !starStr.isBlank()) {
             int star = Integer.parseInt(starStr.trim());
             // 게스트로도 별점을 저장하려면 아래 라인 유지, 아니라면 주석 처리
             reviewService.insertAuthorStar(boardNo, memNo, star);
         }
-
+*/
         // 5) 완료 안내 및 목록/완료페이지로 이동
+        String cp = request.getContextPath();
         out.println("<script>");
         out.println("alert('등록이 완료되었습니다.');");
-        out.println("location.href='" + "/WEB-INF/our_middle_project_view/reviewWrite.do");
+        out.println("location.href='" + cp + "/review.do';");
         out.println("</script>");
         out.flush();
 
