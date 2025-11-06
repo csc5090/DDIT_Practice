@@ -20,6 +20,7 @@
 	<!-- axios -->
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/axios/axios.min.js"></script>
 
+	<link rel="stylesheet" href="./css/fonts.css">
 	<link rel="stylesheet" href="./css/gameHome/gameHome.css">
 </head>
 <body>
@@ -73,7 +74,7 @@
 					<div class="card" onclick="goBoard()">
 						<div class="card-inner">
 							<div class="card-front">
-								<span>Board</span>
+								<span>BOARD</span>
 							</div>
 							<div class="card-back">
 								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
@@ -87,7 +88,7 @@
 					<div class="card" onclick="goReview()">
 						<div class="card-inner">
 							<div class="card-front">
-								<span>Review</span>
+								<span>REVIEW</span>
 							</div>
 							<div class="card-back">
 								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
@@ -100,7 +101,7 @@
 					<div class="card" onclick="goRanking()">
 						<div class="card-inner">
 							<div class="card-front">
-								<span>Ranking</span>
+								<span>RANKING</span>
 							</div>
 							<div class="card-back">
 								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
@@ -112,7 +113,7 @@
 					<div class="card" id="gameStart">
 						<div class="card-inner">
 							<div class="card-front">
-								<span>Play</span>
+								<span>PLAY</span>
 							</div>
 							<div class="card-back">
 								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
@@ -125,8 +126,9 @@
 					
 					<div class="card">
 						<div class="card-inner">
-							<div class="card-front">
-								<span>Coming Soon</span>
+							<div class="card-front card-front-1">
+								<span>COMING</span>
+								<span>SOON</span>
 							</div>
 							<div class="card-back">
 								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">

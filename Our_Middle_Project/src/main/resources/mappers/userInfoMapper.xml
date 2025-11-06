@@ -72,7 +72,7 @@
 		SELECT *
 		FROM MEMBER
 		WHERE 
-			MEM_MAIL = #{mem_mail} AND
+			MEM_ID = #{mem_id} AND
 			MEM_MAIL = #{mem_mail}
 	
 	</select>

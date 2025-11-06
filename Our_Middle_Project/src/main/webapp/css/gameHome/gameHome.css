@@ -171,7 +171,6 @@ body{
     align-items: center;
     
     color: white;
-    font-size: 50px;
     border: 0;
     
     background-color:transparent;
@@ -189,6 +188,9 @@ body{
     transform: rotateY(0deg); /* 기본 상태 */
     
     background-color:transparent;
+    border-radius: 10px;
+    
+    box-shadow: 5px 5px 10px rgba(20, 50, 30, 0.8);
 }
 
 .card-front,
@@ -204,13 +206,20 @@ body{
     justify-content: center;
     align-items: center;
     
-    font-weight: bold;
     backface-visibility: hidden;
     
     background: rgba(0, 0, 0, 0.2);
     
     cursor: pointer;
-    transition: transform 0.7s, opacity 0.3s;
+}
+
+.card-front-1 {
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+	
 }
 
 .card-back {
@@ -237,7 +246,21 @@ body{
 		0 0 80px rgba(20, 60, 30, 0.4),
 		inset 0 0 20px rgba(25, 70, 35, 0.8),
 		inset 0 0 40px rgba(15, 40, 25, 0.6);
+		
+	border: 1px solid rgba(255, 255, 255, 0.6);
     
+}
+
+.card-front span {
+	
+    font-family: 'FunflowSurvivor';
+    font-size: 30px;
+    
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    
+    color: rgba(50, 100, 70);
+	
 }
 
 .card-back svg {
@@ -251,7 +274,8 @@ body{
 
 .card-back span {
 
-	font-size: 22px;
+	font-family: 'FunflowSurvivor';
+	font-size: 28px;
 	color: rgba(50, 100, 70);
 
 }
@@ -386,6 +410,7 @@ body{
 .level-card-box:hover .level-card{
 
 	transform: scale(1.02);
+	border: 6px solid rgba(255, 255, 255, 0.8);
 	box-shadow: 
 	    0 0 20px rgba(100, 255, 100, 0.4),   /* 부드럽게 퍼지는 바깥 빛 */
 	    0 0 40px rgba(120, 255, 120, 0.25),  /* 더 멀리 확산되는 초록빛 */
@@ -393,7 +418,6 @@ body{
 
 }
 
-/* 모드 버튼 공통 */
 .card-btns {
 
 	background: transparent;
@@ -404,9 +428,16 @@ body{
 	border-radius: 10px;
 	border: none;
 	
+	font-family: 'JeongseonArirangHon';; 
 	text-align: center;
-	font-size: 1.2rem;		
-	color: #fff;
+	font-size: 3rem;		
+	color: rgba(180, 180, 180, 0.6);
+	
+}
+
+.card-btns:hover {	
+	color: white;
+	transition: all 0.3s ease-in-out;
 }
 
 
