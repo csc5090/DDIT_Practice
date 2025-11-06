@@ -443,6 +443,34 @@
 	</script>
 
 
+	<script type="text/javascript">
+		(function() {
+			
+			document.addEventListener('keydown', function(e) {
+				if (e.key === 'F5' || (e.ctrlKey && e.key === 'r')
+						|| (e.ctrlKey && e.key === 'R')) {
+					e.preventDefault();
+
+					
+					Swal.fire({
+						icon : 'error',
+						title : '새로고침 금지',
+						text : '이 페이지에서는 새로고침을 사용할 수 없습니다.',
+					});
+				}
+			});
+
+			window.addEventListener('pageshow', function(event) {
+				if (event.persisted) {
+					window.location.reload();
+				}
+			});
+		})();
+	</script>
+
+
+
+
 	<script
 		src="${pageContext.request.contextPath}/js/lib/axios/axios.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
