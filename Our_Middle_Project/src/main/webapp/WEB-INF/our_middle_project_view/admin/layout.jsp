@@ -107,9 +107,7 @@
 			<header class="main-header">
 				<div class="user-profile">
 					<button type="button" class="user-profile-toggle">
-						<%-- <span>${sessionScope.adminName eq null ? '관리자' : sessionScope.adminName}</span> --%>
 						<span> <c:out value="${sessionScope.loginAdmin.mem_name}" />
-						</span> <span> 세션 ID: <c:out value="${pageContext.session.id}" />
 						</span>
 
 
@@ -121,7 +119,8 @@
 					<div class="user-profile-dropdown">
 						<ul>
 							<li><a href="/my-profile.do">내 프로필</a></li>
-							<li><a href="/logout.do">로그아웃</a></li>
+							<li><a
+								href="${pageContext.request.contextPath}/adminlogout.do">로그아웃</a></li>
 						</ul>
 					</div>
 				</div>
@@ -308,102 +307,116 @@
 							</table>
 						</div>
 					</div>
-					<div id="notice-editor-view" class="notice-view"
+
+
+					<div class="editor-view" id="notice-editor-view"
 						style="display: none;">
-						<div class="notice-toolbar">
-							<h1>새 공지사항 작성</h1>
+						<div class="toolbar">
+							<h1 style="font-size: 1.8rem;">새 공지사항 작성</h1>
+							<button id="btn-back-to-list" class="btn-back">목록으로 돌아가기</button>
 						</div>
-						<div class="form-group">
-							<label for="notice-title">제목</label> <input type="text"
-								id="notice-title" placeholder="제목을 입력하세요">
-						</div>
-						<div class="form-group content">
-							<label for="notice-content">내용</label>
-							<textarea id="notice-content" placeholder="내용을 입력하세요."></textarea>
-						</div>
-						<div class="editor-actions">
-							<button id="btn-back-to-list" class="btn-secondary">목록으로</button>
-							<button id="btn-save-notice" class="btn-primary">저장하기</button>
+						<div class="editor-panel">
+							<div class="form-group">
+								<label for="notice-title">제목</label> <input type="text"
+									id="notice-title" placeholder="제목을 입력하세요">
+							</div>
+							<div class="form-group full-width">
+								<label for="notice-content">내용</label>
+								<textarea id="notice-content" placeholder="내용을 입력하세요."></textarea>
+							</div>
+							<div class="crud-actions">
+								<button id="btn-delete-notice" class="action-btn-danger"
+									style="display: none;">삭제하기</button>
+								<button id="btn-save-notice" class="action-btn-primary">저장하기</button>
+							</div>
 						</div>
 					</div>
-				</div>
 
-				<div class="bodyArea" id="post-management">게시판 관리</div>
+					<div class="bodyArea" id="post-management">게시판 관리</div>
 
 
-				<div class="bodyArea" id="review-management">
+					<div class="bodyArea" id="review-management">
+						[cite: 5]
 
-					<div class="review-main-content">
-						<div class="review-list-container" id="admin-review-list">
-							<table class="review-list-table">
-								<thead>
-									<tr>
-										<th class="sortable" data-sort-key="boardTitle">리뷰 제목 <span
-											class="sort-icon"></span></th>
-										<th class="sortable" data-sort-key="nickname">작성자 <span
-											class="sort-icon"></span></th>
-										<th class="sortable" data-sort-key="stars">별점 <span
-											class="sort-icon"></span></th>
-										<th class="sortable" data-sort-key="hasImage">사진 <span
-											class="sort-icon"></span></th>
-										<th class="sortable" data-sort-key="adminReply">관리자 댓글 <span
-											class="sort-icon"></span></th>
-										<th class="sortable" data-sort-key="createdDate">작성일 <span
-											class="sort-icon"></span></th>
-									</tr>
-								</thead>
-								<tbody>
-								</tbody>
-							</table>
-						</div>
-
-						<div class="review-detail-container">
-							<div class="review-detail-placeholder">
-								<p>
-									왼쪽 목록에서 리뷰를 더블클릭하여<br>상세 정보를 확인하세요.
-								</p>
+						<div class="review-main-content">
+							<div class="review-list-container" id="admin-review-list">
+								<table class="review-list-table">
+									<thead>
+										<tr>
+											<th class="sortable" data-sort-key="boardTitle">리뷰 제목 <span
+												class="sort-icon"></span></th>
+											<th class="sortable" data-sort-key="nickname">작성자 <span
+												class="sort-icon"></span></th>
+											<th class="sortable" data-sort-key="stars">별점 <span
+												class="sort-icon"></span></th>
+											<th class="sortable" data-sort-key="hasImage">사진 <span
+												class="sort-icon"></span></th>
+											<th class="sortable" data-sort-key="adminReply">관리자 댓글 <span
+												class="sort-icon"></span></th>
+											<th class="sortable" data-sort-key="createdDate">작성일 <span
+												class="sort-icon"></span></th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
 							</div>
 
-							<div class="review-detail-content" style="display: none;">
-								<div class="review-detail-view">
-									<h3 id="detail-review-title" class="review-card-title"></h3>
+							<div class="review-detail-container">
+								<div class="review-detail-placeholder">
+									<p>
+										왼쪽 목록에서 리뷰를 더블클릭하여<br>상세 정보를 확인하세요.
+									</p>
+									[cite: 5]
+								</div>
 
-									<div class="review-card-meta-list">
-										<div class="meta-item">
-											<span class="meta-label">닉네임</span> <span
-												id="detail-review-nickname" class="meta-value"></span>
-										</div>
-										<div class="meta-item">
-											<span class="meta-label">작성일</span> <span
-												id="detail-review-date" class="meta-value"></span>
-										</div>
-										<div class="meta-item">
-											<span class="meta-label">별점</span> <span
-												id="detail-review-stars"
-												class="meta-value review-card-stars"></span>
-										</div>
-									</div>
+							
+								<div class="review-detail-content" style="display: none;">
+									[cite: 5]
 
-									<div class="review-card-body">
-										<p id="detail-review-content"></p>
-										<div id="detail-review-image"
-											class="review-card-image-wrapper"></div>
-									</div>
+									<div class="review-detail-view">
+										[cite: 5]
+										<h3 id="detail-review-title" class="review-card-title"></h3>
 
-									<div class="review-crud-panel">
-										<h3>관리</h3>
-										<div class="review-admin-box">
-											<div class="form-group">
-												<label for="admin-reply-textarea">관리자 댓글 (작성일: <span
-													id="admin-reply-date"></span>)
-												</label>
-												<textarea id="admin-reply-textarea"
-													placeholder="관리자 댓글을 입력하거나 수정하세요."></textarea>
+										<div class="review-card-meta-list">
+											<div class="meta-item">
+												<span class="meta-label">닉네임</span> <span
+													id="detail-review-nickname" class="meta-value"></span>
+											</div>
+											<div class="meta-item">
+												<span class="meta-label">작성일</span> <span
+													id="detail-review-date" class="meta-value"></span>
+											</div>
+											<div class="meta-item">
+												<span class="meta-label">별점</span> <span
+													id="detail-review-stars"
+													class="meta-value review-card-stars"></span>
+											</div>
+										</div>
+
+										<div class="review-card-body">
+											<p id="detail-review-content"></p>
+											<div id="detail-review-image"
+												class="review-card-image-wrapper"></div>
+										</div>
+
+										<div class="review-crud-panel">
+											[cite: 5]
+											<h3>관리</h3>
+											<div class="review-admin-box">
+												<div class="form-group">
+													<label for="admin-reply-textarea">관리자 댓글 (작성일: <span
+														id="admin-reply-date"></span>)
+													</label>
+													<textarea id="admin-reply-textarea"
+														placeholder="관리자 댓글을 입력하거나 수정하세요."></textarea>
+												</div>
 											</div>
 										</div>
 									</div>
 
 									<div class="crud-actions">
+										[cite: 5]
 										<button class="action-btn primary" data-action="save-reply">댓글
 											저장</button>
 										<button class="action-btn secondary"
@@ -415,6 +428,7 @@
 							</div>
 						</div>
 					</div>
+
 
 					<div class="bodyArea" id="stats-main">데이터/통계</div>
 			</main>
@@ -428,30 +442,36 @@
 	</div>
 
 
-	<%@ page import="com.google.gson.Gson"%>
 	<%@ page import="com.our_middle_project.dto.UserInfoDTO"%>
-
 	<%
-	Gson gson = new Gson();
 	UserInfoDTO admin = (UserInfoDTO) session.getAttribute("loginAdmin");
-	String adminJson = gson.toJson(admin);
+	String adminName = "관리자";
+	String adminId = "";
+    String adminNickname = ""; 
+	if (admin != null) {
+		adminName = admin.getMem_name();
+		adminId = admin.getMem_id();
+		adminNickname = admin.getNickname(); 
+	}
 	%>
-
 	<script type="text/javascript">
-		const DataCase = JSON.parse('<%=adminJson%>');
-		console.log(DataCase);
+      
+		const ADMIN_DATA = {
+			name: "<%=adminName%>",
+            id: "<%=adminId%>",
+			nickname: "<%=adminNickname%>"
+		};
+		console.log(ADMIN_DATA);
 	</script>
-
 
 	<script type="text/javascript">
 		(function() {
-			
+
 			document.addEventListener('keydown', function(e) {
 				if (e.key === 'F5' || (e.ctrlKey && e.key === 'r')
 						|| (e.ctrlKey && e.key === 'R')) {
 					e.preventDefault();
 
-					
 					Swal.fire({
 						icon : 'error',
 						title : '새로고침 금지',

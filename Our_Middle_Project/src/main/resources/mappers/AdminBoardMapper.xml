@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.our_middle_project.dao.AdminBoardDAO">
+
+	<select id="getAdminBoardList"
+		resultType="com.our_middle_project.dto.AdminBoardDTO">
+		SELECT
+		BOARD_NO as board_no,
+		BOARD_TITLE as board_title,
+		BOARD_CONTENT as board_content,
+		CREATED_DATE as created_date,
+		UPDATED_DATE as updated_date,
+		VIEW_COUNT as view_count,
+		LIKE_COUNT as
+		like_count,
+		DISLIKE_COUNT as dislike_count,
+		MEM_NO as mem_no,
+		TYPE_NO as type_no
+
+		FROM
+		BOARD
+
+		WHERE
+		TYPE_NO = 1
+
+		ORDER BY
+		BOARD_NO DESC
+	</select>
+
+	<insert id="insertNotice" parameterType="com.our_middle_project.dto.AdminBoardDTO">
+		<selectKey keyProperty="board_no" resultType="int" order="BEFORE">
+		SELECT SEQ_BOARD.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO BOARD (
+		BOARD_NO, BOARD_TITLE, BOARD_CONTENT, MEM_NO, TYPE_NO,
+		CREATED_DATE, UPDATED_DATE, VIEW_COUNT, LIKE_COUNT, DISLIKE_COUNT
+		) VALUES (
+		#{board_no}, #{board_title}, #{board_content}, #{mem_no}, 1,
+		SYSDATE, SYSDATE, 0, 0, 0
+		)
+	</insert>
+	
+	<update id="updateNotice" parameterType="com.our_middle_project.dto.AdminBoardDTO">
+        UPDATE BOARD
+        SET
+        BOARD_TITLE = #{board_title},
+        BOARD_CONTENT = #{board_content},
+        UPDATED_DATE = SYSDATE
+        
+        WHERE
+        BOARD_NO = #{board_no} AND TYPE_NO = 1
+    </update>
+    
+    <delete id="deleteNotice" parameterType="int">
+        DELETE FROM BOARD
+        
+        WHERE BOARD_NO = #{board_no} AND TYPE_NO = 1
+    </delete>
+
+</mapper>

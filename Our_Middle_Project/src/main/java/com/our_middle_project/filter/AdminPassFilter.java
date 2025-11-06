@@ -53,6 +53,10 @@ public class AdminPassFilter implements Filter {
 			httpRequest.getRequestDispatcher(errorPage).forward(httpRequest, httpResponse);
 			return;
 		}
+		
+		httpResponse.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
+        httpResponse.setHeader("Pragma", "no-cache");
+        httpResponse.setDateHeader("Expires", 0);
 
 		// --- 2. 'ADMIN_PASS' 티켓 검사 (새로고침/URL입력 차단) ---
 		if (url.equals("/adminMain.do")) {

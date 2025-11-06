@@ -42,6 +42,8 @@ const AdminCore = {
 				UserPage.getList();
 			} else if (targetId === 'review-management') {
 				ReviewPage.loadAndRender();
+			} else if (targetId === 'notice-management') {
+				Notice.Start();
 			}
 			sessionStorage.setItem('lastView', targetId);
 		}
