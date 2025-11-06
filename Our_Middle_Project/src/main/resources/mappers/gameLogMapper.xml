@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="gameLogMapper">
+
+	<insert id="insertGameLog" parameterType="com.our_middle_project.dto.GameLogDTO">
+	    INSERT INTO 
+	    	GAME_LOG
+	    		(MEM_NO, LEVEL_NO, SCORE, COMBO, CLEAR_TIME, START_TIME, END_TIME)
+	   	 	VALUES
+	    		(#{memNo}, #{levelNo}, #{score}, #{combo}, #{clearTime}, #{startTime}, #{endTime})
+	</insert>
+
+</mapper>
+
+
+
+

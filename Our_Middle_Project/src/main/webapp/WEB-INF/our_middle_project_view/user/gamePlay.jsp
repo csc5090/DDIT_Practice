@@ -126,6 +126,18 @@
 		</div>
 		
 	</div>
+	
+	
+	
+	<form id="gameLogForm" action="gameLog.do" method="post">
+	    <input type="hidden" name="memNo" value="${sessionScope.loginUser.mem_no}">
+	    <input type="hidden" name="levelNo" value="">
+	    <input type="hidden" name="score" value="">
+	    <input type="hidden" name="combo" value="">
+	    <input type="hidden" name="clearTime" value="">
+	    <input type="hidden" name="startTime" value="">
+	    <input type="hidden" name="endTime" value="">
+	</form>
 
 	<%@ page import="com.google.gson.Gson" %>
 	<%@ page import="com.our_middle_project.dto.UserInfoDTO" %>
@@ -139,8 +151,11 @@
 	<script type="text/javascript">
 		const userDataCase = JSON.parse('<%= userJson %>');
 		console.log(userDataCase);
+		
+		const savedLevel = ${sessionScope.map.level_name};
+	    console.log("savedLevel:", savedLevel);
 	</script>
-
+	
 	<script type="text/javascript" src="./js/game/gamePlay.js"></script>
 	<script type="text/javascript" src="./js/game/gameEnding.js"></script>
 

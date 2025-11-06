@@ -1,5 +1,4 @@
 
-let level = 4;
 let score= 0;
 let count = 0;
 let comboCount = 0;
@@ -17,15 +16,15 @@ let timeEl;
 // let gameEnded = false;	//게임 종료
 let gamePlay = false;
 
+
 //======페이지 로드
 window.onload = () => {
-	
-	
+
 	scoreElement = document.querySelector(".score");	//점수 반영하기 위해서 score클래스 참조
 	comboElement = document.querySelector(".combo");
 	maxComboElement = document.querySelector(".max-combo");
 	timeEl = document.getElementById("timeCount");
-	
+
 	addEventHandle();
 }
 
@@ -34,6 +33,10 @@ function addEventHandle() {
 	
 	let startBtn = document.getElementById('startBtn');
 	startBtn.addEventListener('click', (e) => { startGame(e) });
+	
+	console.log(userDataCase); // GAMEHOME에서 넘어온 값 확인
+	const userId = userDataCase.mem_id;
+	console.log("게임 플레이 유저 아이디:", userId);
 	
 	let stopBtn = document.getElementById('stopBtn');
 	stopBtn.addEventListener("click", (e) => { handleStop(e) });
@@ -50,8 +53,8 @@ function startGame() {
 	startBtn.disabled = true;			//버튼 누른 후 다시 버튼 x
 	startBtn.style.cursor = 'default';
 	/*document.body.appendChild();*/
-	
-	if(GlovalLevel == 4 || GlovalLevel == 6 || GlovalLevel == 8) createCard(GlovalLevel);
+
+	if(savedLevel == 4 || savedLevel == 6 || savedLevel == 8) createCard(savedLevel);
 	countDown(()=>{ 
 		startTimer();
 	});
@@ -348,4 +351,33 @@ function gameOut() {
 function gameReStart() {
 	location.reload()
 	console.log("게임을 다시 시작합니다")
+}
+
+//===========post방식으로 저장 
+
+function dataSave() {
+    console.log("게임 데이터를 저장합니다.");
+    console.log("점수: " + totalscore)
+    console.log("맞춘갯수 : " + count);
+    console.log("최고콤보 : " + maxCombo);
+
+    clearInterval(gameTimer); // 타이머 초기화
+    lockBoard = true;         // 카드 잠금
+
+    // ===== POST 전송 =====
+    submitGameLog();
+
+    endGame();
+}
+
+function submitGameLog() {
+    const form = document.getElementById("gameLogForm");
+    form.levelNo.value = GlovalLevel; // 현재 레벨
+    form.score.value = totalscore;
+    form.combo.value = maxCombo;
+    form.clearTime.value = parseInt((getDefaultTimeByLevel() - pausedTime / 10) || 0); // 클리어 시간
+    form.startTime.value = new Date().toISOString().slice(0,19).replace("T"," ");   // 예: "2025-11-06 13:22:11"
+    form.endTime.value = new Date().toISOString().slice(0,19).replace("T"," ");     // 종료 시간
+
+    form.submit(); // POST 요청
 }
