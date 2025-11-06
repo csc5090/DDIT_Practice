@@ -275,6 +275,8 @@
 				</div>
 
 				<div class="bodyArea" id="notice-management">
+				</div>
+				
 					<div id="notice-list-view" class="notice-view">
 						<div class="notice-toolbar">
 							<h1>공지사항 관리</h1>

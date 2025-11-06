@@ -58,27 +58,22 @@ public class AdminPassFilter implements Filter {
         httpResponse.setHeader("Pragma", "no-cache");
         httpResponse.setDateHeader("Expires", 0);
 
-		// --- 2. 'ADMIN_PASS' 티켓 검사 (새로고침/URL입력 차단) ---
-		if (url.equals("/adminMain.do")) {
-
-			if (session.getAttribute(adminPassKey) != null) {
-				// (성공) 티켓이 있음 = 정식 로그인
-				System.out.println("[AdminPassFilter] 'ADMIN_PASS' 확인. 입장권 소모.");
-				session.removeAttribute(adminPassKey); // 티켓 소모
-				chain.doFilter(request, response);
-			} else {
-				// (실패) 티켓이 없음 = 새로고침 또는 URL 직접 입력
-				System.out.println("[AdminPassFilter] 'ADMIN_PASS' 없음. 에러 페이지로 포워딩.");
-				request.setAttribute("errorMessage", "알량한 접근(새로고침/URL 직접 접근 시도)");
-				httpRequest.getRequestDispatcher(errorPage).forward(httpRequest, httpResponse);
-				return;
-			}
-
-		} else {
-			// (통과) /adminMain.do가 아닌 다른 API 요청 (예: /getStats.do)
-			// 1차 검문(loginAdmin)을 통과했으므로 허용
-			chain.doFilter(request, response);
-		}
+		/*
+		 * // --- 2. 'ADMIN_PASS' 티켓 검사 (새로고침/URL입력 차단) --- if
+		 * (url.equals("/adminMain.do")) {
+		 * 
+		 * if (session.getAttribute(adminPassKey) != null) { // (성공) 티켓이 있음 = 정식 로그인
+		 * System.out.println("[AdminPassFilter] 'ADMIN_PASS' 확인. 입장권 소모.");
+		 * session.removeAttribute(adminPassKey); // 티켓 소모 chain.doFilter(request,
+		 * response); } else { // (실패) 티켓이 없음 = 새로고침 또는 URL 직접 입력
+		 * System.out.println("[AdminPassFilter] 'ADMIN_PASS' 없음. 에러 페이지로 포워딩.");
+		 * request.setAttribute("errorMessage", "알량한 접근(새로고침/URL 직접 접근 시도)");
+		 * httpRequest.getRequestDispatcher(errorPage).forward(httpRequest,
+		 * httpResponse); return; }
+		 * 
+		 * } else { // (통과) /adminMain.do가 아닌 다른 API 요청 (예: /getStats.do) // 1차
+		 * 검문(loginAdmin)을 통과했으므로 허용 chain.doFilter(request, response); }
+		 */chain.doFilter(request, response);
 	}
 
 	@Override
