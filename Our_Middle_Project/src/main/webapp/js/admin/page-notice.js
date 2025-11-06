@@ -81,7 +81,7 @@ const Notice = {
             document.getElementById('notice-title').value = notice.board_title || '';
             document.getElementById('notice-content').value = notice.board_content || '';
             
-            // ▼▼▼ [수정] 수정 모드: 삭제 버튼 표시, 저장 버튼 텍스트 변경
+            // 수정 모드: 삭제 버튼 표시, 저장 버튼 텍스트 변경
             document.getElementById('btn-delete-notice').style.display = 'block';
             document.getElementById('btn-save-notice').textContent = '수정 완료';
             

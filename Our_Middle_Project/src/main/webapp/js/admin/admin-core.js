@@ -44,6 +44,8 @@ const AdminCore = {
 				ReviewPage.loadAndRender();
 			} else if (targetId === 'notice-management') {
 				Notice.Start();
+			} else if (targetId === 'post-management') {
+				PostPage.Start();
 			}
 			sessionStorage.setItem('lastView', targetId);
 		}

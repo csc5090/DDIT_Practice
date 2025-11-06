@@ -332,11 +332,34 @@
 						</div>
 					</div>
 
-					<div class="bodyArea" id="post-management">게시판 관리</div>
+					<div class="bodyArea" id="post-management" style="display: none;">
+						<div class="toolbar">
+							<h1>게시물 관리 (자유게시판)</h1>
+						</div>
+
+						<div class="list-container">
+							<table class="data-table" id="post-management-list">
+								<thead>
+									<tr>
+										<th style="width: 10%;">번호</th>
+										<th style="width: 45%;">제목</th>
+										<th style="width: 15%;">작성자(MemNo)</th>
+										<th style="width: 20%;">작성일</th>
+										<th style="width: 10%;">관리</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td colspan="5" style="text-align: center; padding: 40px;">게시물
+											목록을 로드하는 중...</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
 
 
 					<div class="bodyArea" id="review-management">
-						[cite: 5]
 
 						<div class="review-main-content">
 							<div class="review-list-container" id="admin-review-list">
@@ -367,15 +390,12 @@
 									<p>
 										왼쪽 목록에서 리뷰를 더블클릭하여<br>상세 정보를 확인하세요.
 									</p>
-									[cite: 5]
 								</div>
 
-							
+								<%-- ▼▼▼ (수정) 버튼(crud-actions)이 view 밖으로 이동된 올바른 구조 ▼▼▼ --%>
 								<div class="review-detail-content" style="display: none;">
-									[cite: 5]
 
 									<div class="review-detail-view">
-										[cite: 5]
 										<h3 id="detail-review-title" class="review-card-title"></h3>
 
 										<div class="review-card-meta-list">
@@ -401,7 +421,6 @@
 										</div>
 
 										<div class="review-crud-panel">
-											[cite: 5]
 											<h3>관리</h3>
 											<div class="review-admin-box">
 												<div class="form-group">
@@ -415,8 +434,9 @@
 										</div>
 									</div>
 
+
 									<div class="crud-actions">
-										[cite: 5]
+
 										<button class="action-btn primary" data-action="save-reply">댓글
 											저장</button>
 										<button class="action-btn secondary"
@@ -447,11 +467,11 @@
 	UserInfoDTO admin = (UserInfoDTO) session.getAttribute("loginAdmin");
 	String adminName = "관리자";
 	String adminId = "";
-    String adminNickname = ""; 
+	String adminNickname = "";
 	if (admin != null) {
 		adminName = admin.getMem_name();
 		adminId = admin.getMem_id();
-		adminNickname = admin.getNickname(); 
+		adminNickname = admin.getNickname();
 	}
 	%>
 	<script type="text/javascript">
@@ -464,7 +484,7 @@
 		console.log(ADMIN_DATA);
 	</script>
 
-	<script type="text/javascript">
+	<!-- <script type="text/javascript">
 		(function() {
 
 			document.addEventListener('keydown', function(e) {
@@ -486,7 +506,7 @@
 				}
 			});
 		})();
-	</script>
+	</script> -->
 
 
 

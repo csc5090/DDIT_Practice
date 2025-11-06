@@ -3,7 +3,7 @@
 
 <mapper namespace="com.our_middle_project.dao.AdminBoardDAO">
 
-	<select id="getAdminBoardList"
+    <select id="getAdminBoardList"
 		resultType="com.our_middle_project.dto.AdminBoardDTO">
 		SELECT
 		BOARD_NO as board_no,
@@ -17,18 +17,12 @@
 		DISLIKE_COUNT as dislike_count,
 		MEM_NO as mem_no,
 		TYPE_NO as type_no
-
-		FROM
-		BOARD
-
-		WHERE
-		TYPE_NO = 1
-
-		ORDER BY
-		BOARD_NO DESC
+		FROM BOARD
+		WHERE TYPE_NO = 1
+		ORDER BY BOARD_NO DESC
 	</select>
 
-	<insert id="insertNotice" parameterType="com.our_middle_project.dto.AdminBoardDTO">
+    <insert id="insertNotice" parameterType="com.our_middle_project.dto.AdminBoardDTO">
 		<selectKey keyProperty="board_no" resultType="int" order="BEFORE">
 		SELECT SEQ_BOARD.NEXTVAL FROM DUAL
 		</selectKey>
@@ -41,21 +35,47 @@
 		)
 	</insert>
 	
-	<update id="updateNotice" parameterType="com.our_middle_project.dto.AdminBoardDTO">
+    <update id="updateNotice" parameterType="com.our_middle_project.dto.AdminBoardDTO">
         UPDATE BOARD
         SET
         BOARD_TITLE = #{board_title},
         BOARD_CONTENT = #{board_content},
         UPDATED_DATE = SYSDATE
-        
         WHERE
         BOARD_NO = #{board_no} AND TYPE_NO = 1
     </update>
     
     <delete id="deleteNotice" parameterType="int">
         DELETE FROM BOARD
-        
         WHERE BOARD_NO = #{board_no} AND TYPE_NO = 1
+    </delete>
+    
+    <select id="getAdminPostList" resultType="com.our_middle_project.dto.AdminBoardDTO">
+        SELECT 
+            BOARD_NO        as board_no,
+            BOARD_TITLE     as board_title,
+            BOARD_CONTENT   as board_content,
+            CREATED_DATE    as created_date,
+            UPDATED_DATE    as updated_date,
+            VIEW_COUNT      as view_count,
+            LIKE_COUNT      as like_count,
+            DISLIKE_COUNT   as dislike_count,
+            MEM_NO          as mem_no,
+            TYPE_NO         as type_no
+        FROM 
+            BOARD
+        WHERE 
+            TYPE_NO = 3
+        ORDER BY 
+            BOARD_NO DESC
+    </select>
+    
+    <delete id="deletePost" parameterType="int">
+        DELETE FROM 
+            BOARD
+        WHERE 
+            BOARD_NO = #{board_no} 
+            AND TYPE_NO = 3
     </delete>
 
 </mapper>

@@ -19,7 +19,7 @@ window.onload = () => {
 		UserPage.init();
 	}
 	if (document.getElementById('notice-management')) {
-		NoticePage.init();
+		Notice.init();
 	}
 	if (document.getElementById('post-management')) {
 		PostPage.init();

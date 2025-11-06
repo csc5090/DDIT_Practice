@@ -30,7 +30,6 @@ public class AdminAjaxController implements Action {
 			throws ServletException, IOException {
 
 		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
 
 		// 현재 요청된 URL(command)을 request 객체에서 가져옴.
 		String command = request.getRequestURI().substring(request.getContextPath().length());
@@ -53,7 +52,6 @@ public class AdminAjaxController implements Action {
 						.write(gson.toJson(Map.of("status", "error", "message", "관리자 권한 정보가 유효하지 않습니다. 다시 로그인해주세요.")));
 				return null;
 			}
-			// 그 외 요청은 기존 로직대로 진행
 		} else {
 			adminNickname = adminInfo.getNickname(); // 등급(1, 2, 3, 4) 추출
 		}
@@ -166,12 +164,7 @@ public class AdminAjaxController implements Action {
 
 				// 결과를 JSON으로 응답
 				response.getWriter().write(gson.toJson(noticeList));
-			}
-
-			// 공지사항 CRUD 로직 및 권한 검사
-
-			// 1. 공지사항 작성 (C) - 1, 2, 3 등급만 허용
-			else if ("/adminNoticeWrite.do".equals(command)) {
+			} else if ("/adminNoticeWrite.do".equals(command)) {
 
 				System.out.println("AJAX 요청: /adminNoticeWrite.do");
 
@@ -246,21 +239,48 @@ public class AdminAjaxController implements Action {
 					response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 					response.getWriter().write(gson.toJson(Map.of("status", "error", "message", "공지사항 삭제에 실패했습니다.")));
 				}
+			} else if ("/getAdminPostList.do".equals(command)) { // 게시물 목록 조회
+
+				System.out.println("AJAX 요청: /getAdminPostList.do");
+				List<AdminBoardDTO> postList = adminBoardService.getAdminPostList();
+				response.getWriter().write(gson.toJson(postList));
+
+			} else if ("/adminPostDelete.do".equals(command)) { // 게시물 삭제 (D)
+
+				System.out.println("AJAX 요청: /adminPostDelete.do");
+
+				if (adminInfo == null || !adminBoardService.canEditDeleteNotice(adminNickname)) {
+					response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+					response.getWriter()
+							.write(gson.toJson(Map.of("status", "error", "message", "권한 부족: 게시물 삭제 권한이 없습니다.")));
+					return null;
+				}
+
+				AdminBoardDTO postDTO = gson.fromJson(request.getReader(), AdminBoardDTO.class);
+				int boardNoToDelete = postDTO.getBoard_no();
+
+				boolean isSuccess = adminBoardService.deletePost(boardNoToDelete);
+
+				Map<String, String> responseData = new HashMap<>();
+				responseData.put("status", isSuccess ? "success" : "fail");
+
+				if (isSuccess) {
+					responseData.put("message", "게시물이 성공적으로 삭제되었습니다.");
+				} else {
+					responseData.put("message", "게시물 삭제에 실패했습니다.");
+				}
+				response.getWriter().write(gson.toJson(responseData));
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
-
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			Map<String, String> errorData = new HashMap<>();
 			errorData.put("status", "error");
 			errorData.put("error", "데이터를 처리하는 중 오류가 발생했습니다.");
-
 			response.getWriter().write(gson.toJson(errorData));
 		}
 
-		// AJAX 처리가 모두 끝났으므로 FrontController에는 null을 반환.
 		return null;
 	}
-
 }
