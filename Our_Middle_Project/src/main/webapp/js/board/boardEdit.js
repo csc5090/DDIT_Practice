@@ -8,6 +8,46 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log("Board Form Script Loaded!");
+	
+	document.getElementById("editForm").addEventListener("submit", function(e){
+	    e.preventDefault();
+
+	    Swal.fire({
+	        title: "수정 완료",
+	        html: `<div style="
+	                    font-size: 50px;
+	                    color: #ff66a9;
+	                    text-shadow: 0 0 5px #ff66a9, 0 0 10px #ff66a9, 0 0 20px #ff66a9;">
+	                    &#10003; <!-- 체크 표시 -->
+	               </div>
+	               <p>게시물이 반영되었습니다.</p>`,
+	        showConfirmButton: true,
+	        confirmButtonText: "확인",
+	        color: "#ff66a9",
+	        background: "rgba(12,0,28,0.8) url('../../images/logins/loginBack.png') no-repeat center center",
+	        didOpen: (popup) => {
+	            popup.style.backgroundSize = "cover";
+	            popup.style.border = "2px solid #ff66a9";
+	            popup.style.borderRadius = "15px";
+	            popup.style.boxShadow = "0 0 10px #ff66a9, 0 0 20px #ff66a9, 0 0 40px #ff66a9";
+	            popup.style.backdropFilter = "blur(5px)";
+
+	            const button = popup.querySelector('.swal2-confirm');
+	            if(button){
+	                button.style.backgroundColor = "#ff66a9";
+	                button.style.color = "#0c001c";
+	                button.style.textShadow = "0 0 5px #fff";
+	                button.style.boxShadow = "0 0 10px #ff66a9, 0 0 20px #ff66a9";
+	                button.style.border = "none";
+	                button.style.fontWeight = "bold";
+	            }
+	        }
+	    }).then(() => {
+	        this.submit();
+	    });
+	});
+
+
 });
 
 /**
@@ -48,3 +88,4 @@ function validateReply() {
     // 답글은 기본적으로 글쓰기와 동일한 유효성 검사를 사용합니다.
     return validateWrite();
 }
+

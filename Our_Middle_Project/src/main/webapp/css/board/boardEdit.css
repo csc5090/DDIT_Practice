@@ -116,6 +116,7 @@ body {
 .form-group {
     margin-bottom: 20px;
     text-align: left;
+    flex-wrap: nowrap;
 }
 
 .form-group label {
@@ -219,11 +220,7 @@ body {
 
 
 
-.neon-button:hover {
-    background-color: var(--neon-color-pink);
-    color: var(--background-color);
-    box-shadow: 0 0 20px var(--neon-color-pink), 0 0 40px var(--neon-color-pink);
-}
+
 
 /* 페이징 및 링크 스타일 */
 
@@ -281,3 +278,14 @@ body {
     gap: 10px; 
     margin-top: 20px;
 }
+
+.category-tag {
+	font-size:20px;
+    white-space: nowrap;
+}
+
+#title {
+    flex: 1; /* ← 요게 핵심 */
+}
+
+
