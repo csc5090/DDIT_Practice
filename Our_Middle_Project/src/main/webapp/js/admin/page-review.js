@@ -9,9 +9,11 @@ const ReviewPage = {
 		const reviewPage = document.getElementById('review-management');
 		if (reviewPage) {
 			reviewPage.addEventListener('click', this.handleClick.bind(this));
-			const listContainer = document.getElementById('admin-review-list');
-			if (listContainer) {
-				listContainer.addEventListener('dblclick', this.handleDblClick.bind(this));
+
+			// 이벤트 리스너를 tbody로 변경
+			const listTbody = document.getElementById('admin-review-list-tbody');
+			if (listTbody) {
+				listTbody.addEventListener('dblclick', this.handleDblClick.bind(this));
 			}
 		}
 
@@ -30,10 +32,10 @@ const ReviewPage = {
 			});
 		}
 	},
-	
+
 	handleSearch: function() {
-	    const keyword = document.getElementById('review-search-input').value;
-	    this.loadAndRender(keyword.trim());
+		const keyword = document.getElementById('review-search-input').value;
+		this.loadAndRender(keyword.trim());
 	},
 
 	loadAndRender: async function(keyword = null) {
@@ -44,13 +46,15 @@ const ReviewPage = {
 			this.sortAndRenderTable(this.currentSort.key, this.currentSort.order);
 		} catch (error) {
 			console.error("리뷰 목록 로딩 실패:", error);
-			const tableBody = document.querySelector('#admin-review-list tbody');
+			// 셀렉터 변경
+			const tableBody = document.querySelector('#admin-review-list-tbody');
 			if (tableBody) tableBody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 40px;">리뷰 목록을 불러오는 데 실패했습니다.</td></tr>`;
 		}
 	},
 
 	renderList: function() {
-		const tableBody = document.querySelector('#admin-review-list tbody');
+		// 셀렉터 변경
+		const tableBody = document.querySelector('#admin-review-list-tbody');
 		if (!tableBody) return;
 
 		let listToRender = this.currentList;
@@ -63,7 +67,7 @@ const ReviewPage = {
 
 		listToRender.forEach(review => {
 			const row = document.createElement('tr');
-			row.className = 'review-list-item';
+			row.className = 'review-list-item'; // 이 클래스는 CSS에서 사용될 수 있으므로 유지
 			row.dataset.reviewNo = review.boardNo;
 
 			const starsHTML = `<span class="stars-filled">${'★'.repeat(review.stars)}</span><span class="stars-empty">${'☆'.repeat(5 - review.stars)}</span>`;
@@ -83,6 +87,7 @@ const ReviewPage = {
 	},
 
 	sortAndRenderTable: function(key, order) {
+		// (정렬 로직은 변경 없음)
 		if (!this.currentList || this.currentList.length === 0) {
 			this.renderList();
 			return;
@@ -107,6 +112,7 @@ const ReviewPage = {
 	},
 
 	updateSortIcons: function(key, order) {
+		// (아이콘 업데이트 로직은 변경 없음)
 		document.querySelectorAll('#review-management .sortable').forEach(th => {
 			const icon = th.querySelector('.sort-icon');
 			if (icon) {
@@ -125,10 +131,26 @@ const ReviewPage = {
 	},
 
 	clearDetailViews: function() {
-		document.querySelector('.review-detail-placeholder').style.display = 'flex';
-		document.querySelector('.review-detail-content').style.display = 'none';
+		// 1. 플레이스홀더 표시, 푸터(버튼) 숨김
+		document.getElementById('review-detail-placeholder').style.display = 'block';
+		document.getElementById('review-detail-footer').style.display = 'none';
+
+		// 2. 상단 타이틀 초기화
+		document.getElementById('detail-review-selected-title').textContent = '';
 		this.selectedReviewNo = null;
 
+		// 3. 폼 필드 내용 비우기 (새로운 ID 기준)
+		document.getElementById('detail-review-nickname-input').value = '';
+		document.getElementById('detail-review-date-input').value = '';
+		document.getElementById('detail-review-stars-input').value = '';
+		document.getElementById('detail-review-content-textarea').value = '';
+		document.getElementById('detail-review-image-display').innerHTML = '<span>-</span>';
+
+		document.getElementById('admin-reply-date').textContent = '미작성';
+		document.getElementById('admin-reply-textarea').value = '';
+		document.getElementById('admin-reply-textarea').disabled = true;
+
+		// 4. 선택된 항목 하이라이트 제거
 		const currentSelected = document.querySelector('.review-list-item.selected');
 		if (currentSelected) currentSelected.classList.remove('selected');
 	},
@@ -137,25 +159,38 @@ const ReviewPage = {
 		const review = this.currentList.find(r => r.boardNo == reviewNo);
 		if (!review) return;
 
-		document.querySelector('.review-detail-placeholder').style.display = 'none';
-		document.querySelector('.review-detail-content').style.display = 'block';
+		// 1. 플레이스홀더 숨김, 푸터(버튼) 표시
+		document.getElementById('review-detail-placeholder').style.display = 'none';
+		document.getElementById('review-detail-footer').style.display = 'flex';
 
 		this.selectedReviewNo = review.boardNo;
-		document.getElementById('detail-review-title').textContent = review.boardTitle ?? '[제목 없음]';
-		document.getElementById('detail-review-nickname').textContent = review.nickname;
-		document.getElementById('detail-review-date').textContent = review.createdDate;
 
-		const starsHTML = `<span class="stars-filled">${'★'.repeat(review.stars)}</span><span class="stars-empty">${'☆'.repeat(5 - review.stars)}</span>`;
-		document.getElementById('detail-review-stars').innerHTML = starsHTML;
+		// --- 2. 데이터 채우기 (새로운 ID 기준) ---
 
-		document.getElementById('detail-review-image').innerHTML = review.hasImage === 'Y' ? `<img src="/path/to/image/${review.boardNo}" alt="리뷰 이미지">` : '<span>이미지 없음</span>';
-		document.getElementById('detail-review-content').textContent = review.boardContent;
+		// 제목을 상단 h2 태그에 표시
+		document.getElementById('detail-review-selected-title').textContent = review.boardTitle ?? '[제목 없음]';
+
+		document.getElementById('detail-review-nickname-input').value = review.nickname;
+		document.getElementById('detail-review-date-input').value = review.createdDate;
+
+		const starsText = '★'.repeat(review.stars) + '☆'.repeat(5 - review.stars);
+		document.getElementById('detail-review-stars-input').value = starsText;
+
+		document.getElementById('detail-review-content-textarea').value = review.boardContent;
+
+		document.getElementById('detail-review-image-display').innerHTML = review.hasImage === 'Y'
+			? `<img src="${CONTEXT_PATH}/uploads/review_${review.boardNo}.jpg" alt="리뷰 이미지">`
+			: '<span>이미지 없음</span>';
+
 		document.getElementById('admin-reply-date').textContent = review.adminReplyDate || '미작성';
 		document.getElementById('admin-reply-textarea').value = review.adminReply || '';
-		document.getElementById('detail-review-image').innerHTML = review.hasImage === 'Y' 
-		    ? `<img src="${CONTEXT_PATH}/uploads/review_${review.boardNo}.jpg" alt="리뷰 이미지">` // (경로는 예시입니다)
-		    : '<span>이미지 없음</span>';
-		const deleteImageBtn = document.querySelector('.review-crud-panel .action-btn[data-action="delete-image"]');
+		document.getElementById('admin-reply-textarea').disabled = false; // 댓글창 활성화
+
+		// --- 3. 버튼 상태 제어 ---
+		document.querySelector('#review-detail-footer .action-btn[data-action="save-reply"]').disabled = false;
+		document.querySelector('#review-detail-footer .action-btn[data-action="delete-review"]').disabled = false;
+
+		const deleteImageBtn = document.querySelector('#review-detail-footer .action-btn[data-action="delete-image"]');
 		if (deleteImageBtn) {
 			if (review.hasImage === 'Y') {
 				deleteImageBtn.classList.add('image-active');
@@ -170,6 +205,7 @@ const ReviewPage = {
 	},
 
 	handleClick: function(e) {
+		// (정렬 헤더 클릭 로직은 변경 없음)
 		const sortHeader = e.target.closest('.sortable');
 		if (sortHeader) {
 			const clickedKey = sortHeader.dataset.sortKey;
@@ -183,12 +219,13 @@ const ReviewPage = {
 			return;
 		}
 
-		const button = e.target.closest('.action-btn');
+		// 버튼 셀렉터가 .detail-footer 내부를 보도록 함
+		const button = e.target.closest('#review-detail-footer .action-btn');
 		if (!button) return;
 
 		const action = button.dataset.action;
 		if (!this.selectedReviewNo) {
-			Swal.fire('알림', '먼저 왼쪽 목록에서 리뷰를 더블클릭하여 선택해주세요.', 'info');
+			Swal.fire('알림', '편집할 리뷰를 더블클릭하세요.', 'info');
 			return;
 		}
 
@@ -203,9 +240,11 @@ const ReviewPage = {
 	},
 
 	handleDblClick: function(e) {
-		const reviewItem = e.target.closest('[data-review-no]');
+		// 셀렉터 변경 (tbody 기준)
+		const reviewItem = e.target.closest('tr[data-review-no]');
 		if (reviewItem) {
-			document.querySelectorAll('.review-list-item').forEach(item => item.classList.remove('selected'));
+			// 'selected' 클래스 관리
+			document.querySelectorAll('#admin-review-list-tbody tr').forEach(item => item.classList.remove('selected'));
 			reviewItem.classList.add('selected');
 			this.populateDetailViews(reviewItem.dataset.reviewNo);
 		}

@@ -260,7 +260,6 @@
 				<div class="bodyArea" id="notice-management">
 					<div id="notice-list-view" class="notice-view">
 						<div class="notice-toolbar">
-							<h1>공지사항 관리</h1>
 							<button id="btn-new-notice" class="btn-primary">새 글 작성</button>
 						</div>
 						<div class="notice-table-wrapper">
@@ -385,18 +384,18 @@
 
 				<%-- ================= 리뷰 관리 ================= --%>
 				<div class="bodyArea" id="review-management">
-					<%-- ... (리뷰 관리 HTML) ... --%>
-					<div class="review-toolbar">
-						<%-- 툴바 --%>
-						<div class="search-bar" style="width: 400px;">
-							<input type="text" id="review-search-input"
-								placeholder="리뷰 제목 또는 닉네임으로 검색">
-							<button id="review-search-btn" class="action-btn primary">검색</button>
+
+					<%-- 1. 왼쪽: 목록 패널 --%>
+					<div class="user-list-panel">
+						<div class="list-toolbar">
+							<div class="search-bar">
+								<input type="text" id="review-search-input"
+									placeholder="리뷰 제목 또는 닉네임으로 검색">
+								<button id="review-search-btn" class="action-btn primary">검색</button>
+							</div>
 						</div>
-					</div>
-					<div class="review-main-content">
-						<div class="review-list-container" id="admin-review-list">
-							<table class="review-list-table">
+						<div class="user-list-wrapper">
+							<table class="review-list-table" id="admin-review-list-table">
 								<thead>
 									<tr>
 										<th class="sortable" data-sort-key="boardTitle">리뷰 제목 <span
@@ -408,65 +407,82 @@
 										<th class="sortable" data-sort-key="hasImage">사진 <span
 											class="sort-icon"></span></th>
 										<th class="sortable" data-sort-key="adminReply">관리자 댓글 <span
-											class="sort-icon"></span></th>
+											class="sort-icon"></span>
+										</th>
 										<th class="sortable" data-sort-key="createdDate">작성일 <span
 											class="sort-icon"></span></th>
 									</tr>
 								</thead>
-								<tbody>
+								<tbody id="admin-review-list-tbody">
+									<%-- JS로 채워짐 --%>
 								</tbody>
 							</table>
 						</div>
-						<div class="review-detail-container">
-							<div class="review-detail-placeholder">
-								<p>
-									왼쪽 목록에서 리뷰를 더블클릭하여<br>상세 정보를 확인하세요.
-								</p>
+					</div>
+
+					<%-- 2. 오른쪽: 상세정보 패널 --%>
+					<div class="user-detail-panel">
+						<div class="detail-content" id="review-detail-content-area">
+							<div class="detail-header">
+								<%-- JS가 이 h2 태그에 제목을 채웁니다 --%>
+								<h2 id="detail-review-selected-title"></h2>
+								<p class="header-guideline" id="review-detail-placeholder">
+									편집할 리뷰를 더블클릭하세요.</p>
 							</div>
-							<div class="review-detail-content" style="display: none;">
-								<div class="review-detail-view">
-									<h3 id="detail-review-title" class="review-card-title"></h3>
-									<div class="review-card-meta-list">
-										<div class="meta-item">
-											<span class="meta-label">닉네임</span> <span
-												id="detail-review-nickname" class="meta-value"></span>
-										</div>
-										<div class="meta-item">
-											<span class="meta-label">작성일</span> <span
-												id="detail-review-date" class="meta-value"></span>
-										</div>
-										<div class="meta-item">
-											<span class="meta-label">별점</span> <span
-												id="detail-review-stars"
-												class="meta-value review-card-stars"></span>
-										</div>
-									</div>
-									<div class="review-card-body">
-										<p id="detail-review-content"></p>
-										<div id="detail-review-image"
-											class="review-card-image-wrapper"></div>
-									</div>
-									<div class="review-crud-panel">
-										<h3>관리</h3>
-										<div class="review-admin-box">
-											<div class="form-group">
-												<label for="admin-reply-textarea">관리자 댓글 (작성일: <span
-													id="admin-reply-date"></span>)
-												</label>
-												<textarea id="admin-reply-textarea"
-													placeholder="관리자 댓글을 입력하거나 수정하세요."></textarea>
-											</div>
-										</div>
+
+							<%-- '게시물 관리'와 동일한 form-group 구조 --%>
+							<div class="detail-body" id="review-detail-body">
+
+								<div class="form-group">
+									<label for="detail-review-nickname-input">닉네임</label> <input
+										type="text" id="detail-review-nickname-input" readonly>
+								</div>
+
+								<div class="form-group">
+									<label for="detail-review-date-input">작성일</label> <input
+										type="text" id="detail-review-date-input" readonly>
+								</div>
+
+								<div class="form-group">
+									<label for="detail-review-stars-input">별점</label> <input
+										type="text" id="detail-review-stars-input" readonly>
+								</div>
+
+								<div class="form-group">
+									<label>리뷰 이미지</label>
+									<div id="detail-review-image-display"
+										class="review-image-placeholder">
+										<span>-</span>
 									</div>
 								</div>
-								<div class="crud-actions">
-									<button class="action-btn primary" data-action="save-reply">댓글
-										저장</button>
-									<button class="action-btn secondary" data-action="delete-image">이미지
-										삭제</button>
-									<button class="action-btn danger" data-action="delete-review">리뷰
-										삭제</button>
+
+								<div class="form-group full-width">
+									<label for="detail-review-content-textarea">내용</label>
+									<textarea id="detail-review-content-textarea"
+										style="height: 150px; resize: vertical;" readonly></textarea>
 								</div>
+
+								<div class="form-group full-width">
+									<label for="admin-reply-textarea">관리자 댓글 (작성일: <span
+										id="admin-reply-date">미작성</span>)
+									</label>
+									<div class="post-comment-wrapper" style="height: 150px;">
+										<textarea id="admin-reply-textarea"
+											placeholder="관리자 댓글을 입력하거나 수정하세요."
+											style="height: 100%; resize: none;"></textarea>
+									</div>
+								</div>
+							</div>
+
+							<%-- 버튼은 숨겨진 상태로 유지 --%>
+							<div class="detail-footer" id="review-detail-footer"
+								style="display: none;">
+								<button class="action-btn primary" data-action="save-reply">댓글
+									저장</button>
+								<button class="action-btn secondary" data-action="delete-image">이미지
+									삭제</button>
+								<button class="action-btn danger" data-action="delete-review">리뷰
+									삭제</button>
 							</div>
 						</div>
 					</div>
@@ -507,7 +523,6 @@
 			: "";
 	%>
 
-
 	<!-- 따옴표 구간 -->
 	<script type="text/javascript">
 		const ADMIN_DATA = {
@@ -515,6 +530,7 @@
             id: "<%=adminId%>",
 			nickname: "<%=adminNickname%>"
 		};
+
 		console.log(ADMIN_DATA);
 	</script>
 
