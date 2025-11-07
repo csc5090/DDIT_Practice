@@ -50,11 +50,13 @@ function addEventHandle() {
 function startGame() {
 	console.log('날 눌렀다.');
 	
+	gameStartTimeStr = new Date().toISOString().slice(0,19).replace("T"," "); // 시작 시간 기록
+	
 	startBtn.disabled = true;			//버튼 누른 후 다시 버튼 x
 	startBtn.style.cursor = 'default';
 	/*document.body.appendChild();*/
 
-	if(savedLevel == 4 || savedLevel == 6 || savedLevel == 8) createCard(savedLevel);
+	if(savedArray == 4 || savedArray == 6 || savedArray == 8) createCard(savedArray);
 	countDown(()=>{ 
 		startTimer();
 	});
@@ -145,7 +147,7 @@ function cardChoice(obj, e) {
 								//콤보 카운트
 			
 			// 모든 카드 맞출 시 ★ 종료 시점 ★
-			let endCard = (savedLevel * savedLevel) / 2;
+			let endCard = (savedArray * savedArray) / 2;
 			if(count == endCard){
 			/*	================종료 로직 테스트중========================== */
 				dataSave();
@@ -192,11 +194,11 @@ function countDown(callback){
 
 //======레벨별 기본 시간
 function getDefaultTimeByLevel() {
-    switch(savedLevel){
+    switch(savedArray){
         case 4: return 30.9;		//딜레이가 있어서 0.9초 더 부여
         case 6: return 180.9;
         case 8: return 300.9;
-        default: return 60.9;
+        default: return 30.9;
     }
 }
 
@@ -365,19 +367,28 @@ function dataSave() {
     lockBoard = true;         // 카드 잠금
 
     // ===== POST 전송 =====
-    submitGameLog();
+	const levelNo = parseInt(savedNo);
+    const score = totalscore;
+    const combo = maxCombo;
+
+
+	
+	
+    const startTimeStr = gameStartTimeStr || new Date().toISOString().slice(0, 19).replace("T", " ");
+    const endTimeStr = new Date().toISOString().slice(0, 19).replace("T", " ");
+	
+	const start = new Date(startTimeStr);
+	const end   = new Date(endTimeStr);
+	const clearTime = Math.floor((end - start) / 1000);
+	console.log("몇초걸렸냐?",clearTime);
+    // 세션에서 가져온 유저 번호
+    const memNo = userDataCase.mem_no;
+//	const memNo = 81;
+
+    const jsonData = { memNo, levelNo, score, combo, clearTime, startTimeStr, endTimeStr };
+    console.log("서버로 보낼 JSON:", JSON.stringify(jsonData));
+
+	gameLogToDB(jsonData);
 
     endGame();
-}
-
-function submitGameLog() {
-    const form = document.getElementById("gameLogForm");
-    form.levelNo.value = savedLevel; // 현재 레벨
-    form.score.value = totalscore;
-    form.combo.value = maxCombo;
-    form.clearTime.value = parseInt((getDefaultTimeByLevel() - pausedTime / 10) || 0); // 클리어 시간
-    form.startTime.value = new Date().toISOString().slice(0,19).replace("T"," ");   // 예: "2025-11-06 13:22:11"
-    form.endTime.value = new Date().toISOString().slice(0,19).replace("T"," ");     // 종료 시간
-
-    form.submit(); // POST 요청
 }

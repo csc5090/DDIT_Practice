@@ -5,7 +5,7 @@ import com.our_middle_project.dto.GameLogDTO;
 import com.our_middle_project.serviceInterface.GameLogService;
 
 public class GameLogServiceImpl implements GameLogService {
-	
+
 	private GameLogDAO gameLogDAO;
 
     public GameLogServiceImpl(GameLogDAO gameLogDAO) {

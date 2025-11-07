@@ -7,14 +7,22 @@
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
 	
-	<link rel="stylesheet" href="./css/fonts.css">
 	
+	<!-- bootstrap -->
 	<link rel="stylesheet" href="./js/lib/bootstrap/css/bootstrap.min.css">
 	<script type="text/javascript" src="./js/lib/bootstrap/js/bootstrap.min.js"></script>
 	
+	<!-- sweetalert2 -->
 	<link rel="stylesheet" href="./js/lib/sweetalert2/dist/sweetalert2.min.css">
 	<script type="text/javascript" src="./js/lib/sweetalert2/dist/sweetalert2.min.js"></script>
-
+	
+	<!-- jquery -->
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/jquery/jquery-3.7.1.min.js"></script>
+	
+	<!-- axios -->
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/axios/axios.min.js"></script>
+	
+	<link rel="stylesheet" href="./css/fonts.css">
 	<link rel="stylesheet"href="./css/game/cardGame.css">
 	<link rel="stylesheet" href="./css/game/gameEnding.css">
 </head>
@@ -152,12 +160,25 @@
 		const userDataCase = JSON.parse('<%= userJson %>');
 		console.log(userDataCase);
 		
-		const savedLevel = ${sessionScope.map.level_name};
-	    console.log("savedLevel:", savedLevel);
+		const savedArray = ${sessionScope.map.level_name};
+
+ 		const savedNo = "1";
+// 		const savedName = "--";
+// 		const savedArray = "4";
+		
+	    console.log("savedArray:", savedArray);
 	</script>
 	
+
+<!-- 	<script type="text/javascript"> -->
+<%-- 	    const BASE_URL = '<%= request.getContextPath() %>/'; // context path 기준으로 서버 URL --%>
+<!-- 	</script> -->
+
+	<script type="text/javascript" src="./js/common.js"></script>
 	<script type="text/javascript" src="./js/game/gamePlay.js"></script>
+	<script type="text/javascript" src="./js/game/gamePlayToDB.js"></script>
 	<script type="text/javascript" src="./js/game/gameEnding.js"></script>
+
 
 </body>
 </html>

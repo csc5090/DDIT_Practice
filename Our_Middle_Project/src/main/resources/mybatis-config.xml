@@ -35,5 +35,6 @@
 		<mapper resource="mappers/gameMapper.xml" />
 		<mapper resource="mappers/AdminBoardMapper.xml" />
 		<mapper resource="mappers/rankingMapper.xml" />
+		<mapper resource="mappers/gameLogMapper.xml" />
 	</mappers>
 </configuration>
