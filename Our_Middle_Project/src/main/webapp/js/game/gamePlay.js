@@ -135,7 +135,7 @@ function cardChoice(obj, e) {
 			firstCard = null;
 			secondCard = null;	
 			
-			score += 3;							//점수 부여 
+			score += 100;							//점수 부여 
 			count += 1;	
 			comboCount ++;							//몇개 맞춘지
 			
@@ -143,7 +143,7 @@ function cardChoice(obj, e) {
 				maxCombo = comboCount;		//최고 콤보 업데이트
 			}
 			
-			totalscore = score + (comboCount-1)*3;	//3점에 콤보 숫자만큼 곱
+			totalscore = score + (comboCount-1)*100;	//100점에 콤보 숫자만큼 곱
 								//콤보 카운트
 			
 			// 모든 카드 맞출 시 ★ 종료 시점 ★
@@ -327,23 +327,6 @@ function handleExit(){
 }
 
 //======종료 로직 
-function dataSave() {
-	
-	console.trace();
-	console.trace("ttt");
-	
-	console.log("게임 데이터를 저장합니다.");
-	console.log("gg!");
-	console.log("점수: " + totalscore)
-	console.log("맞춘갯수 : "+count);
-	console.log("최고콤보 : "+maxCombo);
-	
-	
-	clearInterval(gameTimer);	//타이머 초기화
-	lockBoard = true;			//카드 잠금 on
-	
-	endGame()
-}
 
 function gameOut() {
 	window.location.href = "gameHome.do";  // 확인(종료)클릭 시
@@ -368,8 +351,8 @@ function dataSave() {
 
     // ===== POST 전송 =====
 	const levelNo = parseInt(savedNo);
-    const score = totalscore;
-    const combo = maxCombo;
+//    const score = totalscore;
+      const combo = maxCombo;
 
 
 	
@@ -381,14 +364,31 @@ function dataSave() {
 	const end   = new Date(endTimeStr);
 	const clearTime = Math.floor((end - start) / 1000);
 	console.log("몇초걸렸냐?",clearTime);
+	
+	let timeBonus = Math.round((getDefaultTimeByLevel() - clearTime) * 100); 
+	if (timeBonus < 0) timeBonus = 0;  //아무것도 안누르면 확실하게 0점 부여
+
+	totalscore = totalscore + timeBonus; 
+	
+
+	
     // 세션에서 가져온 유저 번호
     const memNo = userDataCase.mem_no;
 //	const memNo = 81;
 
-    const jsonData = { memNo, levelNo, score, combo, clearTime, startTimeStr, endTimeStr };
+    const jsonData = { memNo, levelNo, score: totalscore, combo, clearTime, startTimeStr, endTimeStr };
     console.log("서버로 보낼 JSON:", JSON.stringify(jsonData));
 
 	gameLogToDB(jsonData);
-
+	
+	endingInfo = {
+	       score: totalscore,
+	       plusTime: clearTime,
+	       combo: maxCombo,
+	       cardCount: count
+	   };
+	   
+	   console.log("endingInfo", endingInfo);
+	   
     endGame();
 }
