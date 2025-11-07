@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" isELIgnored="true" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -507,8 +508,10 @@ input#imageInput[hidden] {
 <body>
 
    <div class="whiteAll-center">
+  
       <button id="iOpenModal" class="openModal btn btn-outline-dark"
-         type="button">Review Board</button>
+         type="button">Review Board</button>       
+         
    </div>
 
    <div id="iReviewModal" class="reviewModal" hidden>
@@ -521,9 +524,62 @@ input#imageInput[hidden] {
 
          <!-- 목록 -->
          <div class="innerContent">
+<!-- 여기 -->
+
 				<section id="iReviewList" class="reviewList">
 
+						<c:if test="${!empty reviewList}">
+							<c:forEach var="r" items="${reviewList}">
+								<article class="card" data-board-no="${r.boardNo}">
+									<div class="head">
+<!-- 닉네임 -->   						<span class="nickname"><c:out value="${r.nickName}" /></span>
+<!-- 아이디 -->							<span class="memId">#<c:out value="${r.memId}" /></span> 
+<!-- 별 점 -->							<span class="stars" aria-label="${r.star}점">
+							              <c:forEach var="i" begin="1" end="5">
+							                <c:choose>
+										      <c:when test="${i <= (r.star lt 0 ? 0 : (r.star gt 5 ? 5 : r.star))}">★</c:when>
+										      <c:otherwise>☆</c:otherwise>
+									        </c:choose>
+									      </c:forEach>
+										</span>
+<!-- 작성일 -->							<span class="date">
+										  <c:out value="${empty r.updatedDate ? r.createdDate : r.updatedDate}" />
+										</span>
+									</div>
+
+									<div class="body">
+										<div class="row">
+											<div class="thumb">
+												<c:choose>
+													<c:when test="${not empty r.thumbUrl}">
+														<img src="${pageContext.request.contextPath}${r.thumbUrl}" alt="리뷰 이미지">
+													</c:when>
+													<c:otherwise>
+<!-- 이미지 없을 때 문구를 삽입할 수 있다 -->
+													</c:otherwise>
+												</c:choose>
+											</div>
+											<div class="text">
+										      <c:out value="${r.boardContent}" />
+											</div>
+										</div>
+										<div class="reply">
+<!-- 관리자 댓글 -->										
+										</div>
+									</div>
+								</article>
+							</c:forEach>
+						</c:if>
+
+						<c:if test="${empty reviewList}">
+							<div class="card">
+								<div class="body">등록된 리뷰가 없습니다.</div>
+							</div>
+						</c:if>
+
 				</section>
+
+<!-- 여기 -->				
 			</div> <!-- DB데이터 불러오기 (select) -->
 
          <aside id="iWrtReview" class="wrtReview">
@@ -690,13 +746,14 @@ window.onload = () => {
   // ===== 별점 =====
   const starsGroup = document.getElementById('starsGroup');
   const starBtns = Array.from(starsGroup.querySelectorAll('.starBtn'));
-  const ratingHidden = document.getElementById('ratingVal');
+//   const ratingHidden = document.getElementById('ratingVal');
+  let ratingHidden = document.querySelector('#iReviewForm input[name="star"]');
 
   const setRating = (val) => {
-	  ratingHidden.value = String(val); // 기존: #ratingVal (폼 밖)
-	  // ★ 폼 안의 name="star"도 동기화
-	  const starHiddenInForm = document.querySelector('#iReviewForm input[name="star"]');
-	  if (starHiddenInForm) starHiddenInForm.value = String(val);
+// 	  ratingHidden.value = String(val);
+// 	  const starHiddenInForm = document.querySelector('#iReviewForm input[name="star"]');
+// 	  if (starHiddenInForm) starHiddenInForm.value = String(val);
+      ratingHidden.value = String(val);
 
 	  const num = Number(val) || 0;
 	  starBtns.forEach(btn => {
@@ -711,6 +768,8 @@ window.onload = () => {
     btn.addEventListener('click', () => setRating(i+1));
     btn.addEventListener('keydown', (e) => {
       const cur = Number(ratingHidden.value)||0;
+      let cur = Number(document.querySelector('#iReviewForm input[name="star"]').value) || 0;
+      
       if(e.key==='ArrowRight'||e.key==='ArrowUp'){ e.preventDefault(); const n=Math.min(5,cur+1); setRating(n); starBtns[n-1].focus(); }
       if(e.key==='ArrowLeft'||e.key==='ArrowDown'){ e.preventDefault(); const n=Math.max(1,cur-1); setRating(n); starBtns[n-1].focus(); }
     });
@@ -843,71 +902,7 @@ function iSubmit(form){
 
   return true; // 폼 제출 진행
 }
-
-//////  DB 데이터를 REVIEW 게시판에 출력 (ReviewListController)  //////
-
-// 별점 계산
-// n을 숫자로 반환하고 실패하면 0 => n개 만큼 ★ 반복(최대 5개) 나머지 개수만큼 ☆ 반복
-function starString(n){ 
-	n = Number(n)||0;
-	return '★'.repeat(Math.max(0,Math.min(5,n))) + '☆'.repeat(Math.max(0,5-n)); 
-}
-
-function esc(s){ 
-	return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); 
-}
-
-async function loadReviews(limit){
-  const cp = '<%=request.getContextPath()%>';
-  const url = cp + '/reviewList.do?limit=' + encodeURIComponent(limit);
-  const res = await axios.get(url);
-  if(!res.data || res.data.ok !== true) throw new Error('API 실패');
-  return res.data.items || [];
-}
-
-function renderReviews(list){
-  const $list = document.getElementById('iReviewList');
-  $list.innerHTML = '';
-  if(!list.length){	
-    $list.innerHTML = '<div class="card"><div class="body">등록된 리뷰가 없습니다.</div></div>';
-    return;
-  }
-  for(const r of list){
-    const html = `
-      <article class="card" data-board-no="${r.boardNo}">
-        <div class="head">
-          <span class="nickname">${esc(r.nickName)}</span>
-          <span class="memId">#${esc(r.memId)}</span>
-          <span class="stars" aria-label="${r.star}점">${starString(r.star)}</span>
-          <span class="date">${esc(r.updatedDate)}</span>
-        </div>
-        <div class="body">
-          <div class="row">
-            <div class="thumb">${imgHTML}</div>
-            </div>
-            <div class="text">${esc(r.boardContent)}</div>
-          </div>
-        </div>
-      </article>`;
-    $list.insertAdjacentHTML('beforeend', html);
-  }
-}
-
-window.addEventListener('DOMContentLoaded', async () => {
-  try{
-    const items = await loadReviews(200); // 리뷰 표시 수
-    renderReviews(items);
-  }catch(err){
-    console.error(err);
-    document.getElementById('iReviewList').innerHTML =
-      '<div class="card"><div class="body">목록을 불러오는 중 오류가 발생했습니다.</div></div>';
-  }
-});
-
-////////////////////////////////////////////////////////////
-
-
-
+ 
 </script>
 
 </body>

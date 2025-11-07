@@ -2,8 +2,6 @@ package com.our_middle_project.service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-
 import com.our_middle_project.dao.ReviewDAO;
 import com.our_middle_project.dao.ReviewDAOImpl;
 import com.our_middle_project.dto.FileImageDTO;
