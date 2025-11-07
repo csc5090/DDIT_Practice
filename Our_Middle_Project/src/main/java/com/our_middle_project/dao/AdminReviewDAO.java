@@ -2,6 +2,8 @@ package com.our_middle_project.dao;
 
 import java.util.List;
 import java.util.Map;
+
+import com.our_middle_project.dto.AdminBoardImageDTO;
 import com.our_middle_project.dto.AdminReviewDTO;
 
 public interface AdminReviewDAO {
@@ -16,4 +18,6 @@ public interface AdminReviewDAO {
 	int deleteReviewReplies(int boardNo);//리뷰 댓글 삭제
 	
 	int deleteReview(int boardNo); // 리뷰 삭제
+	
+	List<AdminBoardImageDTO> selectReviewImages(int boardNo);
 }

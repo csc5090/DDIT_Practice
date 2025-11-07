@@ -158,6 +158,12 @@
 		AND TYPE_NO = 99
 	</delete>
 
+	<delete id="deleteBoardDislikes" parameterType="int">
+		DELETE FROM
+		BOARD_DISLIKE
+		WHERE BOARD_NO = #{boardNo}
+	</delete>
+
 	<delete id="deleteBoardImage" parameterType="int">
 		DELETE FROM
 		BOARD_IMAGE WHERE BOARD_NO = #{boardNo}
@@ -169,7 +175,13 @@
 	</delete>
 
 	<delete id="deleteBoardReplies" parameterType="int">
-		DELETE FROM BOARD_REPLY WHERE BOARD_NO = #{boardNo}
+		DELETE FROM
+		BOARD_REPLY WHERE BOARD_NO = #{boardNo}
+	</delete>
+
+	<delete id="deleteBoardLikes" parameterType="int">
+		DELETE FROM
+		BOARD_LIKE WHERE BOARD_NO = #{boardNo}
 	</delete>
 
 </mapper>

@@ -108,7 +108,7 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	min-height: 81px
+	min-height: 86px
 }
 
 .detail-header h2 {
@@ -199,7 +199,8 @@
 	box-shadow: 0 0 0 3px rgba(90, 103, 216, 0.3);
 }
 
-.detail-body input[readonly] {
+.detail-body input[readonly], 
+.detail-body textarea[readonly] {
 	background-color: rgba(0, 0, 0, 0.2);
 	cursor: not-allowed;
 	color: var(--text-muted);
@@ -221,4 +222,8 @@
 	display: flex;
 	justify-content: flex-end;
 	gap: 10px;
+}
+
+.detail-header.user-selected h2 {
+	display: block;
 }

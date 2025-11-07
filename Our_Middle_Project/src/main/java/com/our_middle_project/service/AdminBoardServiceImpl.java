@@ -1,13 +1,10 @@
 package com.our_middle_project.service;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.our_middle_project.dao.AdminBoardDAO;
 import com.our_middle_project.dao.AdminBoardDAOImpl;
-// [삭제] AdminReviewDAO 관련 임포트
 import com.our_middle_project.dto.AdminBoardDTO;
 import com.our_middle_project.dto.AdminCommentDTO;
 import com.our_middle_project.serviceInterface.AdminBoardService;
@@ -15,7 +12,6 @@ import com.our_middle_project.serviceInterface.AdminBoardService;
 public class AdminBoardServiceImpl implements AdminBoardService {
 
 	private AdminBoardDAO adminBoardDAO = new AdminBoardDAOImpl();
-	// [삭제] private AdminReviewDAO adminReviewDAO = new AdminReviewDAOImpl();
 
 	@Override
 	public List<AdminBoardDTO> getAdminBoardList() {
@@ -122,7 +118,11 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 			// 3. 댓글 삭제
 			adminBoardDAO.deleteBoardReplies(board_no);
 
-			// 4. 게시물 원본(부모) 완전 삭제
+			// [이 블록 추가]
+			// 4. 좋아요 삭제
+			adminBoardDAO.deleteBoardLikes(board_no);
+
+			// 5. 게시물 원본(부모) 완전 삭제
 			int result = adminBoardDAO.hardDeletePost(board_no);
 
 			return result > 0;
@@ -132,7 +132,4 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 			return false;
 		}
 	}
-
-	// --- [삭제] 리뷰 관리 메소드 3개 제거 ---
-	// (updateAdminReply, deleteReviewImage, deleteReview)
 }

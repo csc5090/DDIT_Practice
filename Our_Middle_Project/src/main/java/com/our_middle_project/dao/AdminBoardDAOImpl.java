@@ -1,7 +1,9 @@
 package com.our_middle_project.dao;
 
 import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
+
 import com.our_middle_project.dto.AdminBoardDTO;
 import com.our_middle_project.dto.AdminCommentDTO;
 import com.our_middle_project.util.MybatisUtil;
@@ -123,7 +125,6 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 	@Override
 	public int deleteBoardStars(int boardNo) {
 		try (SqlSession session = MybatisUtil.getSqlSession()) {
-			// [주의] AdminBoardMapper.xml에 deleteBoardStars 쿼리가 있어야 함!
 			return session.delete(namespace + ".deleteBoardStars", boardNo);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -168,12 +169,33 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 	@Override
 	public int deleteBoardImage(int boardNo) {
 		try (SqlSession session = MybatisUtil.getSqlSession()) {
-			// [주의] AdminBoardMapper.xml에 deleteBoardImage 쿼리가 있어야 함!
 			return session.delete(namespace + ".deleteBoardImage", boardNo);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("AdminBoardDAOImpl deleteBoardImage() 문제 발생.");
 			return 0;
+		}
+	}
+
+	@Override
+	public int deleteBoardDislikes(int board_no) {
+		try (SqlSession session = MybatisUtil.getSqlSession()) {
+			return session.delete(namespace + ".deleteBoardDislikes", board_no);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("AdminBoardDAOImpl deleteBoardDislikes() 문제 발생.");
+			return 0;
+		}
+	}
+
+	@Override
+	public void deleteBoardLikes(int board_no) {
+		try (SqlSession session = MybatisUtil.getSqlSession()) {
+			// .delete()를 사용하지만, update/insert를 써도 트랜잭션상 문제는 없습니다.
+			// AdminBoardMapper.xml의 id와 동일하게 "deleteBoardLikes"
+			session.delete(namespace + ".deleteBoardLikes", board_no); 
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }

@@ -2,7 +2,10 @@ package com.our_middle_project.dao;
 
 import java.util.List;
 import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
+
+import com.our_middle_project.dto.AdminBoardImageDTO;
 import com.our_middle_project.dto.AdminReviewDTO;
 import com.our_middle_project.util.MybatisUtil;
 
@@ -67,6 +70,16 @@ public class AdminReviewDAOImpl implements AdminReviewDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;
+		}
+	}
+
+	@Override
+	public List<AdminBoardImageDTO> selectReviewImages(int boardNo) {
+		try (SqlSession session = MybatisUtil.getSqlSession()) {
+			return session.selectList(namespace + ".selectReviewImages", boardNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 

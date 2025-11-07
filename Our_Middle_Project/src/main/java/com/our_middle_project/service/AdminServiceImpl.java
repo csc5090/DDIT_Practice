@@ -8,6 +8,7 @@ import com.our_middle_project.dao.AdminReviewDAO;
 import com.our_middle_project.dao.AdminReviewDAOImpl;
 import com.our_middle_project.dao.MemberDAO;
 import com.our_middle_project.dao.MemberDAOImpl;
+import com.our_middle_project.dto.AdminBoardImageDTO;
 import com.our_middle_project.dto.AdminReviewDTO;
 import com.our_middle_project.dto.MemberDTO;
 import com.our_middle_project.serviceInterface.AdminService;
@@ -96,5 +97,10 @@ public class AdminServiceImpl implements AdminService {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	@Override
+	public List<AdminBoardImageDTO> getReviewImages(int boardNo) {
+		return reviewDAO.selectReviewImages(boardNo);
 	}
 }

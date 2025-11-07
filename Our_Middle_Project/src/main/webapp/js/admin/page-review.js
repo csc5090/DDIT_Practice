@@ -131,82 +131,111 @@ const ReviewPage = {
 	},
 
 	clearDetailViews: function() {
-			// 1. 플레이스홀더 표시, 푸터(버튼) 숨김
-			document.getElementById('review-detail-placeholder').style.display = 'block';
-			document.getElementById('review-detail-footer').style.display = 'none';
+		// 1. 플레이스홀더 표시, 푸터(버튼) 숨김
+		document.getElementById('review-detail-placeholder').style.display = 'block';
+		document.getElementById('review-detail-footer').style.display = 'none';
 
-			// 2. [수정] 상단 타이틀 초기화 및 헤더 클래스 제거
-			document.getElementById('detail-review-selected-title').textContent = ''; 
-	        document.querySelector('#review-management .detail-header').classList.remove('user-selected'); // 제목 숨기기
-			this.selectedReviewNo = null;
+		// 2. 상단 타이틀 초기화 및 헤더 클래스 제거
+		document.getElementById('detail-review-selected-title').textContent = '';
+		document.querySelector('#review-management .detail-header').classList.remove('user-selected');
+		this.selectedReviewNo = null;
 
-			// 3. 폼 필드 내용 비우기
-			document.getElementById('detail-review-nickname-input').value = '';
-			document.getElementById('detail-review-date-input').value = '';
-			document.getElementById('detail-review-stars-input').value = '';
-			document.getElementById('detail-review-content-textarea').value = '';
-			document.getElementById('detail-review-image-display').innerHTML = '<span>-</span>';
-			
-			document.getElementById('admin-reply-date').textContent = '미작성';
-			document.getElementById('admin-reply-textarea').value = '';
-			document.getElementById('admin-reply-textarea').disabled = true;
+		// 3. 폼 필드 내용 비우기
+		document.getElementById('detail-review-nickname-input').value = '';
+		document.getElementById('detail-review-date-input').value = '';
+		document.getElementById('detail-review-stars-input').value = '';
+		document.getElementById('detail-review-content-textarea').value = '';
 
-			// 4. 선택된 항목 하이라이트 제거
-			const currentSelected = document.querySelector('.review-list-item.selected');
-			if (currentSelected) currentSelected.classList.remove('selected');
-		},
+		// [수정] 이미지 표시 영역 초기화
+		document.getElementById('detail-review-image-display').innerHTML = '<span>-</span>';
 
-		populateDetailViews: function(reviewNo) {
-				const review = this.currentList.find(r => r.boardNo == reviewNo);
-				if (!review) return;
+		document.getElementById('admin-reply-date').textContent = '미작성';
+		document.getElementById('admin-reply-textarea').value = '';
+		document.getElementById('admin-reply-textarea').disabled = true;
 
-				// 1. 플레이스홀더 숨김, 푸터(버튼) 표시
-				document.getElementById('review-detail-placeholder').style.display = 'none';
-				document.getElementById('review-detail-footer').style.display = 'flex'; 
+		// 4. 선택된 항목 하이라이트 제거
+		const currentSelected = document.querySelector('.review-list-item.selected');
+		if (currentSelected) currentSelected.classList.remove('selected');
+	},
 
-				// 2. [수정] 헤더 클래스 추가 (제목을 보이게 함)
-		        document.querySelector('#review-management .detail-header').classList.add('user-selected');
-				this.selectedReviewNo = review.boardNo;
-		        
-				// --- 3. 데이터 채우기 ---
-				document.getElementById('detail-review-selected-title').textContent = review.boardTitle ?? '[제목 없음]';
-				
-				document.getElementById('detail-review-nickname-input').value = review.nickname;
-				document.getElementById('detail-review-date-input').value = review.createdDate;
+	populateDetailViews: async function(reviewNo) {
+		const review = this.currentList.find(r => r.boardNo == reviewNo);
+		if (!review) return;
 
-				const starsText = '★'.repeat(review.stars) + '☆'.repeat(5 - review.stars);
-				document.getElementById('detail-review-stars-input').value = starsText;
-				
-				// [수정] readonly 속성을 JS에서도 명시적으로 설정
-				const contentTextArea = document.getElementById('detail-review-content-textarea');
-				contentTextArea.value = review.boardContent;
-				contentTextArea.readOnly = true; 
-				
-				document.getElementById('detail-review-image-display').innerHTML = review.hasImage === 'Y' 
-				    ? `<img src="${CONTEXT_PATH}/uploads/review_${review.boardNo}.jpg" alt="리뷰 이미지">`
-				    : '<span>이미지 없음</span>';
+		// 1. 플레이스홀더 숨김, 푸터(버튼) 표시
+		document.getElementById('review-detail-placeholder').style.display = 'none';
+		document.getElementById('review-detail-footer').style.display = 'flex';
 
-				document.getElementById('admin-reply-date').textContent = review.adminReplyDate || '미작성';
-				document.getElementById('admin-reply-textarea').value = review.adminReply || '';
-				document.getElementById('admin-reply-textarea').disabled = false;
-				
-				// --- 4. 버튼 상태 제어 ---
-		        document.querySelector('#review-detail-footer .action-btn[data-action="save-reply"]').disabled = false;
-		        document.querySelector('#review-detail-footer .action-btn[data-action="delete-review"]').disabled = false;
+		// 2. 헤더 클래스 추가 (제목을 보이게 함)
+		document.querySelector('#review-management .detail-header').classList.add('user-selected');
+		this.selectedReviewNo = review.boardNo;
 
-				const deleteImageBtn = document.querySelector('#review-detail-footer .action-btn[data-action="delete-image"]');
-				if (deleteImageBtn) {
-					if (review.hasImage === 'Y') {
-						deleteImageBtn.classList.add('image-active');
-						deleteImageBtn.classList.remove('secondary');
-						deleteImageBtn.disabled = false;
-					} else {
-						deleteImageBtn.classList.remove('image-active');
-						deleteImageBtn.classList.add('secondary');
-						deleteImageBtn.disabled = true;
+		// --- 3. 데이터 채우기 ---
+		document.getElementById('detail-review-selected-title').textContent = review.boardTitle ?? '[제목 없음]';
+
+		document.getElementById('detail-review-nickname-input').value = review.nickname;
+		document.getElementById('detail-review-date-input').value = review.createdDate;
+
+		const starsText = '★'.repeat(review.stars) + '☆'.repeat(5 - review.stars);
+		document.getElementById('detail-review-stars-input').value = starsText;
+
+		const contentTextArea = document.getElementById('detail-review-content-textarea');
+		contentTextArea.value = review.boardContent;
+		contentTextArea.readOnly = true;
+
+		const imageDisplay = document.getElementById('detail-review-image-display');
+		imageDisplay.innerHTML = '<span>불러오는 중...</span>'; // 로딩 표시
+
+		let hasImageFile = false; // 실제 파일이 있는지 여부
+
+		if (review.hasImage === 'Y') {
+			try {
+				// 2단계에서 만든 새 API 호출
+				const imageList = await apiClient.post('/getReviewImages.do', { boardNo: review.boardNo });
+
+				if (imageList && imageList.length > 0) {
+					let imageHTML = '';
+					// 반복문으로 <img> 태그 생성
+					for (const image of imageList) {
+						const imagePath = `${CONTEXT_PATH}${image.filePath}${encodeURIComponent(image.fileName)}`;
+						imageHTML += `<img src="${imagePath}" alt="리뷰 이미지 ${image.fileNo}">`;
 					}
+					imageDisplay.innerHTML = imageHTML;
+					hasImageFile = true; // 이미지가 성공적으로 로드됨
+				} else {
+					imageDisplay.innerHTML = '<span>이미지 없음 (데이터 오류)</span>';
 				}
-			},
+
+			} catch (error) {
+				console.error("이미지 로딩 실패:", error);
+				imageDisplay.innerHTML = '<span>이미지 로딩 실패</span>';
+			}
+		} else {
+			imageDisplay.innerHTML = '<span>이미지 없음</span>';
+		}
+		// --- 여기까지 수정 ---
+
+		document.getElementById('admin-reply-date').textContent = review.adminReplyDate || '미작성';
+		document.getElementById('admin-reply-textarea').value = review.adminReply || '';
+		document.getElementById('admin-reply-textarea').disabled = false;
+
+		// --- 4. 버튼 상태 제어 ---
+		document.querySelector('#review-detail-footer .action-btn[data-action="save-reply"]').disabled = false;
+		document.querySelector('#review-detail-footer .action-btn[data-action="delete-review"]').disabled = false;
+
+		const deleteImageBtn = document.querySelector('#review-detail-footer .action-btn[data-action="delete-image"]');
+		if (deleteImageBtn) {
+			if (hasImageFile) {
+				deleteImageBtn.classList.add('image-active');
+				deleteImageBtn.classList.remove('secondary');
+				deleteImageBtn.disabled = false;
+			} else {
+				deleteImageBtn.classList.remove('image-active');
+				deleteImageBtn.classList.add('secondary');
+				deleteImageBtn.disabled = true;
+			}
+		}
+	},
 
 	handleClick: function(e) {
 		// (정렬 헤더 클릭 로직은 변경 없음)

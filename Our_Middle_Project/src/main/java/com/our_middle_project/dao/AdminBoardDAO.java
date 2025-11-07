@@ -32,4 +32,7 @@ public interface AdminBoardDAO {
 	int deleteBoardReplies(int boardNo);
 	int restorePost(int board_no);
     int hardDeletePost(int board_no);
+    int deleteBoardDislikes(int board_no);
+
+	void deleteBoardLikes(int board_no);
 }

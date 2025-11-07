@@ -7,34 +7,34 @@
 	<select id="selectAllReviews" parameterType="java.lang.String"
 		resultType="com.our_middle_project.dto.AdminReviewDTO">
 		SELECT
-		B.BOARD_NO AS boardNo, B.BOARD_TITLE AS boardTitle,
-		B.BOARD_CONTENT AS
-		boardContent,
+		B.BOARD_NO AS boardNo,
+		B.BOARD_TITLE AS boardTitle,
+		B.BOARD_CONTENT AS boardContent,
 		M.NICKNAME AS nickname,
 		TO_CHAR(B.CREATED_DATE, 'YYYY-MM-DD') AS createdDate,
-		S.STAR AS stars,
-		CASE WHEN I.FILE_NO IS NOT NULL THEN 'Y' ELSE 'N' END AS hasImage,
-		R.REPLY_CONTENT AS adminReply, TO_CHAR(R.CREATE_DATE, 'YYYY-MM-DD') AS
-		adminReplyDate
-		FROM
-		BOARD B
+		MAX(S.STAR) AS
+		stars, MAX(CASE WHEN I.FILE_NO IS NOT NULL THEN 'Y' ELSE 'N' END) AS
+		hasImage, MAX(R.REPLY_CONTENT) AS adminReply,
+		MAX(TO_CHAR(R.CREATE_DATE, 'YYYY-MM-DD')) AS adminReplyDate FROM
+		BOARD
+		B
 		JOIN MEMBER M ON B.MEM_NO = M.MEM_NO
-		LEFT JOIN
-		BOARD_STAR S ON
+		LEFT JOIN BOARD_STAR S ON
 		B.BOARD_NO = S.BOARD_NO
-		LEFT JOIN BOARD_IMAGE I ON
-		B.BOARD_NO =
+		LEFT JOIN BOARD_IMAGE I ON B.BOARD_NO =
 		I.BOARD_NO
-		LEFT JOIN BOARD_REPLY R ON B.BOARD_NO =
-		R.BOARD_NO AND
-		R.UP_REPLY_NO IS NULL
+		LEFT JOIN BOARD_REPLY R ON B.BOARD_NO = R.BOARD_NO AND
+		R.UP_REPLY_NO IS
+		NULL
 		WHERE
 		B.TYPE_NO = 2
 		<if test="_parameter != null and _parameter != ''">
 			AND (B.BOARD_TITLE LIKE '%' || #{_parameter} || '%' OR
-			M.NICKNAME LIKE
-			'%' || #{_parameter} || '%')
+			M.NICKNAME LIKE '%' || #{_parameter} || '%')
 		</if>
+		GROUP BY
+		B.BOARD_NO, B.BOARD_TITLE, B.BOARD_CONTENT, M.NICKNAME,
+		B.CREATED_DATE
 		ORDER BY
 		B.CREATED_DATE DESC
 	</select>
@@ -68,20 +68,38 @@
 	</update>
 
 	<delete id="deleteReviewImage" parameterType="int">
-		DELETE FROM BOARD_IMAGE WHERE BOARD_NO = #{boardNo}
+		DELETE FROM
+		BOARD_IMAGE WHERE BOARD_NO = #{boardNo}
 	</delete>
 
 	<delete id="deleteReviewStars" parameterType="int">
-		DELETE FROM BOARD_STAR WHERE BOARD_NO = #{boardNo}
+		DELETE FROM
+		BOARD_STAR WHERE BOARD_NO = #{boardNo}
 	</delete>
 
 	<delete id="deleteReviewReplies" parameterType="int">
-		DELETE FROM BOARD_REPLY WHERE BOARD_NO = #{boardNo}
+		DELETE FROM
+		BOARD_REPLY WHERE BOARD_NO = #{boardNo}
 	</delete>
 	<delete id="deleteReview" parameterType="int">
 		DELETE FROM BOARD
 		WHERE
 		BOARD_NO = #{boardNo} AND TYPE_NO = 2
 	</delete>
+
+	<select id="selectReviewImages" parameterType="int"
+		resultType="com.our_middle_project.dto.AdminBoardImageDTO">
+		SELECT
+		FILE_NO AS fileNo,
+		FILE_NAME AS fileName,
+		FILE_PATH AS filePath,
+		FILE_SIZE AS fileSize
+		FROM
+		BOARD_IMAGE
+		WHERE
+		BOARD_NO = #{boardNo}
+		ORDER BY
+		FILE_NO ASC
+	</select>
 
 </mapper>

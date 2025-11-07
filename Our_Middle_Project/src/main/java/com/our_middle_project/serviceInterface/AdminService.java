@@ -3,8 +3,9 @@ package com.our_middle_project.serviceInterface;
 import java.util.List;
 import java.util.Map;
 
-import com.our_middle_project.dto.MemberDTO;
+import com.our_middle_project.dto.AdminBoardImageDTO;
 import com.our_middle_project.dto.AdminReviewDTO;
+import com.our_middle_project.dto.MemberDTO;
 
 public interface AdminService {
 	public int getTotalUserCount();
@@ -18,4 +19,6 @@ public interface AdminService {
 	public boolean updateAdminReply(int boardNo, int adminMemNo, String replyContent);
 	public boolean deleteReviewImage(int boardNo);
 	public boolean deleteReview(int boardNo);
+	
+	public List<AdminBoardImageDTO> getReviewImages(int boardNo);
 }

@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.our_middle_project.action.Action;
 import com.our_middle_project.action.ActionForward;
 import com.our_middle_project.dto.AdminBoardDTO;
+import com.our_middle_project.dto.AdminBoardImageDTO;
 import com.our_middle_project.dto.AdminCommentDTO;
 import com.our_middle_project.dto.AdminReviewDTO;
 import com.our_middle_project.dto.MemberDTO;
@@ -292,6 +293,13 @@ public class AdminAjaxController implements Action {
 					response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 					response.getWriter().write(gson.toJson(Map.of("status", "error", "message", "댓글 저장에 실패했습니다.")));
 				}
+			} else if ("/getReviewImages.do".equals(command)) {
+				System.out.println("AJAX 요청: /getReviewImages.do");
+				Map<String, Object> payload = gson.fromJson(request.getReader(), Map.class);
+				int boardNo = ((Double) payload.get("boardNo")).intValue();
+
+				List<AdminBoardImageDTO> imageList = adminService.getReviewImages(boardNo);
+				response.getWriter().write(gson.toJson(imageList));
 			}
 
 			else if ("/deleteReviewImage.do".equals(command)) {
@@ -299,7 +307,6 @@ public class AdminAjaxController implements Action {
 				Map<String, Object> payload = gson.fromJson(request.getReader(), Map.class);
 				int boardNo = ((Double) payload.get("reviewNo")).intValue();
 
-				
 				boolean isSuccess = adminService.deleteReviewImage(boardNo);
 				if (isSuccess) {
 					response.getWriter().write(gson.toJson(Map.of("status", "success", "message", "이미지가 삭제되었습니다.")));
