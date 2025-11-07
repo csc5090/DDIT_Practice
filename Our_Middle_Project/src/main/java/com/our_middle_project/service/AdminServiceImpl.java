@@ -14,13 +14,11 @@ import com.our_middle_project.serviceInterface.AdminService;
 
 public class AdminServiceImpl implements AdminService {
 
-	// [수정] DAO가 MybatisUtil을 사용하도록 new()로 생성
 	private MemberDAO memberDAO = new MemberDAOImpl();
 	private AdminReviewDAO reviewDAO = new AdminReviewDAOImpl();
 
 	@Override
 	public int getTotalUserCount() {
-		// [수정] try-with-resources 제거
 		return memberDAO.getTotalUserCount();
 	}
 
@@ -60,8 +58,6 @@ public class AdminServiceImpl implements AdminService {
 		return reviewDAO.selectAllReviews(keyword);
 	}
 
-	// ▼▼▼ [추가] 3개 메소드 구현 ▼▼▼
-
 	@Override
 	public boolean updateAdminReply(int boardNo, int adminMemNo, String replyContent) {
 		Map<String, Object> params = new HashMap<>();
@@ -74,12 +70,31 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public boolean deleteReviewImage(int boardNo) {
+		// ▼▼▼ [수정] 이 메소드는 오직 '이미지 삭제'만 수행해야 합니다. ▼▼▼
 		return reviewDAO.deleteReviewImage(boardNo) > 0;
 	}
 
 	@Override
 	public boolean deleteReview(int boardNo) {
-		// (소프트 삭제 99)
-		return reviewDAO.deleteReview(boardNo) > 0;
+		try {
+			// ▼▼▼ [수정] '리뷰 삭제'가 모든 자식 레코드를 삭제해야 합니다. ▼▼▼
+
+			// 1. 별점 삭제 (FK_STAR_BOARD 해결)
+			reviewDAO.deleteReviewStars(boardNo);
+
+			// 2. 댓글 삭제 (FK_REPLY_BOARD 해결)
+			reviewDAO.deleteReviewReplies(boardNo);
+
+			// 3. 이미지 삭제 (FK_IMAGE_BOARD 해결)
+			reviewDAO.deleteReviewImage(boardNo);
+
+			// 4. 리뷰(부모) 삭제
+			int result = reviewDAO.deleteReview(boardNo);
+
+			return result > 0;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 }

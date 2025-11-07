@@ -23,11 +23,13 @@ public interface AdminBoardDAO {
 
 	int updatePost(AdminBoardDTO dto);
 
-	// 댓글
+	// 댓글, 사진 등
 	List<AdminCommentDTO> getPostComments(int board_no);
 
 	int deleteComment(int reply_no);
-	
+	int deleteBoardImage(int boardNo);
+	int deleteBoardStars(int boardNo);
+	int deleteBoardReplies(int boardNo);
 	int restorePost(int board_no);
     int hardDeletePost(int board_no);
 }

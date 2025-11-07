@@ -12,6 +12,9 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 
 	// --- 공지사항 관리 ---
 
+	public AdminBoardDAOImpl() {
+	}
+
 	@Override
 	public List<AdminBoardDTO> getAdminBoardList() {
 		try (SqlSession session = MybatisUtil.getSqlSession()) {
@@ -118,6 +121,29 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 	// --- 게시물 복원 / 완전 삭제 ---
 
 	@Override
+	public int deleteBoardStars(int boardNo) {
+		try (SqlSession session = MybatisUtil.getSqlSession()) {
+			// [주의] AdminBoardMapper.xml에 deleteBoardStars 쿼리가 있어야 함!
+			return session.delete(namespace + ".deleteBoardStars", boardNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("AdminBoardDAOImpl deleteBoardStars() 문제 발생.");
+			return 0;
+		}
+	}
+
+	@Override
+	public int deleteBoardReplies(int boardNo) {
+		try (SqlSession session = MybatisUtil.getSqlSession()) {
+			return session.delete(namespace + ".deleteBoardReplies", boardNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("AdminBoardDAOImpl deleteBoardReplies() 문제 발생.");
+			return 0;
+		}
+	}
+
+	@Override
 	public int restorePost(int board_no) {
 		try (SqlSession session = MybatisUtil.getSqlSession()) {
 			return session.update(namespace + ".restorePost", board_no);
@@ -135,6 +161,18 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("AdminBoardDAOImpl hardDeletePost() 문제 발생.");
+			return 0;
+		}
+	}
+
+	@Override
+	public int deleteBoardImage(int boardNo) {
+		try (SqlSession session = MybatisUtil.getSqlSession()) {
+			// [주의] AdminBoardMapper.xml에 deleteBoardImage 쿼리가 있어야 함!
+			return session.delete(namespace + ".deleteBoardImage", boardNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("AdminBoardDAOImpl deleteBoardImage() 문제 발생.");
 			return 0;
 		}
 	}

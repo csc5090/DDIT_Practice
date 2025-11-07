@@ -7,8 +7,7 @@ import java.util.Map;
 
 import com.our_middle_project.dao.AdminBoardDAO;
 import com.our_middle_project.dao.AdminBoardDAOImpl;
-import com.our_middle_project.dao.AdminReviewDAO;
-import com.our_middle_project.dao.AdminReviewDAOImpl;
+// [삭제] AdminReviewDAO 관련 임포트
 import com.our_middle_project.dto.AdminBoardDTO;
 import com.our_middle_project.dto.AdminCommentDTO;
 import com.our_middle_project.serviceInterface.AdminBoardService;
@@ -16,7 +15,7 @@ import com.our_middle_project.serviceInterface.AdminBoardService;
 public class AdminBoardServiceImpl implements AdminBoardService {
 
 	private AdminBoardDAO adminBoardDAO = new AdminBoardDAOImpl();
-	private AdminReviewDAO adminReviewDAO = new AdminReviewDAOImpl();
+	// [삭제] private AdminReviewDAO adminReviewDAO = new AdminReviewDAOImpl();
 
 	@Override
 	public List<AdminBoardDTO> getAdminBoardList() {
@@ -68,9 +67,9 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	// --- 게시물 관리 ---
 
 	@Override
-	public List<AdminBoardDTO> getAdminPostList(String keyword) { // [수정] keyword 파라미터
+	public List<AdminBoardDTO> getAdminPostList(String keyword) {
 		try {
-			List<AdminBoardDTO> postList = adminBoardDAO.getAdminPostList(keyword); // [수정] keyword 전달
+			List<AdminBoardDTO> postList = adminBoardDAO.getAdminPostList(keyword);
 			return postList != null ? postList : Collections.emptyList();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -113,27 +112,27 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 
 	@Override
 	public boolean hardDeletePost(int board_no) {
-		return adminBoardDAO.hardDeletePost(board_no) > 0;
+		try {
+			// 1. 이미지 삭제
+			adminBoardDAO.deleteBoardImage(board_no);
+
+			// 2. 별점 삭제
+			adminBoardDAO.deleteBoardStars(board_no);
+
+			// 3. 댓글 삭제
+			adminBoardDAO.deleteBoardReplies(board_no);
+
+			// 4. 게시물 원본(부모) 완전 삭제
+			int result = adminBoardDAO.hardDeletePost(board_no);
+
+			return result > 0;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
-	// --- 리뷰 관리 (신규 추가) ---
-
-	@Override
-	public boolean updateAdminReply(int boardNo, int adminMemNo, String replyContent) {
-		Map<String, Object> params = new HashMap<>();
-		params.put("boardNo", boardNo);
-		params.put("adminMemNo", adminMemNo);
-		params.put("replyContent", replyContent);
-		return adminReviewDAO.upsertAdminReply(params) > 0;
-	}
-
-	@Override
-	public boolean deleteReviewImage(int boardNo) {
-		return adminReviewDAO.deleteReviewImage(boardNo) > 0;
-	}
-
-	@Override
-	public boolean deleteReview(int boardNo) {
-		return adminReviewDAO.deleteReview(boardNo) > 0;
-	}
+	// --- [삭제] 리뷰 관리 메소드 3개 제거 ---
+	// (updateAdminReply, deleteReviewImage, deleteReview)
 }

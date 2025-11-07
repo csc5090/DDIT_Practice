@@ -41,12 +41,33 @@ public class AdminReviewDAOImpl implements AdminReviewDAO {
 	}
 
 	@Override
-	public int deleteReview(int boardNo) {
+	public int deleteReviewReplies(int boardNo) {
 		try (SqlSession session = MybatisUtil.getSqlSession()) {
-			return session.update(namespace + ".deleteReview", boardNo);
+			return session.delete(namespace + ".deleteReviewReplies", boardNo);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;
 		}
 	}
+
+	@Override
+	public int deleteReviewStars(int boardNo) {
+		try (SqlSession session = MybatisUtil.getSqlSession()) {
+			return session.delete(namespace + ".deleteReviewStars", boardNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
+	@Override
+	public int deleteReview(int boardNo) {
+		try (SqlSession session = MybatisUtil.getSqlSession()) {
+			return session.delete(namespace + ".deleteReview", boardNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
 }

@@ -71,12 +71,14 @@
 
 		(SELECT COUNT(*)
 		FROM BOARD_REPLY R
-		WHERE R.BOARD_NO = B.BOARD_NO) as comment_count
+		WHERE
+		R.BOARD_NO = B.BOARD_NO) as comment_count
 
 		FROM
 		BOARD B
 		JOIN
-		MEMBER M ON B.MEM_NO = M.MEM_NO
+		MEMBER M ON
+		B.MEM_NO = M.MEM_NO
 		WHERE
 		B.TYPE_NO IN (3, 99)
 
@@ -154,6 +156,20 @@
 		WHERE
 		BOARD_NO = #{board_no}
 		AND TYPE_NO = 99
+	</delete>
+
+	<delete id="deleteBoardImage" parameterType="int">
+		DELETE FROM
+		BOARD_IMAGE WHERE BOARD_NO = #{boardNo}
+	</delete>
+
+	<delete id="deleteBoardStars" parameterType="int">
+		DELETE FROM
+		BOARD_STAR WHERE BOARD_NO = #{boardNo}
+	</delete>
+
+	<delete id="deleteBoardReplies" parameterType="int">
+		DELETE FROM BOARD_REPLY WHERE BOARD_NO = #{boardNo}
 	</delete>
 
 </mapper>

@@ -285,7 +285,7 @@ public class AdminAjaxController implements Action {
 				String replyContent = (String) payload.get("replyContent");
 				int adminMemNo = adminInfo.getMem_no();
 
-				boolean isSuccess = adminBoardService.updateAdminReply(boardNo, adminMemNo, replyContent);
+				boolean isSuccess = adminService.updateAdminReply(boardNo, adminMemNo, replyContent);
 				if (isSuccess) {
 					response.getWriter().write(gson.toJson(Map.of("status", "success", "message", "댓글이 저장되었습니다.")));
 				} else {
@@ -299,8 +299,8 @@ public class AdminAjaxController implements Action {
 				Map<String, Object> payload = gson.fromJson(request.getReader(), Map.class);
 				int boardNo = ((Double) payload.get("reviewNo")).intValue();
 
-				// ▼▼▼ [수정] adminService -> adminBoardService ▼▼▼
-				boolean isSuccess = adminBoardService.deleteReviewImage(boardNo);
+				
+				boolean isSuccess = adminService.deleteReviewImage(boardNo);
 				if (isSuccess) {
 					response.getWriter().write(gson.toJson(Map.of("status", "success", "message", "이미지가 삭제되었습니다.")));
 				} else {
@@ -314,8 +314,7 @@ public class AdminAjaxController implements Action {
 				Map<String, Object> payload = gson.fromJson(request.getReader(), Map.class);
 				int boardNo = ((Double) payload.get("reviewNo")).intValue();
 
-				// ▼▼▼ [수정] adminService -> adminBoardService ▼▼▼
-				boolean isSuccess = adminBoardService.deleteReview(boardNo);
+				boolean isSuccess = adminService.deleteReview(boardNo);
 				if (isSuccess) {
 					response.getWriter().write(gson.toJson(Map.of("status", "success", "message", "리뷰가 삭제되었습니다.")));
 				} else {

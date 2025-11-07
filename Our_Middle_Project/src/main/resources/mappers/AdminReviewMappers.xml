@@ -7,9 +7,11 @@
 	<select id="selectAllReviews" parameterType="java.lang.String"
 		resultType="com.our_middle_project.dto.AdminReviewDTO">
 		SELECT
-		B.BOARD_NO AS boardNo, B.BOARD_TITLE AS boardTitle, B.BOARD_CONTENT AS
+		B.BOARD_NO AS boardNo, B.BOARD_TITLE AS boardTitle,
+		B.BOARD_CONTENT AS
 		boardContent,
-		M.NICKNAME AS nickname, TO_CHAR(B.CREATED_DATE, 'YYYY-MM-DD') AS createdDate,
+		M.NICKNAME AS nickname,
+		TO_CHAR(B.CREATED_DATE, 'YYYY-MM-DD') AS createdDate,
 		S.STAR AS stars,
 		CASE WHEN I.FILE_NO IS NOT NULL THEN 'Y' ELSE 'N' END AS hasImage,
 		R.REPLY_CONTENT AS adminReply, TO_CHAR(R.CREATE_DATE, 'YYYY-MM-DD') AS
@@ -17,16 +19,20 @@
 		FROM
 		BOARD B
 		JOIN MEMBER M ON B.MEM_NO = M.MEM_NO
-		LEFT JOIN BOARD_STAR S ON
+		LEFT JOIN
+		BOARD_STAR S ON
 		B.BOARD_NO = S.BOARD_NO
-		LEFT JOIN BOARD_IMAGE I ON B.BOARD_NO =
+		LEFT JOIN BOARD_IMAGE I ON
+		B.BOARD_NO =
 		I.BOARD_NO
-		LEFT JOIN BOARD_REPLY R ON B.BOARD_NO = R.BOARD_NO AND
+		LEFT JOIN BOARD_REPLY R ON B.BOARD_NO =
+		R.BOARD_NO AND
 		R.UP_REPLY_NO IS NULL
 		WHERE
 		B.TYPE_NO = 2
 		<if test="_parameter != null and _parameter != ''">
-			AND (B.BOARD_TITLE LIKE '%' || #{_parameter} || '%' OR M.NICKNAME LIKE
+			AND (B.BOARD_TITLE LIKE '%' || #{_parameter} || '%' OR
+			M.NICKNAME LIKE
 			'%' || #{_parameter} || '%')
 		</if>
 		ORDER BY
@@ -34,10 +40,12 @@
 	</select>
 
 	<update id="upsertAdminReply" parameterType="java.util.Map">
-		MERGE INTO BOARD_REPLY R
+		MERGE INTO
+		BOARD_REPLY R
 		USING (
 		SELECT #{boardNo} AS BOARD_NO FROM DUAL
-		) D ON (R.BOARD_NO = D.BOARD_NO AND R.UP_REPLY_NO IS NULL)
+		) D ON
+		(R.BOARD_NO = D.BOARD_NO AND R.UP_REPLY_NO IS NULL)
 		WHEN MATCHED THEN
 		UPDATE SET
 		R.REPLY_CONTENT = #{replyContent},
@@ -45,13 +53,16 @@
 		WHERE
 		R.BOARD_NO = #{boardNo}
 		AND R.UP_REPLY_NO IS NULL
-		WHEN NOT MATCHED THEN
+		WHEN NOT MATCHED
+		THEN
 		INSERT (
 		R.REPLY_NO, R.BOARD_NO, R.MEM_NO,
-		R.REPLY_CONTENT, CREATE_DATE, UPDATE_DATE
+		R.REPLY_CONTENT,
+		CREATE_DATE, UPDATE_DATE
 		)
 		VALUES (
-		SEQ_BOARD_REPLY.NEXTVAL, #{boardNo}, #{adminMemNo},
+		SEQ_BOARD_REPLY.NEXTVAL, #{boardNo},
+		#{adminMemNo},
 		#{replyContent}, SYSDATE, SYSDATE
 		)
 	</update>
@@ -60,10 +71,17 @@
 		DELETE FROM BOARD_IMAGE WHERE BOARD_NO = #{boardNo}
 	</delete>
 
-	<update id="deleteReview" parameterType="int">
-		UPDATE BOARD
-		SET TYPE_NO = 99
-		WHERE BOARD_NO = #{boardNo} AND TYPE_NO = 2
-	</update>
+	<delete id="deleteReviewStars" parameterType="int">
+		DELETE FROM BOARD_STAR WHERE BOARD_NO = #{boardNo}
+	</delete>
+
+	<delete id="deleteReviewReplies" parameterType="int">
+		DELETE FROM BOARD_REPLY WHERE BOARD_NO = #{boardNo}
+	</delete>
+	<delete id="deleteReview" parameterType="int">
+		DELETE FROM BOARD
+		WHERE
+		BOARD_NO = #{boardNo} AND TYPE_NO = 2
+	</delete>
 
 </mapper>
