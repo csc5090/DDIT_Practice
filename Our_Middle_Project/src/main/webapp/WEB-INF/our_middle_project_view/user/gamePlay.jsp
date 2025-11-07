@@ -115,7 +115,7 @@
 					<span class="value" data-info="score">0</span>
 				</div>
 				<div class="ending-info">
-					<span class="info">남은 시간 :</span>
+					<span class="info">클리어 타임 :</span>
 					<span class="value" data-info="plusTime">0</span>
 				</div>
 				<div class="ending-info">

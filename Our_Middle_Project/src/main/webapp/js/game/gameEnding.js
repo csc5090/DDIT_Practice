@@ -5,6 +5,7 @@ let endingInfo = {
 	plusTime: 100,
 	combo: 10,
 	cardCount: 15
+
 }
 		
 
@@ -47,8 +48,8 @@ function endingInfoHandle() {
 				if(valueBox.innerHTML == endingInfo[value]) {
 					clearInterval(window["endingInfoInterval" + i]);
 				}
-			}, 1)				
-		}, 500)
+			}, 3)				
+		}, 1000)
 		
 	}
 }
@@ -67,5 +68,16 @@ function endingBtnClick(obj) {
 	console.log(obj);
 }
 
+function endingBtnClick(obj) {
+    const v = obj.getAttribute('data-value');
 
+    if(v === "try"){
+        // 새로고침
+        location.reload();
+    }
+    else if(v === "home"){
+        // 홈으로 이동
+        location.href = "/Our_Middle_Project/gameHome.do";
+    }
+}
 
