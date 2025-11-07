@@ -527,7 +527,7 @@ input#imageInput[hidden] {
 			</div> <!-- DB데이터 불러오기 (select) -->
 
          <aside id="iWrtReview" class="wrtReview">
-            <div class="bottomBar">
+            <div class="bottomBar" id="iBottomBar">
                <button id="iwrtBtn" class="wrtBtn btn btn-outline-secondary"
                   type="button" aria-expanded="false">
                   <!-- 닫힌 상태에서 위쪽을 가리키게(chevron-up) -->
@@ -844,7 +844,7 @@ function iSubmit(form){
   return true; // 폼 제출 진행
 }
 
-/////////////////  DB 데이터를 REVIEW 게시판에 출력 (ReviewListController)  //////////////////////
+//////  DB 데이터를 REVIEW 게시판에 출력 (ReviewListController)  //////
 
 // 별점 계산
 // n을 숫자로 반환하고 실패하면 0 => n개 만큼 ★ 반복(최대 5개) 나머지 개수만큼 ☆ 반복
@@ -852,6 +852,7 @@ function starString(n){
 	n = Number(n)||0;
 	return '★'.repeat(Math.max(0,Math.min(5,n))) + '☆'.repeat(Math.max(0,5-n)); 
 }
+
 function esc(s){ 
 	return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); 
 }
@@ -867,7 +868,7 @@ async function loadReviews(limit){
 function renderReviews(list){
   const $list = document.getElementById('iReviewList');
   $list.innerHTML = '';
-  if(!list.length){
+  if(!list.length){	
     $list.innerHTML = '<div class="card"><div class="body">등록된 리뷰가 없습니다.</div></div>';
     return;
   }
@@ -876,14 +877,13 @@ function renderReviews(list){
       <article class="card" data-board-no="${r.boardNo}">
         <div class="head">
           <span class="nickname">${esc(r.nickName)}</span>
-          <span class="memID">#${esc(r.memId)}</span>
+          <span class="memId">#${esc(r.memId)}</span>
           <span class="stars" aria-label="${r.star}점">${starString(r.star)}</span>
-          <span class="date">${esc(r.createdDate)}</span>
+          <span class="date">${esc(r.updatedDate)}</span>
         </div>
         <div class="body">
           <div class="row">
-            <div class="thumb">
-              <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#888;font-size:12px;">이미지 없음</div>
+            <div class="thumb">${imgHTML}</div>
             </div>
             <div class="text">${esc(r.boardContent)}</div>
           </div>
@@ -895,7 +895,7 @@ function renderReviews(list){
 
 window.addEventListener('DOMContentLoaded', async () => {
   try{
-    const items = await loadReviews(200); // 리뷰 표시 수 10개
+    const items = await loadReviews(200); // 리뷰 표시 수
     renderReviews(items);
   }catch(err){
     console.error(err);

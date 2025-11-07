@@ -16,6 +16,6 @@ public interface ReviewService {
 	
 	
     // select
-    List<ReviewDTO> selectReview(int limit);
-    
+    List<ReviewDTO> selectReview();
+       
 }

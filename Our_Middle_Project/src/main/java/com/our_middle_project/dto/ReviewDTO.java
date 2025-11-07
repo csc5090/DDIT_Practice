@@ -34,4 +34,7 @@ public class ReviewDTO {
 	// DB: BOARD_STAR.STAR (NUMBER)
 	private int star;
 	
+	// DB: FILE_IMAGE.PATH (FILE_PATH)
+	private String thumbUrl;
+	
 }

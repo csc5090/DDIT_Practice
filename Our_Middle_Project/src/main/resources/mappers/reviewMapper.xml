@@ -37,10 +37,10 @@
       SELECT SEQ_BOARD_STAR.CURRVAL FROM DUAL
     </selectKey>
     INSERT INTO BOARD_STAR (
-    	STAR, 
+    	STAR,
     	CREATED_DATE, 
     	UPDATED_DATE, 
-    	MEM_NO, 
+    	MEM_NO,
     	BOARD_NO
    	)
     VALUES (
@@ -53,36 +53,40 @@
   </insert>
 
     <!-- 완료 화면 조회 -->
-	<select id="selectReview" parameterType="map"
-		resultType="com.our_middle_project.dto.ReviewDTO">
-		SELECT
-		B.BOARD_NO AS boardNo,
-		B.MEM_NO AS memNo,
-		M.NICKNAME AS nickName,
-		M.MEM_ID AS memId,
-		B.BOARD_CONTENT AS boardContent,
-		TO_CHAR(B.CREATED_DATE,'YYYY-MM-DD HH24:MI:SS') AS createdDate,
-		TO_CHAR(B.UPDATED_DATE,'YYYY-MM-DD HH24:MI:SS') AS updatedDate,
-		/* 별점 */
-		NVL((
-		SELECT S.STAR
-		FROM BOARD_STAR S
-		WHERE S.BOARD_NO = B.BOARD_NO
-		AND S.MEM_NO = B.MEM_NO
-		FETCH FIRST 1 ROWS ONLY
-		), 0) AS star,
-		/* 대표 썸네일(첫 이미지 경로) */
-		NVL((
-		SELECT I.FILE_PATH
-		FROM BOARD_IMAGE I
-		WHERE I.BOARD_NO = B.BOARD_NO
-		FETCH FIRST 1 ROWS ONLY
-		),'') AS firstImagePath
-		FROM BOARD B
-		JOIN MEMBER M ON M.MEM_NO = B.MEM_NO
-		WHERE B.TYPE_NO = 2
-		ORDER BY B.BOARD_NO DESC
-		FETCH FIRST #{limit} ROWS ONLY
+	<select id="selectReview" parameterType="int"
+	resultType="com.our_middle_project.dto.ReviewDTO">
+	SELECT
+	B.BOARD_NO AS boardNo,
+	B.MEM_NO AS memNo,
+	M.NICKNAME AS nickName,
+	M.MEM_ID AS memId,
+	B.BOARD_CONTENT AS boardContent,
+	TO_CHAR(B.CREATED_DATE, 'YYYY-MM-DD HH24:MI:SS') AS createdDate,
+	TO_CHAR(B.UPDATED_DATE, 'YYYY-MM-DD HH24:MI:SS') AS updatedDate,
+
+	/* 별점
+	(해당 게시글/작성자 1개) */
+	NVL((
+	SELECT S.STAR
+	FROM BOARD_STAR S
+	WHERE S.BOARD_NO = B.BOARD_NO
+	AND S.MEM_NO = B.MEM_NO
+	FETCH FIRST 1 ROWS ONLY
+	), 0) AS star,
+
+	/* 대표 썸네일 (가장 최근 1장) */
+	(
+	SELECT I.FILE_PATH
+	FROM BOARD_IMAGE I
+	WHERE I.BOARD_NO = B.BOARD_NO
+	ORDER BY I.UPLOAD_DATE DESC,
+	I.FILE_NO DESC
+	FETCH FIRST 1 ROWS ONLY
+	) AS thumbUrl
+
+	FROM BOARD B
+	JOIN MEMBER M ON M.MEM_NO = B.MEM_NO
+	WHERE B.TYPE_NO = 2
+	ORDER BY B.BOARD_NO DESC
 	</select>
-	
 </mapper>

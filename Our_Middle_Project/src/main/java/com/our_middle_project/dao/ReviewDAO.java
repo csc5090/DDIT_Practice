@@ -11,9 +11,9 @@ public interface ReviewDAO {
 	// insert
 	int insertBoard(ReviewDTO dto);            
 	int insertImage(FileImageDTO img);
-	int insertAuthorStar(Map<String, Object> map);
+	int insertAuthorStar(int boardNo, int memNo, int star);
 	
 	// select
-    List<ReviewDTO> selectReview(int limit);
+    List<ReviewDTO> selectReview();
 
 }
