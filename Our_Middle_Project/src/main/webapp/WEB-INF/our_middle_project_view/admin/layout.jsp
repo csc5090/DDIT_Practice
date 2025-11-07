@@ -383,110 +383,101 @@
 				</div>
 
 				<%-- ================= 리뷰 관리 ================= --%>
-				<div class="bodyArea" id="review-management">
+<div class="bodyArea" id="review-management">
 
-					<%-- 1. 왼쪽: 목록 패널 --%>
-					<div class="user-list-panel">
-						<div class="list-toolbar">
-							<div class="search-bar">
-								<input type="text" id="review-search-input"
-									placeholder="리뷰 제목 또는 닉네임으로 검색">
-								<button id="review-search-btn" class="action-btn primary">검색</button>
-							</div>
-						</div>
-						<div class="user-list-wrapper">
-							<table class="review-list-table" id="admin-review-list-table">
-								<thead>
-									<tr>
-										<th class="sortable" data-sort-key="boardTitle">리뷰 제목 <span
-											class="sort-icon"></span></th>
-										<th class="sortable" data-sort-key="nickname">작성자 <span
-											class="sort-icon"></span></th>
-										<th class="sortable" data-sort-key="stars">별점 <span
-											class="sort-icon"></span></th>
-										<th class="sortable" data-sort-key="hasImage">사진 <span
-											class="sort-icon"></span></th>
-										<th class="sortable" data-sort-key="adminReply">관리자 댓글 <span
-											class="sort-icon"></span>
-										</th>
-										<th class="sortable" data-sort-key="createdDate">작성일 <span
-											class="sort-icon"></span></th>
-									</tr>
-								</thead>
-								<tbody id="admin-review-list-tbody">
-									<%-- JS로 채워짐 --%>
-								</tbody>
-							</table>
-						</div>
-					</div>
+    <%-- 1. 왼쪽: 목록 패널 --%>
+    <div class="user-list-panel">
+        <div class="list-toolbar">
+            <div class="search-bar">
+                <input type="text" id="review-search-input"
+                    placeholder="리뷰 제목 또는 닉네임으로 검색">
+                <button id="review-search-btn" class="action-btn primary">검색</button>
+            </div>
+        </div>
+        <div class="user-list-wrapper">
+            <table class="review-list-table" id="admin-review-list-table">
+                <thead>
+                    <tr>
+                        <th class="sortable" data-sort-key="boardTitle">리뷰 제목 <span
+                            class="sort-icon"></span></th>
+                        <th class="sortable" data-sort-key="nickname">작성자 <span
+                            class="sort-icon"></span></th>
+                        <th class="sortable" data-sort-key="stars">별점 <span
+                            class="sort-icon"></span></th>
+                        <th class="sortable" data-sort-key="hasImage">사진 <span
+                            class="sort-icon"></span></th>
+                        <th class="sortable" data-sort-key="adminReply">관리자 댓글 <span
+                            class="sort-icon"></span>
+                        </th>
+                        <th class="sortable" data-sort-key="createdDate">작성일 <span
+                            class="sort-icon"></span></th>
+                    </tr>
+                </thead>
+                <tbody id="admin-review-list-tbody">
+                    <%-- JS로 채워짐 --%>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-					<%-- 2. 오른쪽: 상세정보 패널 --%>
-					<div class="user-detail-panel">
-						<div class="detail-content" id="review-detail-content-area">
-							<div class="detail-header">
-								<%-- JS가 이 h2 태그에 제목을 채웁니다 --%>
-								<h2 id="detail-review-selected-title"></h2>
-								<p class="header-guideline" id="review-detail-placeholder">
-									편집할 리뷰를 더블클릭하세요.</p>
-							</div>
+    <%-- 2. 오른쪽: 상세정보 패널 --%>
+    <div class="user-detail-panel">
+        <div class="detail-content" id="review-detail-content-area">
+            <%-- [수정] JS가 이 헤더에 'user-selected' 클래스를 추가/제거합니다 --%>
+            <div class="detail-header"> 
+                <h2 id="detail-review-selected-title"></h2>
+                <p class="header-guideline" id="review-detail-placeholder">
+                    편집할 리뷰를 더블클릭하세요.</p>
+            </div>
 
-							<%-- '게시물 관리'와 동일한 form-group 구조 --%>
-							<div class="detail-body" id="review-detail-body">
+            <div class="detail-body" id="review-detail-body">
+                
+                <div class="form-group">
+                    <label for="detail-review-nickname-input">닉네임</label>
+                    <input type="text" id="detail-review-nickname-input" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label for="detail-review-date-input">작성일</label>
+                    <input type="text" id="detail-review-date-input" readonly>
+                </div>
 
-								<div class="form-group">
-									<label for="detail-review-nickname-input">닉네임</label> <input
-										type="text" id="detail-review-nickname-input" readonly>
-								</div>
+                <div class="form-group">
+                    <label for="detail-review-stars-input">별점</label>
+                    <input type="text" id="detail-review-stars-input" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label>리뷰 이미지</label>
+                    <div id="detail-review-image-display" class="review-image-placeholder">
+                        <span>-</span>
+                    </div>
+                </div>
 
-								<div class="form-group">
-									<label for="detail-review-date-input">작성일</label> <input
-										type="text" id="detail-review-date-input" readonly>
-								</div>
+                <div class="form-group full-width">
+                    <label for="detail-review-content-textarea">내용</label>
+                    <%-- [수정] readonly 속성 확인 --%>
+                    <textarea id="detail-review-content-textarea" style="height: 150px; resize: vertical;" readonly></textarea>
+                </div>
 
-								<div class="form-group">
-									<label for="detail-review-stars-input">별점</label> <input
-										type="text" id="detail-review-stars-input" readonly>
-								</div>
+                <div class="form-group full-width">
+                    <label for="admin-reply-textarea">관리자 댓글 (작성일: <span id="admin-reply-date">미작성</span>)</label>
+                    <div class="post-comment-wrapper" style="height: 150px;">
+                         <textarea id="admin-reply-textarea" 
+                            placeholder="관리자 댓글을 입력하거나 수정하세요." 
+                            style="height: 100%; resize: none;"></textarea>
+                    </div>
+                </div>
+            </div>
 
-								<div class="form-group">
-									<label>리뷰 이미지</label>
-									<div id="detail-review-image-display"
-										class="review-image-placeholder">
-										<span>-</span>
-									</div>
-								</div>
-
-								<div class="form-group full-width">
-									<label for="detail-review-content-textarea">내용</label>
-									<textarea id="detail-review-content-textarea"
-										style="height: 150px; resize: vertical;" readonly></textarea>
-								</div>
-
-								<div class="form-group full-width">
-									<label for="admin-reply-textarea">관리자 댓글 (작성일: <span
-										id="admin-reply-date">미작성</span>)
-									</label>
-									<div class="post-comment-wrapper" style="height: 150px;">
-										<textarea id="admin-reply-textarea"
-											placeholder="관리자 댓글을 입력하거나 수정하세요."
-											style="height: 100%; resize: none;"></textarea>
-									</div>
-								</div>
-							</div>
-
-							<%-- 버튼은 숨겨진 상태로 유지 --%>
-							<div class="detail-footer" id="review-detail-footer"
-								style="display: none;">
-								<button class="action-btn primary" data-action="save-reply">댓글
-									저장</button>
-								<button class="action-btn secondary" data-action="delete-image">이미지
-									삭제</button>
-								<button class="action-btn danger" data-action="delete-review">리뷰
-									삭제</button>
-							</div>
-						</div>
-					</div>
-				</div>
+            <div class="detail-footer" id="review-detail-footer" style="display: none;">
+                <button class="action-btn primary" data-action="save-reply">댓글 저장</button>
+                <button class="action-btn secondary" data-action="delete-image">이미지 삭제</button>
+                <button class="action-btn danger" data-action="delete-review">리뷰 삭제</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 				<%-- ================= 데이터/통계 ================= --%>
 				<div class="bodyArea" id="stats-main">데이터/통계</div>

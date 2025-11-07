@@ -131,78 +131,82 @@ const ReviewPage = {
 	},
 
 	clearDetailViews: function() {
-		// 1. 플레이스홀더 표시, 푸터(버튼) 숨김
-		document.getElementById('review-detail-placeholder').style.display = 'block';
-		document.getElementById('review-detail-footer').style.display = 'none';
+			// 1. 플레이스홀더 표시, 푸터(버튼) 숨김
+			document.getElementById('review-detail-placeholder').style.display = 'block';
+			document.getElementById('review-detail-footer').style.display = 'none';
 
-		// 2. 상단 타이틀 초기화
-		document.getElementById('detail-review-selected-title').textContent = '';
-		this.selectedReviewNo = null;
+			// 2. [수정] 상단 타이틀 초기화 및 헤더 클래스 제거
+			document.getElementById('detail-review-selected-title').textContent = ''; 
+	        document.querySelector('#review-management .detail-header').classList.remove('user-selected'); // 제목 숨기기
+			this.selectedReviewNo = null;
 
-		// 3. 폼 필드 내용 비우기 (새로운 ID 기준)
-		document.getElementById('detail-review-nickname-input').value = '';
-		document.getElementById('detail-review-date-input').value = '';
-		document.getElementById('detail-review-stars-input').value = '';
-		document.getElementById('detail-review-content-textarea').value = '';
-		document.getElementById('detail-review-image-display').innerHTML = '<span>-</span>';
+			// 3. 폼 필드 내용 비우기
+			document.getElementById('detail-review-nickname-input').value = '';
+			document.getElementById('detail-review-date-input').value = '';
+			document.getElementById('detail-review-stars-input').value = '';
+			document.getElementById('detail-review-content-textarea').value = '';
+			document.getElementById('detail-review-image-display').innerHTML = '<span>-</span>';
+			
+			document.getElementById('admin-reply-date').textContent = '미작성';
+			document.getElementById('admin-reply-textarea').value = '';
+			document.getElementById('admin-reply-textarea').disabled = true;
 
-		document.getElementById('admin-reply-date').textContent = '미작성';
-		document.getElementById('admin-reply-textarea').value = '';
-		document.getElementById('admin-reply-textarea').disabled = true;
+			// 4. 선택된 항목 하이라이트 제거
+			const currentSelected = document.querySelector('.review-list-item.selected');
+			if (currentSelected) currentSelected.classList.remove('selected');
+		},
 
-		// 4. 선택된 항목 하이라이트 제거
-		const currentSelected = document.querySelector('.review-list-item.selected');
-		if (currentSelected) currentSelected.classList.remove('selected');
-	},
+		populateDetailViews: function(reviewNo) {
+				const review = this.currentList.find(r => r.boardNo == reviewNo);
+				if (!review) return;
 
-	populateDetailViews: function(reviewNo) {
-		const review = this.currentList.find(r => r.boardNo == reviewNo);
-		if (!review) return;
+				// 1. 플레이스홀더 숨김, 푸터(버튼) 표시
+				document.getElementById('review-detail-placeholder').style.display = 'none';
+				document.getElementById('review-detail-footer').style.display = 'flex'; 
 
-		// 1. 플레이스홀더 숨김, 푸터(버튼) 표시
-		document.getElementById('review-detail-placeholder').style.display = 'none';
-		document.getElementById('review-detail-footer').style.display = 'flex';
+				// 2. [수정] 헤더 클래스 추가 (제목을 보이게 함)
+		        document.querySelector('#review-management .detail-header').classList.add('user-selected');
+				this.selectedReviewNo = review.boardNo;
+		        
+				// --- 3. 데이터 채우기 ---
+				document.getElementById('detail-review-selected-title').textContent = review.boardTitle ?? '[제목 없음]';
+				
+				document.getElementById('detail-review-nickname-input').value = review.nickname;
+				document.getElementById('detail-review-date-input').value = review.createdDate;
 
-		this.selectedReviewNo = review.boardNo;
+				const starsText = '★'.repeat(review.stars) + '☆'.repeat(5 - review.stars);
+				document.getElementById('detail-review-stars-input').value = starsText;
+				
+				// [수정] readonly 속성을 JS에서도 명시적으로 설정
+				const contentTextArea = document.getElementById('detail-review-content-textarea');
+				contentTextArea.value = review.boardContent;
+				contentTextArea.readOnly = true; 
+				
+				document.getElementById('detail-review-image-display').innerHTML = review.hasImage === 'Y' 
+				    ? `<img src="${CONTEXT_PATH}/uploads/review_${review.boardNo}.jpg" alt="리뷰 이미지">`
+				    : '<span>이미지 없음</span>';
 
-		// --- 2. 데이터 채우기 (새로운 ID 기준) ---
+				document.getElementById('admin-reply-date').textContent = review.adminReplyDate || '미작성';
+				document.getElementById('admin-reply-textarea').value = review.adminReply || '';
+				document.getElementById('admin-reply-textarea').disabled = false;
+				
+				// --- 4. 버튼 상태 제어 ---
+		        document.querySelector('#review-detail-footer .action-btn[data-action="save-reply"]').disabled = false;
+		        document.querySelector('#review-detail-footer .action-btn[data-action="delete-review"]').disabled = false;
 
-		// 제목을 상단 h2 태그에 표시
-		document.getElementById('detail-review-selected-title').textContent = review.boardTitle ?? '[제목 없음]';
-
-		document.getElementById('detail-review-nickname-input').value = review.nickname;
-		document.getElementById('detail-review-date-input').value = review.createdDate;
-
-		const starsText = '★'.repeat(review.stars) + '☆'.repeat(5 - review.stars);
-		document.getElementById('detail-review-stars-input').value = starsText;
-
-		document.getElementById('detail-review-content-textarea').value = review.boardContent;
-
-		document.getElementById('detail-review-image-display').innerHTML = review.hasImage === 'Y'
-			? `<img src="${CONTEXT_PATH}/uploads/review_${review.boardNo}.jpg" alt="리뷰 이미지">`
-			: '<span>이미지 없음</span>';
-
-		document.getElementById('admin-reply-date').textContent = review.adminReplyDate || '미작성';
-		document.getElementById('admin-reply-textarea').value = review.adminReply || '';
-		document.getElementById('admin-reply-textarea').disabled = false; // 댓글창 활성화
-
-		// --- 3. 버튼 상태 제어 ---
-		document.querySelector('#review-detail-footer .action-btn[data-action="save-reply"]').disabled = false;
-		document.querySelector('#review-detail-footer .action-btn[data-action="delete-review"]').disabled = false;
-
-		const deleteImageBtn = document.querySelector('#review-detail-footer .action-btn[data-action="delete-image"]');
-		if (deleteImageBtn) {
-			if (review.hasImage === 'Y') {
-				deleteImageBtn.classList.add('image-active');
-				deleteImageBtn.classList.remove('secondary');
-				deleteImageBtn.disabled = false;
-			} else {
-				deleteImageBtn.classList.remove('image-active');
-				deleteImageBtn.classList.add('secondary');
-				deleteImageBtn.disabled = true;
-			}
-		}
-	},
+				const deleteImageBtn = document.querySelector('#review-detail-footer .action-btn[data-action="delete-image"]');
+				if (deleteImageBtn) {
+					if (review.hasImage === 'Y') {
+						deleteImageBtn.classList.add('image-active');
+						deleteImageBtn.classList.remove('secondary');
+						deleteImageBtn.disabled = false;
+					} else {
+						deleteImageBtn.classList.remove('image-active');
+						deleteImageBtn.classList.add('secondary');
+						deleteImageBtn.disabled = true;
+					}
+				}
+			},
 
 	handleClick: function(e) {
 		// (정렬 헤더 클릭 로직은 변경 없음)
