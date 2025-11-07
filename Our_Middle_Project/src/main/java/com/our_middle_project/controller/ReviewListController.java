@@ -15,47 +15,26 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class ReviewListController implements Action {
 
-    private final ReviewService reviewService = new ReviewServiceImpl();
-
     @Override
     public ActionForward execute(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        int limit = parseIntOr(req.getParameter("limit"), 100);
+    	// 서비스 객체 생성
+    	ReviewService reviewService = new ReviewServiceImpl();
+    	
+    	
+    	List<ReviewDTO> list = reviewService.selectReview();
 
-        List<ReviewDTO> list = reviewService.selectReview(limit);
+//    	System.out.println("리뷰 목록개수: " + list.size() + "개");
+        
+    	// JSP로 전달
+    	req.setAttribute("reviewList", list);
+        
+        // 포워드 설정
+        ActionForward forward = new ActionForward();
+        forward.setRedirect(false);
+        forward.setPath("/WEB-INF/our_middle_project_view/review.jsp");
 
-        // JSON 만들기
-        StringBuilder sb = new StringBuilder(256 + list.size() * 200);
-        sb.append("{\"ok\":true,\"count\":").append(list.size()).append(",\"items\":[");
-        for (int i = 0; i < list.size(); i++) {
-            ReviewDTO r = list.get(i);
-            if (i > 0) sb.append(',');
-            sb.append('{')
-              .append("\"boardNo\":").append(r.getBoardNo()).append(',')
-              .append("\"memNo\":").append(r.getMemNo()).append(',')
-              .append("\"nickName\":\"").append(esc(r.getNickName())).append("\",")
-              .append("\"boardContent\":\"").append(esc(r.getBoardContent())).append("\",")
-              .append("\"createdDate\":\"").append(esc(r.getCreatedDate())).append("\",")
-              .append("\"updatedDate\":\"").append(esc(r.getUpdatedDate())).append("\",")
-              .append("\"star\":").append(r.getStar())
-              .append('}');
-        }
-        sb.append("]}");
-
-        resp.setContentType("application/json; charset=UTF-8");
-        resp.getWriter().write(sb.toString());
-        return null; // 직접 응답
-    }
-
-    private int parseIntOr(String s, int def) {
-       try { return Integer.parseInt(s); 
-       } catch (Exception e) {
-          return def; 
-          } 
-       }
-    private String esc(String s) {
-        if (s == null) return "";
-        return s.replace("\\","\\\\").replace("\"","\\\"").replace("\r","\\r").replace("\n","\\n");
+        return forward;
     }
 }
