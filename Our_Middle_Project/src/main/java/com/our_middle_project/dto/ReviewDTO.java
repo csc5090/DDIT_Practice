@@ -25,6 +25,9 @@ public class ReviewDTO {
 	// DB: MEM_NO (NUMBER)
 	private int memNo;
 	
+	// DB: MEM_ID (VARCHAR2)
+	private String memId;
+	
 	// DB: TYPE_NO (NUMBER)
 	private int typeNo;
 	

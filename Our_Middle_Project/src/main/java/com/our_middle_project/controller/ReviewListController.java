@@ -33,8 +33,9 @@ public class ReviewListController implements Action {
         // 포워드 설정
         ActionForward forward = new ActionForward();
         forward.setRedirect(false);
-        forward.setPath("/WEB-INF/our_middle_project_view/review.jsp");
+        forward.setPath("/WEB-INF/our_middle_project_view/reviewList.jsp");
 
+        //return null;
         return forward;
     }
 }
