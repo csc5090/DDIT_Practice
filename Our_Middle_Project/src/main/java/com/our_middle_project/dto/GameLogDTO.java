@@ -6,16 +6,15 @@ import lombok.Data;
 @Data
 public class GameLogDTO {
 	
-    private int gameLogNo;
-    private int memNo;
-    private int levelNo;
-    private int score;
-    private int combo;
-    private int clearTime;      
-    
-    
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-    
-    
+	private Integer score;
+	private LocalDateTime startTime;
+	private LocalDateTime endTime;
+    private Integer memNo;
+    private Integer levelNo;
+    private Integer combo;
+    private Integer clearTime;
+
+    // JSON으로 받는 경우
+    private String startTimeStr;
+    private String endTimeStr;
 }

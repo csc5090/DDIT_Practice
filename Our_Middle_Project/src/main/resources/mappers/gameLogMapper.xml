@@ -6,13 +6,28 @@
 
 <mapper namespace="gameLogMapper">
 
-	<insert id="insertGameLog" parameterType="com.our_middle_project.dto.GameLogDTO">
-	    INSERT INTO 
-	    	GAME_LOG
-	    		(MEM_NO, LEVEL_NO, SCORE, COMBO, CLEAR_TIME, START_TIME, END_TIME)
-	   	 	VALUES
-	    		(#{memNo}, #{levelNo}, #{score}, #{combo}, #{clearTime}, #{startTime}, #{endTime})
-	</insert>
+    <insert id="insertGameLog" parameterType="com.our_middle_project.dto.GameLogDTO">
+        INSERT INTO GAME_LOG (
+            GAME_LOG_NO, 
+            SCORE, 
+            START_TIME, 
+            END_TIME,
+            MEM_NO, 
+            LEVEL_NO,
+            COMBO, 
+            CLEAR_TIME
+        )
+        VALUES(
+        	SEQ_GAME_LOG.NEXTVAL,
+        	#{score}, 
+        	#{startTime, jdbcType=TIMESTAMP}, 
+        	#{endTime, jdbcType=TIMESTAMP},
+        	#{memNo}, 
+        	#{levelNo}, 
+        	#{combo}, 
+        	#{clearTime}
+       	)
+    </insert>
 
 </mapper>
 

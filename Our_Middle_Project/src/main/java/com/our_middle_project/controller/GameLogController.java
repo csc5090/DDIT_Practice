@@ -1,12 +1,17 @@
 package com.our_middle_project.controller;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import com.google.gson.*;
 import com.our_middle_project.action.Action;
 import com.our_middle_project.action.ActionForward;
+import com.our_middle_project.dao.GameLogDAOImpl;
 import com.our_middle_project.dto.GameLogDTO;
+import com.our_middle_project.dto.UserInfoDTO;
+import com.our_middle_project.service.GameLogServiceImpl;
 import com.our_middle_project.serviceInterface.GameLogService;
 
 import jakarta.servlet.ServletException;
@@ -15,62 +20,86 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 public class GameLogController implements Action {
-	
-	private GameLogService gameLogService;
 
-	public GameLogController() {
-	    // 기본 생성자
-	}
-    // 생성자 주입
-    public GameLogController(GameLogService gameLogService) {
-        this.gameLogService = gameLogService;
+    private GameLogService gameLogService = new GameLogServiceImpl(new GameLogDAOImpl());
+
+    // LocalDateTime Adapter
+    private static class LocalDateTimeAdapter implements JsonSerializer<LocalDateTime>, JsonDeserializer<LocalDateTime> {
+        private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        @Override
+        public JsonElement serialize(LocalDateTime src, java.lang.reflect.Type typeOfSrc, JsonSerializationContext context) {
+            return new JsonPrimitive(src.format(formatter));
+        }
+
+        @Override
+        public LocalDateTime deserialize(JsonElement json, java.lang.reflect.Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            return LocalDateTime.parse(json.getAsString(), formatter);
+        }
     }
-    
-	@Override
-	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		
-		HttpSession session = request.getSession();
-		Integer sessionMemNo = (Integer) session.getAttribute("memNo");
-		
-		if(sessionMemNo == null) {
-		    ActionForward forward = new ActionForward();
-		    forward.setRedirect(true);
-		    forward.setPath("login.do");
-		    return forward;
-		}
 
-        // 클라이언트에서 전송한 게임 정보 가져오기
-        int reqMemNo = Integer.parseInt(request.getParameter("memNo"));
-        int levelNo = Integer.parseInt(request.getParameter("levelNo"));
-        int score = Integer.parseInt(request.getParameter("score"));
-        int combo = Integer.parseInt(request.getParameter("combo"));
-        int clearTime = Integer.parseInt(request.getParameter("clearTime"));
-        String startTime = request.getParameter("startTime");
-        String endTime = request.getParameter("endTime");
+    @Override
+    public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-        
+        HttpSession session = request.getSession();
 
+        // 1️⃣ loginUser에서 memNo 가져오기
+        UserInfoDTO loginUser = (UserInfoDTO) session.getAttribute("loginUser");
+        if (loginUser == null) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"error\":\"No loginUser in session\"}");
+            return null;
+        }
+        Integer memNo = loginUser.getMem_no();
+        System.out.println("세션에서 가져온 memNo: " + memNo);
 
-     // DTO 생성
-        GameLogDTO gameLog = new GameLogDTO();
-        gameLog.setMemNo(sessionMemNo);
-        gameLog.setLevelNo(Integer.parseInt(request.getParameter("levelNo")));
-        gameLog.setScore(Integer.parseInt(request.getParameter("score")));
-        gameLog.setCombo(Integer.parseInt(request.getParameter("combo")));
-        gameLog.setClearTime(Integer.parseInt(request.getParameter("clearTime")));
+        // 2️⃣ JSON 읽기
+        StringBuilder sb = new StringBuilder();
+        try (BufferedReader reader = request.getReader()) {
+            String line;
+            while ((line = reader.readLine()) != null) sb.append(line);
+        }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        gameLog.setStartTime(LocalDateTime.parse(request.getParameter("startTime"), formatter));
-        gameLog.setEndTime(LocalDateTime.parse(request.getParameter("endTime"), formatter));
+        String jsonData = sb.toString();
+        System.out.println("받은 JSON: " + jsonData);
 
-        // 서비스 호출
-        gameLogService.saveGameLog(gameLog);
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+                .create();
 
-        // 완료 후 페이지 이동 (예: 게임 종료 페이지)
-//        ActionForward forward = new ActionForward();
-//        forward.setRedirect(true);
-//        forward.setPath("gameEndSuccess.do"); // JSP나 다른 컨트롤러 URL
-          return null;
+        GameLogDTO gameLog;
+        try {
+            gameLog = gson.fromJson(jsonData, GameLogDTO.class);
+
+            // 3️⃣ 세션에서 가져온 memNo 세팅
+            gameLog.setMemNo(memNo);
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            if (gameLog.getStartTimeStr() != null && gameLog.getStartTime() == null)
+                gameLog.setStartTime(LocalDateTime.parse(gameLog.getStartTimeStr(), formatter));
+            if (gameLog.getEndTimeStr() != null && gameLog.getEndTime() == null)
+                gameLog.setEndTime(LocalDateTime.parse(gameLog.getEndTimeStr(), formatter));
+
+        } catch (JsonSyntaxException | JsonIOException e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"error\":\"Invalid JSON format\"}");
+            return null;
+        }
+
+        // 4️⃣ DB 저장
+        try {
+            gameLogService.saveGameLog(gameLog);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("{\"error\":\"DB insert failed\"}");
+            return null;
+        }
+
+        response.setContentType("application/json; charset=UTF-8");
+        response.getWriter().write("{\"result\":\"success\"}");
+        return null;
     }
 }
