@@ -111,24 +111,23 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		try {
 			// 1. 이미지 삭제
 			adminBoardDAO.deleteBoardImage(board_no);
-
 			// 2. 별점 삭제
 			adminBoardDAO.deleteBoardStars(board_no);
-
 			// 3. 댓글 삭제
 			adminBoardDAO.deleteBoardReplies(board_no);
-
-			// [이 블록 추가]
 			// 4. 좋아요 삭제
 			adminBoardDAO.deleteBoardLikes(board_no);
+			// 5. 싫어요 삭제 
+			adminBoardDAO.deleteBoardDislikes(board_no);
 
-			// 5. 게시물 원본(부모) 완전 삭제
+			// 6. 게시물 원본(부모) 완전 삭제
 			int result = adminBoardDAO.hardDeletePost(board_no);
 
 			return result > 0;
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.err.println("AdminBoardServiceImpl hardDeletePost() 문제 발생: " + e.getMessage());
 			return false;
 		}
 	}

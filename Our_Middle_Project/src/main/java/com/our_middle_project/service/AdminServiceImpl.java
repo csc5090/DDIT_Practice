@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.our_middle_project.dao.AdminBoardDAOImpl;
 import com.our_middle_project.dao.AdminReviewDAO;
 import com.our_middle_project.dao.AdminReviewDAOImpl;
 import com.our_middle_project.dao.MemberDAO;
@@ -78,18 +79,19 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public boolean deleteReview(int boardNo) {
 		try {
-			// ▼▼▼ [수정] '리뷰 삭제'가 모든 자식 레코드를 삭제해야 합니다. ▼▼▼
-
-			// 1. 별점 삭제 (FK_STAR_BOARD 해결)
+			// 1. 별점 삭제
 			reviewDAO.deleteReviewStars(boardNo);
-
-			// 2. 댓글 삭제 (FK_REPLY_BOARD 해결)
+			// 2. 댓글 삭제
 			reviewDAO.deleteReviewReplies(boardNo);
-
-			// 3. 이미지 삭제 (FK_IMAGE_BOARD 해결)
+			// 3. 이미지 삭제
 			reviewDAO.deleteReviewImage(boardNo);
 
-			// 4. 리뷰(부모) 삭제
+			// 4. 좋아요 삭제
+			new AdminBoardDAOImpl().deleteBoardLikes(boardNo);
+
+			// 5. 싫어요 삭제
+			reviewDAO.deleteBoardDislikes(boardNo);
+			// 6. 리뷰(부모) 삭제
 			int result = reviewDAO.deleteReview(boardNo);
 
 			return result > 0;

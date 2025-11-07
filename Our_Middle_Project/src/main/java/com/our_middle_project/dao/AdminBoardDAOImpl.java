@@ -191,11 +191,10 @@ public class AdminBoardDAOImpl implements AdminBoardDAO {
 	@Override
 	public void deleteBoardLikes(int board_no) {
 		try (SqlSession session = MybatisUtil.getSqlSession()) {
-			// .delete()를 사용하지만, update/insert를 써도 트랜잭션상 문제는 없습니다.
-			// AdminBoardMapper.xml의 id와 동일하게 "deleteBoardLikes"
 			session.delete(namespace + ".deleteBoardLikes", board_no); 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+
 }

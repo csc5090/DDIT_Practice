@@ -83,4 +83,13 @@ public class AdminReviewDAOImpl implements AdminReviewDAO {
 		}
 	}
 
+	@Override
+	public void deleteBoardDislikes(int boardNo) {
+		try (SqlSession session = MybatisUtil.getSqlSession()) {
+			session.delete(namespace + ".deleteBoardDislikes", boardNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }

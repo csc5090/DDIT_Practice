@@ -35,4 +35,5 @@ public interface AdminBoardDAO {
     int deleteBoardDislikes(int board_no);
 
 	void deleteBoardLikes(int board_no);
+	
 }
