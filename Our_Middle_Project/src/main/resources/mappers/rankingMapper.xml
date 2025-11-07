@@ -2,71 +2,36 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.our_middle_project.mappers.rankingMapper">
+<mapper namespace="rankingMapper">
 
-  <resultMap id="RankingMap" type="com.our_middle_project.dto.RankingDTO">
-	    <result property="memNo" column="MEM_NO"/>
-	    <result property="nickname" column="NICKNAME"/>
-	    <result property="memId" column="MEM_ID"/>
-	    <result property="levelNo" column="LEVEL_NO"/>
-	    <result property="scoreBest" column="SCORE_BEST"/>
-	    <result property="scoreTotal" column="SCORE_TOTAL"/>
-	    <result property="scoreCount" column="SCORE_COUNT"/>
-	    <result property="scoreAvg" column="SCORE_AVG"/>
-	    <result property="scoreLast" column="SCORE_LAST"/>
-	    <result property="playedLastDate" column="PLAYED_LAST_DATE"/>
-	    <result property="combo" column="COMBO"/>
-	    <result property="clearTime" column="CLEAR_TIME"/>
-  </resultMap>
-
-  <select id="selectRankingByLevel" resultMap="RankingMap" parameterType="map">
-	    SELECT *
-	    FROM (
-	      SELECT
-	        gr.MEM_NO,
-	        m.NICKNAME,
-	        m.MEM_ID,
-	        gr.LEVEL_NO,
-	        gr.SCORE_BEST,
-	        gr.SCORE_TOTAL,
-	        gr.SCORE_COUNT,
-	        gr.SCORE_AVG,
-	        gr.SCORE_LAST,
-	        gr.PLAYED_LAST_DATE,
-	        ( SELECT gl.COMBO
-	          FROM GAME_LOG gl
-	          WHERE gl.MEM_NO = gr.MEM_NO
-	            AND gl.LEVEL_NO = gr.LEVEL_NO
-	            AND gl.SCORE = gr.SCORE_BEST
-	            AND gl.END_TIME = (
-	                SELECT MAX(gl2.END_TIME)
-	                FROM GAME_LOG gl2
-	                WHERE gl2.MEM_NO = gr.MEM_NO
-	                  AND gl2.LEVEL_NO = gr.LEVEL_NO
-	                  AND gl2.SCORE = gr.SCORE_BEST
-	            )
-	        ) COMBO,
-	        ( SELECT gl.CLEAR_TIME
-	          FROM GAME_LOG gl
-	          WHERE gl.MEM_NO = gr.MEM_NO
-	            AND gl.LEVEL_NO = gr.LEVEL_NO
-	            AND gl.SCORE = gr.SCORE_BEST
-	            AND gl.END_TIME = (
-	                SELECT MAX(gl2.END_TIME)
-	                FROM GAME_LOG gl2
-	                WHERE gl2.MEM_NO = gr.MEM_NO
-	                  AND gl2.LEVEL_NO = gr.LEVEL_NO
-	                  AND gl2.SCORE = gr.SCORE_BEST
-	            )
-	        ) CLEAR_TIME
-	      FROM GAME_RANKING gr
-	      JOIN MEMBER m ON m.MEM_NO = gr.MEM_NO
-	      WHERE gr.LEVEL_NO = #{levelNo}
-	      ORDER BY gr.SCORE_BEST DESC, gr.PLAYED_LAST_DATE DESC
-	    )
-	    <![CDATA[
-	    WHERE ROWNUM <= #{limit}
-	    ]]>
-  </select>
+	<select id="selectRanking" resultType="RankingDTO">
+		<![CDATA[
+		    SELECT *
+		    FROM (
+		        SELECT
+		            R.LEVEL_NO,
+		            M.MEM_ID,
+		            M.NICKNAME,
+		            R.SCORE_BEST,
+		            R.SCORE_TOTAL,
+		            R.SCORE_COUNT,
+		            R.SCORE_AVG,
+		            R.PLAYED_LAST_DATE,
+		            L.COMBO,
+		            L.CLEAR_TIME,
+		            ROW_NUMBER() OVER (PARTITION BY R.LEVEL_NO ORDER BY R.SCORE_BEST DESC) AS RN
+		        FROM
+		            GAME_RANKING R
+		        INNER JOIN MEMBER M
+		            ON R.MEM_NO = M.MEM_NO
+		        INNER JOIN GAME_LOG L
+		            ON R.MEM_NO = L.MEM_NO
+		           AND R.LEVEL_NO = L.LEVEL_NO
+		           AND R.PLAYED_LAST_DATE = L.END_TIME
+		    )
+		    WHERE RN <= 50
+		    ORDER BY LEVEL_NO ASC, SCORE_BEST DESC
+		]]>
+		</select>
 
 </mapper>

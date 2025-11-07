@@ -6,18 +6,21 @@ import lombok.Data;
 
 @Data
 public class RankingDTO {
-	
-	  	private int memNo;
-	    private String nickname;
-	    private String memId;
-	    private int levelNo;
-	    private int scoreBest;
-	    private int scoreTotal;
-	    private int scoreCount;
-	    private int scoreAvg;
-	    private int scoreLast;
-	    private Date playedLastDate;
+
+	    private int level_no;
+	    private int score_best;
+	    private int score_total;
+	    private int score_count;
+	    private int score_avg;
+	    private int score_last;
+	    private String played_last_date;
+	    
+	    //gameLog
 	    private int combo;
-	    private int clearTime;
+	    private int clear_time;
+	    
+	    //member
+	    private String nickname;
+	    private String mem_id;
 }
 

@@ -13,6 +13,7 @@
 		<typeAlias type="com.our_middle_project.dto.ReviewDTO" alias="ReviewDTO" />
 		<typeAlias type="com.our_middle_project.dto.FileImageDTO" alias="FileImageDTO" />
 		<typeAlias type="com.our_middle_project.dto.AdminBoardImageDTO" alias="AdminBoardImageDTO" />
+		<typeAlias type="com.our_middle_project.dto.RankingDTO" alias="RankingDTO" />
 	</typeAliases>
 
 	<environments default="development">
