@@ -18,6 +18,9 @@ public class GameLogController implements Action {
 	
 	private GameLogService gameLogService;
 
+	public GameLogController() {
+	    // 기본 생성자
+	}
     // 생성자 주입
     public GameLogController(GameLogService gameLogService) {
         this.gameLogService = gameLogService;
