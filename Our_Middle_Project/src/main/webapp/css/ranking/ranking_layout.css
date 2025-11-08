@@ -467,3 +467,38 @@ span.span2 {
 #bottomMain button.active {
     color: #00d1ff;
 }
+
+/* 4~50등 텍스트 */
+
+.ranking-column-main-1 {
+    font-size: 16px;       /* 글자 크기 */
+    font-weight: bold;     /* 볼드 */
+    text-align: center;    /* 가운데 정렬 */
+
+}
+/* easy, normal, hard 공통으로 적용 */
+#rankingList-1 .ranking-item:not(.ranking-header) .ranking-column-main-1,
+#rankingList-2 .ranking-item:not(.ranking-header) .ranking-column-main-1,
+#rankingList-3 .ranking-item:not(.ranking-header) .ranking-column-main-1 {
+    margin-left: 35px;
+}
+
+#rankingList-1 .ranking-item:not(.ranking-header) .ranking-column-main-4,
+#rankingList-2 .ranking-item:not(.ranking-header) .ranking-column-main-4,
+#rankingList-3 .ranking-item:not(.ranking-header) .ranking-column-main-4 {
+    margin-left: 30px;
+}
+
+#rankingList-1 .ranking-item:not(.ranking-header) .ranking-column-main-5,
+#rankingList-2 .ranking-item:not(.ranking-header) .ranking-column-main-5,
+#rankingList-3 .ranking-item:not(.ranking-header) .ranking-column-main-5 {
+    display: flex;
+    padding-left: 20px;
+}
+
+#rankingList-1 .ranking-item:not(.ranking-header) .ranking-column-main-6,
+#rankingList-2 .ranking-item:not(.ranking-header) .ranking-column-main-6,
+#rankingList-3 .ranking-item:not(.ranking-header) .ranking-column-main-6 {
+    display: flex;
+    padding-left: 20px;
+}

@@ -7,7 +7,41 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  
+    const titleInput = document.getElementById('title');
+    const fixedPrefix = "[자유] ";
+    const MAX_TITLE_LENGTH = 50; // 최대 글자 수
+
+    // 초기값
+    titleInput.value = fixedPrefix;
+
+    // 입력 시 이벤트: 접두사 유지 + 글자수 제한
+    titleInput.addEventListener('input', () => {
+        // 접두사 유지
+        if (!titleInput.value.startsWith(fixedPrefix)) {
+            titleInput.value = fixedPrefix;
+        }
+
+        // 글자수 제한
+        if (titleInput.value.length > MAX_TITLE_LENGTH) {
+            titleInput.value = titleInput.value.slice(0, MAX_TITLE_LENGTH);
+            Swal.fire({
+                icon: 'warning',
+                title: '입력 제한',
+                text: `제목은 최대 ${MAX_TITLE_LENGTH}자까지 입력 가능합니다.`,
+                confirmButtonText: '확인'
+            });
+        }
+    });
+
+    // 커서 위치 제한 (prefix 보호)
+    function protectCursor() {
+        if (titleInput.selectionStart < fixedPrefix.length) {
+            titleInput.setSelectionRange(fixedPrefix.length, fixedPrefix.length);
+        }
+    }
+
+    titleInput.addEventListener('keydown', protectCursor);
+    titleInput.addEventListener('click', protectCursor);
 });
 
 /**
@@ -23,16 +57,32 @@ function goBack() {
  */
 function validateWrite() {
     const title = document.getElementById('title').value.trim();
-    const writer = document.getElementById('writer').value.trim();
+    const writer = document.getElementById('writer')?.value.trim() || "";
     const content = document.getElementById('content').value.trim();
+    const MAX_TITLE_LENGTH = 50;
 
-    if (title === "" || writer === "" || content === "" || password === "") {
-        Swal.fire({ icon: 'warning', title: '입력 오류', text: '모든 필드를 입력해주세요.', confirmButtonText: '확인' });
+    if (title === "" || writer === "" || content === "") {
+        Swal.fire({ 
+            icon: 'warning', 
+            title: '입력 오류', 
+            text: '모든 필드를 입력해주세요.', 
+            confirmButtonText: '확인' 
+        });
         return false;
     }
-    
+
+    if (title.length > MAX_TITLE_LENGTH) {
+        Swal.fire({
+            icon: 'warning',
+            title: '제목 길이 초과',
+            text: `제목은 최대 ${MAX_TITLE_LENGTH}자까지 입력 가능합니다.`,
+            confirmButtonText: '확인'
+        });
+        return false;
+    }
+
     console.log("New post validation successful.");
-    return true; 
+    return true;
 }
 
 /**
@@ -42,15 +92,30 @@ function validateWrite() {
 function validateEdit() {
     const title = document.getElementById('title').value.trim();
     const content = document.getElementById('content').value.trim();
+    const MAX_TITLE_LENGTH = 50;
 
-    
-	if (title === "" || writer === "" || content === "") {
-	    Swal.fire({ icon: 'warning', title: '입력 오류', text: '모든 필드를 입력해주세요.', confirmButtonText: '확인' });
-	    return false;
-	}
-    
+    if (title === "" || content === "") {
+        Swal.fire({ 
+            icon: 'warning', 
+            title: '입력 오류', 
+            text: '모든 필드를 입력해주세요.', 
+            confirmButtonText: '확인' 
+        });
+        return false;
+    }
+
+    if (title.length > MAX_TITLE_LENGTH) {
+        Swal.fire({
+            icon: 'warning',
+            title: '제목 길이 초과',
+            text: `제목은 최대 ${MAX_TITLE_LENGTH}자까지 입력 가능합니다.`,
+            confirmButtonText: '확인'
+        });
+        return false;
+    }
+
     console.log("Edit form validation successful.");
-    return true; 
+    return true;
 }
 
 /**
@@ -58,31 +123,5 @@ function validateEdit() {
  * @returns {boolean} 폼 전송 허용 여부
  */
 function validateReply() {
-    return validateWrite(); 
+    return validateWrite();
 }
-
-const titleInput = document.getElementById('title');
-const fixedPrefix = "[자유] ";
-
-// 초기값
-titleInput.value = fixedPrefix;
-
-// 입력 시 접두사 삭제 방지
-titleInput.addEventListener('input', () => {
-    if (!titleInput.value.startsWith(fixedPrefix)) {
-        titleInput.value = fixedPrefix;
-    }
-});
-
-// 커서 위치 제한
-titleInput.addEventListener('keydown', (e) => {
-    if (titleInput.selectionStart < fixedPrefix.length) {
-        titleInput.setSelectionRange(fixedPrefix.length, fixedPrefix.length);
-    }
-});
-
-titleInput.addEventListener('click', () => {
-    if (titleInput.selectionStart < fixedPrefix.length) {
-        titleInput.setSelectionRange(fixedPrefix.length, fixedPrefix.length);
-    }
-});

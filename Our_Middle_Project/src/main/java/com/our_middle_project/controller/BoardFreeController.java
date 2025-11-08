@@ -34,13 +34,13 @@ public class BoardFreeController implements Action {
 			
 			List<BoardDTO> boardList = new ArrayList<>();
 			boardList = boardService.selectFreeBoard();
-			for(int i=0 ; i<boardList.size() ; i++) {
-				System.out.println(boardList.get(i));
-			}
+//			for(int i=0 ; i<boardList.size() ; i++) {
+//				System.out.println(boardList.get(i));
+//			}
 			
 			Gson gson = new Gson();
 			response.getWriter().write(gson.toJson(boardList));
-			System.out.println(gson.toJson(boardList));
+//			System.out.println(gson.toJson(boardList));
 			
 		} catch (Exception e) {
 			e.printStackTrace();

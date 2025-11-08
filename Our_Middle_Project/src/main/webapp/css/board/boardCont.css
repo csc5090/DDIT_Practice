@@ -117,6 +117,8 @@ body {
     border-bottom: 1px dashed rgba(255, 102, 169, 0.2);
     white-space: pre-wrap;
     line-height: 1.6;
+    
+    word-break: break-all;
 }
 
 /* 버튼 그룹 영역 */

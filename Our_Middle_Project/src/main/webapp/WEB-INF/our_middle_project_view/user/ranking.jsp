@@ -57,7 +57,7 @@
          
             <div id="topwidth500">
             
-               <div id="topwidth100-eazy">
+               <div id="topwidth100-easy">
                   <!-- 이지1등 -->
                   <div id="rankingTop1-1"  class="ranking-card">
                          <div class="ranking-column rank-1">
@@ -358,7 +358,7 @@
             
             <div id="centerWidth500">
             
-               <div id="rankingList-1">eazy
+               <div id="rankingList-1">ezsy
                
                    <div class="ranking-item ranking-header">
                        <div class="ranking-column-main-1">순위</div>
@@ -408,7 +408,7 @@
          <div id="bottomMain">
             
             <div id="navArea-1">
-               <button id="btnEazy">eazy</button>
+               <button id="btnEasy">easy</button>
             </div>
             <div id="navArea-2">
                <button id="btnNormal">normal</button>
@@ -452,6 +452,6 @@
 	</script>
 
 	<script type="text/javascript" src="./js/common.js"></script>
-<script type="text/javascript" src="./js/ranking/ranking_Layout.js"></script>
+	<script type="text/javascript" src="./js/ranking/ranking_Layout.js"></script>
 </body>
 </html>

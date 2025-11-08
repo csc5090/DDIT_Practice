@@ -116,3 +116,41 @@ document.getElementById("homeBtn").addEventListener("click", () => {
     window.location.href = "gameHome.do";  
 });
 
+
+//검색
+function searchPosts() {
+    const query = document.getElementById('searchInput').value.trim().toLowerCase();
+
+    if (query === "") {
+        Swal.fire({
+            icon: 'warning',
+            title: '검색',
+            text: '검색어를 입력해주세요!',
+            confirmButtonText: '확인'
+        });
+        return;
+    }
+
+    // 테이블의 모든 행 가져오기
+    const rows = document.querySelectorAll('#boardTableBody .board-row');
+
+    rows.forEach(row => {
+        const titleCell = row.querySelector('.post-title').textContent.toLowerCase();
+        if (titleCell.includes(query)) {
+            row.style.display = ''; // 보여주기
+        } else {
+            row.style.display = 'none'; // 숨기기
+        }
+    });
+}
+
+// 엔터누르면 검색
+const searchInput = document.getElementById('searchInput');
+
+searchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { // 엔터키 감지
+        e.preventDefault();   // 폼 제출 막기
+        searchPosts();        // 검색 함수 호출
+    }
+});
+
