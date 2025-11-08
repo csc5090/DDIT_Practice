@@ -8,6 +8,7 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.our_middle_project.action.Action;
 import com.our_middle_project.action.ActionForward;
+import com.our_middle_project.dashboardendpt.DashboardEndPoint;
 import com.our_middle_project.dto.AdminBoardDTO;
 import com.our_middle_project.dto.AdminBoardImageDTO;
 import com.our_middle_project.dto.AdminCommentDTO;
@@ -64,7 +65,7 @@ public class AdminAjaxController implements Action {
 			if ("/getStats.do".equals(command)) {
 
 				System.out.println("AJAX 요청: /getStats.do");
-				
+
 				// [수정] A, B 차트 데이터를 모두 포함하는 새 Service 메소드 호출
 				Map<String, Object> dashboardData = adminService.getDashboardData();
 				response.getWriter().write(gson.toJson(dashboardData));
@@ -88,6 +89,12 @@ public class AdminAjaxController implements Action {
 				System.out.println("AJAX 요청: /updateUser.do");
 				MemberDTO memberDTO = gson.fromJson(request.getReader(), MemberDTO.class);
 				boolean isSuccess = adminService.updateUser(memberDTO);
+				
+				// [추가] 유저 상태가 변경(탈퇴 등)되었으므로, 대시보드에 실시간 갱신 신호 전송
+				if (isSuccess) {
+					DashboardEndPoint.broadCastStatsUpdate();
+				}
+				
 				Map<String, String> responseData = new HashMap<>();
 				responseData.put("status", isSuccess ? "success" : "fail");
 				if (!isSuccess) {

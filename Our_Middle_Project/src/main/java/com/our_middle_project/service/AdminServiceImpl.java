@@ -3,6 +3,7 @@ package com.our_middle_project.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Collections;
 
 import com.our_middle_project.dao.AdminBoardDAOImpl;
 import com.our_middle_project.dao.AdminReviewDAO;
@@ -15,7 +16,7 @@ import com.our_middle_project.dto.AdminBoardImageDTO;
 import com.our_middle_project.dto.AdminReviewDTO;
 import com.our_middle_project.dto.MemberDTO;
 import com.our_middle_project.serviceInterface.AdminService;
-import com.our_middle_project.util.ActiveUserListener;
+// [삭제] ActiveUserListener 임포트 삭제
 
 public class AdminServiceImpl implements AdminService {
 
@@ -27,23 +28,7 @@ public class AdminServiceImpl implements AdminService {
 	public int getTotalUserCount() {
 		return memberDAO.getTotalUserCount();
 	}
-
-	@Override
-	public int getNewUserCountToday() {
-		return memberDAO.getNewUserCountToday();
-	}
-
-	@Override
-	public int getTotalGameCount() {
-		return gameLogDAO.getTotalGameCount();
-	}
-
-	//  A차트: 실시간 접속자 수 반환
-	@Override
-	public int getActiveUserCount() {
-		return ActiveUserListener.getActiveUserCount();
-	}
-
+	
 	@Override
 	public List<MemberDTO> getUsersByKeyword(String keyword) {
 		return memberDAO.selectUsersByKeyword(keyword);
@@ -54,27 +39,43 @@ public class AdminServiceImpl implements AdminService {
 		return memberDAO.selectDailySignupStats();
 	}
 
-	//  A, B 차트용 데이터를 모두 조회
+	// 7+3 구조에 맞게 데이터 조회
 	@Override
 	public Map<String, Object> getDashboardData() {
-		Map<String, Object> dashboardData = new HashMap<>();
+		Map<String, Object> data = new HashMap<>();
+		int chartDays = 14; // 2주 기준
+		Map<String, Object> params = Map.of("days", chartDays);
 
-		// --- A차트 (Bar) 데이터 ---
-		dashboardData.put("totalUsers", getTotalUserCount());
-		dashboardData.put("activeUsers", getActiveUserCount());
+		// --- 1행 카드 ---
+		data.put("cardTotalUsers", memberDAO.getTotalUserCount());
+		data.put("cardDailyDeleted", memberDAO.getDailyDeletedUserCount());
+		data.put("cardDailyNewUsers", memberDAO.getDailyNewUserCount());
 
-		// --- B차트 (Line) 데이터 ---
-		int days = 14; // 2주 기준
-		Map<String, Object> params = Map.of("days", days);
+		// --- 2행 카드 ---
+		data.put("cardTotalGames", gameLogDAO.getTotalGameCount());
+		Map<String, Long> gamesByLevel = gameLogDAO.getTotalGamesByLevel();
+		if (gamesByLevel != null) {
+			data.put("cardEasyGames", gamesByLevel.getOrDefault("LEVEL_1", 0L));
+			data.put("cardNormalGames", gamesByLevel.getOrDefault("LEVEL_2", 0L));
+			data.put("cardHardGames", gamesByLevel.getOrDefault("LEVEL_3", 0L));
+		} else {
+			data.put("cardEasyGames", 0L);
+			data.put("cardNormalGames", 0L);
+			data.put("cardHardGames", 0L);
+		}
 
-		List<Map<String, Object>> playCountByLevel = gameLogDAO.selectDailyPlayCountByLevel(params);
-		dashboardData.put("playCountByLevel", playCountByLevel);
+		// --- A차트 (Bar) ---
+		data.put("chartA_TotalUsers", memberDAO.selectDailyCumulativeUserStatsForChart(params));
+		data.put("chartA_TotalGames", gameLogDAO.selectDailyCumulativeGameStatsForChart(params));
 
-		// --- 상단 카드 데이터 ---
-		dashboardData.put("totalGames", getTotalGameCount());
-		dashboardData.put("newUsersToday", getNewUserCountToday());
+		// --- B차트 (Bar) ---
+		data.put("chartB_NewUsers", memberDAO.selectDailySignupStatsForChart(params));
+		data.put("chartB_DeletedUsers", memberDAO.selectDailyDeletedStatsForChart(params));
 
-		return dashboardData;
+		// --- C차트 (Line) ---
+		data.put("chartC_PlaysByLevel", gameLogDAO.selectDailyPlayCountByLevel(params));
+
+		return data;
 	}
 
 	@Override
@@ -91,7 +92,7 @@ public class AdminServiceImpl implements AdminService {
 		return result > 0;
 	}
 
-	// 리뷰 관리 로직
+	// 리뷰 관리
 	@Override
 	public List<AdminReviewDTO> getReviewList(String keyword) {
 		return reviewDAO.selectAllReviews(keyword);

@@ -1,94 +1,109 @@
+/* admin_dashboard.css */
+
 #dashboard-main .card-container {
-	display: flex;
-	flex-direction: column;
-	gap: 0px;
-	width: 100%;
-	height: 100%;
+    display: flex;
+    flex-direction: column; 
+    gap: 0px; 
+    width: 100%;
+    height: 100%;
 }
 
-#dashboard-main .card-row {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: 0px;
-	flex-shrink: 0;
+/* 1행: 3열 카드 */
+#dashboard-main .card-row-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0px;
+    flex-shrink: 0; 
 }
 
+/* 2행: 4열 카드 */
+#dashboard-main .card-row-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0px;
+    flex-shrink: 0; 
+}
+
+/* 공통 카드 스타일 */
 #dashboard-main .card {
-	background-color: var(--bg-sidebar);
-	padding: 30px;
-	border: 1px solid var(--border-color);
-	display: flex;
-	flex-direction: column;
-	border-radius: 0px;
+    background-color: var(--bg-sidebar);
+    padding: 30px; 
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    border-radius: 0px;
 }
 
 #dashboard-main .card-header {
-	color: var(--text-muted);
-	margin-bottom: 15px;
+    color: var(--text-muted);
+    margin-bottom: 15px;
+	text-align: center;
 }
 
 #dashboard-main .card-header h3 {
-	margin: 0;
-	font-size: 1rem;
-	font-weight: 600;
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
 }
 
 #dashboard-main .card-body {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
 }
 
 #dashboard-main .card-body .main-number {
-	font-size: 3rem;
-	font-weight: 700;
-	color: var(--text-light);
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--text-light);
 }
 
-
-#dashboard-main .chart-row {
-	display: flex;
-	flex-direction: row;
-	flex-grow: 1;
-	min-height: 0;
-	gap: 0px;
+/* 3행: 3열 차트 */
+#dashboard-main .chart-row-3 {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1; 
+    min-height: 0;
+    gap: 0px;
 }
 
+/* 공통 차트 래퍼 */
 #dashboard-main .chart {
-	background-color: var(--bg-sidebar);
-	padding: 20px;
-	border: 1px solid var(--border-color);
-	display: flex;
-	flex-direction: column;
-	flex: 1;
-	min-width: 0;
+    background-color: var(--bg-sidebar);
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
 }
 
-
+/* 차트 헤더 */
 #dashboard-main .chart-header {
-	flex-shrink: 0;
-	margin-bottom: 15px;
+    flex-shrink: 0;
+    margin-bottom: 15px;
+    text-align: center; 
 }
 
 #dashboard-main .chart-header h3 {
-	margin: 0;
-	font-size: 1.2rem;
-	font-weight: 600;
-	color: var(--text-light);
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-light);
 }
 
-
+/* 차트 캔버스 영역 */
 #dashboard-main .chart-body {
-	flex-grow: 1;
-	position: relative;
-	min-height: 0;
+    flex-grow: 1;
+    position: relative;
+    min-height: 0;
 }
 
 #dashboard-main .chart canvas {
-	width: 100% !important;
-	height: 100% !important;
-	position: absolute;
-	left: 0;
-	top: 0;
+    width: 100% !important;
+    height: 100% !important;
+    position: absolute;
+    left: 0;
+    top: 0;
 }

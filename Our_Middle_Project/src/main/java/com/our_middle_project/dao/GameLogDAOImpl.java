@@ -12,8 +12,6 @@ import com.our_middle_project.util.MybatisUtil;
 public class GameLogDAOImpl implements GameLogDAO {
 
 	public GameLogDAOImpl() {
-		// 기존 insertGameLog에서는 MybatisUtil.getSqlSession()를 사용하므로,
-		// 여기서는 아무것도 하지 않아도 됩니다.
 	}
 
 	private SqlSessionFactory sqlSessionFactory;
@@ -40,6 +38,29 @@ public class GameLogDAOImpl implements GameLogDAO {
 		}
 	}
 
+	// 5,6,7번 카드
+	@Override
+	public Map<String, Long> getTotalGamesByLevel() {
+		try (SqlSession session = MybatisUtil.getSqlSession()) {
+			return session.selectOne("gameLogMapper.getTotalGamesByLevel");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	// A차트
+	@Override
+	public List<Map<String, Object>> selectDailyCumulativeGameStatsForChart(Map<String, Object> params) {
+		try (SqlSession session = MybatisUtil.getSqlSession()) {
+			return session.selectList("gameLogMapper.getDailyCumulativeGameStatsForChart", params);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	// C차트
 	@Override
 	public List<Map<String, Object>> selectDailyPlayCountByLevel(Map<String, Object> params) {
 		try (SqlSession session = MybatisUtil.getSqlSession()) {

@@ -125,56 +125,65 @@
 			<main class="main-content-area">
 				<%-- ================= 대시보드 ================= --%>
 				<div class="bodyArea active" id="dashboard-main">
-					<%-- ... (대시보드 HTML) ... --%>
-					<div class="card-container">
-						<div class="card-row">
-							<div class="card">
-								<div class="card-header">
-									<h3>회원이 얼마나 있나요?</h3>
-								</div>
-								<div class="card-body">
-									<span class="main-number" id="total-user-count"></span>
-								</div>
-							</div>
-							<div class="card">
-								<div class="card-header">
-									<h3>지금까지 쌓인 게임 수는요?</h3>
-								</div>
-								<div class="card-body">
-									<span class="main-number" id="total-game-count"></span>
-								</div>
-							</div>
-							<div class="card">
-								<div class="card-header">
-									<h3>오늘 뉴비 숫자는요?</h3>
-								</div>
-								<div class="card-body">
-									<span class="main-number" id="new-user-count"></span>
-								</div>
-							</div>
-						</div>
-						<div class="chart-row">
-													<div class="chart" id="chart-a-wrapper">
-														<div class="chart-header">
-															<h3>실시간 접속 현황</h3>
-														</div>
-														<div class="chart-body">
-															<canvas id="chartA"></canvas>
-														</div>
-													</div>
-													
-													<div class="chart" id="chart-b-wrapper">
-														<div class="chart-header">
-															<h3>모드별 플레이 수 (최근 2주)</h3>
-														</div>
-														<div class="chart-body">
-															<canvas id="chartB"></canvas>
-														</div>
-													</div>
-												</div>
-												
+									<div class="card-container">
+									
+										<div class="card-row-3">
+											<div class="card">
+												<div class="card-header"><h3>총회원</h3></div>
+												<div class="card-body"><span class="main-number" id="cardTotalUsers">0</span></div>
+											</div>
+											<div class="card">
+												<div class="card-header"><h3>일일 단위 탈퇴자</h3></div>
+												<div class="card-body"><span class="main-number" id="cardDailyDeleted">0</span></div>
+											</div>
+											<div class="card">
+												<div class="card-header"><h3>일일 단위 가입자</h3></div>
+												<div class="card-body"><span class="main-number" id="cardDailyNewUsers">0</span></div>
 											</div>
 										</div>
+										
+										<div class="card-row-4">
+											<div class="card">
+												<div class="card-header"><h3>모든 게임 판수</h3></div>
+												<div class="card-body"><span class="main-number" id="cardTotalGames">0</span></div>
+											</div>
+											<div class="card">
+												<div class="card-header"><h3>이지모드 게임수</h3></div>
+												<div class="card-body"><span class="main-number" id="cardEasyGames">0</span></div>
+											</div>
+											<div class="card">
+												<div class="card-header"><h3>노말모드 게임수</h3></div>
+												<div class="card-body"><span class="main-number" id="cardNormalGames">0</span></div>
+											</div>
+											<div class="card">
+												<div class="card-header"><h3>하드모드 게임수</h3></div>
+												<div class="card-body"><span class="main-number" id="cardHardGames">0</span></div>
+											</div>
+										</div>
+										
+										<div class="chart-row-3">
+											<div class="chart" id="chart-a-wrapper">
+												<div class="chart-header"><h3>총회원 / 모든 게임 누적 판수 (14일)</h3></div>
+												<div class="chart-body">
+													<canvas id="chartA"></canvas>
+												</div>
+											</div>
+											<div class="chart" id="chart-b-wrapper">
+												<div class="chart-header"><h3>일일 단위 탈퇴 / 가입 (14일)</h3></div>
+												<div class="chart-body">
+													<canvas id="chartB"></canvas>
+												</div>
+											</div>
+											<div class="chart" id="chart-c-wrapper">
+												<div class="chart-header"><h3>모드별 판수 (14일)</h3></div>
+												<div class="chart-body">
+													<canvas id="chartC"></canvas>
+												</div>
+											</div>
+										</div>
+										
+									</div>
+								</div>
 
 				<%-- ================= 유저 관리 ================= --%>
 				<div class="bodyArea" id="user-management">

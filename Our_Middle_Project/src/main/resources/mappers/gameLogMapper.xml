@@ -20,6 +20,32 @@
 		SELECT COUNT(*) FROM GAME_LOG
 	</select>
 
+	<select id="getTotalGamesByLevel" resultType="java.util.Map">
+		SELECT
+		SUM(CASE WHEN LEVEL_NO = 1 THEN 1 ELSE 0 END) AS "LEVEL_1",
+		SUM(CASE WHEN LEVEL_NO = 2 THEN 1 ELSE 0 END) AS "LEVEL_2",
+		SUM(CASE WHEN LEVEL_NO = 3 THEN 1 ELSE 0 END) AS "LEVEL_3"
+		FROM GAME_LOG
+	</select>
+
+	<select id="getDailyCumulativeGameStatsForChart" resultType="java.util.Map"
+		parameterType="java.util.Map">
+		WITH DATES AS (
+		SELECT TRUNC(SYSDATE) - LEVEL + 1 AS "date"
+		FROM DUAL
+		CONNECT BY <![CDATA[ LEVEL <= #{days} ]]>
+		)
+		SELECT
+		TO_CHAR(D."date", 'MM-DD') AS "LABEL",
+		(SELECT COUNT(*)
+		FROM GAME_LOG G
+		WHERE TRUNC(G.START_TIME) <![CDATA[ <= ]]> D."date") AS "VALUE"
+		FROM
+		DATES D
+		ORDER BY
+		D."date" ASC
+	</select>
+
 	<select id="getDailyPlayCountByLevel" resultType="java.util.Map"
 		parameterType="java.util.Map">
 		WITH DATES AS (

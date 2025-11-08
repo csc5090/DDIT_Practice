@@ -9,6 +9,7 @@ import com.google.gson.*;
 import com.our_middle_project.action.Action;
 import com.our_middle_project.action.ActionForward;
 import com.our_middle_project.dao.GameLogDAOImpl;
+import com.our_middle_project.dashboardendpt.DashboardEndPoint; 
 import com.our_middle_project.dto.GameLogDTO;
 import com.our_middle_project.dto.UserInfoDTO;
 import com.our_middle_project.service.GameLogServiceImpl;
@@ -44,7 +45,7 @@ public class GameLogController implements Action {
 
         HttpSession session = request.getSession();
 
-        // 1️⃣ loginUser에서 memNo 가져오기
+        // 1. loginUser에서 memNo 가져오기
         UserInfoDTO loginUser = (UserInfoDTO) session.getAttribute("loginUser");
         if (loginUser == null) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -54,7 +55,7 @@ public class GameLogController implements Action {
         Integer memNo = loginUser.getMem_no();
         System.out.println("세션에서 가져온 memNo: " + memNo);
 
-        // 2️⃣ JSON 읽기
+        // 2. JSON 읽기
         StringBuilder sb = new StringBuilder();
         try (BufferedReader reader = request.getReader()) {
             String line;
@@ -72,7 +73,7 @@ public class GameLogController implements Action {
         try {
             gameLog = gson.fromJson(jsonData, GameLogDTO.class);
 
-            // 3️⃣ 세션에서 가져온 memNo 세팅
+            // 3. 세션에서 가져온 memNo 세팅
             gameLog.setMemNo(memNo);
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -88,9 +89,13 @@ public class GameLogController implements Action {
             return null;
         }
 
-        // 4️⃣ DB 저장
+        // 4. DB 저장
         try {
             gameLogService.saveGameLog(gameLog);
+            
+            // 게임 저장 성공 시, 대시보드에 실시간 갱신 신호 전송
+            DashboardEndPoint.broadCastStatsUpdate();
+            
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
