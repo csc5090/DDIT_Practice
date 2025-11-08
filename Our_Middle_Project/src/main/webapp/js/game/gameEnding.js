@@ -48,7 +48,7 @@ function endingInfoHandle() {
 				if(valueBox.innerHTML == endingInfo[value]) {
 					clearInterval(window["endingInfoInterval" + i]);
 				}
-			}, 3)				
+			}, 1)				
 		}, 1000)
 		
 	}

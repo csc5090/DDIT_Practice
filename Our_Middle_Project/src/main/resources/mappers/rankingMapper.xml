@@ -10,12 +10,14 @@
 		    FROM (
 		        SELECT
 		            R.LEVEL_NO,
+		            R.MEM_NO,
 		            M.MEM_ID,
 		            M.NICKNAME,
 		            R.SCORE_BEST,
 		            R.SCORE_TOTAL,
 		            R.SCORE_COUNT,
 		            R.SCORE_AVG,
+		            R.SCORE_LAST,
 		            R.PLAYED_LAST_DATE,
 		            L.COMBO,
 		            L.CLEAR_TIME,

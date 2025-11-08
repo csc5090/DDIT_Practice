@@ -67,18 +67,21 @@
 			<div class="profile">
 			
 				<div class="player">
-					<img src="" alt="*">
+					<img src="./images/char/${sessionScope.loginUser.mem_gender == 'M' ? 'm' : 'f'}.PNG" alt="캐릭터">
 					<div class="name">
 						<c:out value="${sessionScope.loginUser.mem_id}" />
+					</div>
+					<div class="name">
+						<c:out value="${sessionScope.loginUser.nickname}" />
 					</div>
 					
 				</div>
 				
-				<div class="other">
-					<img src="" alt="*">
-					<div class="name">미야옹</div>
-					<div class="score">score:0</div>
-				</div>
+<!-- 				<div class="other"> -->
+<!-- 					<img src="" alt="*"> -->
+<!-- 					<div class="name">미야옹</div> -->
+<!-- 					<div class="score">score:0</div> -->
+<!-- 				</div> -->
 				
 				<!-- 버튼 -->
 				<div id="buttonCover">
