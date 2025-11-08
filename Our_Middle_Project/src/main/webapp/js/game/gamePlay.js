@@ -301,7 +301,7 @@ function handleExit(){
 				confirmButton: 'my-btn',    // 확인 버튼
 				cancelButton: 'my-btn'      // 취소 버튼
 			  },
-			  
+			     text: '게임을 나가면 진행중인 내용이 저장되지 않습니다.', // 멘트 내용
 		  }).then((result) => {
 		      if(result.isConfirmed){
 				  gameOut();
