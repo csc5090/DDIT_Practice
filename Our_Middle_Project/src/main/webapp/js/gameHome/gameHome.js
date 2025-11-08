@@ -118,7 +118,9 @@ function startGameWithLevel(obj) {
 	
 	let target = obj
 	let userInfo = {
-		level_name: target.getAttribute("value")
+		level_no: target.getAttribute("data-no"),
+		level_name: target.getAttribute("name"),
+		level_array: target.getAttribute("value")
 	}
 	
 	gameLevelSaveToDB(userInfo);

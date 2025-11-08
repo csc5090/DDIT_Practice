@@ -29,32 +29,16 @@ public class LevelSaveController implements Action {
 	    }
 	    
 	    String json = sb.toString();	
-	    System.out.println("테스트"+json);
+	    
 
 	    Gson gson = new Gson();
 	    Map<String, Object> map = gson.fromJson(json, new TypeToken<Map<String, Object>>(){}.getType());
 	    
+	    System.out.println("테스트 "+map);
+	    
 	    request.getSession().setAttribute("map", map);
-	    
-	    String test = gson.toJson(map);
-	    
 		response.setContentType("application/json; charset=UTF-8");
 		response.getWriter().write(request.getContextPath() + "/gamePlay.do");
-	    
-		/*
-		 * ActionForward forward = new ActionForward();
-		 * forward.setPath("/WEB-INF/our_middle_project_view/user/gamePlay.jsp");
-		 * forward.setRedirect(false);
-		 * 
-		 * System.out.println("123123123111111111111a1");
-		 */
-		/*
-		 * 
-		 * 
-		 * UserInfoDTO userInfo = gson.fromJson(json, UserInfoDTO.class);
-		 * System.out.println(userInfo);
-		 */
-		
 			
 	    
 		return null;

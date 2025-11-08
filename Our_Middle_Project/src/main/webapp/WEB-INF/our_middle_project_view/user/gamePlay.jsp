@@ -165,9 +165,9 @@
 		
 		const savedArray = ${sessionScope.map.level_name};
 
- 		const savedNo = "1";
-// 		const savedName = "--";
-// 		const savedArray = "4";
+ 		const savedNo = `${sessionScope.map.level_no}`;
+		const savedName = `${sessionScope.map.level_name}`;
+		const savedArray = `${sessionScope.map.level_array}`;
 		
 	    console.log("savedArray:", savedArray);
 	</script>
