@@ -1,109 +1,514 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Game Intro</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>마이페이지</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: black;
-    font-family: 'Poppins', sans-serif;
-  }
+html, body {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	font-family: Arial, sans-serif;
+	background-color: #f0f0f0;
+	overflow: hidden;
+}
 
-  /* 인트로 전체를 감싸는 래퍼 (화면이 아래로 내려가는 애니메이션 적용) */
-  .intro-wrapper {
-    position: relative;
-    width: 100%;
-    height: 200vh; /* 실제로 2배 높이 */
-    background-image: url('https://i.imgur.com/NV3YHFi.jpeg'); /* 세로로 긴 이미지 */
-    background-size: cover;
-    background-position: center top;
-    animation: moveDown 6s ease-in-out forwards;
-  }
+body {
+	display: flex;
+	flex-direction: column;
+}
 
-  /* 아래로 내려가는 애니메이션 */
-  @keyframes moveDown {
-    0% { transform: translateY(-50vh); } /* 위에서 시작 */
-    100% { transform: translateY(0); }   /* 제자리에 멈춤 */
-  }
+/* 상단 헤더 */
+.my-main-header {
+	width: 100%;
+	height: 6%;
+	min-height: 60px;
+	background-color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 2%;
+	box-sizing: border-box;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
 
-  /* 반투명 오버레이 */
-  .overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.4);
-  }
+.my-logo {
+	font-weight: bold;
+	font-size: 1.2em;
+}
 
-  /* 버튼 */
-  .start-btn {
-    position: fixed;
-    left: 50%;
-    top: 60%;
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    font-size: 1.8rem;
-    padding: 16px 60px;
-    border: none;
-    border-radius: 50px;
-    background: linear-gradient(90deg, #ff3333, #ff9900);
-    color: white;
-    cursor: pointer;
-    box-shadow: 0 0 25px rgba(255, 100, 0, 0.6);
-    transition: opacity 1.5s ease, transform 0.8s ease;
-  }
+.my-header-menu {
+	display: flex;
+	align-items: center;
+	height: 80%;
+}
 
-  .start-btn.show {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.1);
-  }
+.my-header-menu div {
+	padding: 0 1em;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	cursor: pointer;
+	font-size: 0.9em;
+}
 
-  /* 메인 화면 */
-  .main {
-    display: none;
-    width: 100%;
-    height: 100vh;
-    background: #111;
-    color: white;
-    text-align: center;
-    padding-top: 200px;
-    font-size: 2rem;
-  }
+.my-header-menu div:first-child {
+	border-left: none;
+}
+
+.my-header-menu div:last-child {
+	border-right: none;
+}
+
+/* 페이지 전체 레이아웃 */
+.my-container {
+	display: flex;
+	width: 100%;
+	height: 94%;
+	padding: 1%;
+	gap: 1%;
+	box-sizing: border-box;
+}
+
+.my-panel {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+	gap: 1%;
+}
+
+/* 패널 공통 */
+.my-panel-header {
+	width: 100%;
+	height: 10%;
+	background-color: #fff;
+	border-radius: 10px 10px 0 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	box-sizing: border-box;
+}
+
+.my-panel-header span {
+	font-size: 1em;
+	font-weight: bold;
+	letter-spacing: 1px;
+}
+
+.my-panel-content {
+	flex: 1;
+	background-color: #fff;
+	border-radius: 0 0 10px 10px;
+	padding: 1%;
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+}
+
+/* 왼쪽: 랭킹정보 */
+.my-left-panel {
+	width: 25%;
+}
+
+.my-level-info {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+	height: 100%;
+}
+
+.my-game-card {
+	background-color: #e0e0e0;
+	border-radius: 10px;
+	padding: 1%;
+	width: 90%;
+	height: 26%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	box-sizing: border-box;
+}
+
+.my-game-card h3 {
+	margin: 0 0 5px 0;
+	font-size: 0.9em;
+}
+
+.my-game-info-row {
+	display: flex;
+	justify-content: space-between;
+	border-bottom: 1px solid #ccc;
+	font-size: 0.85em;
+	padding: 2px 0;
+}
+
+.my-game-info-row span:first-child {
+	font-weight: bold;
+}
+
+/* 중앙: 최근 30게임 */
+.my-middle-panel {
+	width: 35%;
+}
+
+.my-middle-panel .my-panel-content {
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+
+.my-recent-title {
+	font-weight: bold;
+	font-size: 1em;
+	margin-bottom: 1%;
+	text-align: center;
+	flex-shrink: 0;
+}
+
+.my-recent-header {
+	display: flex;
+	background-color: #e0e0e0;
+	font-weight: bold;
+	border: 1px solid #ccc;
+	border-bottom: none;
+	flex-shrink: 0;
+}
+
+.my-recent-header div {
+	flex: 1;
+	padding: 6px;
+	text-align: center;
+	font-size: 0.85em;
+	border-right: 1px solid #ccc;
+	box-sizing: border-box;
+}
+
+.my-recent-header div:last-child {
+	border-right: none;
+}
+
+.my-recent-games {
+	flex: 1;
+	overflow-y: auto;
+	border: 1px solid #ccc;
+	border-top: none;
+	border-radius: 0 0 5px 5px;
+}
+
+.my-recent-row {
+	display: flex;
+	width: 100%;
+}
+
+.my-recent-row div {
+	flex: 1;
+	padding: 6px;
+	text-align: center;
+	font-size: 0.85em;
+	border-right: 1px solid #ccc;
+	box-sizing: border-box;
+}
+
+.my-recent-row div:last-child {
+	border-right: none;
+}
+
+.my-recent-row:nth-child(even) {
+	background-color: #f9f9f9;
+}
+
+/* 오른쪽: 나의 정보 */
+.my-right-panel {
+	width: 40%;
+	display: flex;
+	flex-direction: column;
+}
+
+.my-my-info-content {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	flex: 1;
+}
+
+/* 그룹 레이아웃 */
+.my-info-group {
+	margin-bottom: 10px;
+}
+
+.my-group-row {
+	display: flex;
+	gap: 10px;
+}
+
+.my-group-col {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.my-info-item {
+	display: flex;
+	flex-direction: column;
+}
+
+.my-info-item label {
+	font-weight: bold;
+	font-size: 0.9em;
+	margin-bottom: 3px;
+}
+
+.my-info-item input {
+	width: 100%;
+	padding: 0.4em;
+	font-size: 0.9em;
+	box-sizing: border-box;
+}
+
+.my-info-footer {
+	width: 100%;
+	height: 50px;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	padding: 0 1%;
+	border-top: 1px solid #ccc;
+	border-radius: 0 0 10px 10px;
+	background-color: #fff;
+}
+
+.my-info-footer button {
+	padding: 0.5em 1em;
+	font-size: 0.9em;
+	border: none;
+	border-radius: 5px;
+	background-color: #007bff;
+	color: #fff;
+	cursor: pointer;
+}
+
+.my-info-footer button:hover {
+	background-color: #0056b3;
+}
 </style>
 </head>
 <body>
+	<div class="my-main-header">
+		<div class="my-logo">MyLogo</div>
+		<div class="my-header-menu">
+			<div>게임하러가기</div>
+			<div>게시판가기</div>
+			<div>로그아웃</div>
+		</div>
+	</div>
 
-<div class="intro-wrapper">
-  <div class="overlay"></div>
-</div>
+	<div class="my-container">
 
-<button class="start-btn">게임 시작</button>
+		<!-- 왼쪽: 랭킹정보 -->
+		<div class="my-panel my-left-panel">
+			<div class="my-panel-header"><span>랭킹정보</span></div>
+			<div class="my-panel-content">
+				<div class="my-level-info">
+					<div class="my-game-card">
+						<h3>상 (Hard)</h3>
+						<div class="my-game-info-row"><span>일자</span><span>2025-11-05</span></div>
+						<div class="my-game-info-row"><span>점수</span><span>8200</span></div>
+						<div class="my-game-info-row"><span>클리어타임</span><span>05:10</span></div>
+						<div class="my-game-info-row"><span>콤보</span><span>78</span></div>
+						<div class="my-game-info-row"><span>등수</span><span>12위</span></div>
+					</div>
+					<div class="my-game-card">
+						<h3>중 (Normal)</h3>
+						<div class="my-game-info-row"><span>일자</span><span>2025-11-06</span></div>
+						<div class="my-game-info-row"><span>점수</span><span>8900</span></div>
+						<div class="my-game-info-row"><span>클리어타임</span><span>04:25</span></div>
+						<div class="my-game-info-row"><span>콤보</span><span>95</span></div>
+						<div class="my-game-info-row"><span>등수</span><span>8위</span></div>
+					</div>
+					<div class="my-game-card">
+						<h3>하 (Easy)</h3>
+						<div class="my-game-info-row"><span>일자</span><span>2025-11-07</span></div>
+						<div class="my-game-info-row"><span>점수</span><span>9600</span></div>
+						<div class="my-game-info-row"><span>클리어타임</span><span>03:22</span></div>
+						<div class="my-game-info-row"><span>콤보</span><span>130</span></div>
+						<div class="my-game-info-row"><span>등수</span><span>3위</span></div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-<div class="main">
-  <h1>🎮 게임 홈 화면 🎮</h1>
-</div>
+		<!-- 중앙: 최근 30게임 -->
+		<div class="my-panel my-middle-panel">
+			<div class="my-panel-header"><span>게임정보</span></div>
+			<div class="my-panel-content">
+				<div class="my-recent-title">최근 30게임 정보</div>
+				<div class="my-recent-header">
+					<div>번호</div>
+					<div>난이도</div>
+					<div>일자</div>
+					<div>점수</div>
+					<div>클리어타임</div>
+					<div>콤보</div>
+				</div>
+									<!-- 30건 게임정보 -->
+					<div class="my-recent-row"><div>1</div><div>하</div><div>2025-11-01</div><div>9000</div><div>04:10</div><div>75</div></div>
+					<div class="my-recent-row"><div>2</div><div>중</div><div>2025-11-01</div><div>8500</div><div>04:50</div><div>60</div></div>
+					<div class="my-recent-row"><div>3</div><div>상</div><div>2025-11-02</div><div>7800</div><div>05:20</div><div>50</div></div>
+					<div class="my-recent-row"><div>4</div><div>하</div><div>2025-11-02</div><div>9100</div><div>03:50</div><div>80</div></div>
+					<div class="my-recent-row"><div>5</div><div>중</div><div>2025-11-03</div><div>8600</div><div>04:30</div><div>65</div></div>
+					<div class="my-recent-row"><div>6</div><div>상</div><div>2025-11-03</div><div>7900</div><div>05:10</div><div>55</div></div>
+					<div class="my-recent-row"><div>7</div><div>하</div><div>2025-11-04</div><div>9200</div><div>03:45</div><div>85</div></div>
+					<div class="my-recent-row"><div>8</div><div>중</div><div>2025-11-04</div><div>8700</div><div>04:20</div><div>70</div></div>
+					<div class="my-recent-row"><div>9</div><div>상</div><div>2025-11-05</div><div>8000</div><div>05:05</div><div>60</div></div>
+					<div class="my-recent-row"><div>10</div><div>하</div><div>2025-11-05</div><div>9300</div><div>03:40</div><div>90</div></div>
+					<div class="my-recent-row"><div>11</div><div>중</div><div>2025-11-06</div><div>8800</div><div>04:15</div><div>68</div></div>
+					<div class="my-recent-row"><div>12</div><div>상</div><div>2025-11-06</div><div>8100</div><div>05:00</div><div>58</div></div>
+					<div class="my-recent-row"><div>13</div><div>하</div><div>2025-11-07</div><div>9400</div><div>03:35</div><div>95</div></div>
+					<div class="my-recent-row"><div>14</div><div>중</div><div>2025-11-07</div><div>8900</div><div>04:05</div><div>72</div></div>
+					<div class="my-recent-row"><div>15</div><div>상</div><div>2025-11-08</div><div>8200</div><div>05:10</div><div>60</div></div>
+					<div class="my-recent-row"><div>16</div><div>하</div><div>2025-11-08</div><div>9500</div><div>03:30</div><div>100</div></div>
+					<div class="my-recent-row"><div>17</div><div>중</div><div>2025-11-09</div><div>8700</div><div>04:25</div><div>70</div></div>
+					<div class="my-recent-row"><div>18</div><div>상</div><div>2025-11-09</div><div>8300</div><div>05:05</div><div>62</div></div>
+					<div class="my-recent-row"><div>19</div><div>하</div><div>2025-11-10</div><div>9600</div><div>03:25</div><div>105</div></div>
+					<div class="my-recent-row"><div>20</div><div>중</div><div>2025-11-10</div><div>8800</div><div>04:00</div><div>75</div></div>
+					<div class="my-recent-row"><div>21</div><div>상</div><div>2025-11-11</div><div>8400</div><div>05:15</div><div>64</div></div>
+					<div class="my-recent-row"><div>22</div><div>하</div><div>2025-11-11</div><div>9700</div><div>03:20</div><div>110</div></div>
+					<div class="my-recent-row"><div>23</div><div>중</div><div>2025-11-12</div><div>8900</div><div>04:10</div><div>78</div></div>
+					<div class="my-recent-row"><div>24</div><div>상</div><div>2025-11-12</div><div>8500</div><div>05:05</div><div>66</div></div>
+					<div class="my-recent-row"><div>25</div><div>하</div><div>2025-11-13</div><div>9800</div><div>03:15</div><div>115</div></div>
+					<div class="my-recent-row"><div>26</div><div>중</div><div>2025-11-13</div><div>8900</div><div>04:00</div><div>80</div></div>
+					<div class="my-recent-row"><div>27</div><div>상</div><div>2025-11-14</div><div>8600</div><div>05:20</div><div>70</div></div>
+					<div class="my-recent-row"><div>28</div><div>하</div><div>2025-11-14</div><div>9900</div><div>03:10</div><div>120</div></div>
+					<div class="my-recent-row"><div>29</div><div>중</div><div>2025-11-15</div><div>9000</div><div>04:05</div><div>82</div></div>
+					<div class="my-recent-row"><div>30</div><div>상</div><div>2025-11-15</div><div>8700</div><div>05:10</div><div>68</div></div>
+				</div>
+			</div>
 
-<script>
-  // 인트로 내려가는 도중 일정 시간 후 버튼 등장
-  setTimeout(() => {
-    document.querySelector('.start-btn').classList.add('show');
-  }, 4000);
+		<!-- 오른쪽: 나의 정보 -->
+		<div class="my-panel my-right-panel">
+			<div class="my-panel-header"><span>나의 정보</span></div>
+			<div class="my-panel-content">
+				<div class="my-my-info-content">
 
-  // 버튼 클릭 시 인트로 제거 후 메인 표시
-  document.querySelector('.start-btn').addEventListener('click', () => {
-    document.querySelector('.intro-wrapper').style.transition = 'opacity 1s ease';
-    document.querySelector('.intro-wrapper').style.opacity = '0';
-    document.querySelector('.start-btn').style.opacity = '0';
-    setTimeout(() => {
-      document.querySelector('.intro-wrapper').style.display = 'none';
-      document.querySelector('.start-btn').style.display = 'none';
-      document.querySelector('.main').style.display = 'block';
-    }, 1000);
-  });
-</script>
+					<!-- 1번 그룹: 계정 정보 -->
+					<div class="my-info-group">
+						<div class="my-group-row">
+							<div class="my-group-col">
+								<div class="my-info-item">
+									<label>아이디</label>
+									<input type="text" value="myUserID" readonly>
+								</div>
+								<div class="my-info-item">
+									<label>닉네임</label>
+									<input type="text" value="홍길동">
+								</div>
+							</div>
+							<div class="my-group-col">
+								<div class="my-info-item">
+									<label>비밀번호 변경</label>
+									<input type="password" value="password123">
+								</div>
+								<div class="my-info-item">
+									<label>비밀번호 변경 확인</label>
+									<input type="password" placeholder="새 비밀번호 입력">
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- 2번 그룹: 개인정보 -->
+					<div class="my-info-group">
+						<div class="my-group-row">
+							<div class="my-group-col">
+								<div class="my-info-item">
+									<label>실제 이름</label>
+									<input type="text" value="홍길동">
+								</div>
+								<div class="my-info-item">
+									<label>성별</label>
+									<input type="text" value="남성">
+								</div>
+							</div>
+							<div class="my-group-col">
+								<div class="my-info-item">
+									<label>생일</label>
+									<input type="date" value="1995-05-10">
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- 3번 그룹: 연락처 -->
+					<div class="my-info-group">
+						<div class="my-group-row">
+							<div class="my-group-col">
+								<div class="my-info-item">
+									<label>핸드폰번호</label>
+									<input type="tel" value="010-1234-5678">
+								</div>
+							</div>
+							<div class="my-group-col">
+								<div class="my-info-item">
+									<label>메일</label>
+									<input type="email" value="user@example.com">
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- 4번 그룹: 주소 -->
+					<div class="my-info-group">
+						<div class="my-group-row">
+							<div class="my-group-col">
+								<div class="my-info-item">
+									<label>우편번호</label>
+									<input type="text" value="12345">
+								</div>
+								<div class="my-info-item">
+									<label>주소1</label>
+									<input type="text" value="서울특별시 강남구">
+								</div>
+							</div>
+							<div class="my-group-col">
+								<div class="my-info-item">
+									<label>주소2</label>
+									<input type="text" value="101동 202호">
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- 5번 그룹: 가입 정보 -->
+					<div class="my-info-group">
+						<div class="my-group-row">
+							<div class="my-group-col">
+								<div class="my-info-item">
+									<label>가입일자</label>
+									<input type="date" value="2023-01-01" readonly>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="my-info-footer">
+					<button type="button">정보저장</button>
+				</div>
+			</div>
+		</div>
+
+	</div> <!-- my-container 끝 -->
 
 </body>
 </html>
+

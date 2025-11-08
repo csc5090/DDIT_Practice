@@ -18,7 +18,11 @@ public class MyPageController implements Action {
 		
 		System.out.println("실행");
 		
-		return null;
+        ActionForward forward = new ActionForward();
+        forward.setRedirect(false); // 포워드 방식으로 이동
+        forward.setPath("/WEB-INF/our_middle_project_view/user/myPage.jsp");
+		
+		return forward;
 	}
 
 }
