@@ -211,10 +211,22 @@ const ReviewPage = {
 		          <button type="button" id="btn-del-selected" class="danger">선택 삭제</button>
 		        </div>
 		      `;
+			  
+			  const normalizePath = (p) => {
+			    if (!p) return '/uploads/';
+			    let fp = String(p).replace(/\\/g, '/');
+			    if (fp.startsWith(CONTEXT_PATH)) fp = fp.slice(CONTEXT_PATH.length);
+			    // uploads / upload 둘 다 통일
+			    fp = fp.replace(/^\/?image\//, '/uploads/').replace(/^\/?upload\//, '/uploads/');
+			    if (!fp.startsWith('/')) fp = '/' + fp;
+			    if (!fp.endsWith('/')) fp += '/';
+			    return fp;
+			  };
+			  
 					const gridHTML = `
 		        <div class="image-grid" id="image-grid">
 		          ${imageList.map(img => {
-						const src = `${CONTEXT_PATH}${img.filePath}${encodeURIComponent(img.fileName)}`;
+						const src = `${CONTEXT_PATH}${normalizePath(img.filePath)}${encodeURIComponent(img.fileName)}`;
 						return `
 		              <label class="imgItem">
 		                <input type="checkbox" class="imgChk" value="${img.fileNo}">

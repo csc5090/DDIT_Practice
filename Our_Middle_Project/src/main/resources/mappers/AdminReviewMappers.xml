@@ -68,17 +68,12 @@
 
 	<select id="selectReviewImages" parameterType="int"
 		resultType="com.our_middle_project.dto.AdminBoardImageDTO">
-		SELECT
-		FILE_NO AS fileNo,
+		SELECT FILE_NO AS fileNo,
 		FILE_NAME AS fileName,
-		FILE_PATH AS
-		filePath,
-		FILE_SIZE AS fileSize
-		FROM
-		BOARD_IMAGE
-		WHERE
-		BOARD_NO =
-		#{boardNo}
+		FILE_PATH AS filePath,
+		BOARD_NO AS boardNo
+		FROM BOARD_IMAGE
+		WHERE BOARD_NO = #{boardNo}
 		AND TYPE_NO = 2
 		ORDER BY
 		FILE_NO ASC
