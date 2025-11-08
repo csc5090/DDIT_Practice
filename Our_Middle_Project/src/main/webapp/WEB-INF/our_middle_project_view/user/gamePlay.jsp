@@ -97,6 +97,7 @@
 				<div class="chat-messages" id="chat-messages">
 					<div class="message sent">안녕하세요!</div>
 					<div class="message received">반갑습니다 😄</div>
+					<div class="message sent">즐겜하세요 ~~</div>
 				</div>
 				<form class="chat-form" id="chat-form">
 					<input type="text" id="chat-input">
@@ -162,14 +163,14 @@
 	<script type="text/javascript">
 		const userDataCase = JSON.parse('<%= userJson %>');
 		console.log(userDataCase);
-		
-		const savedArray = ${sessionScope.map.level_name};
 
  		const savedNo = `${sessionScope.map.level_no}`;
 		const savedName = `${sessionScope.map.level_name}`;
 		const savedArray = `${sessionScope.map.level_array}`;
-		
-	    console.log("savedArray:", savedArray);
+	
+		console.log(savedNo);
+		console.log(savedName);
+		console.log(savedArray);
 	</script>
 	
 

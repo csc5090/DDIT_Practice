@@ -5,6 +5,10 @@
     margin: 0;
     padding: 0;
     background-color: #1e1e2f; 
+    background-image: url('../../images/game/gameback.png');
+    background-size: 100% 120%;
+    background-repeat: no-repeat;
+    background-position: center bottom;
     color: white;
     font-family: 'Segoe UI', sans-serif;
 

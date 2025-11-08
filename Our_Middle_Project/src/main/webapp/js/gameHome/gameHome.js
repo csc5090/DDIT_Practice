@@ -122,9 +122,9 @@ function startGameWithLevel(obj) {
 		level_name: target.getAttribute("name"),
 		level_array: target.getAttribute("value")
 	}
-	
+
 	gameLevelSaveToDB(userInfo);
-	
+
     /*window.location.href = `gamePlay.do`;*/
 }
 
