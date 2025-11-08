@@ -7,6 +7,8 @@ import java.util.Map;
 import com.our_middle_project.dao.AdminBoardDAOImpl;
 import com.our_middle_project.dao.AdminReviewDAO;
 import com.our_middle_project.dao.AdminReviewDAOImpl;
+import com.our_middle_project.dao.GameLogDAO;
+import com.our_middle_project.dao.GameLogDAOImpl;
 import com.our_middle_project.dao.MemberDAO;
 import com.our_middle_project.dao.MemberDAOImpl;
 import com.our_middle_project.dto.AdminBoardImageDTO;
@@ -18,6 +20,7 @@ public class AdminServiceImpl implements AdminService {
 
 	private MemberDAO memberDAO = new MemberDAOImpl();
 	private AdminReviewDAO reviewDAO = new AdminReviewDAOImpl();
+	private GameLogDAO gameLogDAO = new GameLogDAOImpl();
 
 	@Override
 	public int getTotalUserCount() {
@@ -30,6 +33,11 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
+	public int getTotalGameCount() {
+		return gameLogDAO.getTotalGameCount();
+	}
+
+	@Override
 	public List<MemberDTO> getUsersByKeyword(String keyword) {
 		return memberDAO.selectUsersByKeyword(keyword);
 	}
@@ -37,6 +45,24 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public List<Map<String, Object>> getDailySignupStats() {
 		return memberDAO.selectDailySignupStats();
+	}
+
+	@Override
+	public Map<String, Object> getDashboardChartData() {
+		int days = 30; // 1달 기준 (30일)
+		Map<String, Object> params = Map.of("days", days);
+
+		// 3개의 차트 데이터 조회 (새로운 DAO 메소드 호출)
+		List<Map<String, Object>> newUsers = memberDAO.selectDailySignupStatsForChart(params);
+		List<Map<String, Object>> totalUsers = memberDAO.selectDailyCumulativeUserStatsForChart(params);
+		List<Map<String, Object>> totalGames = gameLogDAO.selectDailyGameCountStatsForChart(params);
+
+		Map<String, Object> chartData = new HashMap<>();
+		chartData.put("newUsersChart", newUsers);
+		chartData.put("totalUsersChart", totalUsers);
+		chartData.put("totalGamesChart", totalGames);
+
+		return chartData;
 	}
 
 	@Override
@@ -72,14 +98,14 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public boolean deleteReviewImageByFileNo(int fileNo) {
-	    return reviewDAO.deleteReviewImageByFileNo(fileNo) > 0;
+		return reviewDAO.deleteReviewImageByFileNo(fileNo) > 0;
 	}
-	
+
 	@Override
 	public boolean deleteReviewImagesByFileNos(List<Integer> fileNos) {
-	    return reviewDAO.deleteReviewImagesByFileNos(fileNos) > 0;
+		return reviewDAO.deleteReviewImagesByFileNos(fileNos) > 0;
 	}
-	
+
 	@Override
 	public boolean deleteReview(int boardNo) {
 		try {

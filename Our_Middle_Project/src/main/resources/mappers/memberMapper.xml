@@ -14,7 +14,7 @@
 		FROM MEMBER
 		WHERE TRUNC(CREATED_DATE) = TRUNC(SYSDATE)
 	</select>
-
+	
 	<select id="selectUsersByKeyword"
 		resultType="com.our_middle_project.dto.MemberDTO"
 		parameterType="java.lang.String">
@@ -42,27 +42,50 @@
 	</select>
 
 
-	<select id="getDailySignupStatsForLast7Days"
-		resultType="java.util.Map">
-	WITH DATES AS (
-		SELECT TRUNC(SYSDATE) - LEVEL + 1 AS "date"
-		FROM DUAL
-		CONNECT BY <![CDATA[ LEVEL <= 7 ]]>
+	<select id="getDailySignupStatsForLast7Days" resultType="java.util.Map">
+		WITH DATES AS (
+			SELECT TRUNC(SYSDATE) - LEVEL + 1 AS "date"
+			FROM DUAL
+			CONNECT BY <![CDATA[ LEVEL <= 7 ]]>
 		)
-		
-	SELECT
-		TO_CHAR(D."date", 'MM-DD') AS "LABEL", NVL(COUNT(M.CREATED_DATE), 0) AS "VALUE" FROM
-		DATES D
-		
-	LEFT JOIN
-		MEMBER M ON TRUNC(M.CREATED_DATE) = D."date"
-		
-	GROUP BY
-		D."date"
-		
-	ORDER BY
-		D."date" ASC
+		SELECT
+			TO_CHAR(D."date", 'MM-DD') AS "LABEL", NVL(COUNT(M.CREATED_DATE), 0) AS "VALUE" 
+		FROM DATES D
+		LEFT JOIN MEMBER M ON TRUNC(M.CREATED_DATE) = D."date"
+		GROUP BY D."date"
+		ORDER BY D."date" ASC
 	</select>
+	
+	<select id="getDailySignupStatsForChart" resultType="java.util.Map" parameterType="java.util.Map">
+	    WITH DATES AS (
+			SELECT TRUNC(SYSDATE) - LEVEL + 1 AS "date"
+			FROM DUAL
+			CONNECT BY <![CDATA[ LEVEL <= #{days} ]]>
+		)
+		SELECT
+			TO_CHAR(D."date", 'MM-DD') AS "LABEL", NVL(COUNT(M.CREATED_DATE), 0) AS "VALUE" 
+		FROM DATES D
+		LEFT JOIN MEMBER M ON TRUNC(M.CREATED_DATE) = D."date"
+		GROUP BY D."date"
+		ORDER BY D."date" ASC
+    </select>
+	
+	<select id="getDailyCumulativeUserStatsForChart" resultType="java.util.Map" parameterType="java.util.Map">
+	    WITH DATES AS (
+			SELECT TRUNC(SYSDATE) - LEVEL + 1 AS "date"
+			FROM DUAL
+			CONNECT BY <![CDATA[ LEVEL <= #{days} ]]>
+		)
+		SELECT
+			TO_CHAR(D."date", 'MM-DD') AS "LABEL",
+            (SELECT COUNT(*) 
+             FROM MEMBER M 
+             WHERE TRUNC(M.CREATED_DATE) <![CDATA[ <= ]]> D."date") AS "VALUE"
+		FROM
+			DATES D
+		ORDER BY
+			D."date" ASC
+    </select>
 	
 	<select id="selectUserDetails" 
         resultType="com.our_middle_project.dto.MemberDTO" 

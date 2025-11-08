@@ -1,245 +1,286 @@
-// page-notice.js
+// page-notice.js (정렬 기능 추가됨)
 
 const NoticePage = {
 	currentList: [],
-	selectedNoticeNo: null, // 선택된 공지사항 번호
-	isEditing: false, // 현재 수정 모드인지 확인
-    
-    // admin-core.js에서 호출됨
+	currentDetailNoticeNo: null,
+	isEditing: false,
+
+	// [추가] 현재 정렬 상태 (user-page.js 스타일)
+	currentSort: {
+		key: 'created_date', // 기본 정렬 (최신순)
+		order: 'desc'
+	},
+
+	// admin-core.js에서 호출됨
 	init: function() {
-		this.addEventHandlers();
+		const noticePage = document.getElementById('notice-management');
+		if (!noticePage) return;
+		noticePage.addEventListener('click', this.handleClick.bind(this));
+		noticePage.addEventListener('dblclick', this.handleDblClick.bind(this));
 	},
 
+	// admin-core.js가 메뉴 클릭 시 호출
 	Start: function() {
-        this.clearEditorView();
-		this.loadAndRender();
+		// [수정] 기본 정렬값 초기화
+		this.currentSort.key = 'created_date';
+		this.currentSort.order = 'desc';
+
+		this.clearDetailPanel();
+		this.loadAndRenderList();
 	},
 
-    addEventHandlers: function() {
-        const noticePage = document.getElementById('notice-management');
-        if (!noticePage) return;
+	// --- 이벤트 핸들러 ---
 
-        // 1. 새 글 작성 버튼 이벤트
-        const newNoticeBtn = document.getElementById('btn-new-notice');
-        if (newNoticeBtn) {
-            newNoticeBtn.addEventListener('click', this.openEditorForNew.bind(this));
-        }
+	handleClick: function(e) {
 
-        // 2. 목록으로 돌아가기 버튼 이벤트
-        const backToListBtn = document.getElementById('btn-back-to-list');
-        if (backToListBtn) {
-            backToListBtn.addEventListener('click', this.closeEditorView.bind(this));
-        }
-        
-        // 3. 저장/수정 버튼 이벤트
-        const saveNoticeBtn = document.getElementById('btn-save-notice');
-        if (saveNoticeBtn) {
-            saveNoticeBtn.addEventListener('click', this.handleSaveOrUpdate.bind(this));
-        }
-        
-        // ▼▼▼ [추가] 4. 삭제 버튼 이벤트 ▼▼▼
-        const deleteNoticeBtn = document.getElementById('btn-delete-notice');
-        if (deleteNoticeBtn) {
-            deleteNoticeBtn.addEventListener('click', this.handleDelete.bind(this));
-        }
+		// [추가] 정렬 헤더 클릭 처리
+		const sortHeader = e.target.closest('.sortable');
+		if (sortHeader) {
+			const clickedKey = sortHeader.dataset.sortKey;
+			let newOrder = 'asc';
+			if (this.currentSort.key === clickedKey) {
+				newOrder = (this.currentSort.order === 'asc' ? 'desc' : 'asc');
+			}
+			this.currentSort.key = clickedKey;
+			this.currentSort.order = newOrder;
 
-        // 5. 목록 테이블 이벤트 (수정 버튼 클릭)
-        noticePage.addEventListener('click', this.handleListClick.bind(this));
-    },
-    
-    // 목록 테이블 클릭 핸들러 (수정 버튼 감지)
-    handleListClick: function(e) {
-        const editButton = e.target.closest('[data-action="edit"]');
-        if (editButton) {
-            e.preventDefault();
-            const boardNo = editButton.dataset.id;
-            this.openEditorForEdit(boardNo);
-        }
-    },
-    
-    // 새 글 작성 버튼 클릭 시 편집기 열기
-    openEditorForNew: function() {
-        this.isEditing = false;
-        this.selectedNoticeNo = null;
-        this.clearEditorInputs();
-        document.getElementById('notice-editor-view').querySelector('h1').textContent = '새 공지사항 작성';
-        
-        // ▼▼▼ [수정] 새 글 작성 모드: 삭제 버튼 숨김, 저장 버튼 텍스트 변경
-        document.getElementById('btn-delete-notice').style.display = 'none';
-        document.getElementById('btn-save-notice').textContent = '저장하기';
-        
-        this.toggleView('editor');
-    },
+			// API 다시 부르지 않고 JS로 정렬 후 렌더링
+			this.sortAndRenderList(clickedKey, newOrder);
+			return;
+		}
 
-    // 수정 버튼 클릭 시 편집기 열기
-    openEditorForEdit: function(boardNo) {
-        this.isEditing = true;
-        this.selectedNoticeNo = boardNo;
-        
-        const notice = this.currentList.find(n => n.board_no == boardNo);
-        if (notice) {
-            document.getElementById('notice-title').value = notice.board_title || '';
-            document.getElementById('notice-content').value = notice.board_content || '';
-            
-            // 수정 모드: 삭제 버튼 표시, 저장 버튼 텍스트 변경
-            document.getElementById('btn-delete-notice').style.display = 'block';
-            document.getElementById('btn-save-notice').textContent = '수정 완료';
-            
-            document.getElementById('notice-editor-view').querySelector('h1').textContent = `공지사항 수정 (No.${boardNo})`;
-            this.toggleView('editor');
-        } else {
-             Swal.fire('오류', '해당 공지사항 정보를 찾을 수 없습니다.', 'error');
-        }
-    },
-    
-    // 뷰 전환 (목록 <=> 편집기)
-    toggleView: function(target) {
-        document.getElementById('notice-list-view').style.display = (target === 'list' ? 'block' : 'none');
-        document.getElementById('notice-editor-view').style.display = (target === 'editor' ? 'block' : 'none');
-    },
+		// --- 기존 버튼 핸들러 ---
+		if (e.target.closest('#notice-new-btn')) {
+			this.handleNewClick();
+		}
+		else if (e.target.closest('#notice-save-btn')) {
+			this.handleSaveOrUpdate();
+		}
+		else if (e.target.closest('#notice-delete-btn')) {
+			this.handleDelete();
+		}
+		else if (e.target.closest('#notice-cancel-btn')) {
+			this.clearDetailPanel();
+		}
+	},
 
-    closeEditorView: function() {
-        this.toggleView('list');
-        this.clearEditorView();
-    },
-    
-    clearEditorView: function() {
-        this.clearEditorInputs();
-        document.getElementById('btn-save-notice').textContent = '저장하기';
-        document.getElementById('btn-delete-notice').style.display = 'none'; // 목록으로 갈 때 삭제 버튼 숨김
-        this.toggleView('list');
-    },
+	handleDblClick: function(e) {
+		const clickedRow = e.target.closest('.user-list-table tbody tr');
+		if (!clickedRow || !clickedRow.dataset.noticeNo) return;
+		this.showDetailPanel(clickedRow);
+		const boardNo = clickedRow.dataset.noticeNo;
+		this.loadDetails(boardNo);
+	},
 
-    clearEditorInputs: function() {
-        document.getElementById('notice-title').value = '';
-        document.getElementById('notice-content').value = '';
-    },
-    
-    // 저장 및 수정 로직 분기
-    handleSaveOrUpdate: function() {
-        const title = document.getElementById('notice-title').value;
-        const content = document.getElementById('notice-content').value;
-        
-        if (title.trim() === '' || content.trim() === '') {
-            Swal.fire('경고', '제목과 내용을 모두 입력해주세요.', 'warning');
-            return;
-        }
+	// --- 패널 제어 로직 (기존과 동일) ---
+	handleNewClick: function() {
+		this.clearDetailPanel();
+		this.isEditing = false;
+		this.currentDetailNoticeNo = null;
+		const header = document.querySelector('#notice-management .detail-header');
+		if (header) {
+			header.classList.add('user-selected');
+			document.getElementById('detail-notice-header').textContent = '새 공지사항 작성';
+		}
+		document.getElementById('notice-save-btn').textContent = '저장하기';
+		document.getElementById('notice-delete-btn').style.display = 'none';
+	},
+	loadDetails: function(boardNo) {
+		this.isEditing = true;
+		this.currentDetailNoticeNo = boardNo;
+		const notice = this.currentList.find(n => n.board_no == boardNo);
+		if (notice) {
+			const header = document.querySelector('#notice-management .detail-header');
+			if (header) {
+				header.classList.add('user-selected');
+				document.getElementById('detail-notice-header').textContent = `공지사항 수정 (No.${boardNo})`;
+			}
+			document.getElementById('notice-title').value = notice.board_title || '';
+			document.getElementById('notice-content').value = notice.board_content || '';
+			document.getElementById('notice-delete-btn').style.display = 'block';
+			document.getElementById('notice-save-btn').textContent = '수정 완료';
+		} else {
+			Swal.fire('오류', '해당 공지사항 정보를 찾을 수 없습니다.', 'error');
+			this.clearDetailPanel();
+		}
+	},
+	clearDetailPanel: function() {
+		this.currentDetailNoticeNo = null;
+		this.isEditing = false;
+		const header = document.querySelector('#notice-management .detail-header');
+		if (header) {
+			header.classList.remove('user-selected');
+			document.getElementById('detail-notice-header').textContent = '';
+		}
+		document.getElementById('notice-title').value = '';
+		document.getElementById('notice-content').value = '';
+		document.getElementById('notice-save-btn').textContent = '저장하기';
+		document.getElementById('notice-delete-btn').style.display = 'none';
+		const currentSelected = document.querySelector('#notice-management .user-list-table tbody tr.selected');
+		if (currentSelected) currentSelected.classList.remove('selected');
+	},
+	showDetailPanel: function(clickedRow) {
+		const currentSelected = document.querySelector('#notice-management .user-list-table tbody tr.selected');
+		if (currentSelected) currentSelected.classList.remove('selected');
+		clickedRow.classList.add('selected');
+	},
 
-        const data = {
-            board_no: this.selectedNoticeNo,
-            board_title: title,
-            board_content: content,
-        };
+	// --- CRUD 로직 ---
 
-        if (this.isEditing) {
-            this.updateNotice(data); // 수정 API 호출
-        } else {
-            this.saveNotice(data); // 저장 API 호출
-        }
-    },
-    
-    // ▼▼▼ [추가] 삭제 버튼 클릭 핸들러 ▼▼▼
-    handleDelete: function() {
-        if (!this.selectedNoticeNo) return;
-
-        Swal.fire({
-            title: '정말 삭제하시겠습니까?',
-            text: "삭제된 공지사항은 복구할 수 없으며, DB에서 완전히 삭제됩니다.",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            confirmButtonText: '영구 삭제',
-            cancelButtonText: '취소'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                this.deleteNotice(this.selectedNoticeNo);
-            }
-        });
-    },
-    
-    // --- API 호출 함수들 ---
-
-	loadAndRender: async function() {
+	loadAndRenderList: async function() {
 		try {
 			this.currentList = await apiClient.post('/getAdminNoticeList.do', null);
-			this.renderList();
+			// 불러온 데이터를 기본 정렬값으로 정렬
+			this.sortAndRenderList(this.currentSort.key, this.currentSort.order);
 		} catch (error) {
 			console.error("공지사항 목록 로딩 실패:", error);
-			const tableBody = document.querySelector('#notice-list-view tbody');
-			if (tableBody) tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 40px;">공지사항 목록을 불러오는 데 실패했습니다.</td></tr>`;
+			const tableBody = document.querySelector('#notice-management .user-list-table tbody');
+			if (tableBody) tableBody.innerHTML = `<tr><td colspan="3" style="text-align:center; padding: 40px;">공지사항 목록을 불러오는 데 실패했습니다.</td></tr>`;
+		}
+	},
+
+	// 정렬 함수
+	sortAndRenderList: function(key, order) {
+		if (!this.currentList || this.currentList.length === 0) {
+			this.renderList();
+			return;
+		}
+
+		// JS .sort()
+		this.currentList.sort((a, b) => {
+			const valA = a[key];
+			const valB = b[key];
+			let compareResult = 0;
+
+			if (key === 'created_date') {
+				// 'YYYY-MM-DD HH24:MI' 형식의 문자열을 Date 객체로 변환
+				const dateA = new Date(valA.replace(' ', 'T'));
+				const dateB = new Date(valB.replace(' ', 'T'));
+				if (dateA < dateB) compareResult = -1;
+				else if (dateA > dateB) compareResult = 1;
+			} else if (typeof valA === 'string' && typeof valB === 'string') {
+				compareResult = valA.localeCompare(valB);
+			} else {
+				if (valA < valB) compareResult = -1;
+				else if (valA > valB) compareResult = 1;
+			}
+			return (order === 'asc' ? compareResult : compareResult * -1);
+		});
+
+		this.updateSortIcons(key, order); // 아이콘 업데이트
+		this.renderList(); // 다시 렌더링
+	},
+
+	// [신규] 아이콘 업데이트 함수 (user-page.js 스타일)
+	updateSortIcons: function(key, order) {
+		document.querySelectorAll('#notice-management .sortable').forEach(th => {
+			const icon = th.querySelector('.sort-icon');
+			if (icon) {
+				th.dataset.sortOrder = 'none';
+				icon.textContent = ''; // 모든 아이콘 초기화
+			}
+		});
+		const activeHeader = document.querySelector(`#notice-management .sortable[data-sort-key="${key}"]`);
+		if (activeHeader) {
+			const icon = activeHeader.querySelector('.sort-icon');
+			if (icon) {
+				activeHeader.dataset.sortOrder = order;
+				icon.textContent = (order === 'asc' ? ' ▲' : ' ▼'); // 활성 아이콘 표시
+			}
 		}
 	},
 
 	renderList: function() {
-		const tableBody = document.querySelector('#notice-list-view tbody');
+		const tableBody = document.querySelector('#notice-management .user-list-table tbody');
 		if (!tableBody) return;
 
+		// [수정] this.currentList는 이미 정렬된 상태
 		let listToRender = this.currentList;
 
 		tableBody.innerHTML = '';
 		if (!listToRender || listToRender.length === 0) {
-			tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 40px;">등록된 공지사항이 없습니다.</td></tr>`;
+			tableBody.innerHTML = `<tr><td colspan="3" style="text-align:center; padding: 40px;">등록된 공지사항이 없습니다.</td></tr>`;
 			return;
 		}
-        
-        const adminGrade = ADMIN_DATA?.nickname ? parseInt(ADMIN_DATA.nickname) : 0;
-        
+
 		listToRender.forEach(notice => {
 			const row = document.createElement('tr');
-			row.className = 'notice-list-item';
 			row.dataset.noticeNo = notice.board_no;
 
-            // 수정/삭제 권한 검사 (1~4등급 모두 허용)
-            // (권한 로직은 Service에 구현되어 있지만, 여기서는 버튼 표시 여부만 결정)
-            const canEdit = adminGrade >= 1 && adminGrade <= 4; 
-            const editButtonHTML = canEdit ? `<button class="action-btn" data-action="edit" data-id="${notice.board_no}">수정/삭제</button>` : `<span class="text-muted">권한없음</span>`;
-            
-			// DTO 필드를 사용해 테이블 행 구성
+			// [추가] 현재 선택된 항목 하이라이트 유지
+			if (this.currentDetailNoticeNo && notice.board_no == this.currentDetailNoticeNo) {
+				row.classList.add('selected');
+			}
+
 			row.innerHTML = `
 	                <td>${notice.board_title ?? '[제목 없음]'}</td>
 	                <td>운영팀</td> 
 	                <td>${notice.created_date}</td>
-	                <td>${editButtonHTML}</td>
 	            `;
 			tableBody.appendChild(row);
 		});
 	},
-    
-    // 공지사항 작성 (C)
-    saveNotice: async function(data) {
-        try {
-            await apiClient.post('/adminNoticeWrite.do', data);
-            Swal.fire('성공', '공지사항이 등록되었습니다.', 'success');
-            this.clearEditorView();
-            this.loadAndRender();
-        } catch (error) {
-            // AdminAjaxController에서 권한 에러(403) 등을 처리함
-        }
-    },
-    
-    // 공지사항 수정 (U)
-    updateNotice: async function(data) {
-        try {
-            await apiClient.post('/adminNoticeUpdate.do', data);
-            Swal.fire('성공', '공지사항이 수정되었습니다.', 'success');
-            this.clearEditorView();
-            this.loadAndRender();
-        } catch (error) {
-             // AdminAjaxController에서 권한 에러(403) 등을 처리함
-        }
-    },
-    
-    deleteNotice: async function(boardNo) {
-        try {
-            const data = { board_no: boardNo }; // 삭제할 게시물 번호를 담아 전송
-            await apiClient.post('/adminNoticeDelete.do', data);
-            
-            Swal.fire('삭제 완료!', '공지사항이 완전히 삭제되었습니다.', 'success');
-            this.clearEditorView(); // 삭제 후 목록으로 돌아가기
-            this.loadAndRender(); // 목록 새로고침
-        } catch (error) {
-             // AdminAjaxController에서 권한 에러(403) 등을 처리함
-             console.error("공지사항 삭제 실패:", error);
-        }
-    }
+
+	// (이하 CRUD API 호출 함수는 기존과 동일)
+	handleSaveOrUpdate: function() {
+		const title = document.getElementById('notice-title').value;
+		const content = document.getElementById('notice-content').value;
+		if (title.trim() === '' || content.trim() === '') {
+			Swal.fire('경고', '제목과 내용을 모두 입력해주세요.', 'warning');
+			return;
+		}
+		const data = {
+			board_no: this.currentDetailNoticeNo,
+			board_title: title,
+			board_content: content,
+		};
+		if (this.isEditing) {
+			this.updateNotice(data);
+		} else {
+			this.saveNotice(data);
+		}
+	},
+	handleDelete: function() {
+		if (!this.currentDetailNoticeNo) return;
+		Swal.fire({
+			title: '정말 삭제하시겠습니까?',
+			text: "삭제된 공지사항은 복구할 수 없습니다.",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#d33',
+			confirmButtonText: '영구 삭제',
+			cancelButtonText: '취소'
+		}).then((result) => {
+			if (result.isConfirmed) {
+				this.deleteNotice(this.currentDetailNoticeNo);
+			}
+		});
+	},
+	saveNotice: async function(data) {
+		try {
+			await apiClient.post('/adminNoticeWrite.do', data);
+			Swal.fire('성공', '공지사항이 등록되었습니다.', 'success');
+			this.clearDetailPanel();
+			this.loadAndRenderList();
+		} catch (error) { /* apiClient가 처리 */ }
+	},
+	updateNotice: async function(data) {
+		try {
+			await apiClient.post('/adminNoticeUpdate.do', data);
+			Swal.fire('성공', '공지사항이 수정되었습니다.', 'success');
+			this.clearDetailPanel();
+			this.loadAndRenderList();
+		} catch (error) { /* apiClient가 처리 */ }
+	},
+	deleteNotice: async function(boardNo) {
+		try {
+			const data = { board_no: boardNo };
+			await apiClient.post('/adminNoticeDelete.do', data);
+			Swal.fire('삭제 완료!', '공지사항이 삭제되었습니다.', 'success');
+			this.clearDetailPanel();
+			this.loadAndRenderList();
+		} catch (error) {
+			console.error("공지사항 삭제 실패:", error);
+		}
+	}
 };

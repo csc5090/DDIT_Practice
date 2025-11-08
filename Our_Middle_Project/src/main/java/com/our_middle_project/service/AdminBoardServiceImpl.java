@@ -37,7 +37,21 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 
 	@Override
 	public boolean deleteNotice(int board_no) {
-		return adminBoardDAO.deleteNotice(board_no) > 0;
+		try {
+			// 1. 자식(이미지) 레코드를 먼저 삭제합니다.
+			adminBoardDAO.deleteBoardImage(board_no);
+
+			// 2. 부모(공지사항) 레코드를 삭제합니다.
+			int result = adminBoardDAO.deleteNotice(board_no);
+
+			return result > 0;
+
+		} catch (Exception e) {
+			// DAOImpl에서 500 에러가 났으므로, ServiceImpl에서 try-catch로 감싸줍니다.
+			e.printStackTrace();
+			System.err.println("AdminBoardServiceImpl deleteNotice() 트랜잭션 문제 발생: " + e.getMessage());
+			return false;
+		}
 	}
 
 	@Override
@@ -117,7 +131,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 			adminBoardDAO.deleteBoardReplies(board_no);
 			// 4. 좋아요 삭제
 			adminBoardDAO.deleteBoardLikes(board_no);
-			// 5. 싫어요 삭제 
+			// 5. 싫어요 삭제
 			adminBoardDAO.deleteBoardDislikes(board_no);
 
 			// 6. 게시물 원본(부모) 완전 삭제

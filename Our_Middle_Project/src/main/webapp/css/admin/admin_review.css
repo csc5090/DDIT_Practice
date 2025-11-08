@@ -1,6 +1,13 @@
 /* admin_review.css (최종 수정본) */
 
 /* --- 1. 왼쪽 리뷰 목록 테이블 (유지) --- */
+
+#review-management {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+}
+
 .review-list-table {
 	width: 100%;
 	border-collapse: collapse;

@@ -1,5 +1,8 @@
 package com.our_middle_project.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
@@ -25,5 +28,25 @@ public class GameLogDAOImpl implements GameLogDAO {
             session.insert("gameLogMapper.insertGameLog", gameLog);
             session.commit();
         }
+	}
+    
+    @Override
+	public int getTotalGameCount() {
+		try (SqlSession session = MybatisUtil.getSqlSession()) {
+			return session.selectOne("gameLogMapper.getTotalGameCount");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
+	@Override
+	public List<Map<String, Object>> selectDailyGameCountStatsForChart(Map<String, Object> params) {
+		try (SqlSession session = MybatisUtil.getSqlSession()) {
+			return session.selectList("gameLogMapper.getDailyGameCountStatsForChart", params);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

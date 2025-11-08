@@ -1,8 +1,8 @@
-// page-dashboard.js
+// page-dashboard.js (수정본 6 - 곡선 장력 조절)
 
 const DashboardPage = {
 	myChartInstance: null,
-	dashboardSocket: null, // WebSocket 변수
+	dashboardSocket: null,
 
 	init: function() {
 		this.dashSocketConnector();
@@ -41,7 +41,6 @@ const DashboardPage = {
 		// 연결 종료 시
 		this.dashboardSocket.onclose = () => {
 			console.log('대시보드 웹소켓 연결 종료');
-			// (필요시 5초 후 재연결 시도 로직 추가)
 		};
 
 		this.dashboardSocket.onerror = (error) => {
@@ -49,16 +48,12 @@ const DashboardPage = {
 		};
 	},
 
-	// 기존 통계 업데이트 함수
 	updateStats: async function() {
 		try {
 			const data = await apiClient.post('/getStats.do', null);
-
-			// === 차트 렌더링 ===
 			const chartData = data.chartData || {};
 			this.renderChart('myChart', chartData);
 
-			// === KPI 카드 업데이트 ===
 			const { totalUsers = 0, newUsers = 0, totalGames = 0 } = data;
 
 			const userCountElement = document.getElementById('total-user-count');
@@ -66,7 +61,7 @@ const DashboardPage = {
 
 			const newUserCountElement = document.getElementById('new-user-count');
 			if (newUserCountElement) newUserCountElement.textContent = newUsers.toLocaleString();
-
+            
 			const gameCountElement = document.getElementById('total-game-count');
 			if (gameCountElement) gameCountElement.textContent = totalGames.toLocaleString();
 
@@ -81,6 +76,15 @@ const DashboardPage = {
 			});
 		}
 	},
+    
+    extractChartData: (dataset) => {
+        if (!dataset || dataset.length === 0) {
+            return { labels: [], values: [] };
+        }
+        const labels = dataset.map(item => item.LABEL);
+        const values = dataset.map(item => item.VALUE);
+        return { labels, values };
+    },
 
 	renderChart: function(chartId, chartData) {
 		const ctx = document.getElementById(chartId);
@@ -90,62 +94,110 @@ const DashboardPage = {
 			this.myChartInstance.destroy();
 		}
 
-		const labels = chartData?.labels || [];
-		const dataValues = chartData?.values || [];
-
-		// 꺾은선 그래프용 색상 정의
-		const primaryColor = 'rgba(108, 92, 231, 1)';
-		const primaryColorFill = 'rgba(108, 92, 231, 0.2)';
+        const { labels, values: totalUserValues } = this.extractChartData(chartData.totalUsersChart);
+        const { values: totalGameValues } = this.extractChartData(chartData.totalGamesChart);
+        const { values: newUserValues } = this.extractChartData(chartData.newUsersChart);
+        
+		const primaryColor = 'rgba(108, 92, 231, 1)'; // 보라색 (총 회원)
+		const secondaryColor = 'rgba(0, 200, 83, 1)'; // 초록색 (총 게임)
+		const tertiaryColor = 'rgba(255, 171, 0, 1)'; // 주황색 (신규)
 
 		this.myChartInstance = new Chart(ctx, {
-			type: 'line', // 'line'으로 변경
+			type: 'line',
 			data: {
-				labels: labels,
-				datasets: [{
-					label: '가입자 수 추이',
-					data: dataValues,
-
-					// 꺾은선 그래프 스타일로 변경 ---
-					fill: true, // 라인 아래 영역 채우기
-					backgroundColor: primaryColorFill, // 영역 색상
-					borderColor: primaryColor,         // 라인 색상
-					borderWidth: 2,                  // 라인 굵기
-					pointBackgroundColor: primaryColor, // 점 색상
-					tension: 0.1                     // 선을 부드럽게
-				}]
+				labels: labels, // X축 라벨 (공통)
+				datasets: [
+                    // 1. 총 회원 수 (왼쪽 Y축)
+                    {
+					    label: '총 회원 수 (누적)',
+					    data: totalUserValues,
+					    fill: false,
+					    borderColor: primaryColor,
+					    borderWidth: 3,
+					    pointBackgroundColor: primaryColor,
+                        pointRadius: 0,
+                        pointHoverRadius: 5,
+					    tension: 0.4, // [수정] 0.1 -> 0.4
+                        yAxisID: 'yLeft'
+				    },
+                    // 2. 총 게임 수 (왼쪽 Y축)
+                    {
+					    label: '총 게임 수 (누적)',
+					    data: totalGameValues,
+					    fill: false,
+					    borderColor: secondaryColor,
+					    borderWidth: 3,
+					    pointBackgroundColor: secondaryColor,
+                        pointRadius: 0,
+                        pointHoverRadius: 5,
+					    tension: 0.4, // [수정] 0.1 -> 0.4
+                        yAxisID: 'yLeft'
+				    },
+                    // 3. 신규 가입자 수 (오른쪽 Y축)
+                    {
+                        label: '신규 가입자 수 (일별)',
+                        data: newUserValues,
+                        fill: false,
+                        borderColor: tertiaryColor,
+                        borderWidth: 2,
+                        pointBackgroundColor: tertiaryColor,
+                        pointRadius: 0,
+                        pointHoverRadius: 5,
+                        tension: 0.4, // [수정] 0.1 -> 0.4
+                        yAxisID: 'yRight'
+                    }
+                ]
 			},
 			options: {
 				responsive: true,
 				maintainAspectRatio: false,
+                interaction: {
+                    mode: 'nearest',
+                    intersect: true,
+                },
+                stacked: false,
 				plugins: {
 					legend: {
 						display: true,
 						labels: {
 							color: '#ffffff',
-							font: {
-								size: 16,
-								weight: 'bold'
-							}
+							font: { size: 14 }
 						}
-					}
+					},
+                    tooltip: {
+                        titleFont: { size: 14 },
+                        bodyFont: { size: 12 },
+                    }
 				},
 				scales: {
+                    // X축 (공통)
 					x: {
-						ticks: {
-							color: '#ffffff',
-							maxRotation: 90,
-							minRotation: 45
-						},
+						ticks: { color: '#ffffff' },
 						grid: { color: '#3c3c5a' }
 					},
-					y: {
+                    // Y축 (왼쪽 - 누적)
+					yLeft: {
+                        type: 'linear',
+                        position: 'left',
 						beginAtZero: true,
 						ticks: {
-							color: '#ffffff',
-							stepSize: 1
+							color: '#ffffff', // 중립적인 흰색
+                            font: { weight: 'bold' }
 						},
-						grid: { color: '#3c3c5a' }
-					}
+						grid: { color: '#3c3c5a' } // 메인 그리드
+					},
+                    // Y축 (오른쪽 - 일별)
+                    yRight: {
+                        type: 'linear',
+                        position: 'right',
+                        beginAtZero: true,
+                        ticks: {
+                            color: tertiaryColor, // 오른쪽 눈금 (주황색)
+                            stepSize: 1, // 신규 유저는 1명 단위로
+                            font: { weight: 'bold' }
+                        },
+                        grid: { drawOnChartArea: false } // 오른쪽 축은 그리드 안 그림
+                    }
 				}
 			}
 		});

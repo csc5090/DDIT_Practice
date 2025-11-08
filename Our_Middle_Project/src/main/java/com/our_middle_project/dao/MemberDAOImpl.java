@@ -72,4 +72,24 @@ public class MemberDAOImpl implements MemberDAO {
 			return null;
 		}
 	}
+
+	@Override
+	public List<Map<String, Object>> selectDailySignupStatsForChart(Map<String, Object> params) {
+		try (SqlSession session = MybatisUtil.getSqlSession()) {
+			return session.selectList("memberMapper.getDailySignupStatsForChart", params);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<Map<String, Object>> selectDailyCumulativeUserStatsForChart(Map<String, Object> params) {
+		try (SqlSession session = MybatisUtil.getSqlSession()) {
+			return session.selectList("memberMapper.getDailyCumulativeUserStatsForChart", params);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

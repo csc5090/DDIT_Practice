@@ -10,8 +10,12 @@ import com.our_middle_project.dto.MemberDTO;
 public interface AdminService {
 	public int getTotalUserCount();
 	public int getNewUserCountToday();
+	public int getTotalGameCount();
+	
 	public List<MemberDTO> getUsersByKeyword(String keyword);
 	List<Map<String, Object>> getDailySignupStats();
+	
+	public Map<String, Object> getDashboardChartData();
 	public boolean updateUser(MemberDTO memberDTO);
 	public MemberDTO getUserDetails(String memberId);
 

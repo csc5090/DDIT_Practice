@@ -1,7 +1,6 @@
 package com.our_middle_project.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,10 +51,7 @@ public class AdminAjaxController implements Action {
 
 		adminNickname = adminInfo.getNickname();
 
-		// [수정] 모든 관리자 기능은 1~4 등급 닉네임이 있는지 확인
 		if (!adminBoardService.canEditDeleteNotice(adminNickname)) {
-			// (단, /getStats.do, /getUserList.do 등 일부는 허용해야 할 수 있으나, 현재 로직은 모두 차단)
-			// '공지사항'만 먼저 체크
 			if (command.startsWith("/adminNotice") || command.startsWith("/getAdminNoticeList")) {
 				response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 				response.getWriter().write(gson.toJson(Map.of("status", "error", "message", "페이지 접근 권한이 없습니다.")));
@@ -68,23 +64,32 @@ public class AdminAjaxController implements Action {
 			if ("/getStats.do".equals(command)) {
 
 				System.out.println("AJAX 요청: /getStats.do");
+
+				// 1. KPI 카드 데이터 (Goal 1 포함)
 				int userCount = adminService.getTotalUserCount();
 				int newUserCount = adminService.getNewUserCountToday();
-				List<Map<String, Object>> dailyStats = adminService.getDailySignupStats();
-				List<String> chartLabels = new ArrayList<>();
-				List<Object> chartValues = new ArrayList<>();
-				for (Map<String, Object> stat : dailyStats) {
-					chartLabels.add(String.valueOf(stat.get("LABEL")));
-					chartValues.add(stat.get("VALUE"));
-				}
-				Map<String, Object> chartData = new HashMap<>();
-				chartData.put("labels", chartLabels);
-				chartData.put("values", chartValues);
+				int totalGames = adminService.getTotalGameCount();
+
+				// 2. 차트 데이터 (Goal 2)
+				Map<String, Object> chartData = adminService.getDashboardChartData();
+
+				// 3. 응답 데이터 구성
 				Map<String, Object> responseData = new HashMap<>();
 				responseData.put("totalUsers", userCount);
 				responseData.put("newUsers", newUserCount);
+				responseData.put("totalGames", totalGames);
 				responseData.put("chartData", chartData);
+
 				response.getWriter().write(gson.toJson(responseData));
+
+				// [제거] 아래 중복 코드를 삭제합니다.
+				/*
+				 * Map<String, Object> chartData = new HashMap<>(); chartData.put("labels",
+				 * chartLabels); chartData.put("values", chartValues); Map<String, Object>
+				 * responseData = new HashMap<>(); responseData.put("totalUsers", userCount);
+				 * responseData.put("newUsers", newUserCount); responseData.put("chartData",
+				 * chartData); response.getWriter().write(gson.toJson(responseData));
+				 */
 
 			} else if ("/getUserList.do".equals(command)) {
 
@@ -94,6 +99,7 @@ public class AdminAjaxController implements Action {
 				response.getWriter().write(gson.toJson(userList));
 
 			} else if ("/getUserDetails.do".equals(command)) {
+				// ... (이하 모든 코드는 기존과 동일) ...
 				System.out.println("AJAX 요청: /getUserDetails.do");
 				MemberDTO requestDTO = gson.fromJson(request.getReader(), MemberDTO.class);
 				String memberId = requestDTO.getUserId();
@@ -140,9 +146,9 @@ public class AdminAjaxController implements Action {
 						System.out.println(" -> " + im.getFileNo() + " | " + im.getFilePath() + im.getFileName());
 					}
 				}
-				
-				 response.getWriter().write(gson.toJson(images != null ? images : List.of()));
-				 return null;
+
+				response.getWriter().write(gson.toJson(images != null ? images : List.of()));
+				return null;
 
 			} else if ("/getAdminNoticeList.do".equals(command)) {
 				System.out.println("AJAX 요청: /getAdminNoticeList.do");

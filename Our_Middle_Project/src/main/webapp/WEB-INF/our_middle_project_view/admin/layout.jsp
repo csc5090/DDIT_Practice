@@ -258,47 +258,70 @@
 				<%-- ================= 공지사항 관리 ================= --%>
 
 				<div class="bodyArea" id="notice-management">
-					<div id="notice-list-view" class="notice-view">
-						<div class="notice-toolbar">
-							<button id="btn-new-notice" class="btn-primary">새 글 작성</button>
-						</div>
-						<div class="notice-table-wrapper">
-							<table class="notice-table">
+
+				    <%-- 1. 왼쪽: 목록 패널 --%>
+				    <div class="user-list-panel">
+				        <div class="list-toolbar">
+				            <%-- '새 글 작성' 버튼을 list-toolbar로 이동 --%>
+				            <button id="notice-new-btn" class="action-btn primary">새 공지사항 작성</button>
+				        </div>
+
+				        <div class="user-list-wrapper">
+				            <%-- user-list-table 클래스 적용 --%>
+				            <table class="user-list-table">
 								<thead>
-									<tr>
-										<th>제목</th>
-										<th>작성자</th>
-										<th>작성일</th>
-										<th>액션</th>
-									</tr>
-								</thead>
-								<tbody>
-								</tbody>
-							</table>
-						</div>
-					</div>
-					<div class="editor-view" id="notice-editor-view"
-						style="display: none;">
-						<div class="toolbar">
-							<h1 style="font-size: 1.8rem;">새 공지사항 작성</h1>
-							<button id="btn-back-to-list" class="btn-back">목록으로 돌아가기</button>
-						</div>
-						<div class="editor-panel">
-							<div class="form-group">
-								<label for="notice-title">제목</label> <input type="text"
-									id="notice-title" placeholder="제목을 입력하세요">
-							</div>
-							<div class="form-group full-width">
-								<label for="notice-content">내용</label>
-								<textarea id="notice-content" placeholder="내용을 입력하세요."></textarea>
-							</div>
-							<div class="crud-actions">
-								<button id="btn-delete-notice" class="action-btn-danger"
-									style="display: none;">삭제하기</button>
-								<button id="btn-save-notice" class="action-btn-primary">저장하기</button>
-							</div>
-						</div>
-					</div>
+												                    <tr>
+												                       
+												                        <th class="sortable" data-sort-key="board_title" data-sort-order="none" style="width: 60%;">
+												                        	제목 <span class="sort-icon"></span>
+												                        </th>
+												                        
+												                        <th style="width: 15%;">작성자</th>
+												                        
+												                        
+												                        <th class="sortable" data-sort-key="created_date" data-sort-order="none" style="width: 25%;">
+												                        	작성일 <span class="sort-icon"></span>
+												                        </th>
+												                    </tr>
+												                </thead>
+				                <tbody id="notice-list-tbody">
+				                    <%-- JS로 채워짐 --%>
+				                </tbody>
+				            </table>
+				        </div>
+				    </div>
+
+				    <%-- 2. 오른쪽: 상세정보/편집 패널 --%>
+				    <div class="user-detail-panel">
+				        <div class="detail-content">
+				            <%-- 헤더 (user-management 템플릿 적용) --%>
+				            <div class="detail-header">
+				                <h2 id="detail-notice-header"></h2>
+				                <p class="header-guideline">편집할 공지사항을 더블클릭하세요.</p>
+				            </div>
+
+				            <%-- 상세정보 폼 (user-management 템플릿 적용) --%>
+				            <div class="detail-body">
+				                <div class="form-group full-width">
+				                    <label for="notice-title">제목</label>
+				                    <input type="text" id="notice-title" placeholder="제목을 입력하세요">
+				                </div>
+				                <div class="form-group full-width" style="flex: 1; display: flex; flex-direction: column;">
+				                    <label for="notice-content">내용</label>
+				                    <%-- CSS에서 높이를 제어할 수 있도록 style="flex: 1;" 추가 --%>
+				                    <textarea id="notice-content" placeholder="내용을 입력하세요." style="flex: 1; resize: none;"></textarea>
+				                </div>
+				            </div>
+
+				            <%-- 하단 버튼 (user-management 템플릿 적용) --%>
+				            <div class="detail-footer">
+				                <button id="notice-cancel-btn" class="action-btn secondary">취소</button>
+				                <button id="notice-delete-btn" class="action-btn danger" style="display: none;">삭제하기</button>
+				                <button id="notice-save-btn" class="action-btn primary">저장하기</button>
+				            </div>
+				        </div>
+				    </div>
+
 				</div>
 
 				<%-- ================= 게시물 관리 ================= --%>
