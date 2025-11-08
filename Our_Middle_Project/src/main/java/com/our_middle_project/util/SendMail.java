@@ -9,7 +9,7 @@ import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 
-public class FindPasswordMailSend {
+public class SendMail {
 
 	public static void sendMail(String to, String subject, String content) {
 

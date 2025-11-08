@@ -14,9 +14,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 /**
- * 관리자 페이지 보안 필터 (검문소 역할)
- * 1. URL 직접 입력을 차단 (일회용 티켓 'ADMIN_PASS' 검사)
- * 2. 로그아웃 후 접근을 차단 (메인 세션 'loginAdmin' 검사)
+ * 관리자 페이지 보안 필터 (검문소 역할) 1. URL 직접 입력을 차단 (일회용 티켓 'ADMIN_PASS' 검사) 2. 로그아웃 후
+ * 접근을 차단 (메인 세션 'loginAdmin' 검사)
  */
 
 @WebFilter(urlPatterns = { "/adminMain.do", // 관리자 메인 페이지
@@ -25,8 +24,11 @@ import jakarta.servlet.http.HttpSession;
 		"/getUserList.do", // 유저 목록 API
 		"/getUserDetails.do", // 유저 상세 API
 		"/updateUser.do", // 유저 수정 API
-		"/getReviewList.do" // 리뷰 목록 API
-})
+		"/getReviewList.do", // 리뷰 목록 API
+		"/getReviewImages.do", "/deleteReviewImage.do", "/deleteReviewImages.do", "/getAdminNoticeList.do",
+		"/adminNoticeWrite.do", "/adminNoticeUpdate.do", "/adminNoticeDelete.do", "/getAdminPostList.do",
+		"/adminPostDelete.do", "/adminPostUpdate.do", "/getPostComments.do", "/adminDeleteComment.do",
+		"/adminPostRestore.do", "/adminPostHardDelete.do", "/updateAdminReply.do", "/deleteReview.do" })
 public class AdminPassFilter implements Filter {
 
 	private String errorPage = "/WEB-INF/our_middle_project_view/error.jsp";
@@ -53,27 +55,32 @@ public class AdminPassFilter implements Filter {
 			httpRequest.getRequestDispatcher(errorPage).forward(httpRequest, httpResponse);
 			return;
 		}
-		
-		httpResponse.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
-        httpResponse.setHeader("Pragma", "no-cache");
-        httpResponse.setDateHeader("Expires", 0);
 
-		/*
-		 * // --- 2. 'ADMIN_PASS' 티켓 검사 (새로고침/URL입력 차단) --- if
-		 * (url.equals("/adminMain.do")) {
-		 * 
-		 * if (session.getAttribute(adminPassKey) != null) { // (성공) 티켓이 있음 = 정식 로그인
-		 * System.out.println("[AdminPassFilter] 'ADMIN_PASS' 확인. 입장권 소모.");
-		 * session.removeAttribute(adminPassKey); // 티켓 소모 chain.doFilter(request,
-		 * response); } else { // (실패) 티켓이 없음 = 새로고침 또는 URL 직접 입력
-		 * System.out.println("[AdminPassFilter] 'ADMIN_PASS' 없음. 에러 페이지로 포워딩.");
-		 * request.setAttribute("errorMessage", "알량한 접근(새로고침/URL 직접 접근 시도)");
-		 * httpRequest.getRequestDispatcher(errorPage).forward(httpRequest,
-		 * httpResponse); return; }
-		 * 
-		 * } else { // (통과) /adminMain.do가 아닌 다른 API 요청 (예: /getStats.do) // 1차
-		 * 검문(loginAdmin)을 통과했으므로 허용 chain.doFilter(request, response); }
-		 */chain.doFilter(request, response);
+		httpResponse.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
+		httpResponse.setHeader("Pragma", "no-cache");
+		httpResponse.setDateHeader("Expires", 0);
+
+		// --- 2. 'ADMIN_PASS' 티켓 검사 (새로고침/URL입력 차단) ---
+		if (url.equals("/adminMain.do")) {
+
+			if (session.getAttribute(adminPassKey) != null) {
+				// (성공) 티켓이 있음 = 정식 로그인
+				System.out.println("[AdminPassFilter] 'ADMIN_PASS' 확인. 입장권 소모.");
+				session.removeAttribute(adminPassKey); // 티켓 소모
+				chain.doFilter(request, response);
+			} else {
+				// (실패) 티켓이 없음 = 새로고침 또는 URL 직접 입력
+				System.out.println("[AdminPassFilter] 'ADMIN_PASS' 없음. 에러 페이지로 포워딩.");
+				request.setAttribute("errorMessage", "새로고침 또는 URL 직접 접근은 허용되지 않습니다.");
+				httpRequest.getRequestDispatcher(errorPage).forward(httpRequest, httpResponse);
+				return;
+			}
+
+		} else {
+			// (통과) /adminMain.do가 아닌 다른 API 요청 (예: /getStats.do)
+			// 1차 검문(loginAdmin)을 통과했으므로 허용
+			chain.doFilter(request, response);
+		}
 	}
 
 	@Override

@@ -91,7 +91,7 @@ public class LoginCheckController implements Action {
         		}
         		else if(idCheckValue.getRole().equals("ADMIN")) {
         			
-        			// admin 계정은 암호화 없이 비밀번호만 대조 합낟.
+        			// admin 계정은 암호화 없이 비밀번호만 대조.
         			if (userInfo.getMem_pass().equals(idCheckValue.getMem_pass())) {
         				
         				result.put("pwCheck", true);

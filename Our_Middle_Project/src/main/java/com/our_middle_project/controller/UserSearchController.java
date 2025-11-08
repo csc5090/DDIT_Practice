@@ -15,7 +15,7 @@ import com.our_middle_project.dto.UserInfoReturnDTO;
 import com.our_middle_project.pwencrypt.PWencrypt;
 import com.our_middle_project.service.UserInfoServiceImpl;
 import com.our_middle_project.serviceInterface.UserInfoService;
-import com.our_middle_project.util.FindPasswordMailSend;
+import com.our_middle_project.util.SendMail;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -92,7 +92,7 @@ public class UserSearchController implements Action {
 		    String mailContent = "안녕하세요. 요청하신 임시 비밀번호는 [" + numStr + "] 입니다.\n"
 		                       + "로그인 후 반드시 비밀번호를 변경해주세요.";
 
-		    FindPasswordMailSend.sendMail(mailTo, mailTitle, mailContent);
+		    SendMail.sendMail(mailTo, mailTitle, mailContent);
 
 		    response.setContentType("application/json; charset=UTF-8");
 		    response.getWriter().write(resultJson);

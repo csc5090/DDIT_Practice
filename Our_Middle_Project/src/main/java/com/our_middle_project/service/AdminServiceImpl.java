@@ -3,7 +3,6 @@ package com.our_middle_project.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Collections;
 
 import com.our_middle_project.dao.AdminBoardDAOImpl;
 import com.our_middle_project.dao.AdminReviewDAO;
@@ -17,6 +16,7 @@ import com.our_middle_project.dto.AdminReviewDTO;
 import com.our_middle_project.dto.MemberDTO;
 import com.our_middle_project.serviceInterface.AdminService;
 // [삭제] ActiveUserListener 임포트 삭제
+import com.our_middle_project.util.SendMail;
 
 public class AdminServiceImpl implements AdminService {
 
@@ -28,7 +28,7 @@ public class AdminServiceImpl implements AdminService {
 	public int getTotalUserCount() {
 		return memberDAO.getTotalUserCount();
 	}
-	
+
 	@Override
 	public List<MemberDTO> getUsersByKeyword(String keyword) {
 		return memberDAO.selectUsersByKeyword(keyword);
@@ -85,10 +85,49 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public boolean updateUser(MemberDTO memberDTO) {
+
+		// 1. 유저의 현재 정보 (이메일, 옛날 닉네임)를 DB에서 조회
+		MemberDTO currentUserData = memberDAO.selectUserDetails(memberDTO.getUserId());
+		if (currentUserData == null) {
+			System.err.println("updateUser 실패: " + memberDTO.getUserId() + " 유저를 찾을 수 없음(업데이트 할 유저가 존재하지 않음)");
+			return false; // 업데이트할 유저가 없음
+		}
+
+		String oldNickname = currentUserData.getNickname();
+		String newNickname = memberDTO.getNickname();
+		String userEmail = currentUserData.getUserMail();
+
+		// 닉네임 변경 여부 확인
+		boolean isNicknameChanged = !oldNickname.equals(newNickname);
+
+		// 2. 'USER' 역할 처리
 		if ("USER".equals(memberDTO.getRole())) {
 			memberDTO.setRole(null);
 		}
+
+		// 3. DB 업데이트 실행
 		int result = memberDAO.updateUser(memberDTO);
+
+		// 4. 업데이트 성공 & 닉네임이 변경되었다면 메일 발송
+		if (result > 0 && isNicknameChanged) {
+			System.out.println("닉네임 변경 감지. 메일 발송 시도...");
+
+			String subject = "[Twin Cards Game] 회원님의 닉네임이 변경되었습니다.";
+			String content = String.format(
+					"안녕하세요, %s님.\n\n" + "회원님의 닉네임이 관리자에 의해 다음과 같이 변경되었습니다.\n\n" + "이전 닉네임: %s\n" + "새 닉네임: %s\n\n"
+							+ "감사합니다.\n" + "Twin Cards Game 팀 드림",
+					oldNickname, // 메일 내용에는 옛날 닉네임으로 부르는 것이 자연스러움
+					oldNickname, newNickname);
+
+			// SendMail 유틸리티 호출
+			try {
+				SendMail.sendMail(userEmail, subject, content);
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.err.println("DB 업데이트는 성공했으나 메일 발송에 실패했습니다. 유저 ID: " + memberDTO.getUserId());
+			}
+		}
+
 		return result > 0;
 	}
 

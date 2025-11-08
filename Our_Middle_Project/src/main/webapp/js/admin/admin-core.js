@@ -1,4 +1,4 @@
-// admin-core.js
+// admin-core.js (수정본 - 새로고침 버튼 로직 및 버그 수정)
 
 const AdminCore = {
 	init: function() {
@@ -10,15 +10,53 @@ const AdminCore = {
 		if (sidebar) {
 			sidebar.addEventListener('click', this.handleSidebarClick.bind(this));
 		}
+
 		this.setupUserProfileDropdown();
 		this.highlightInitialMenu();
+
+		// [신규] 수동 갱신 버튼 이벤트
+		const refreshBtn = document.getElementById('global-refresh-btn');
+		if (refreshBtn) {
+			refreshBtn.addEventListener('click', this.handleGlobalRefresh.bind(this));
+		}
+	}, // [수정] addEventHandlers 함수가 여기서 올바르게 닫힙니다.
+
+	// [신규] 수동 갱신 로직
+	handleGlobalRefresh: function() {
+		const activePage = document.querySelector('.bodyArea.active');
+		if (!activePage) return;
+
+		const activePageId = activePage.id;
+		console.log(`수동 갱신: ${activePageId}`);
+
+		// [수정] "if (window.Page)" 검사를 모두 제거하고 함수를 직접 호출합니다.
+		switch (activePageId) {
+			case 'dashboard-main':
+				DashboardPage.updateAllStats();
+				break;
+			case 'user-management':
+				UserPage.getList(document.getElementById('user-search-input').value); // 현재 검색어 유지
+				break;
+			case 'notice-management':
+				NoticePage.Start();
+				break;
+			case 'post-management':
+				PostPage.Start();
+				break;
+			case 'review-management':
+				ReviewPage.loadAndRender();
+				break;
+			case 'stats-main':
+				// (미래) StatsPage.loadData();
+				console.log('데이터/통계 페이지 갱신');
+				break;
+		}
 	},
 
 	handleSidebarClick: function(e) {
 		// --- 사이드바 메뉴 토글 및 하이라이트 처리 ---
 		const clickedBigMenu = e.target.closest('.bigmenu-container');
 		if (clickedBigMenu) {
-			// 2. 같은 객체 내의 다른 메소드를 호출할 때는 'this.' 사용
 			this.sideBarToggleHandle({ currentTarget: clickedBigMenu });
 			this.toggleHighlight(clickedBigMenu);
 		}
@@ -36,8 +74,11 @@ const AdminCore = {
 				targetArea.classList.add('active');
 			}
 
-
-			if (targetId === 'user-management') {
+			// [수정] 페이지 전환 시 갱신 로직을 다시 활성화합니다.
+			// (F5가 아닌, 사이드바 클릭 시에도 데이터가 로드되도록)
+			if (targetId === 'dashboard-main') {
+				DashboardPage.updateAllStats();
+			} else if (targetId === 'user-management') {
 				UserPage.clearDetailPanel();
 				UserPage.getList();
 			} else if (targetId === 'review-management') {

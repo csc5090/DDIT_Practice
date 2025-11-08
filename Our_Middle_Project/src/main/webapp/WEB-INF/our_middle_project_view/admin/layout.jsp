@@ -89,18 +89,21 @@
 					</li>
 				</ul>
 			</div>
-
-			<div class="nav-wrapper">
-				<div
-					class="bigmenu-container ${activeMenu eq 'settings' ? 'active' : ''}"
-					id="setting-conatainer">
-					<span class="span-big"> 설정 </span>
-				</div>
-			</div>
 		</nav>
 
 		<div class="main-area-wrapper">
 			<header class="main-header">
+				
+				<button type="button" id="global-refresh-btn" class="action-btn primary" style="margin-right: 20px;">
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+				  						<path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+				  						<path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+									</svg>
+									리스트 갱신
+								</button>
+				
+				
+				
 				<%-- ... (유저 프로필 드롭다운) ... --%>
 				<div class="user-profile">
 									<button type="button" class="user-profile-toggle">
@@ -583,7 +586,6 @@
 	</script>
 
 	<%-- F5/뒤로가기 차단 스크립트--%>
-	<%--
     <script type="text/javascript">
         (function() {
             document.addEventListener('keydown', function(e) {
@@ -598,7 +600,7 @@
             });
         })();
     </script>
-    --%>
+    
 
 	<%-- 라이브러리 JS --%>
 	<script

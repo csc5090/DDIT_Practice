@@ -66,7 +66,7 @@ public class AdminAjaxController implements Action {
 
 				System.out.println("AJAX 요청: /getStats.do");
 
-				// [수정] A, B 차트 데이터를 모두 포함하는 새 Service 메소드 호출
+				// A, B 차트 데이터를 모두 포함하는 새 Service 메소드 호출
 				Map<String, Object> dashboardData = adminService.getDashboardData();
 				response.getWriter().write(gson.toJson(dashboardData));
 
@@ -78,7 +78,6 @@ public class AdminAjaxController implements Action {
 				response.getWriter().write(gson.toJson(userList));
 
 			} else if ("/getUserDetails.do".equals(command)) {
-				// ... (이하 모든 코드는 기존과 동일) ...
 				System.out.println("AJAX 요청: /getUserDetails.do");
 				MemberDTO requestDTO = gson.fromJson(request.getReader(), MemberDTO.class);
 				String memberId = requestDTO.getUserId();
@@ -90,7 +89,7 @@ public class AdminAjaxController implements Action {
 				MemberDTO memberDTO = gson.fromJson(request.getReader(), MemberDTO.class);
 				boolean isSuccess = adminService.updateUser(memberDTO);
 				
-				// [추가] 유저 상태가 변경(탈퇴 등)되었으므로, 대시보드에 실시간 갱신 신호 전송
+				// 유저 상태가 변경(탈퇴 등)되었으므로, 대시보드에 실시간 갱신 신호 전송
 				if (isSuccess) {
 					DashboardEndPoint.broadCastStatsUpdate();
 				}
@@ -111,7 +110,7 @@ public class AdminAjaxController implements Action {
 						keyword = payload.get("keyword");
 					}
 				} catch (Exception e) {
-					// e.printStackTrace(); // 페이로드 없으면(검색어x) 여길로 옴. 정상.
+					
 				}
 				List<AdminReviewDTO> reviewList = adminService.getReviewList(keyword);
 				response.getWriter().write(gson.toJson(reviewList));
@@ -207,7 +206,7 @@ public class AdminAjaxController implements Action {
 						keyword = payload.get("keyword");
 					}
 				} catch (Exception e) {
-					// e.printStackTrace(); // 페이로드 없으면(검색어x) 여길로 옴. 정상.
+					
 				}
 				List<AdminBoardDTO> postList = adminBoardService.getAdminPostList(keyword);
 				response.getWriter().write(gson.toJson(postList));
@@ -287,7 +286,7 @@ public class AdminAjaxController implements Action {
 					response.getWriter().write(gson.toJson(Map.of("status", "error", "message", "게시물 영구 삭제에 실패했습니다.")));
 				}
 
-				// --- 리뷰 관리 (수정됨) ---
+				// --- 리뷰 관리 ---
 
 			} else if ("/updateAdminReply.do".equals(command)) {
 				System.out.println("AJAX 요청: /updateAdminReply.do");
