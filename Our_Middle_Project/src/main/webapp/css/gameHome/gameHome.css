@@ -17,7 +17,6 @@ body{
 	background-size: 50% 100%;
 }
 
-
 /* 조승희 수정 1105 */
 
 #container-top {
@@ -28,7 +27,7 @@ body{
 }
 
 /* 전체요소 */
-#container{
+#container {
 
 	width: 100%;
 	height: 100vh;
@@ -124,15 +123,69 @@ body{
  	/* 조승희 수정 251105*/
  	height: 100%;
  	
- 	overflow: hidden;
+ 	/* overflow: hidden; */
 }
 
-.twinCards{			/* 좌측 이미지 */
-	width: 750px;
-	height: 750px;
-	transform: rotate(-20deg);
-	
-	user-select: none;
+.twinCards {			
+    width: 750px;
+    height: 750px;
+    transform: rotate(-20deg);
+
+    user-select: none;
+
+    /* 붉은색 네온/전기 그림자 */
+	filter:
+	    drop-shadow(10px 10px 10px rgba(130, 210, 100, 0.5))
+	    drop-shadow(10px 10px 20px rgba(110, 190, 90, 0.4))
+	    drop-shadow(10px 10px 30px rgba(90, 170, 80, 0.3))
+	    drop-shadow(10px 10px 40px rgba(70, 150, 70, 0.2));
+	    
+    animation: 
+    	neonBlink 6s ease-in-out infinite,
+		moveU 12s ease-in-out infinite;
+    transition: filter 0.3s ease-in-out;
+}
+
+/* 네온 점멸 애니메이션 (깜빡임 효과) */
+@keyframes neonBlink {
+	0%, 10% { 
+        filter:
+            drop-shadow(10px 10px 12px rgba(130, 210, 100, 0.5))
+            drop-shadow(10px 10px 24px rgba(110, 190, 90, 0.4))
+            drop-shadow(10px 10px 36px rgba(90, 170, 80, 0.3))
+            drop-shadow(10px 10px 48px rgba(70, 150, 70, 0.2));
+    }
+    11%, 30% { 
+        filter:
+            drop-shadow(10px 10px 12px rgba(50, 80, 40, 0.15))
+            drop-shadow(10px 10px 24px rgba(40, 70, 35, 0.1))
+            drop-shadow(10px 10px 36px rgba(30, 60, 30, 0.08))
+            drop-shadow(10px 10px 48px rgba(20, 50, 25, 0.05));
+    }
+    31%, 90% { 
+        filter:
+            drop-shadow(10px 10px 12px rgba(130, 210, 100, 0.5))
+            drop-shadow(10px 10px 24px rgba(110, 190, 90, 0.4))
+            drop-shadow(10px 10px 36px rgba(90, 170, 80, 0.3))
+            drop-shadow(10px 10px 48px rgba(70, 150, 70, 0.2));
+    }
+    91%, 100% { 
+        filter:
+            drop-shadow(10px 10px 12px rgba(50, 80, 40, 0.15))
+            drop-shadow(10px 10px 24px rgba(40, 70, 35, 0.1))
+            drop-shadow(10px 10px 36px rgba(30, 60, 30, 0.08))
+            drop-shadow(10px 10px 48px rgba(20, 50, 25, 0.05));
+    }
+}
+
+@keyframes moveU {
+    0%   { transform: rotate(-20deg) translateX(0) translateY(0); }
+    10%  { transform: rotate(-20deg) translateX(-8px) translateY(-2px); }
+    30%  { transform: rotate(-20deg) translateX(8px) translateY(2px); }
+    50%  { transform: rotate(-20deg) translateX(-6px) translateY(-1px); }
+    70%  { transform: rotate(-20deg) translateX(6px) translateY(1px); }
+    90%  { transform: rotate(-20deg) translateX(-4px) translateY(-1px); }
+    100% { transform: rotate(-20deg) translateX(0) translateY(0); }
 }
 
 /* ===============우측 ================*/
@@ -189,8 +242,6 @@ body{
     
     background-color:transparent;
     border-radius: 10px;
-    
-    box-shadow: 5px 5px 10px rgba(20, 50, 30, 0.8);
 }
 
 .card-front,
@@ -213,23 +264,116 @@ body{
     cursor: pointer;
 }
 
-.card-front-1 {
-
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-	
-}
-
+/* 기본 카드 (항상 은은하게) */
 .card-back {
-	
     color: white;
-    /* border: 1px solid rgba(20, 50, 30); */
     border: 1px solid rgba(50, 100, 70, 0.8);
+    box-shadow: 0 0 18px rgba(0, 255, 100, 0.35);
+    transition: box-shadow 0.3s ease-in-out;
+    animation: subtleGlow 3s infinite ease-in-out;
 }
-   
 
+/* 약한 맥동 효과 */
+@keyframes subtleGlow {
+    0%, 100% {
+        box-shadow: 0 0 15px rgba(0, 255, 100, 0.25);
+        opacity: 0.95;
+    }
+    50% {
+        box-shadow: 0 0 22px rgba(0, 255, 100, 0.4);
+        opacity: 1;
+    }
+}
+
+/* 첫 번째 깜빡이는 카드 */
+.card-flicker1 {
+    animation: flicker1 7s infinite ease-in-out;
+}
+
+/* 두 번째 깜빡이는 카드 */
+.card-flicker2 {
+    animation: flicker2 9s infinite ease-in-out;
+}
+
+.card-flicker3 {
+    color: #a0a0a0;
+    border: 1px solid rgba(50, 100, 70, 0.5);
+    box-shadow: 0 0 4px rgba(120, 150, 120, 0.12);
+    animation: rareFlickerReverse 12s infinite steps(1, end);
+	
+    animation: electricFlicker 5s infinite steps(1, end);
+    transition: none;
+}
+
+/* flicker1: 약간 빠른 깜빡임 — 밝기 완화 버전 */
+@keyframes flicker1 {
+    0%, 20%, 100% { box-shadow: 0 0 14px rgba(0, 255, 100, 0.28); opacity: 0.95; }
+    21% { box-shadow: 0 0 6px rgba(0, 255, 100, 0.15); opacity: 0.8; }
+    23% { box-shadow: 0 0 16px rgba(0, 255, 100, 0.35); opacity: 0.95; }
+    46%, 47% { box-shadow: 0 0 7px rgba(0, 255, 100, 0.18); opacity: 0.85; }
+    48% { box-shadow: 0 0 18px rgba(0, 255, 100, 0.4); opacity: 1; }
+    80% { box-shadow: 0 0 12px rgba(0, 255, 100, 0.25); opacity: 0.9; }
+}
+
+/* flicker2: 느리고 불규칙한 깜빡임 — 밝기 완화 버전 */
+@keyframes flicker2 {
+    0%, 10%, 40%, 100% { box-shadow: 0 0 14px rgba(0, 255, 100, 0.28); opacity: 0.95; }
+    11% { box-shadow: 0 0 5px rgba(0, 255, 100, 0.1); opacity: 0.75; }
+    13% { box-shadow: 0 0 17px rgba(0, 255, 100, 0.35); opacity: 1; }
+    41%, 42% { box-shadow: 0 0 6px rgba(0, 255, 100, 0.15); opacity: 0.8; }
+    43% { box-shadow: 0 0 16px rgba(0, 255, 100, 0.3); opacity: 0.95; }
+    72% { box-shadow: 0 0 10px rgba(0, 255, 100, 0.25); opacity: 0.9; }
+}
+
+@keyframes electricFlicker {
+ 	/* 대부분 꺼져 있음 (희미한 회색 잔광) */
+    0%, 84%, 100% {
+        box-shadow: 0 0 3px rgba(120, 150, 120, 0.12);
+        color: #9ba09b;
+        opacity: 0.55;
+        filter: brightness(0.6);
+    }
+
+    /* 첫 번째 지지직 — 초록 → 빨강 → 초록 */
+    85% {
+        box-shadow: 0 0 16px rgba(0, 255, 100, 0.4);
+        color: #7fff7f;
+        opacity: 0.9;
+        filter: brightness(0.9);
+    }
+    86% {
+        box-shadow: 0 0 24px rgba(255, 0, 0, 0.8); /* 흰색 → 빨강 */
+        color: #ff0000; /* 흰색 → 빨강 */
+        opacity: 1;
+        filter: brightness(1.2);
+    }
+    87% {
+        box-shadow: 0 0 18px rgba(0, 255, 120, 0.5);
+        color: #b6ffb6;
+        opacity: 0.95;
+        filter: brightness(1);
+    }
+    88% {
+        box-shadow: 0 0 5px rgba(120, 150, 120, 0.15);
+        color: #bcbcbc;
+        opacity: 0.7;
+        filter: brightness(0.7);
+    }
+
+    /* 두 번째 지지직 — 더 짧고 불규칙 */
+    93% {
+        box-shadow: 0 0 22px rgba(0, 255, 100, 0.6);
+        color: #ccffcc;
+        opacity: 1;
+        filter: brightness(1.1);
+    }
+    94% {
+        box-shadow: 0 0 6px rgba(100, 130, 100, 0.15);
+        color: #a8a8a8;
+        opacity: 0.6;
+        filter: brightness(0.6);
+    }
+}
 
 /* 앞면 텍스트 기본 숨김 */
 .card-front {
@@ -249,6 +393,24 @@ body{
 		
 	border: 1px solid rgba(255, 255, 255, 0.6);
     
+}
+
+
+.card-front-1 {
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+	
+    box-shadow: 
+        0 0 20px rgba(50, 20, 30, 0.8),
+        0 0 40px rgba(70, 25, 35, 0.6),
+        0 0 80px rgba(60, 20, 30, 0.4),
+        inset 0 0 20px rgba(70, 25, 35, 0.8),
+        inset 0 0 40px rgba(40, 15, 25, 0.6);
+	
+	border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .card-front span {
@@ -405,6 +567,17 @@ body{
 
 .level-card-box:hover {
 	z-index: 1;
+}
+
+.level-card-box:hover .level-card{
+
+	transform: scale(1.02);
+	border: 6px solid rgba(255, 255, 255, 0.8);
+	box-shadow: 
+	    0 0 20px rgba(100, 255, 100, 0.4),   /* 부드럽게 퍼지는 바깥 빛 */
+	    0 0 40px rgba(120, 255, 120, 0.25),  /* 더 멀리 확산되는 초록빛 */
+	    inset 0 0 12px rgba(100, 240, 100, 0.3); /* 안쪽 은은한 퍼짐 */
+
 }
 
 .level-card-box:hover .level-card{

@@ -364,19 +364,3 @@ function pageshow(event) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
