@@ -140,6 +140,9 @@ public class AdminAjaxController implements Action {
 						System.out.println(" -> " + im.getFileNo() + " | " + im.getFilePath() + im.getFileName());
 					}
 				}
+				
+				 response.getWriter().write(gson.toJson(images != null ? images : List.of()));
+				 return null;
 
 			} else if ("/getAdminNoticeList.do".equals(command)) {
 				System.out.println("AJAX 요청: /getAdminNoticeList.do");
