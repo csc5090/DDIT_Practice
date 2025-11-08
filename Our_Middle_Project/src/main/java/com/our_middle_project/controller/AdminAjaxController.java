@@ -125,6 +125,22 @@ public class AdminAjaxController implements Action {
 				List<AdminReviewDTO> reviewList = adminService.getReviewList(keyword);
 				response.getWriter().write(gson.toJson(reviewList));
 
+			} else if ("/getReviewImages.do".equals(command)) {
+				response.setContentType("application/json; charset=UTF-8");
+
+				Map<String, Object> payload = new Gson().fromJson(request.getReader(), Map.class);
+				int boardNo = ((Double) payload.get("boardNo")).intValue();
+
+				List<AdminBoardImageDTO> images = adminService.getReviewImages(boardNo);
+
+				// 디버깅 로그
+				System.out.println("getReviewImages size = " + (images == null ? "null" : images.size()));
+				if (images != null) {
+					for (AdminBoardImageDTO im : images) {
+						System.out.println(" -> " + im.getFileNo() + " | " + im.getFilePath() + im.getFileName());
+					}
+				}
+
 			} else if ("/getAdminNoticeList.do".equals(command)) {
 				System.out.println("AJAX 요청: /getAdminNoticeList.do");
 				List<AdminBoardDTO> noticeList = adminBoardService.getAdminBoardList();
@@ -293,30 +309,33 @@ public class AdminAjaxController implements Action {
 					response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 					response.getWriter().write(gson.toJson(Map.of("status", "error", "message", "댓글 저장에 실패했습니다.")));
 				}
-			} else if ("/getReviewImages.do".equals(command)) {
-				System.out.println("AJAX 요청: /getReviewImages.do");
+			} else if ("/deleteReviewImage.do".equals(command)) {
 				Map<String, Object> payload = gson.fromJson(request.getReader(), Map.class);
-				int boardNo = ((Double) payload.get("boardNo")).intValue();
+				int fileNo = ((Double) payload.get("fileNo")).intValue();
 
-				List<AdminBoardImageDTO> imageList = adminService.getReviewImages(boardNo);
-				response.getWriter().write(gson.toJson(imageList));
-			}
-
-			else if ("/deleteReviewImage.do".equals(command)) {
-				System.out.println("AJAX 요청: /deleteReviewImage.do");
-				Map<String, Object> payload = gson.fromJson(request.getReader(), Map.class);
-				int boardNo = ((Double) payload.get("reviewNo")).intValue();
-
-				boolean isSuccess = adminService.deleteReviewImage(boardNo);
-				if (isSuccess) {
-					response.getWriter().write(gson.toJson(Map.of("status", "success", "message", "이미지가 삭제되었습니다.")));
+				boolean ok = adminService.deleteReviewImageByFileNo(fileNo);
+				if (ok) {
+					response.getWriter().write(gson.toJson(Map.of("status", "success")));
 				} else {
 					response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-					response.getWriter().write(gson.toJson(Map.of("status", "error", "message", "이미지 삭제에 실패했습니다.")));
+					response.getWriter().write(gson.toJson(Map.of("status", "error", "message", "삭제 실패")));
 				}
-			}
 
-			else if ("/deleteReview.do".equals(command)) {
+			} else if ("/deleteReviewImages.do".equals(command)) {
+				Map<String, Object> payload = gson.fromJson(request.getReader(), Map.class);
+				@SuppressWarnings("unchecked")
+				List<Double> nums = (List<Double>) payload.get("fileNos");
+				List<Integer> fileNos = nums.stream().map(Double::intValue).toList();
+
+				boolean ok = adminService.deleteReviewImagesByFileNos(fileNos);
+				if (ok) {
+					response.getWriter().write(gson.toJson(Map.of("status", "success", "deleted", fileNos.size())));
+				} else {
+					response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+					response.getWriter().write(gson.toJson(Map.of("status", "error", "message", "삭제 실패")));
+				}
+
+			} else if ("/deleteReview.do".equals(command)) {
 				System.out.println("AJAX 요청: /deleteReview.do");
 				Map<String, Object> payload = gson.fromJson(request.getReader(), Map.class);
 				int boardNo = ((Double) payload.get("reviewNo")).intValue();

@@ -131,4 +131,5 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 			return false;
 		}
 	}
+
 }

@@ -71,11 +71,15 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public boolean deleteReviewImage(int boardNo) {
-		// ▼▼▼ [수정] 이 메소드는 오직 '이미지 삭제'만 수행해야 합니다. ▼▼▼
-		return reviewDAO.deleteReviewImage(boardNo) > 0;
+	public boolean deleteReviewImageByFileNo(int fileNo) {
+	    return reviewDAO.deleteReviewImageByFileNo(fileNo) > 0;
 	}
-
+	
+	@Override
+	public boolean deleteReviewImagesByFileNos(List<Integer> fileNos) {
+	    return reviewDAO.deleteReviewImagesByFileNos(fileNos) > 0;
+	}
+	
 	@Override
 	public boolean deleteReview(int boardNo) {
 		try {
@@ -84,7 +88,7 @@ public class AdminServiceImpl implements AdminService {
 			// 2. 댓글 삭제
 			reviewDAO.deleteReviewReplies(boardNo);
 			// 3. 이미지 삭제
-			reviewDAO.deleteReviewImage(boardNo);
+			reviewDAO.deleteAllReviewImagesByBoardNo(boardNo);
 
 			// 4. 좋아요 삭제
 			new AdminBoardDAOImpl().deleteBoardLikes(boardNo);

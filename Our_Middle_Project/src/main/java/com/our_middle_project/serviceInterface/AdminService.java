@@ -17,8 +17,10 @@ public interface AdminService {
 
 	public List<AdminReviewDTO> getReviewList(String keyword);
 	public boolean updateAdminReply(int boardNo, int adminMemNo, String replyContent);
-	public boolean deleteReviewImage(int boardNo);
 	public boolean deleteReview(int boardNo);
 	
 	public List<AdminBoardImageDTO> getReviewImages(int boardNo);
+	
+	boolean deleteReviewImageByFileNo(int fileNo);
+	boolean deleteReviewImagesByFileNos(List<Integer> fileNos);
 }

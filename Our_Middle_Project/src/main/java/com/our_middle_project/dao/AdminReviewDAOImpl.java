@@ -34,9 +34,31 @@ public class AdminReviewDAOImpl implements AdminReviewDAO {
 	}
 
 	@Override
-	public int deleteReviewImage(int boardNo) {
+	public int deleteReviewImageByFileNo(int fileNo) {
 		try (SqlSession session = MybatisUtil.getSqlSession()) {
-			return session.delete(namespace + ".deleteReviewImage", boardNo);
+			return session.delete(namespace + ".deleteReviewImageByFileNo", fileNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
+	@Override
+	public int deleteReviewImagesByFileNos(List<Integer> fileNos) {
+		if (fileNos == null || fileNos.isEmpty())
+			return 0;
+		try (SqlSession session = MybatisUtil.getSqlSession()) {
+			return session.delete(namespace + ".deleteReviewImagesByFileNos", fileNos);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
+	@Override
+	public int deleteAllReviewImagesByBoardNo(int boardNo) {
+		try (SqlSession session = MybatisUtil.getSqlSession()) {
+			return session.delete(namespace + ".deleteAllReviewImagesByBoardNo", boardNo);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;
@@ -91,5 +113,7 @@ public class AdminReviewDAOImpl implements AdminReviewDAO {
 			e.printStackTrace();
 		}
 	}
+	
+	
 
 }

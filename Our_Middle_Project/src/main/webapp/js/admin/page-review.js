@@ -4,6 +4,8 @@ const ReviewPage = {
 	currentList: [],
 	currentSort: { key: 'createdDate', order: 'desc' },
 	selectedReviewNo: null,
+	currentImageList: [],
+	selectedImageFileNos: new Set(),
 
 	init: function() {
 		const reviewPage = document.getElementById('review-management');
@@ -148,6 +150,9 @@ const ReviewPage = {
 
 		// [수정] 이미지 표시 영역 초기화
 		document.getElementById('detail-review-image-display').innerHTML = '<span>-</span>';
+		this.currentImageList = [];
+		this.selectedImageFileNos.clear();
+
 
 		document.getElementById('admin-reply-date').textContent = '미작성';
 		document.getElementById('admin-reply-textarea').value = '';
@@ -165,7 +170,7 @@ const ReviewPage = {
 		// 1. 플레이스홀더 숨김, 푸터(버튼) 표시
 		document.getElementById('review-detail-placeholder').style.display = 'none';
 		document.getElementById('review-detail-footer').style.display = 'flex';
-
+		``
 		// 2. 헤더 클래스 추가 (제목을 보이게 함)
 		document.querySelector('#review-management .detail-header').classList.add('user-selected');
 		this.selectedReviewNo = review.boardNo;
@@ -184,28 +189,91 @@ const ReviewPage = {
 		contentTextArea.readOnly = true;
 
 		const imageDisplay = document.getElementById('detail-review-image-display');
-		imageDisplay.innerHTML = '<span>불러오는 중...</span>'; // 로딩 표시
+		imageDisplay.innerHTML = '<span>불러오는 중...</span>';
 
-		let hasImageFile = false; // 실제 파일이 있는지 여부
+		this.currentImageList = [];
+		this.selectedImageFileNos.clear();
+
+		let hasImageFile = false;
 
 		if (review.hasImage === 'Y') {
 			try {
-				// 2단계에서 만든 새 API 호출
 				const imageList = await apiClient.post('/getReviewImages.do', { boardNo: review.boardNo });
 
 				if (imageList && imageList.length > 0) {
-					let imageHTML = '';
-					// 반복문으로 <img> 태그 생성
-					for (const image of imageList) {
-						const imagePath = `${CONTEXT_PATH}${image.filePath}${encodeURIComponent(image.fileName)}`;
-						imageHTML += `<img src="${imagePath}" alt="리뷰 이미지 ${image.fileNo}">`;
-					}
-					imageDisplay.innerHTML = imageHTML;
-					hasImageFile = true; // 이미지가 성공적으로 로드됨
+					this.currentImageList = imageList;
+					hasImageFile = true;
+
+					const toolbarHTML = `
+		        <div class="image-toolbar" id="image-toolbar">
+		          <button type="button" id="btn-select-all">전체선택</button>
+		          <button type="button" id="btn-clear">선택해제</button>
+		          <button type="button" id="btn-del-selected" class="danger">선택 삭제</button>
+		        </div>
+		      `;
+					const gridHTML = `
+		        <div class="image-grid" id="image-grid">
+		          ${imageList.map(img => {
+						const src = `${CONTEXT_PATH}${img.filePath}${encodeURIComponent(img.fileName)}`;
+						return `
+		              <label class="imgItem">
+		                <input type="checkbox" class="imgChk" value="${img.fileNo}">
+		                <img loading="lazy" src="${src}" alt="리뷰 이미지 ${img.fileNo}">
+		              </label>
+		            `;
+					}).join('')}
+		        </div>
+		      `;
+					imageDisplay.innerHTML = toolbarHTML + gridHTML;
+					this.updateImageActions();
+
+					document.querySelectorAll('#image-grid img').forEach(img => {
+						img.addEventListener('click', () => {
+							const overlay = document.createElement('div');
+							overlay.className = 'image-modal-overlay';
+							overlay.innerHTML = `
+					      <span class="image-modal-close" style="position:absolute;top:12px;right:16px;font-size:28px;cursor:pointer;color:#fff;">&times;</span>
+					      <img class="image-modal-content" src="${img.src}" alt="" style="max-width:90vw;max-height:90vh;border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,.5);" />
+					    `;
+							Object.assign(overlay.style, {
+								position: 'fixed', inset: '0', background: 'rgba(0,0,0,.7)', display: 'flex',
+								alignItems: 'center', justifyContent: 'center', zIndex: '9999'
+							});
+							document.body.appendChild(overlay);
+							overlay.addEventListener('click', (e) => {
+								if (e.target === overlay || e.target.classList.contains('image-modal-close')) {
+									overlay.remove();
+								}
+							});
+						});
+					});
+
+					// 체크 상태 관리
+					const grid = document.getElementById('image-grid');
+					grid.addEventListener('change', (ev) => {
+						const chk = ev.target.closest('.imgChk');
+						if (!chk) return;
+						const no = parseInt(chk.value, 10);
+						if (chk.checked) this.selectedImageFileNos.add(no);
+						else this.selectedImageFileNos.delete(no);
+						this.updateImageActions();
+					});
+
+					// 툴바 버튼
+					document.getElementById('btn-select-all').onclick = () => {
+						grid.querySelectorAll('.imgChk').forEach(c => { c.checked = true; this.selectedImageFileNos.add(parseInt(c.value, 10)); });
+						this.updateImageActions();
+					};
+					document.getElementById('btn-clear').onclick = () => {
+						grid.querySelectorAll('.imgChk').forEach(c => { c.checked = false; });
+						this.selectedImageFileNos.clear();
+						this.updateImageActions();
+					};
+					document.getElementById('btn-del-selected').onclick = () => this.deleteSelectedImages();
+
 				} else {
 					imageDisplay.innerHTML = '<span>이미지 없음 (데이터 오류)</span>';
 				}
-
 			} catch (error) {
 				console.error("이미지 로딩 실패:", error);
 				imageDisplay.innerHTML = '<span>이미지 로딩 실패</span>';
@@ -266,7 +334,7 @@ const ReviewPage = {
 			const replyText = document.getElementById('admin-reply-textarea').value;
 			this.saveReply(this.selectedReviewNo, replyText);
 		} else if (action === 'delete-image') {
-			this.deleteImage(this.selectedReviewNo);
+			this.deleteSelectedImages();
 		} else if (action === 'delete-review') {
 			this.deleteReview(this.selectedReviewNo);
 		}
@@ -301,15 +369,46 @@ const ReviewPage = {
 			this.loadAndRender();
 		} catch (error) { }
 	},
-
-	deleteImage: async function(reviewNo) {
-		const result = await Swal.fire({ title: '이미지를 삭제하시겠습니까?', text: "삭제된 이미지는 복구할 수 없습니다.", icon: 'warning', showCancelButton: true, confirmButtonText: '삭제', cancelButtonText: '취소' });
-		if (result.isConfirmed) {
-			try {
-				await apiClient.post('/deleteReviewImage.do', { reviewNo: reviewNo });
-				Swal.fire('삭제 완료!', '이미지가 성공적으로 삭제되었습니다.', 'success');
-				this.loadAndRender();
-			} catch (error) { }
+	deleteSelectedImages: async function() {
+		const fileNos = Array.from(this.selectedImageFileNos);
+		if (fileNos.length === 0) {
+			Swal.fire('알림', '삭제할 이미지를 선택하세요.', 'info');
+			return;
 		}
+
+		const result = await Swal.fire({
+			title: '선택한 이미지를 삭제하시겠습니까?',
+			text: '삭제된 이미지는 복구할 수 없습니다.',
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonText: '삭제',
+			cancelButtonText: '취소'
+		});
+		if (!result.isConfirmed) return;
+
+		try {
+			if (fileNos.length === 1) {
+				await apiClient.post('/deleteReviewImage.do', { fileNo: fileNos[0] });
+			} else {
+				await apiClient.post('/deleteReviewImages.do', { fileNos });
+			}
+			Swal.fire('삭제 완료!', '선택한 이미지가 삭제되었습니다.', 'success');
+			await this.populateDetailViews(this.selectedReviewNo);
+		} catch (error) {
+			console.error(error);
+			Swal.fire('오류', '이미지 삭제에 실패했습니다.', 'error');
+		}
+	},
+
+	updateImageActions: function() {
+		const n = this.selectedImageFileNos.size;
+		const total = this.currentImageList.length || 0;
+		const delBtn = document.querySelector('#review-detail-footer .action-btn[data-action="delete-image"]');
+		if (!delBtn) return;
+		delBtn.disabled = (n === 0);
+		if (n === 0) delBtn.textContent = '이미지 삭제';
+		else if (n === total) delBtn.textContent = `전체 삭제 (${n})`;
+		else delBtn.textContent = `선택 삭제 (${n})`;
 	}
+
 };

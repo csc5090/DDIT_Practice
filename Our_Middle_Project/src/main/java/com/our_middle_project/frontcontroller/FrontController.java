@@ -57,6 +57,11 @@ public class FrontController extends HttpServlet {
       // webapp/WEB-INF/config/url.properties 파일 경로를 찾습니다.
       try (InputStream is = getServletContext().getResourceAsStream("/WEB-INF/config/url.properties")) {
          
+    	  
+    	  if (is == null) {
+              throw new ServletException("url.properties를 /WEB-INF/config 에서 찾을 수 없습니다.");
+          }
+    	  
          // getServletContext() : "이 웹 애플리케이션 전체의 설정 정보를 담당하는 객체를 줘."
          // .getResourceAsStream(...) :
          // "그 객체에서, 지정된 경로(/WEB-INF/config/url.properties)에 있는 파일을 읽을 수 있는
@@ -64,7 +69,7 @@ public class FrontController extends HttpServlet {
          // 즉, is는 url프로퍼티스와 이 웹 어플리케이션(웹페이지) 전체의 설정 정보가 담겨있는 객체와 연결될 수 있는 길 그 자체란 뜻.
 
          properties.load(is);
-
+         getServletContext().log("[FrontController] 준비 완료 : " + properties.size());
          // load() 메서드는 Properties 클래스에 특화된 메서드.
          // 매개변수 is (InputStream)가 가리키는 데이터의 흐름(길)을 따라서 정보를 읽어 들임.
          // 다음과 같은 일이 벌어짐(내부에서)
@@ -76,7 +81,7 @@ public class FrontController extends HttpServlet {
          // 3.Map 저장: 구분된 Key와 Value를 properties 객체의 내부 Map 구조에 저장.
 
       } catch (IOException e) {
-         throw new ServletException("FrontController 에서 발생한 예외.", e);
+         throw new ServletException("url.properties 불러오기 실패.", e);
       }
       
       // 싱글톤 인스턴스 생성 및 임시 맵에 저장
@@ -144,6 +149,8 @@ public class FrontController extends HttpServlet {
    protected void service(HttpServletRequest request, HttpServletResponse response)
          throws ServletException, IOException {
 
+	   
+	   
       // 아래 코드는...
       // String requestURI = request.getRequestURI(); : 클라이언트가 요청한 전체 경로를 그대로 가져온다.
       // http://어쩌구...~/Our_Middle_Project/index.do를 요청했다면, requestURI에는
@@ -161,17 +168,28 @@ public class FrontController extends HttpServlet {
       String contextPath = request.getContextPath();
       String command = requestURI.substring(contextPath.length());
       
+      if (!handlerMapping.containsKey(command)) {
+          System.out.println("[FrontController] 매핑되지 않은 요청입니다 → " + command);
+          response.sendError(HttpServletResponse.SC_NOT_FOUND, "매핑되지 않은 요청: " + command);
+          return;
+      }
+      
+      
       // 아래 코드는...
       // 두 클래스를 참조해 일종의 일꾼과 그릇을 만듬.
       // ActionForward의 클래스 속에 있는 path,isRedirect를 가져온다.
       ActionForward direct = null; // 그릇
       Action action = handlerMapping.get(command); // 위에 객체가 가득 담겨잇는 map에서 key(/indox.do)에 맞는
       // 벨류 값을 찾아 action 변수에 넣음.
+      
+      
 
       if (action == null) {
-         response.sendError(HttpServletResponse.SC_NOT_FOUND, "요청한 명령어를 찾을 수 없음.");
-         return;
+          System.out.println("[FrontController][오류❌] 핸들러 매핑은 있으나 Action 인스턴스가 null.");
+          response.sendError(HttpServletResponse.SC_NOT_FOUND, "Action 인스턴스 없음");
+          return;
       }
+      
 
       try {
 
@@ -182,7 +200,7 @@ public class FrontController extends HttpServlet {
          // 즉 "일을 시작해!"라고 했을 뿐. 어떤 일을 하는지는 저 아래 코드에서 자세히 설명.
          // 이미 싱글톤 Action 인스턴스를 가져왔으므로 바로 execute() 실행
          direct = action.execute(request, response);
-
+         
          // 여기서 자세한 일에 대해 알려주게 됨.
          if (direct != null) { // 유효성 검사. action.execute() 실행 결과로 direct 객체가 정상적으로 반환되었는지 확인.
             if (direct.isRedirect()) { // direct 객체에 저장된 Redirect가 true인가??
@@ -195,8 +213,8 @@ public class FrontController extends HttpServlet {
                // forward.getPath() : action이 지정해준 다음으로 가야할 곳(논리적 경로. 예: /main.do)를 direct 객체에
                // 붙여준다.
                // 주요 사용처: 데이터베이스 변경(POST) 후 사용자가 F5를 눌러 중복 제출하는 것을 방지할 때 사용
-               response.sendRedirect(request.getContextPath() + direct.getPath());
-
+            	response.sendRedirect(request.getContextPath() + direct.getPath());
+               
             } else { // request 객체를 사용하여 서버 내부에서 뷰 페이지(direct.getPath())로 제어권을 넘긴다.
 
                // request.getRequestDispatcher(경로): 지정된 경로의 리소스(주로 JSP)로 이동할 준비
