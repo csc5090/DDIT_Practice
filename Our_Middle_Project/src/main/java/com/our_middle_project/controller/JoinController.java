@@ -53,7 +53,7 @@ public class JoinController implements Action {
 		
 		try {
 			userInfoService.JoinUser(userInfo);
-			DashboardEndPoint.broadCastAlarm();
+			DashboardEndPoint.broadCastStatsUpdate();
 			response.setContentType("application/json");
 	        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 	        response.getWriter().write("{\"status\": \"success\"}");

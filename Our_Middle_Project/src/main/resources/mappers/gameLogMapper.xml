@@ -1,57 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="gameLogMapper">
 
-    <insert id="insertGameLog" parameterType="com.our_middle_project.dto.GameLogDTO">
-        INSERT INTO GAME_LOG (
-            GAME_LOG_NO, 
-            SCORE, 
-            START_TIME, 
-            END_TIME,
-            MEM_NO, 
-            LEVEL_NO,
-            COMBO, 
-            CLEAR_TIME
-        )
-        VALUES(
-        	SEQ_GAME_LOG.NEXTVAL,
-        	#{score}, 
-        	#{startTime, jdbcType=TIMESTAMP}, 
-        	#{endTime, jdbcType=TIMESTAMP},
-        	#{memNo}, 
-        	#{levelNo}, 
-        	#{combo}, 
-        	#{clearTime}
-       	)
-    </insert>
-    
-    <select id="getTotalGameCount" resultType="int">
-        SELECT COUNT(*) FROM GAME_LOG
-    </select>
-    
-    <select id="getDailyGameCountStatsForChart" resultType="java.util.Map" parameterType="java.util.Map">
-	    WITH DATES AS (
-			SELECT TRUNC(SYSDATE) - LEVEL + 1 AS "date"
-			FROM DUAL
-			CONNECT BY <![CDATA[ LEVEL <= #{days} ]]>
+	<insert id="insertGameLog"
+		parameterType="com.our_middle_project.dto.GameLogDTO">
+		INSERT INTO GAME_LOG (
+		GAME_LOG_NO, SCORE, START_TIME, END_TIME, MEM_NO, LEVEL_NO, COMBO,
+		CLEAR_TIME
+		)
+		VALUES(
+		SEQ_GAME_LOG.NEXTVAL, #{score}, #{startTime, jdbcType=TIMESTAMP},
+		#{endTime, jdbcType=TIMESTAMP},
+		#{memNo}, #{levelNo}, #{combo}, #{clearTime}
+		)
+	</insert>
+
+	<select id="getTotalGameCount" resultType="int">
+		SELECT COUNT(*) FROM GAME_LOG
+	</select>
+
+	<select id="getDailyPlayCountByLevel" resultType="java.util.Map"
+		parameterType="java.util.Map">
+		WITH DATES AS (
+		SELECT TRUNC(SYSDATE) - LEVEL + 1 AS "date"
+		FROM DUAL
+		CONNECT BY <![CDATA[ LEVEL <= #{days} ]]>
 		)
 		SELECT
-			TO_CHAR(D."date", 'MM-DD') AS "LABEL",
-            (SELECT COUNT(*) 
-             FROM GAME_LOG G 
-             WHERE TRUNC(G.START_TIME) <![CDATA[ <= ]]> D."date") AS "VALUE"
+		TO_CHAR(D."date", 'MM-DD') AS "LABEL",
+		COUNT(CASE WHEN G.LEVEL_NO = 1 THEN 1 END) AS "LEVEL_1",
+		COUNT(CASE WHEN G.LEVEL_NO = 2 THEN 1 END) AS "LEVEL_2",
+		COUNT(CASE WHEN G.LEVEL_NO = 3 THEN 1 END) AS "LEVEL_3"
 		FROM
-			DATES D
+		DATES D
+		LEFT JOIN
+		GAME_LOG G ON TRUNC(G.START_TIME) = D."date"
+		GROUP BY
+		D."date"
 		ORDER BY
-			D."date" ASC
-    </select>
+		D."date" ASC
+	</select>
 
 </mapper>
-
-
-
-

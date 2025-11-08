@@ -64,32 +64,10 @@ public class AdminAjaxController implements Action {
 			if ("/getStats.do".equals(command)) {
 
 				System.out.println("AJAX 요청: /getStats.do");
-
-				// 1. KPI 카드 데이터 (Goal 1 포함)
-				int userCount = adminService.getTotalUserCount();
-				int newUserCount = adminService.getNewUserCountToday();
-				int totalGames = adminService.getTotalGameCount();
-
-				// 2. 차트 데이터 (Goal 2)
-				Map<String, Object> chartData = adminService.getDashboardChartData();
-
-				// 3. 응답 데이터 구성
-				Map<String, Object> responseData = new HashMap<>();
-				responseData.put("totalUsers", userCount);
-				responseData.put("newUsers", newUserCount);
-				responseData.put("totalGames", totalGames);
-				responseData.put("chartData", chartData);
-
-				response.getWriter().write(gson.toJson(responseData));
-
-				// [제거] 아래 중복 코드를 삭제합니다.
-				/*
-				 * Map<String, Object> chartData = new HashMap<>(); chartData.put("labels",
-				 * chartLabels); chartData.put("values", chartValues); Map<String, Object>
-				 * responseData = new HashMap<>(); responseData.put("totalUsers", userCount);
-				 * responseData.put("newUsers", newUserCount); responseData.put("chartData",
-				 * chartData); response.getWriter().write(gson.toJson(responseData));
-				 */
+				
+				// [수정] A, B 차트 데이터를 모두 포함하는 새 Service 메소드 호출
+				Map<String, Object> dashboardData = adminService.getDashboardData();
+				response.getWriter().write(gson.toJson(dashboardData));
 
 			} else if ("/getUserList.do".equals(command)) {
 

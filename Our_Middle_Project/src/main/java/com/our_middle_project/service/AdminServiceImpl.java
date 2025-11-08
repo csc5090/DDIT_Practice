@@ -15,6 +15,7 @@ import com.our_middle_project.dto.AdminBoardImageDTO;
 import com.our_middle_project.dto.AdminReviewDTO;
 import com.our_middle_project.dto.MemberDTO;
 import com.our_middle_project.serviceInterface.AdminService;
+import com.our_middle_project.util.ActiveUserListener;
 
 public class AdminServiceImpl implements AdminService {
 
@@ -37,6 +38,12 @@ public class AdminServiceImpl implements AdminService {
 		return gameLogDAO.getTotalGameCount();
 	}
 
+	//  A차트: 실시간 접속자 수 반환
+	@Override
+	public int getActiveUserCount() {
+		return ActiveUserListener.getActiveUserCount();
+	}
+
 	@Override
 	public List<MemberDTO> getUsersByKeyword(String keyword) {
 		return memberDAO.selectUsersByKeyword(keyword);
@@ -47,22 +54,27 @@ public class AdminServiceImpl implements AdminService {
 		return memberDAO.selectDailySignupStats();
 	}
 
+	//  A, B 차트용 데이터를 모두 조회
 	@Override
-	public Map<String, Object> getDashboardChartData() {
-		int days = 30; // 1달 기준 (30일)
+	public Map<String, Object> getDashboardData() {
+		Map<String, Object> dashboardData = new HashMap<>();
+
+		// --- A차트 (Bar) 데이터 ---
+		dashboardData.put("totalUsers", getTotalUserCount());
+		dashboardData.put("activeUsers", getActiveUserCount());
+
+		// --- B차트 (Line) 데이터 ---
+		int days = 14; // 2주 기준
 		Map<String, Object> params = Map.of("days", days);
 
-		// 3개의 차트 데이터 조회 (새로운 DAO 메소드 호출)
-		List<Map<String, Object>> newUsers = memberDAO.selectDailySignupStatsForChart(params);
-		List<Map<String, Object>> totalUsers = memberDAO.selectDailyCumulativeUserStatsForChart(params);
-		List<Map<String, Object>> totalGames = gameLogDAO.selectDailyGameCountStatsForChart(params);
+		List<Map<String, Object>> playCountByLevel = gameLogDAO.selectDailyPlayCountByLevel(params);
+		dashboardData.put("playCountByLevel", playCountByLevel);
 
-		Map<String, Object> chartData = new HashMap<>();
-		chartData.put("newUsersChart", newUsers);
-		chartData.put("totalUsersChart", totalUsers);
-		chartData.put("totalGamesChart", totalGames);
+		// --- 상단 카드 데이터 ---
+		dashboardData.put("totalGames", getTotalGameCount());
+		dashboardData.put("newUsersToday", getNewUserCountToday());
 
-		return chartData;
+		return dashboardData;
 	}
 
 	@Override
@@ -79,8 +91,7 @@ public class AdminServiceImpl implements AdminService {
 		return result > 0;
 	}
 
-	// --- 리뷰 관리 ---
-
+	// 리뷰 관리 로직
 	@Override
 	public List<AdminReviewDTO> getReviewList(String keyword) {
 		return reviewDAO.selectAllReviews(keyword);
@@ -92,7 +103,6 @@ public class AdminServiceImpl implements AdminService {
 		params.put("boardNo", boardNo);
 		params.put("adminMemNo", adminMemNo);
 		params.put("replyContent", replyContent);
-
 		return reviewDAO.upsertAdminReply(params) > 0;
 	}
 
@@ -109,21 +119,12 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public boolean deleteReview(int boardNo) {
 		try {
-			// 1. 별점 삭제
 			reviewDAO.deleteReviewStars(boardNo);
-			// 2. 댓글 삭제
 			reviewDAO.deleteReviewReplies(boardNo);
-			// 3. 이미지 삭제
 			reviewDAO.deleteAllReviewImagesByBoardNo(boardNo);
-
-			// 4. 좋아요 삭제
 			new AdminBoardDAOImpl().deleteBoardLikes(boardNo);
-
-			// 5. 싫어요 삭제
 			reviewDAO.deleteBoardDislikes(boardNo);
-			// 6. 리뷰(부모) 삭제
 			int result = reviewDAO.deleteReview(boardNo);
-
 			return result > 0;
 		} catch (Exception e) {
 			e.printStackTrace();

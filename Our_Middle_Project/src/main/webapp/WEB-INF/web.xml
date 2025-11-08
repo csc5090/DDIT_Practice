@@ -19,6 +19,10 @@
         <session-timeout>120</session-timeout>
     </session-config>
     
+    <listener>
+        <listener-class>com.our_middle_project.util.ActiveUserListener</listener-class>
+    </listener>
+    
      <servlet>
        <servlet-name>FrontController</servlet-name>
        <servlet-class>com.our_middle_project.frontcontroller.FrontController</servlet-class>

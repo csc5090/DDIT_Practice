@@ -18,7 +18,6 @@ import jakarta.websocket.server.ServerEndpoint;
 public class DashboardEndPoint {
 
 	private static Set<Session> sessionCase = Collections.synchronizedSet(new HashSet<>());
-
 	private static Gson gson = new Gson();
 
 	@OnOpen
@@ -28,19 +27,13 @@ public class DashboardEndPoint {
 
 	@OnMessage
 	public void messageHandler(String message, Session session) throws IOException {
-
 		Map<String, String> msgData = gson.fromJson(message, Map.class);
 		String type = msgData.get("type");
 
 		if ("REQUEST_JOIN".equals(type)) {
-			// 대시보드 접속 요청을 받았을 때 세션 목록에 추가.
 			sessionCase.add(session);
 			System.out.println("대시보드 관리자 세션 등록 : " + session.getId());
-
-		} else {
-			// 다른 요청 생길 시 추가
 		}
-
 	}
 
 	@OnClose
@@ -49,10 +42,11 @@ public class DashboardEndPoint {
 		System.out.println("대시보드 관리자 세션 종료 : " + session.getId());
 	}
 
-	public static void broadCastAlarm() {
-		
+	public static void broadCastStatsUpdate() {
+
+		// "REFRESH" 신호만 보냄. 실제 데이터는 page-dashboard.js가 AJAX로 가져감.
 		String updateMessage = "{\"type\": \"RESPONSE_REFRESH\"}";
-		
+
 		sessionCase.forEach(session -> {
 			if (session.isOpen()) {
 				try {
@@ -62,7 +56,5 @@ public class DashboardEndPoint {
 				}
 			}
 		});
-		
 	}
-
 }
