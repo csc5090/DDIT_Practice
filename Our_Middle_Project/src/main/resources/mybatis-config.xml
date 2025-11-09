@@ -14,6 +14,7 @@
 		<typeAlias type="com.our_middle_project.dto.FileImageDTO" alias="FileImageDTO" />
 		<typeAlias type="com.our_middle_project.dto.AdminBoardImageDTO" alias="AdminBoardImageDTO" />
 		<typeAlias type="com.our_middle_project.dto.RankingDTO" alias="RankingDTO" />
+		<typeAlias type="com.our_middle_project.dto.GameLogDTO" alias="GameLogDTO" />
 	</typeAliases>
 
 	<environments default="development">
@@ -38,5 +39,6 @@
 		<mapper resource="mappers/AdminBoardMapper.xml" />
 		<mapper resource="mappers/rankingMapper.xml" />
 		<mapper resource="mappers/gameLogMapper.xml" />
+		<mapper resource="mappers/myPageMapper.xml" />
 	</mappers>
 </configuration>

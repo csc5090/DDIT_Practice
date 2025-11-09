@@ -50,63 +50,146 @@ body{
 
 /* 우측 상단에 버튼 네비게이션  */
 #topNav{
-   
+   	display: flex;
+	flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    
+   	width: 5%;
+	height: 100%;
+    
+   	font-family: 'Escoredream';
+	font-weight: bold;
+	font-size: 15px;
+	color: white;
+	
     /* 조승희 수정 251105 */
     position: relative;
+}
 
+#topNav svg{
+	width: 30%;
+	height: 30%;
+	
+	fill: rgba(50, 100, 70);
 }
 
 #nickname{
-	font-size: 15px;
+	display: flex;
+	flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    
+	width: 10%;
+	height: 100%;
+	
+	font-family: 'Escoredream';
+	font-weight: bold;
+	font-size: 1em;
 	color: white;
 }
 
+.nick {
+	width: 50%;
+	height: 100%;
+	
+	display: flex;
+	flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.hi {
+	width: 50%;
+	height: 100%;
+	
+	display: flex;
+	flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
 #menuBtn{
-    width:100px;
-    height:60px;
-    background: none;
-    border: none;
-    font-size: 25px;
-    cursor: pointer;
-}
-
-#menuItems{			/* 메뉴 초기 상태 숨김 */
-    position: absolute;
-    top: 65px; 		/* 버튼들이 내려올 위치 */
-    right: 10;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.5s ease;
-}
-
-#topNav:hover #menuItems {	/* 호버 시 메뉴 나타나기 */
-    max-height: 300px; 
-    max-width: 100px;
-}
-
-#menuItems div {		/* 호버시 나오는 메뉴 아이템 */
-	padding: 10px 20px; 
-} 
-
-#menuItems button {		/* 호버시 나오는 버튼 */
+	width: 100%;
+	height: 100%;
+	
     background: transparent;
     border: none;
-    color: white;
-    font-size: 5px;
+
     cursor: pointer;
-    width: 100%;
-    text-align: left;
-    
-    white-space: nowrap		/* 줄바꿈 안하기 */
 }
 
-#menuItems.show {		/* 호버해서 메뉴가 열렸을 때 */
-    max-height: 200px; 
-    max-width: 200px;
+#menuItems{	
+
+    position: absolute;
+    top: 65px; 		
+    right: 10;
+    
+    width: 100%;
+    height: 0%;
+    overflow: hidden;
+	
+	transition: 0.5s ease;
 }
-.text{
-	font-size: 13px;
+
+#topNav:hover #menuItems {
+	height: 100%;
 }
+
+#topNav:hover #menuItems span {
+	opacity: 1;
+}
+
+#menuItems > div {
+	width: 100%;
+	height: 50%;
+
+	display: flex;
+	flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+} 
+
+#menuItems > div > button {
+	width: 100%;
+	height: 100%;
+
+	display: flex;
+	flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    
+    background: transparent;
+    border: none;
+	
+	padding: 0;
+} 
+
+#menuItems > div > button > span {
+	width: 100%;
+	height: 100%;
+
+	display: flex;
+	flex-direction: row;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+    
+   	font-family: 'Escoredream';
+	font-weight: bold;
+	font-size: 0.8em;
+	color: white;
+	
+	opacity: 0;
+	
+	transition: 0.5s ease;
+} 
 
 /* =========== 중앙 메인 ===========*/
 #center {

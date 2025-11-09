@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="myPageMapper">
+
+	<select id="loingUserInfo" resultType="userInfoDTO">
+		SELECT *    
+	    FROM MEMBER
+		WHERE MEM_NO = #{mem_no}
+		ORDER BY MEM_NO
+	</select>
+	
+	<select id="loingUserRanking" resultType="RankingDTO">
+		SELECT 
+			M.MEM_NO,
+			M.MEM_ID,
+			M.NICKNAME,
+			LEV.LEVEL_NO,
+			LEV.LEVEL_NAME,
+			R.SCORE_BEST,
+			R.SCORE_TOTAL,
+			R.SCORE_COUNT,
+			R.SCORE_AVG,
+			R.SCORE_LAST,
+			R.PLAYED_LAST_DATE,
+			R.COMBO,
+			R.CLEAR_TIME
+			FROM GAME_RANKING R
+		JOIN MEMBER M ON (R.MEM_NO = M.MEM_NO)
+		JOIN GAME_LEVEL LEV ON (R.LEVEL_NO = LEV.LEVEL_NO)
+		WHERE M.MEM_NO = #{mem_no}
+		ORDER BY M.MEM_NO, LEV.LEVEL_NO
+	</select>
+	
+	<select id="loingUserGmaeLog" resultType="GameLogDTO">
+		SELECT *
+		FROM (
+			SELECT 
+				L.SCORE AS score,
+				L.START_TIME AS startTime,
+				L.END_TIME AS endTime,
+				L.MEM_NO AS memNo,
+				L.LEVEL_NO AS levelNo,
+				L.COMBO AS combo,
+				L.CLEAR_TIME AS clearTime
+			FROM GAME_LOG L
+			WHERE L.MEM_NO = #{mem_no}
+			ORDER BY L.END_TIME DESC
+		)
+		WHERE ROWNUM <![CDATA[ <= ]]> 20
+	</select>
+
+</mapper>
+
+
+
+

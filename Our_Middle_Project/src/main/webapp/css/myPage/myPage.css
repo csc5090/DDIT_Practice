@@ -9,12 +9,23 @@ html, body {
 }
 
 body {
-	display: flex;
-	flex-direction: column;
-	background-image: url('../../images/mypage/myPage_back.png');
-	background-size: 100% auto; /* 가로 100%, 세로는 비율 유지 */
+	background-image: url('../../images/mypage/myPage_back_2.png');
+	background-size: 100% 100%; /* 가로 100%, 세로는 비율 유지 */
 	background-repeat: no-repeat; /* 반복 방지 */
 	background-position: center center;
+}
+
+
+/* 페이지 전체 레이아웃 */
+.my-container {
+	display: flex;
+	flex-direction: column;
+    align-items: center;
+    
+	width: 100%;
+	height: 100%;
+
+	box-sizing: border-box;
 }
 
 /* 상단 헤더 */
@@ -28,7 +39,6 @@ body {
 	padding: 0 2%;
 	box-sizing: border-box;
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-	border-bottom: 2px solid yellow;
 	background: transparent;
 	color: white;
 }
@@ -40,9 +50,11 @@ body {
 
 .my-header-menu {
 	display: flex;
+	flex-direction: row;
+    justify-content: center;
 	align-items: center;
 	height: 80%;
-	width: 40%;
+	width: 20%;
 }
 
 .my-header-menu div {
@@ -53,11 +65,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-left: 1px solid #ccc;
-  border-right: 1px solid #ccc;
+  border-left: 1px solid yellow;
+  border-right: 1px solid yellow;
   cursor: pointer;
   font-size: 0.9em;
   color: white;
+  width: 33%;
 }
 
 /* 원래 텍스트 */
@@ -109,14 +122,15 @@ body {
 	border-right: none;
 }
 
-/* 페이지 전체 레이아웃 */
-.my-container {
-	display: flex;
-	width: 100%;
-	height: 94%;
-	padding: 1%;
-	gap: 1%;
-	box-sizing: border-box;
+.my-main-body {
+    width: 95%;
+    height: 94%;
+    
+    display: flex;
+    flex-direction: row;
+	gap: 6%;
+	
+    padding: 0 2% 2% 2%;
 }
 
 .my-panel {
@@ -124,36 +138,89 @@ body {
 	flex-direction: column;
 	width: 100%;
 	height: 100%;
-	gap: 1%;
+	gap: 3%;
 }
 
 /* 패널 공통 */
 .my-panel-header {
 	width: 100%;
 	height: 10%;
-	background-color: #fff;
-	border-radius: 10px 10px 0 0;
+	
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	text-align: center;
+	
+	background: transparent;
+
+	border-radius: 10px;
 	box-sizing: border-box;
+	
+	text-align: center;
+	
+	color: white;
 }
 
 .my-panel-header span {
-	font-size: 1em;
-	font-weight: bold;
 	letter-spacing: 1px;
+	font-family: 'KccAnchangho';
+	font-size: 3em;
+	font-weight: bold;
+	letter-spacing: 2px;
+	
+	color: #FFDC5A;
+	text-shadow: 
+	    0 0 10px rgba(200, 160, 40, 0.6), 
+	    0 0 22px rgba(240, 200, 80, 0.4), 
+	    0 0 36px rgba(255, 250, 180, 0.2);
+
+	animation: neonPulse 2.6s ease-in-out infinite alternate;
+}
+
+/* 네온사인 깜빡임 애니메이션 */
+@keyframes neonPulse {
+	0% {
+		text-shadow:
+			0 0 6px rgba(255, 220, 90, 0.5),
+			0 0 12px rgba(255, 200, 60, 0.4),
+			0 0 20px rgba(255, 180, 40, 0.25),
+			0 0 28px rgba(255, 180, 40, 0.15);
+		opacity: 0.85;
+	}
+	50% {
+		text-shadow:
+			0 0 10px rgba(255, 220, 90, 0.8),
+			0 0 20px rgba(255, 200, 60, 0.6),
+			0 0 36px rgba(255, 180, 40, 0.45),
+			0 0 48px rgba(255, 160, 30, 0.3);
+		opacity: 1;
+	}
+	100% {
+		text-shadow:
+			0 0 5px rgba(255, 220, 90, 0.4),
+			0 0 10px rgba(255, 200, 60, 0.3),
+			0 0 18px rgba(255, 180, 40, 0.2),
+			0 0 24px rgba(255, 160, 30, 0.1);
+		opacity: 0.75;
+	}
 }
 
 .my-panel-content {
-	flex: 1;
-	background-color: #fff;
-	border-radius: 0 0 10px 10px;
-	padding: 1%;
 	display: flex;
 	flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    
+    width: 100%;
+    height: 90%;
+    
+	background: transparent;
+	
+	border-radius: 10px;
 	box-sizing: border-box;
+	
+	text-align: center;
+	
+	color: white;
 }
 
 /* 왼쪽: 랭킹정보 */
@@ -170,43 +237,95 @@ body {
 }
 
 .my-game-card {
-	background-color: #e0e0e0;
-	border-radius: 10px;
-	padding: 1%;
 	width: 90%;
-	height: 26%;
+	height: 30%;
+	
 	display: flex;
 	flex-direction: column;
-	justify-content: flex-start;
+    justify-content: center;
+    align-items: center;
+	
 	box-sizing: border-box;
+	box-shadow: 
+	    0 0 12px rgba(240, 240, 255, 0.35),
+	    0 0 26px rgba(230, 240, 255, 0.25),
+	    0 0 43px rgba(220, 230, 255, 0.15),
+	    inset 0 0 24px rgba(245, 245, 255, 0.3),
+	    inset 0 0 48px rgba(230, 235, 250, 0.2);
+	
+	flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    
+	background-color: rgba(0, 0, 0, 0.5);
+	border-radius: 10px;
+	
+	transition: all 0.35s ease;
+	transform-origin: center;
 }
 
-.my-game-card h3 {
-	margin: 0 0 5px 0;
-	font-size: 0.9em;
+.my-game-card:hover {
+	background-color: rgba(255, 255, 255, 0.08);
+	box-shadow:
+		0 0 10px rgba(255, 220, 90, 0.4),
+		0 0 24px rgba(255, 220, 90, 0.25),
+		inset 0 0 14px rgba(255, 220, 90, 0.3);
+	transform: scale(1.02);
+}
+
+/* hover 시 텍스트 강조 (좌측 항목 위주로 살짝 빛남) */
+.my-game-card:hover .my-game-info-head span:first-child {
+	color: #FFDC5A;
+	text-shadow:
+		0 0 8px rgba(255, 220, 90, 0.7),
+		0 0 16px rgba(255, 200, 60, 0.5),
+		0 0 28px rgba(255, 180, 40, 0.35);
+}
+
+.my-game-card:hover .my-game-info-head span:last-child {
+	color: #FF1A1A;
+	text-shadow:
+		0 0 8px rgba(255, 40, 40, 0.7),
+		0 0 16px rgba(255, 20, 20, 0.5),
+		0 0 28px rgba(255, 0, 0, 0.35);
+}
+
+.my-game-info-head {
+	width: 100%;
+	height: 16%;
+	
+	display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: space-between;
+    
+    margin: 10px 0 10px 0;
+   	padding: 0 15% 0 15%;
+   	
+   	font-family: 'LAB_digital';
+	letter-spacing: 3px;
+   	font-size: 1.5em;
 }
 
 .my-game-info-row {
+	width: 100%;
+	height: 16%;
+	
 	display: flex;
-	justify-content: space-between;
-	border-bottom: 1px solid #ccc;
-	font-size: 0.85em;
-	padding: 2px 0;
-}
-
-.my-game-info-row span:first-child {
-	font-weight: bold;
+    align-content: center;
+    align-items: center;
+    justify-content: space-between;
+	
+	padding: 0 15% 0 15%;
+	
+	font-family: 'LAB_digital';
+	letter-spacing: 3px;
+	font-size: 1.1em;
 }
 
 /* 중앙: 최근 30게임 */
 .my-middle-panel {
 	width: 35%;
-}
-
-.my-middle-panel .my-panel-content {
-	display: flex;
-	flex-direction: column;
-	overflow: hidden;
 }
 
 .my-recent-title {
@@ -218,128 +337,280 @@ body {
 }
 
 .my-recent-header {
+	width: 90%;
+	height: 7%;
+	
 	display: flex;
-	background-color: #e0e0e0;
-	font-weight: bold;
-	border: 1px solid #ccc;
-	border-bottom: none;
+		--col1: 0.5;
+		--col2: 0.8;
+		--col3: 1.5;
+		--col4: 1.2;
+		--col5: 1.2;
+		--col6: 0.8;
+	align-content: center;
+    justify-content: space-around;
+    align-items: center;
 	flex-shrink: 0;
+	
+	background-color: rgba(0, 0, 0, 0.5);
+	
+	font-family: 'LAB_digital';
+	letter-spacing: 3px;
+	font-size: 1em;
+	font-weight: bold;
+	
+	border-radius: 5px;
 }
 
 .my-recent-header div {
-	flex: 1;
-	padding: 6px;
-	text-align: center;
+	display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    
+	width: 16%;
+	height: 80%;
+	
 	font-size: 0.85em;
 	border-right: 1px solid #ccc;
 	box-sizing: border-box;
 }
+
+.my-recent-header > div:nth-child(1) { flex: var(--col1); }
+.my-recent-header > div:nth-child(2) { flex: var(--col2); }
+.my-recent-header > div:nth-child(3) { flex: var(--col3); }
+.my-recent-header > div:nth-child(4) { flex: var(--col4); }
+.my-recent-header > div:nth-child(5) { flex: var(--col5); }
+.my-recent-header > div:nth-child(6) { flex: var(--col6); }
 
 .my-recent-header div:last-child {
 	border-right: none;
 }
 
 .my-recent-games {
-	flex: 1;
-	overflow-y: auto;
-	border: 1px solid #ccc;
-	border-top: none;
-	border-radius: 0 0 5px 5px;
+	width: 90%;
+	height: 93%;
+	
+	display: flex;
+	flex-direction: column;
+	
+	margin-top: 10px;
+	
+	background: transparent;
+	
+	overflow-y: auto;           /* 세로 스크롤 작동 */
+	scrollbar-width: none;      /* Firefox에서 숨김 */
+	-ms-overflow-style: none;   /* IE, Edge 구버전 숨김 */
+}
+
+/* Chrome, Safari, Edge(Chromium) */
+.my-recent-games::-webkit-scrollbar {
+  display: none;
 }
 
 .my-recent-row {
-	display: flex;
 	width: 100%;
+	height: 6%;
+	
+	display: flex;
+		--col1: 0.5;
+		--col2: 0.8;
+		--col3: 1.5;
+		--col4: 1.2;
+		--col5: 1.2;
+		--col6: 0.8;
+	align-content: center;
+    justify-content: space-around;
+    align-items: center;
+	flex-shrink: 0;
+	
+	font-family: 'LAB_digital';
+	letter-spacing: 3px;
+	font-size: 1em;
+	
+	border-radius: 5px;
 }
 
 .my-recent-row div {
-	flex: 1;
-	padding: 6px;
-	text-align: center;
+	display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    
+	width: 16%;
+	height: 80%;
+	
 	font-size: 0.85em;
 	border-right: 1px solid #ccc;
 	box-sizing: border-box;
 }
 
-.my-recent-row div:last-child {
-	border-right: none;
-}
+.my-recent-row > div:nth-child(1) { flex: var(--col1); }
+.my-recent-row > div:nth-child(2) { flex: var(--col2); }
+.my-recent-row > div:nth-child(3) { flex: var(--col3); }
+.my-recent-row > div:nth-child(4) { flex: var(--col4); }
+.my-recent-row > div:nth-child(5) { flex: var(--col5); }
+.my-recent-row > div:nth-child(6) { flex: var(--col6); border: none; }
 
 .my-recent-row:nth-child(even) {
-	background-color: #f9f9f9;
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+.my-recent-row:nth-child(odd) {
+	background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* 오른쪽: 나의 정보 */
 .my-right-panel {
 	width: 40%;
-	display: flex;
-	flex-direction: column;
 }
 
+/* 내부 영역 */
 .my-my-info-content {
+	width: 100%;
+	height: 85%;
+	
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
-	flex: 1;
+	align-content: center;
+    justify-content: space-around;
+    align-items: center;
 }
 
-/* 그룹 레이아웃 */
+/* 스크롤 숨기기 (크롬) */
+.my-my-info-content::-webkit-scrollbar {
+	display: none;
+}
+
+/* 그룹별 구분 */
 .my-info-group {
-	margin-bottom: 10px;
+	
+	width: 100%;
+	height: 18%;
+	
+	display: flex;
+	gap: 2%;
+	flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+	
+	padding: 10px 0 10px 0;
+	
+	background: rgba(0, 0, 0, 0.5);
+	
+	border-radius: 10px;
+	border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-.my-group-row {
-	display: flex;
-	gap: 10px;
+.my-info-group:hover {
+	background-color: rgba(255, 255, 255, 0.1);
+	box-shadow: inset 0 0 16px rgba(255, 255, 255, 0.2);
 }
 
 .my-group-col {
-	flex: 1;
+	width: 45%;
+	height: 100%;
+	
 	display: flex;
 	flex-direction: column;
-	gap: 8px;
+    align-content: center;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .my-info-item {
+	width: 100%;
+	height: 100%;
+	
 	display: flex;
-	flex-direction: column;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .my-info-item label {
-	font-weight: bold;
-	font-size: 0.9em;
-	margin-bottom: 3px;
+	width: 40%; /* 라벨 고정 너비 (원하는 대로 조절 가능) */
+	height: 40px;
+	
+	display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+	
+	color: white;
+	text-shadow: 0 0 6px rgba(255, 220, 90, 0.5);
+	margin: 0;
+	text-align: left;
+	
+	font-family: 'LAB_digital';
+	font-size: 1.1em;
+	letter-spacing: 2px;
 }
 
 .my-info-item input {
+	width: 60%;
+	height: 40px;
+	
+	background-color: rgba(0, 0, 0, 0.4);
+	color: #fff;
+	
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	border-radius: 5px;
+	box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.1);
+	
+	font-family: 'Escoredream';
+	font-size: 1em;
+	letter-spacing: 1px;
+	
+	transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.my-info-item input:focus:not([readonly]) {
+	outline: none;
+	border: 1px solid #FFDC5A;
+	box-shadow: 0 0 8px rgba(255, 220, 90, 0.6);
+	background-color: rgba(0, 0, 0, 0.6);
+}
+
+.my-join-section{
 	width: 100%;
-	padding: 0.4em;
-	font-size: 0.9em;
-	box-sizing: border-box;
+	height: 5%;
+	
+	font-family: 'KccAnchangho';
+	font-size: 1.4em;
 }
 
 .my-info-footer {
 	width: 100%;
-	height: 50px;
+	height: 10%;
 	display: flex;
-	justify-content: flex-end;
-	align-items: center;
-	padding: 0 1%;
-	border-top: 1px solid #ccc;
-	border-radius: 0 0 10px 10px;
-	background-color: #fff;
+	align-content: center;
+    justify-content: center;
+    align-items: center;
+
+	gap: 10%;
 }
 
+
 .my-info-footer button {
-	padding: 0.5em 1em;
-	font-size: 0.9em;
+	padding: 0.5em 1.2em;
+	font-size: 1em;
 	border: none;
-	border-radius: 5px;
-	background-color: #007bff;
-	color: #fff;
+	border-radius: 8px;
+	background-color: rgba(255, 220, 90, 0.2);
+	color: #FFDC5A;
 	cursor: pointer;
+	font-family: 'LAB_digital';
+	letter-spacing: 2px;
+	text-shadow: 0 0 6px rgba(255, 220, 90, 0.6);
+	transition: background-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
 }
 
 .my-info-footer button:hover {
-	background-color: #0056b3;
+	background-color: rgba(255, 220, 90, 0.4);
+	box-shadow: 0 0 10px rgba(255, 220, 90, 0.7);
+	color: #fff;
 }
