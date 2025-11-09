@@ -140,16 +140,23 @@
 		ORDER BY D."date" ASC
 	</select>
 
-	<select id="getPlaytimeHeatmap" parameterType="java.util.Map"
-		resultType="java.util.HashMap">
-		SELECT
-		TO_CHAR(START_TIME, 'DY') AS "DAY_OF_WEEK",
-		TO_CHAR(START_TIME, 'HH24') AS "HOUR_OF_DAY",
-		COUNT(*) AS "COUNT"
-		FROM GAME_LOG
-		WHERE START_TIME >= TRUNC(SYSDATE) - #{days, jdbcType=INTEGER} + 1
-		GROUP BY TO_CHAR(START_TIME, 'DY'), TO_CHAR(START_TIME, 'HH24')
-	</select>
+	<select id="getPlaytimeHeatmap" parameterType="map" resultType="java.util.HashMap">
+    SELECT
+        TO_CHAR(START_TIME, 'DY', 'NLS_DATE_LANGUAGE=ENGLISH') AS "DAY_OF_WEEK",
+        TO_CHAR(START_TIME, 'HH24') AS "HOUR_OF_DAY",
+        COUNT(GAME_LOG_NO) AS "COUNT"
+    FROM
+        GAME_LOG
+    WHERE
+        -- 🚨 수정: TIMESTAMP 비교를 DATE 변환으로 안정화 🚨
+        START_TIME >= TO_DATE(#{startDate}, 'YYYY-MM-DD') 
+        AND START_TIME &lt; TO_DATE(#{endDate}, 'YYYY-MM-DD') + 1 -- 종료일 23:59:59까지 포함
+    GROUP BY
+        TO_CHAR(START_TIME, 'DY', 'NLS_DATE_LANGUAGE=ENGLISH'),
+        TO_CHAR(START_TIME, 'HH24')
+    ORDER BY
+        "HOUR_OF_DAY" ASC
+</select>
 
 
 </mapper>

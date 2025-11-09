@@ -119,16 +119,30 @@
 
 	<select id="getCommunityMix" parameterType="java.util.Map"
 		resultType="java.util.HashMap">
-		SELECT
-		(SELECT COUNT(*) FROM BOARD WHERE TYPE_NO = 3 AND CREATED_DATE >=
-		TRUNC(SYSDATE) - #{days, jdbcType=INTEGER} + 1) AS "POSTS",
-
-		(SELECT COUNT(*) FROM BOARD_REPLY WHERE CREATE_DATE >= TRUNC(SYSDATE) -
-		#{days, jdbcType=INTEGER} + 1) AS "COMMENTS",
-
-		(SELECT COUNT(*) FROM BOARD WHERE TYPE_NO = 2 AND CREATED_DATE >=
-		TRUNC(SYSDATE) - #{days, jdbcType=INTEGER} + 1) AS "REVIEWS"
-		FROM DUAL
+	SELECT
+        T1.POSTS_COUNT,
+        T1.REVIEWS_COUNT,
+        T2.REPLIES_COUNT
+    FROM
+    (
+        -- T1: 게시글 및 리뷰 카운트 (GROUP BY 없이 전체 집계)
+        SELECT
+            COUNT(CASE WHEN B.TYPE_NO != 2 THEN 1 END) AS POSTS_COUNT,
+            COUNT(CASE WHEN B.TYPE_NO = 2 THEN 1 END) AS REVIEWS_COUNT
+        FROM
+            BOARD B
+        WHERE 
+            B.CREATED_DATE BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD') AND TO_DATE(#{endDate}, 'YYYY-MM-DD') + 0.99999
+    ) T1,
+    (
+        -- T2: 댓글 카운트 (독립적으로 집계)
+        SELECT 
+            NVL(COUNT(BR.REPLY_NO), 0) AS REPLIES_COUNT 
+        FROM 
+            BOARD_REPLY BR 
+        WHERE 
+            BR.CREATE_DATE BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD') AND TO_DATE(#{endDate}, 'YYYY-MM-DD') + 0.99999
+    ) T2
 	</select>
 
 

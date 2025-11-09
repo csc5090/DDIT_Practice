@@ -73,7 +73,7 @@ public class ReviewDAOImpl implements ReviewDAO {
 	@Override
 	public int getTodayReviewCount() {
 		try (SqlSession sqlSession = MybatisUtil.getSqlSession()) {
-			return sqlSession.selectOne("reviewMapper.getTodayReviewCount");
+			return sqlSession.selectOne("mappers.reviewMapper.getTodayReviewCount");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;
@@ -83,7 +83,7 @@ public class ReviewDAOImpl implements ReviewDAO {
 	@Override
 	public List<Map<String, Object>> getRatingDistribution() {
 		try (SqlSession sqlSession = MybatisUtil.getSqlSession()) {
-			return sqlSession.selectList("reviewMapper.getRatingDistribution");
+			return sqlSession.selectList("mappers.reviewMapper.getRatingDistribution");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Collections.emptyList();
