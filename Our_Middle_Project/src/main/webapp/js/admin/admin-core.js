@@ -1,4 +1,4 @@
-// admin-core.js (수정본 - 새로고침 버튼 로직 및 버그 수정)
+// admin-core.js (수정본 - if (window.Page) 버그 완전 제거)
 
 const AdminCore = {
 	init: function() {
@@ -14,14 +14,14 @@ const AdminCore = {
 		this.setupUserProfileDropdown();
 		this.highlightInitialMenu();
 
-		// [신규] 수동 갱신 버튼 이벤트
+		// 수동 갱신 버튼 이벤트
 		const refreshBtn = document.getElementById('global-refresh-btn');
 		if (refreshBtn) {
 			refreshBtn.addEventListener('click', this.handleGlobalRefresh.bind(this));
 		}
-	}, // [수정] addEventHandlers 함수가 여기서 올바르게 닫힙니다.
+	},
 
-	// [신규] 수동 갱신 로직
+	// '데이터/통계' 페이지 갱신 로직 추가 및 if (window.Page) 버그 제거
 	handleGlobalRefresh: function() {
 		const activePage = document.querySelector('.bodyArea.active');
 		if (!activePage) return;
@@ -29,7 +29,7 @@ const AdminCore = {
 		const activePageId = activePage.id;
 		console.log(`수동 갱신: ${activePageId}`);
 
-		// [수정] "if (window.Page)" 검사를 모두 제거하고 함수를 직접 호출합니다.
+		// "if (window.Page)" 검사를 모두 제거하고 함수를 직접 호출
 		switch (activePageId) {
 			case 'dashboard-main':
 				DashboardPage.updateAllStats();
@@ -47,8 +47,7 @@ const AdminCore = {
 				ReviewPage.loadAndRender();
 				break;
 			case 'stats-main':
-				// (미래) StatsPage.loadData();
-				console.log('데이터/통계 페이지 갱신');
+				StatsPage.handleRunReport(); // '조회' 버튼 클릭과 동일하게 작동
 				break;
 		}
 	},
@@ -74,8 +73,7 @@ const AdminCore = {
 				targetArea.classList.add('active');
 			}
 
-			// [수정] 페이지 전환 시 갱신 로직을 다시 활성화합니다.
-			// (F5가 아닌, 사이드바 클릭 시에도 데이터가 로드되도록)
+			// 페이지 전환 시 갱신 로직 (if (window.Page) 버그 제거)
 			if (targetId === 'dashboard-main') {
 				DashboardPage.updateAllStats();
 			} else if (targetId === 'user-management') {
@@ -87,6 +85,9 @@ const AdminCore = {
 				NoticePage.Start();
 			} else if (targetId === 'post-management') {
 				PostPage.Start();
+			} else if (targetId === 'stats-main') {
+				// '데이터/통계' 탭 클릭 시 init()을 호출하여 버튼 이벤트를 연결
+				StatsPage.init();
 			}
 			sessionStorage.setItem('lastView', targetId);
 		}

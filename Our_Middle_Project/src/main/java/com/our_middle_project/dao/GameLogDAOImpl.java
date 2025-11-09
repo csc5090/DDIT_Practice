@@ -1,5 +1,6 @@
 package com.our_middle_project.dao;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -68,6 +69,56 @@ public class GameLogDAOImpl implements GameLogDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
+		}
+	}
+
+	@Override
+	public List<Map<String, Object>> selectGameBalanceReport(Map<String, Object> params) {
+		try (SqlSession session = MybatisUtil.getSqlSession()) {
+			return session.selectList("gameLogMapper.selectGameBalanceReport", params);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<Map<String, Object>> selectDailyActiveUsers(Map<String, Object> params) {
+		try (SqlSession session = MybatisUtil.getSqlSession()) {
+			return session.selectList("gameLogMapper.selectDailyActiveUsers", params);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public int getTodayPlayCount() {
+		try (SqlSession sqlSession = MybatisUtil.getSqlSession()) {
+			return sqlSession.selectOne("gameLogMapper.getTodayPlayCount");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
+	@Override
+	public List<Map<String, Object>> getReturningUserTrend(Map<String, Object> params) {
+		try (SqlSession sqlSession = MybatisUtil.getSqlSession()) {
+			return sqlSession.selectList("gameLogMapper.getReturningUserTrend", params);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
+
+	@Override
+	public List<Map<String, Object>> getPlaytimeHeatmap(Map<String, Object> params) {
+		try (SqlSession sqlSession = MybatisUtil.getSqlSession()) {
+			return sqlSession.selectList("gameLogMapper.getPlaytimeHeatmap", params);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Collections.emptyList();
 		}
 	}
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.our_middle_project.action.Action;
 import com.our_middle_project.action.ActionForward;
 import com.our_middle_project.dashboardendpt.DashboardEndPoint;
@@ -326,8 +327,21 @@ public class AdminAjaxController implements Action {
 				} else {
 					response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 					response.getWriter().write(gson.toJson(Map.of("status", "error", "message", "삭제 실패")));
-				}
+				} 
 
+			} else if ("/getDynamicReport.do".equals(command)) {
+				System.out.println("AJAX 요청: /getDynamicReport.do");
+				
+				// 1. JS에서 보낸 JSON 파라미터(startDate, endDate, reportType)를 Map으로 받음
+				Map<String, Object> params = gson.fromJson(request.getReader(), 
+                                               new TypeToken<HashMap<String, Object>>() {}.getType());
+				
+				// 2. Service로 파라미터를 넘기고, reportType에 맞는 데이터를 받아옴
+				Map<String, Object> result = adminService.getDynamicReportData(params);
+				
+				// 3. JS로 결과 전송
+				response.getWriter().write(gson.toJson(result));
+				
 			} else if ("/deleteReview.do".equals(command)) {
 				System.out.println("AJAX 요청: /deleteReview.do");
 				Map<String, Object> payload = gson.fromJson(request.getReader(), Map.class);

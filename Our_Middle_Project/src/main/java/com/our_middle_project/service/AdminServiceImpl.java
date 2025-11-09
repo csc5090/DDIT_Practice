@@ -1,5 +1,6 @@
 package com.our_middle_project.service;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,22 +8,30 @@ import java.util.Map;
 import com.our_middle_project.dao.AdminBoardDAOImpl;
 import com.our_middle_project.dao.AdminReviewDAO;
 import com.our_middle_project.dao.AdminReviewDAOImpl;
+import com.our_middle_project.dao.BoardDAO;
+import com.our_middle_project.dao.BoardDAOImpl;
 import com.our_middle_project.dao.GameLogDAO;
 import com.our_middle_project.dao.GameLogDAOImpl;
 import com.our_middle_project.dao.MemberDAO;
 import com.our_middle_project.dao.MemberDAOImpl;
+import com.our_middle_project.dao.ReviewDAO;
+import com.our_middle_project.dao.ReviewDAOImpl;
 import com.our_middle_project.dto.AdminBoardImageDTO;
 import com.our_middle_project.dto.AdminReviewDTO;
 import com.our_middle_project.dto.MemberDTO;
 import com.our_middle_project.serviceInterface.AdminService;
-// [삭제] ActiveUserListener 임포트 삭제
+import com.our_middle_project.util.ActiveUserListener;
 import com.our_middle_project.util.SendMail;
 
 public class AdminServiceImpl implements AdminService {
 
 	private MemberDAO memberDAO = new MemberDAOImpl();
 	private AdminReviewDAO reviewDAO = new AdminReviewDAOImpl();
+	
 	private GameLogDAO gameLogDAO = new GameLogDAOImpl();
+
+	private BoardDAO boardDAO = new BoardDAOImpl();
+	private ReviewDAO publicReviewDAO = new ReviewDAOImpl(); // (reviewDAO와 이름이 겹치므로 publicReviewDAO로 명명)
 
 	@Override
 	public int getTotalUserCount() {
@@ -175,5 +184,68 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public List<AdminBoardImageDTO> getReviewImages(int boardNo) {
 		return reviewDAO.selectReviewImages(boardNo);
+	}
+
+	@Override
+	public Map<String, Object> getDynamicReportData(Map<String, Object> params) {
+
+		String reportType = (String) params.get("reportType");
+		if (reportType == null) {
+			return Collections.emptyMap();
+		}
+
+		Map<String, Object> result = new HashMap<>();
+
+		// 'reportType'에 따라 다른 DAO를 호출
+		switch (reportType) {
+		case "game_balance":
+			List<Map<String, Object>> balanceData = gameLogDAO.selectGameBalanceReport(params);
+			result.put("reportData", balanceData);
+			break;
+
+		// Phase 2: 유저 활동
+case "user_activity":
+			
+			// 'days' 파라미터가 없거나 null일 경우 기본값 14로 설정 (기존 코드 유지)
+			if (!params.containsKey("days") || params.get("days") == null) {
+				params.put("days", 14);
+			}
+
+			// 1. K-Card 데이터 (오늘)
+			Map<String, Object> kpiData = new HashMap<>();
+			kpiData.put("realtimeUsers", ActiveUserListener.getActiveUserCount());
+			kpiData.put("todaySignups", memberDAO.getDailyNewUserCount());
+			kpiData.put("todayPlays", gameLogDAO.getTodayPlayCount());
+			
+			// 4. BoardDAO/Mapper, ReviewDAO/Mapper에 추가 필요
+			kpiData.put("todayContents", boardDAO.getTodayPostCount() + publicReviewDAO.getTodayReviewCount());
+			result.put("kpi", kpiData);
+
+			// 2. 일간 활성 유저 (DAU) 트렌드 (Line Chart)
+			result.put("dauTrend", gameLogDAO.selectDailyActiveUsers(params)); // (기존 쿼리 활용)
+
+			// 3. 커뮤니티 활성도 믹스 (Donut Chart)
+			result.put("communityMix", boardDAO.getCommunityMix(params)); // 5. BoardDAO/Mapper에 추가 필요
+
+			// 4. 리텐션 (Stacked Bar) - 신규 / 재방문
+			result.put("retentionNew", memberDAO.selectDailySignupStatsForChart(params)); // (기존 쿼리 활용)
+			result.put("retentionReturning", gameLogDAO.getReturningUserTrend(params)); // 6. GameLogDAO/Mapper에 추가 필요
+			
+			// 5. 리뷰 평점 분포 (Horizontal Bar)
+			result.put("ratingDist", publicReviewDAO.getRatingDistribution()); // 7. ReviewDAO/Mapper에 추가 필요
+
+			// 6. 플레이타임 히트맵 (Heatmap)
+			result.put("playtimeHeatmap", gameLogDAO.getPlaytimeHeatmap(params)); // 8. GameLogDAO/Mapper에 추가 필요
+			
+			break;
+
+		// (Phase 3)
+		case "community_feedback":
+			// 나중에 여기에 boardDAO.getCommunityReport(params) 호출
+			result.put("reportData", Collections.emptyList()); // 임시
+			break;
+		}
+
+		return result;
 	}
 }

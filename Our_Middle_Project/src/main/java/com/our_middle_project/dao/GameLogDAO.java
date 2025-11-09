@@ -19,4 +19,19 @@ public interface GameLogDAO {
 
 	// C차트
 	List<Map<String, Object>> selectDailyPlayCountByLevel(Map<String, Object> params);
+
+	// '데이터/통계' - Phase 1
+	List<Map<String, Object>> selectGameBalanceReport(Map<String, Object> params);
+
+	// '데이터/통계' - Phase 2
+	List<Map<String, Object>> selectDailyActiveUsers(Map<String, Object> params);
+
+	// K-Card: 오늘 총 플레이 수
+	int getTodayPlayCount();
+
+	// 리텐션 차트: 재방문 유저 트렌드
+	List<Map<String, Object>> getReturningUserTrend(Map<String, Object> params);
+
+	// 히트맵 차트: 주간/시간대별 플레이
+	List<Map<String, Object>> getPlaytimeHeatmap(Map<String, Object> params);
 }

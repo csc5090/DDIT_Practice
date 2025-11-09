@@ -349,10 +349,10 @@
 				                <button id="notice-delete-btn" class="action-btn danger" style="display: none;">삭제하기</button>
 				                <button id="notice-save-btn" class="action-btn primary">저장하기</button>
 				            </div>
-				        </div>
-				    </div>
-
-				</div>
+				        </div> <%-- .detail-content 끝 --%>
+				    </div> <%-- .user-detail-panel 끝 --%>
+				</div> <%-- #notice-management .bodyArea 끝 --%>
+				
 
 				<%-- ================= 게시물 관리 ================= --%>
 
@@ -540,7 +540,44 @@
 				</div>
 
 				<%-- ================= 데이터/통계 ================= --%>
-				<div class="bodyArea" id="stats-main">데이터/통계</div>
+				<div class="bodyArea" id="stats-main">
+									
+									<div class="stats-toolbar">
+									    <div class="filter-group">
+									        <label for="stats-start-date">시작일</label>
+									        <input type="date" id="stats-start-date" class="form-control">
+									    </div>
+									    <div class="filter-group">
+									        <label for="stats-end-date">종료일</label>
+									        <input type="date" id="stats-end-date" class="form-control">
+									    </div>
+									
+									    <div class="filter-group">
+									        <label for="stats-report-type">분석 주제</label>
+									        <select id="stats-report-type" class="form-select">
+									            <option value="">주제를 선택하세요</option>
+									            <option value="game_balance">게임 밸런스</option>
+									            <option value="user_activity">유저 활동</option>
+									            <option value="community_feedback">커뮤니티 피드백</option>
+									        </select>
+									    </div>
+									    
+									    <button id="stats-run-report-btn" class="action-btn primary">조회</button>
+									</div>
+									
+									<div class="stats-tab-container" style="display:none;">
+										<div class="tab-item active" data-tab="game_balance">게임 밸런스</div>
+										<div class="tab-item" data-tab="user_activity">유저 경험</div>
+										<div class="tab-item" data-tab="community_feedback">커뮤니티</div>
+									</div>
+									
+									<div class="stats-report-area">
+									    <div id="stats-chart-container">
+									        <p class="stats-placeholder">조회할 기간과 분석 주제를 선택해 주세요.</p>
+									    </div>
+									</div>
+									
+								</div>
 			</main>
 		</div>
 	</div>
@@ -565,16 +602,15 @@
 	}
 
 	// JS 특수 문자 이스케이프
-	adminName = adminName.replace("\\", "\\\\").replace("\"", "\\\"").replace("\r", "\\r").replace("\n", "\\n");
+	adminName = adminName.replace("\\", "\\\\").replace("\"", "\\\"").replace("\r", "\\r").replace("\n", "\n");
 	adminId = (adminId != null)
-			? adminId.replace("\\", "\\\\").replace("\"", "\\\"").replace("\r", "\\r").replace("\n", "\\n")
+			? adminId.replace("\\", "\\\\").replace("\"", "\\\"").replace("\r", "\\r").replace("\n", "\n")
 			: "";
 	adminNickname = (adminNickname != null)
-			? adminNickname.replace("\\", "\\\\").replace("\"", "\\\"").replace("\r", "\\r").replace("\n", "\\n")
+			? adminNickname.replace("\\", "\\\\").replace("\"", "\\\"").replace("\r", "\\r").replace("\n", "\n")
 			: "";
 	%>
 
-	<!-- 따옴표 구간 -->
 	<script type="text/javascript">
 		const ADMIN_DATA = {
 			name: "<%=adminName%>",

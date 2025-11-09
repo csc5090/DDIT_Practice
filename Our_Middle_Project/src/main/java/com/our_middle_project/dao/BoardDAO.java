@@ -1,34 +1,43 @@
 package com.our_middle_project.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
 import com.our_middle_project.dto.BoardDTO;
 
 public interface BoardDAO {
-	
+
 	// 자유게시판 목록
 	public List<BoardDTO> selectFreeBoard(SqlSession session);
-	
+
 	// 게시글 상세
 	public BoardDTO selectBoardCont(String boardNo, SqlSession session);
-	
-	//특정 페이지의 게시글 리스트를 가져옴
+
+	// 특정 페이지의 게시글 리스트를 가져옴
 	public List<BoardDTO> selectBoardList(int start, int pageSize, SqlSession session);
-	
-	//전체 게시글 수를 가져옴
+
+	// 전체 게시글 수를 가져옴
 	int selectBoardCount(SqlSession session);
-	
-	 // 1) 게시글 수정
+
+	// 1) 게시글 수정
 	public int updateBoard(BoardDTO board, SqlSession session);
-    
-    // 2) (선택) 본인 글 확인용
+
+	// 2) 본인 글 확인용
 	public BoardDTO selectBoardForEdit(String boardNo, String memNo, SqlSession session);
-	
-	//새 글 작성
+
+	// 새 글 작성
 	int insertBoard(BoardDTO dto, SqlSession session);
 
 	// 삭제 처리(TYPE_NO=999)
-	 int deleteBoard(BoardDTO boardDTO, SqlSession session);
+	int deleteBoard(BoardDTO boardDTO, SqlSession session);
+
+	// K-Card: 오늘 작성된 포스트 수
+	int getTodayPostCount();
+
+	// 도넛 차트: 커뮤니티 활성도
+	Map<String, Object> getCommunityMix(Map<String, Object> params);
+	
+	
 }

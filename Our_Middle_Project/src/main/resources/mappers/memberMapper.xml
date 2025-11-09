@@ -40,7 +40,7 @@
 		WITH DATES AS (
 		SELECT TRUNC(SYSDATE) - LEVEL + 1 AS "date"
 		FROM DUAL
-		CONNECT BY <![CDATA[ LEVEL <= #{days} ]]>
+		CONNECT BY <![CDATA[ LEVEL <= #{days, jdbcType=INTEGER} ]]>
 		)
 		SELECT
 		TO_CHAR(D."date", 'MM-DD') AS "LABEL", NVL(COUNT(M.CREATED_DATE), 0) AS
@@ -97,7 +97,9 @@
 		#{keyword} || '%' )
 			</if>
 		</where>
-		ORDER BY CREATED_DATE DESC </select>
+		ORDER BY CREATED_DATE DESC 
+	</select>
+		
 	<select id="selectUserDetails"
 		resultType="com.our_middle_project.dto.MemberDTO"
 		parameterType="java.lang.String">
@@ -114,6 +116,7 @@
 		FROM MEMBER
 		WHERE MEM_ID = #{userId}
 	</select>
+	
 	<update id="updateUser" parameterType="com.our_middle_project.dto.MemberDTO">
 		UPDATE MEMBER
 		SET
@@ -125,6 +128,7 @@
 		WHERE
 		MEM_ID = #{userId}
 	</update>
+	
 	<insert id="insertBoard"
 		parameterType="com.our_middle_project.dto.MemberDTO">
 		INSERT INTO BOARD (

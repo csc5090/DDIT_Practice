@@ -1,113 +1,135 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="boardMapper">
 
-	<select id="selectFreeBoard" resultType="com.our_middle_project.dto.BoardDTO" parameterType="com.our_middle_project.dto.BoardDTO">
-		SELECT  A.BOARD_NO AS boardNo,
-		        A.BOARD_TITLE AS boardTitle,
-		        A.BOARD_CONTENT AS boardContent,
-		        A.CREATED_DATE AS createdDate,
-		        A.VIEW_COUNT AS viewCount,
-		        B.MEM_ID AS memId
+	<select id="selectFreeBoard"
+		resultType="com.our_middle_project.dto.BoardDTO"
+		parameterType="com.our_middle_project.dto.BoardDTO">
+		SELECT A.BOARD_NO AS boardNo,
+		A.BOARD_TITLE AS boardTitle,
+		A.BOARD_CONTENT AS boardContent,
+		A.CREATED_DATE AS createdDate,
+		A.VIEW_COUNT AS viewCount,
+		B.MEM_ID AS memId
 		FROM BOARD A
 		INNER JOIN MEMBER B ON (A.MEM_NO = B.MEM_NO)
 		WHERE A.TYPE_NO IN (1, 3)
-		ORDER BY 
-        CASE A.TYPE_NO 
-            WHEN 1 THEN 1
-            WHEN 3 THEN 2
-        END,
-        A.BOARD_NO DESC
+		ORDER BY
+		CASE A.TYPE_NO
+		WHEN 1 THEN 1
+		WHEN 3 THEN 2
+		END,
+		A.BOARD_NO DESC
 	</select>
-	
-	<select id="selectBoardCont" resultType="com.our_middle_project.dto.BoardDTO">
-		SELECT  A.BOARD_NO AS boardNo,
-		        A.BOARD_TITLE AS boardTitle,
-		        A.BOARD_CONTENT AS boardContent,
-		        A.CREATED_DATE AS createdDate,
-		        A.VIEW_COUNT AS viewCount,
-		        B.MEM_ID AS memId
+
+	<select id="selectBoardCont"
+		resultType="com.our_middle_project.dto.BoardDTO">
+		SELECT A.BOARD_NO AS boardNo,
+		A.BOARD_TITLE AS boardTitle,
+		A.BOARD_CONTENT AS boardContent,
+		A.CREATED_DATE AS createdDate,
+		A.VIEW_COUNT AS viewCount,
+		B.MEM_ID AS memId
 		FROM BOARD A
 		INNER JOIN MEMBER B ON (A.MEM_NO = B.MEM_NO)
 		WHERE A.BOARD_NO=#{boardNo}
 	</select>
-	
-	<select id="selectBoardForEdit" parameterType="map" resultType="com.our_middle_project.dto.BoardDTO">
-	    SELECT 
-	        A.BOARD_NO AS boardNo,
-	        A.BOARD_TITLE AS boardTitle,
-	        A.BOARD_CONTENT AS boardContent,
-	        B.MEM_ID AS memId
-	    FROM BOARD A
-	    INNER JOIN MEMBER B ON A.MEM_NO = B.MEM_NO
-	    WHERE A.BOARD_NO = #{boardNo}
-	      AND A.MEM_NO = #{memNo,jdbcType=VARCHAR}
+
+	<select id="selectBoardForEdit" parameterType="map"
+		resultType="com.our_middle_project.dto.BoardDTO">
+		SELECT
+		A.BOARD_NO AS boardNo,
+		A.BOARD_TITLE AS boardTitle,
+		A.BOARD_CONTENT AS boardContent,
+		B.MEM_ID AS memId
+		FROM BOARD A
+		INNER JOIN MEMBER B ON A.MEM_NO = B.MEM_NO
+		WHERE A.BOARD_NO = #{boardNo}
+		AND A.MEM_NO = #{memNo,jdbcType=VARCHAR}
 	</select>
-	
+
 	<update id="updateBoard" parameterType="com.our_middle_project.dto.BoardDTO">
-			UPDATE BOARD 
-			   SET BOARD_TITLE=#{boardTitle},
-		    	   BOARD_CONTENT=#{boardContent}
-			 WHERE BOARD_NO=#{boardNo} AND MEM_NO=#{memNo}
+		UPDATE BOARD
+		SET BOARD_TITLE=#{boardTitle},
+		BOARD_CONTENT=#{boardContent}
+		WHERE BOARD_NO=#{boardNo} AND MEM_NO=#{memNo}
 	</update>
-	
-	
-	<select id="selectBoardList" resultType="com.our_middle_project.dto.BoardDTO" parameterType="map">
-		SELECT  BOARD_NO AS boardNo,
-		        BOARD_TITLE AS boardTitle,
-		        CREATED_DATE AS createdDate,
-		        VIEW_COUNT AS viewCount,
-		        MEM_ID AS memId
+
+
+	<select id="selectBoardList"
+		resultType="com.our_middle_project.dto.BoardDTO" parameterType="map">
+		SELECT BOARD_NO AS boardNo,
+		BOARD_TITLE AS boardTitle,
+		CREATED_DATE AS createdDate,
+		VIEW_COUNT AS viewCount,
+		MEM_ID AS memId
 		FROM (
-		    SELECT ROWNUM AS RNUM, A.*
-		    FROM (
-		        SELECT A.BOARD_NO, A.BOARD_TITLE, A.CREATED_DATE, A.VIEW_COUNT, B.MEM_ID
-		        FROM BOARD A
-		        INNER JOIN MEMBER B ON (A.MEM_NO = B.MEM_NO)
-		        ORDER BY A.BOARD_NO DESC
-		    ) A
+		SELECT ROWNUM AS RNUM, A.*
+		FROM (
+		SELECT A.BOARD_NO, A.BOARD_TITLE, A.CREATED_DATE, A.VIEW_COUNT, B.MEM_ID
+		FROM BOARD A
+		INNER JOIN MEMBER B ON (A.MEM_NO = B.MEM_NO)
+		ORDER BY A.BOARD_NO DESC
+		) A
 		)
 		WHERE RNUM BETWEEN #{start} AND #{end}
 	</select>
-	
-    <select id="selectBoardCount" resultType="int">
+
+	<select id="selectBoardCount" resultType="int">
 		SELECT COUNT(*)
 		FROM BOARD
 	</select>
-	
-<insert id="insertBoard" parameterType="com.our_middle_project.dto.BoardDTO">
-    INSERT INTO BOARD (
-        BOARD_NO,
-        BOARD_TITLE,
-        BOARD_CONTENT,
-        MEM_NO,
-        TYPE_NO,
-        CREATED_DATE,
-        VIEW_COUNT,
-        LIKE_COUNT,
-        DISLIKE_COUNT
-    ) VALUES (
-        SEQ_BOARD.NEXTVAL,
-        #{boardTitle},
-        #{boardContent},
-        #{memNo},
-        #{typeNo},
-        SYSDATE,
-	    #{viewCount},
-	    #{likeCount},
-	    #{dislikeCount}
-    )
-</insert>
 
-<update id="deleteBoard" parameterType="com.our_middle_project.dto.BoardDTO">
-	UPDATE BOARD 
-	SET TYPE_NO = 99
-	WHERE BOARD_NO = TO_NUMBER(#{boardNo})
-</update>
+	<insert id="insertBoard" parameterType="com.our_middle_project.dto.BoardDTO">
+		INSERT INTO BOARD (
+		BOARD_NO,
+		BOARD_TITLE,
+		BOARD_CONTENT,
+		MEM_NO,
+		TYPE_NO,
+		CREATED_DATE,
+		VIEW_COUNT,
+		LIKE_COUNT,
+		DISLIKE_COUNT
+		) VALUES (
+		SEQ_BOARD.NEXTVAL,
+		#{boardTitle},
+		#{boardContent},
+		#{memNo},
+		#{typeNo},
+		SYSDATE,
+		#{viewCount},
+		#{likeCount},
+		#{dislikeCount}
+		)
+	</insert>
 
+	<update id="deleteBoard" parameterType="com.our_middle_project.dto.BoardDTO">
+		UPDATE BOARD
+		SET TYPE_NO = 99
+		WHERE BOARD_NO = TO_NUMBER(#{boardNo})
+	</update>
+
+	<select id="getTodayPostCount" resultType="int">
+		SELECT COUNT(*)
+		FROM BOARD
+		WHERE TYPE_NO = 3 AND TRUNC(CREATED_DATE) = TRUNC(SYSDATE)
+	</select>
+
+	<select id="getCommunityMix" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		SELECT
+		(SELECT COUNT(*) FROM BOARD WHERE TYPE_NO = 3 AND CREATED_DATE >=
+		TRUNC(SYSDATE) - #{days, jdbcType=INTEGER} + 1) AS "POSTS",
+
+		(SELECT COUNT(*) FROM BOARD_REPLY WHERE CREATE_DATE >= TRUNC(SYSDATE) -
+		#{days, jdbcType=INTEGER} + 1) AS "COMMENTS",
+
+		(SELECT COUNT(*) FROM BOARD WHERE TYPE_NO = 2 AND CREATED_DATE >=
+		TRUNC(SYSDATE) - #{days, jdbcType=INTEGER} + 1) AS "REVIEWS"
+		FROM DUAL
+	</select>
 
 
 </mapper>

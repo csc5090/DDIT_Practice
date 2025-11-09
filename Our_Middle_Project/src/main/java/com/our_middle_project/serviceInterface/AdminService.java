@@ -34,4 +34,7 @@ public interface AdminService {
 	boolean deleteReviewImageByFileNo(int fileNo);
 
 	boolean deleteReviewImagesByFileNos(List<Integer> fileNos);
+	
+	//데이터 / 통계 
+	public Map<String, Object> getDynamicReportData(Map<String, Object> params);
 }

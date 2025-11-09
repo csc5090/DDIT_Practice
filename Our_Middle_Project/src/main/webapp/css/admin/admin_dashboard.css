@@ -1,109 +1,267 @@
-/* admin_dashboard.css */
+/* admin_dashboard.css
 
+/* =========================================
+  대시보드 페이지 (dashboard-main)
+=========================================
+*/
 #dashboard-main .card-container {
-    display: flex;
-    flex-direction: column; 
-    gap: 0px; 
-    width: 100%;
-    height: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 0px;
+	width: 100%;
+	height: 100%;
 }
 
-/* 1행: 3열 카드 */
 #dashboard-main .card-row-3 {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0px;
-    flex-shrink: 0; 
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 0px;
+	flex-shrink: 0;
 }
 
-/* 2행: 4열 카드 */
 #dashboard-main .card-row-4 {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0px;
-    flex-shrink: 0; 
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 0px;
+	flex-shrink: 0;
 }
 
-/* 공통 카드 스타일 */
 #dashboard-main .card {
-    background-color: var(--bg-sidebar);
-    padding: 30px; 
-    border: 1px solid var(--border-color);
-    display: flex;
-    flex-direction: column;
-    border-radius: 0px;
+	background-color: var(--bg-sidebar);
+	padding: 30px;
+	border: 1px solid var(--border-color);
+	display: flex;
+	flex-direction: column;
+	border-radius: 0px;
 }
 
 #dashboard-main .card-header {
-    color: var(--text-muted);
-    margin-bottom: 15px;
+	color: var(--text-muted);
+	margin-bottom: 15px;
 	text-align: center;
 }
 
 #dashboard-main .card-header h3 {
-    margin: 0;
-    font-size: 1rem;
-    font-weight: 600;
+	margin: 0;
+	font-size: 1rem;
+	font-weight: 600;
 }
 
 #dashboard-main .card-body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-grow: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-grow: 1;
 }
 
 #dashboard-main .card-body .main-number {
-    font-size: 3rem;
-    font-weight: 700;
-    color: var(--text-light);
+	font-size: 3rem;
+	font-weight: 700;
+	color: var(--text-light);
 }
 
-/* 3행: 3열 차트 */
 #dashboard-main .chart-row-3 {
-    display: flex;
-    flex-direction: row;
-    flex-grow: 1; 
-    min-height: 0;
-    gap: 0px;
+	display: flex;
+	flex-direction: row;
+	flex-grow: 1;
+	min-height: 0;
+	gap: 0px;
 }
 
-/* 공통 차트 래퍼 */
 #dashboard-main .chart {
-    background-color: var(--bg-sidebar);
-    padding: 20px;
-    border: 1px solid var(--border-color);
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    min-width: 0;
+	background-color: var(--bg-sidebar);
+	padding: 20px;
+	border: 1px solid var(--border-color);
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	min-width: 0;
 }
 
-/* 차트 헤더 */
 #dashboard-main .chart-header {
-    flex-shrink: 0;
-    margin-bottom: 15px;
-    text-align: center; 
+	flex-shrink: 0;
+	margin-bottom: 15px;
+	text-align: center;
 }
 
 #dashboard-main .chart-header h3 {
-    margin: 0;
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--text-light);
+	margin: 0;
+	font-size: 1.2rem;
+	font-weight: 600;
+	color: var(--text-light);
 }
 
-/* 차트 캔버스 영역 */
 #dashboard-main .chart-body {
-    flex-grow: 1;
-    position: relative;
-    min-height: 0;
+	flex-grow: 1;
+	position: relative;
+	min-height: 0;
 }
 
 #dashboard-main .chart canvas {
-    width: 100% !important;
-    height: 100% !important;
-    position: absolute;
-    left: 0;
-    top: 0;
+	width: 100% !important;
+	height: 100% !important;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+/* =========================================
+  데이터/통계 페이지 (stats-main)
+=========================================
+*/
+
+#stats-main {
+	display: flex;
+	flex-direction: column;
+	gap: 0px;
+	padding: 0px;
+	height: 100%;
+}
+
+/* 1. 조건 필터 영역 */
+#stats-main .stats-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 15px;
+	padding: 20px;
+	background-color: var(--bg-sidebar);
+	border: none;
+	border-bottom: 1px solid var(--border-color);
+	border-radius: 0px;
+	flex-shrink: 0;
+}
+
+#stats-main .filter-group {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+#stats-main .filter-group label {
+	font-size: 0.9rem;
+	color: var(--text-muted);
+	font-weight: 500;
+}
+
+#stats-main .form-control,
+#stats-main .form-select {
+	background-color: var(--bg-main);
+	color: var(--text-light);
+	border: 1px solid var(--border-color);
+	border-radius: 4px;
+	padding: 6px 10px;
+	font-size: 0.95rem;
+}
+
+#stats-main .form-control:focus,
+#stats-main .form-select:focus {
+	background-color: var(--bg-main);
+	color: var(--text-light);
+	border-color: var(--active-border);
+	box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.3);
+}
+
+/*  리포트(차트) 영역 */
+#stats-main .stats-report-area {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	background-color: var(--bg-sidebar);
+	border: none;
+	border-radius: 0px;
+	padding: 20px;
+	overflow-y: auto;
+	min-height: 0;
+}
+
+/* 스코어카드 래퍼 */
+#stats-main #stats-chart-container {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	gap: 20px;
+	width: 100%;
+	flex-grow: 1;
+}
+
+/* 처음 안내 문구 */
+#stats-main .stats-placeholder {
+	color: var(--text-muted);
+	font-size: 1.2rem;
+	text-align: center;
+	margin-top: 50px;
+	grid-column: 1 / -1;
+}
+
+/* 스코어카드 컬럼 */
+#stats-main .scorecard-column {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	background-color: var(--bg-main);
+	border: 1px solid var(--border-color);
+	border-radius: 4px;
+	padding: 15px;
+}
+
+#stats-main .scorecard-header {
+	text-align: center;
+	font-size: 1.5rem;
+	font-weight: 600;
+	padding-bottom: 10px;
+	border-bottom: 1px solid var(--border-color);
+	flex-shrink: 0;
+}
+
+#stats-main .scorecard-header.easy {
+	color: #00c853;
+}
+
+#stats-main .scorecard-header.normal {
+	color: #3d5afe;
+}
+
+#stats-main .scorecard-header.hard {
+	color: #d50000;
+}
+
+/* KPI 숫자 섹션 */
+#stats-main .kpi-section {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 10px;
+	text-align: center;
+	flex-shrink: 0;
+}
+
+#stats-main .kpi-box {
+	background-color: var(--bg-sidebar);
+	padding: 10px;
+	border-radius: 4px;
+}
+
+#stats-main .kpi-title {
+	font-size: 0.85rem;
+	color: var(--text-muted);
+	margin-bottom: 5px;
+}
+
+#stats-main .kpi-value {
+	font-size: 1.5rem;
+	font-weight: 500;
+	color: var(--text-light);
+}
+
+/* 차트 섹션 (남은 공간 채우기) */
+#stats-main .chart-section {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	flex-grow: 1;
+}
+
+#stats-main .stats-chart-wrapper {
+	position: relative;
+	width: 100%;
+	flex-grow: 1;
+	min-height: 150px;
 }

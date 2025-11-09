@@ -68,4 +68,88 @@
 		D."date" ASC
 	</select>
 
+	<select id="selectGameBalanceReport" resultType="java.util.Map"
+		parameterType="java.util.Map">
+		SELECT
+		LEVEL_NO AS "levelNo",
+		COUNT(*) AS "playCount",
+		COUNT(DISTINCT MEM_NO) AS "uniqueUsers",
+		AVG(CLEAR_TIME) AS "avgClearTime",
+		AVG(SCORE) AS "avgScore",
+		MAX(SCORE) AS "maxScore",
+		AVG(COMBO) AS "avgCombo",
+		MAX(COMBO) AS "maxCombo"
+		FROM
+		GAME_LOG
+		WHERE
+		START_TIME BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD')
+		AND TO_DATE(#{endDate}, 'YYYY-MM-DD') + 0.99999
+		GROUP BY
+		LEVEL_NO
+		ORDER BY
+		LEVEL_NO ASC
+	</select>
+
+	<select id="selectDailyActiveUsers" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		WITH DATES AS (
+		SELECT TRUNC(SYSDATE) - LEVEL + 1 AS "date"
+		FROM DUAL
+		CONNECT BY <![CDATA[ LEVEL <= #{days, jdbcType=INTEGER} ]]>
+		),
+		DAU AS (
+		SELECT
+		TRUNC(LOG_DATE) AS "log_day",
+		COUNT(DISTINCT MEM_NO) AS "user_count"
+		FROM GAME_LOG
+		WHERE LOG_DATE >= TRUNC(SYSDATE) - #{days, jdbcType=INTEGER} + 1
+		GROUP BY TRUNC(LOG_DATE)
+		)
+		SELECT
+		TO_CHAR(D."date", 'MM-DD') AS "LABEL",
+		NVL(DAU."user_count", 0) AS "VALUE"
+		FROM DATES D
+		LEFT JOIN DAU ON D."date" = DAU."log_day"
+		ORDER BY D."date" ASC
+	</select>
+
+	<select id="getTodayPlayCount" resultType="int">
+		SELECT COUNT(*) FROM GAME_LOG WHERE TRUNC(LOG_DATE) = TRUNC(SYSDATE)
+	</select>
+
+	<select id="getReturningUserTrend" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		WITH DATES AS (
+		SELECT TRUNC(SYSDATE) - LEVEL + 1 AS "date" FROM DUAL CONNECT BY <![CDATA[ LEVEL <= #{days, jdbcType=INTEGER} ]]>
+		),
+		RETURNING_USERS AS (
+		SELECT
+		TRUNC(G.LOG_DATE) AS "log_day",
+		COUNT(DISTINCT G.MEM_NO) AS "user_count"
+		FROM GAME_LOG G
+		JOIN MEMBER M ON G.MEM_NO = M.MEM_NO
+		WHERE G.LOG_DATE >= TRUNC(SYSDATE) - #{days, jdbcType=INTEGER} + 1
+		AND TRUNC(G.LOG_DATE) != TRUNC(M.CREATED_DATE)
+		GROUP BY TRUNC(G.LOG_DATE)
+		)
+		SELECT
+		TO_CHAR(D."date", 'MM-DD') AS "LABEL",
+		NVL(RU."user_count", 0) AS "VALUE"
+		FROM DATES D
+		LEFT JOIN RETURNING_USERS RU ON D."date" = RU."log_day"
+		ORDER BY D."date" ASC
+	</select>
+
+	<select id="getPlaytimeHeatmap" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		SELECT
+		TO_CHAR(LOG_DATE, 'DY') AS "DAY_OF_WEEK",
+		TO_CHAR(LOG_DATE, 'HH24') AS "HOUR_OF_DAY",
+		COUNT(*) AS "COUNT"
+		FROM GAME_LOG
+		WHERE LOG_DATE >= TRUNC(SYSDATE) - #{days, jdbcType=INTEGER} + 1
+		GROUP BY TO_CHAR(LOG_DATE, 'DY'), TO_CHAR(LOG_DATE, 'HH24')
+	</select>
+
+
 </mapper>
