@@ -17,11 +17,9 @@ body {
     justify-content: center;     /* 가로 가운데 */
     align-items: flex-start;     /* 위쪽 기준 배치, 필요 시 center로 바꾸면 세로도 가운데 */
     
-    background-color: #0a0c12;
-    background-image:
-        radial-gradient(120% 120% at 0% 0%, rgba(0,209,255,0.15), transparent 55%),
-        radial-gradient(120% 120% at 100% 0%, rgba(180,130,255,0.15), transparent 50%),
-        radial-gradient(120% 120% at 100% 100%, rgba(155,92,255,0.12), transparent 50%);
+	background-image: url('../../images/mypage/rankingPage_back2.png');
+	background-size: 107% 110%; /* 가로 100%, 세로는 비율 유지 */
+	background-repeat: no-repeat; /* 반복 방지 */
     background-attachment: fixed;
 }
 
@@ -44,14 +42,15 @@ body {
     
     display: flex;
     align-items: center;
-    gap: 5px;            
+    gap: 10px;            
     
     font-size: 15px;
     color: #fff;        
     
     z-index: 1000;       
-    
 }
+
+
 /*===우측 상단에 메인홈 이동  */
 .home-button-container {
     position: absolute;
@@ -104,12 +103,12 @@ body {
 
 /* 왼쪽 버튼 */
 .slide-btn.left {
-    left: calc(50% - 30% - 32px); /* 기존 구조 유지 */
+    left: calc(50% - 30% - -15px); /* 기존 구조 유지 */
 }
 
 /* 오른쪽 버튼 */
 .slide-btn.right {
-    left: calc(50% + 30% + 10px); /* 기존 구조 유지 */
+    left: calc(50% + 30% + -40px); /* 기존 구조 유지 */
 }
 
 /* hover 효과 */
@@ -136,12 +135,14 @@ body {
 
 /*========== 모든요소 포함한 메인 ======*/
 #rankingMain {
-	width: 60%;
+	width: 55%;
 	margin: 10vh auto 0 auto;   /* 위쪽만 띄우기 (viewport 높이 기준) */
 	height: 85vh;              /* 높이 100vh → 95vh로 줄여야 화면 넘침 방지 */
 	
 	display: flex;          /* flex 활성화 */
 	flex-direction: column;
+	
+	opacity: 0.95;
 }
 
 /* =================== 상단 css===============  */
@@ -176,27 +177,29 @@ body {
     height: 100%;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.7);
-    
-    background-color: #0a0c12;
-    background-image:
-        radial-gradient(120% 120% at 100% 100%, rgba(0,209,255,0.15), transparent 55%),
-        radial-gradient(120% 120% at 0% 100%, rgba(180,130,255,0.15), transparent 50%),
-        radial-gradient(120% 120% at 0% 0%, rgba(155,92,255,0.12), transparent 50%);
-    background-attachment: fixed;
+    background-color: rgba(255,255,255,0.1); /* 반투명 네온 느낌 */
+/*     background-color: #0a0c12; */
+/*     background-image: */
+/*         radial-gradient(120% 120% at 100% 100%, rgba(0,0,0,0.9), transparent 55%), */
+/*         radial-gradient(120% 120% at 100% 100%, rgba(0,0,0,0.9), transparent 55%), */
+/*         radial-gradient(120% 120% at 0% 0%, rgba(155,92,255,0.12), transparent 50%); */
+/*     background-attachment: fixed; */
 
     color: white;
     
  	display: flex;
     flex-direction: row;         /* ✅ 가로 정렬로 변경 */
-    justify-content: space-between; /* 항목 사이 간격 일정하게 */
+    justify-content: flex-start;; /* 항목 사이 간격 일정하게 */
+    
+    
     align-items: center;         /* 세로 가운데 정렬 */
     padding: 0 20px;             /* 좌우 여백 */
     text-align: center;          /* 텍스트 중앙 정렬 */
 
-    border: 1px solid rgba(255, 255, 255, 0.1); /* ← 거의 안 보이지만 은은한 경계감 */
-    gap: 10px; 
+    border: 1px solid #E79AEC; /* ← 거의 안 보이지만 은은한 경계감 */
+    gap: 5px; 
     
-    position: relative; /* ✅ 메달 위치 기준 */
+    position: relative;
 }
 
 
@@ -210,28 +213,23 @@ body {
     
 }
 
-/* 🥇 1등 */
-.rank-1 {
-    color: gold;
-    text-shadow: 0 0 5px rgba(255, 215, 0, 0.8);
-}
 
-/* 🥈 2등 */
-.rank-2 {
-    color: silver;
-    text-shadow: 0 0 4px rgba(192, 192, 192, 0.8);
-}
-
-/* 🥉 3등 */
-.rank-3 {
-    color: #cd7f32;
-    text-shadow: 0 0 3px rgba(205, 127, 50, 0.8);
-}
- 
 /* 1,2,3등 메달 */
-.ranking-card .rank-1 { color: gold; font-size:15px; }
-.ranking-card .rank-2 { color: silver; font-size:15px;}
-.ranking-card .rank-3 { color: #cd7f32; font-size:15px;}
+.ranking-card .rank-text.rank-1 { 
+    color: gold; 
+    text-shadow: 0 0 10px gold; 
+    font-size: 1.7rem; /* 상위 div의 폰트 사이즈를 여기에 다시 적용 */
+}
+.ranking-card .rank-text.rank-2 { 
+    color: silver; 
+    text-shadow: 0 0 8px silver; 
+    font-size: 1.7rem;
+}
+.ranking-card .rank-text.rank-3 { 
+    color: #cd7f32; 
+    text-shadow: 0 0 6px #cd7f32; 
+    font-size: 1.7rem;
+}
 
 
 /* ============랭커 박스 안(닉네임 아이디 콤보 등)에 글자============ */
@@ -267,13 +265,16 @@ body {
     display: flex;
     flex-direction: column; /* span 세로 정렬 */
     gap: 2px;               /* span 사이 간격 */
+    white-space: nowrap;    /* 줄바꿈 방지 */
+    overflow: hidden;       /* 넘치면 숨김 */
+    text-overflow: ellipsis; /* ... 처리 */
 }
 
 span.span1 {
     font-size: 10px;   
 }
 span.span2 {
-	font-size: 16px;   
+	font-size: 14px;   
 }
 
 /*=================== 중단 css=============== */
@@ -282,20 +283,22 @@ span.span2 {
   overflow-y: scroll; /* auto 말고 scroll이 안정적 */
   overflow-x: hidden;
   border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid #E79AEC;
   
-  background-color: #0a0c12;
-  background-image:
-    radial-gradient(120% 120% at 0% 0%, rgba(0,209,255,0.05), transparent 55%),
-    radial-gradient(120% 120% at 100% 0%, rgba(180,130,255,0.05), transparent 50%),
-    radial-gradient(120% 120% at 100% 100%, rgba(155,92,255,0.04), transparent 50%);
-  background-attachment: fixed;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.7);
+/*   background-color: #0a0c12; */
+/*   background-image: */
+/*     radial-gradient(120% 120% at 0% 0%, rgba(0,209,255,0.05), transparent 55%), */
+/*     radial-gradient(120% 120% at 100% 0%, rgba(180,130,255,0.05), transparent 50%), */
+/*     radial-gradient(120% 120% at 100% 100%, rgba(155,92,255,0.04), transparent 50%); */
+/*   background-attachment: fixed; */
+/*   box-shadow: 0 4px 20px rgba(0,0,0,0.7); */
 
-  -ms-overflow-style: none;  /* IE & Edge 구버전 */
-  scrollbar-width: none;     /* Firefox */
+
+   -ms-overflow-style: none;  /* IE & Edge 구버전 */
+   scrollbar-width: none;     /* Firefox */
   
    position: relative; /* 버튼 기준 */
+   margin-bottom: 10px;
 }
 
 #centerMain::-webkit-scrollbar {
@@ -309,6 +312,7 @@ span.span2 {
 	width: 500%;
 	display: flex;
   	transition: transform 0.5s ease;
+  	align-items: flex-start;
 }
 
 #centerWidth500 > div {
@@ -317,6 +321,8 @@ span.span2 {
   	display: flex;
   	flex-direction: column;
   	gap: 10px;
+  	
+
 }
 
 .ranking-item {
@@ -330,7 +336,7 @@ span.span2 {
     font-size: 14px;
     
     border-bottom: 1px solid rgba(255,255,255,0.1);
-    background-color: rgba(255,255,255,0.03); /* 반투명 네온 느낌 */
+    background-color: rgba(255,255,255,0.1); /* 반투명 네온 느낌 */
     color: #e0e0ff; /* 글자색 약간 밝은 블루톤 */
     font-weight: 500;
     border-radius: 6px;
@@ -338,8 +344,8 @@ span.span2 {
 }
 
 .ranking-item:hover {
-    background-color: rgba(0,209,255,0.1);
-    color: #00d1ff;
+    background-color: rgba(138, 43, 226, 0.1);
+    color: #8A2BE2;
 }
 
 .ranking-column {
@@ -381,7 +387,16 @@ span.span2 {
 #centerMain .ranking-item:nth-child(n+2) .ranking-column:first-child {
     font-size: 20px;   /* 순위 숫자 폰트 키우기 */
     font-weight: 550;  /* 굵게 */
+}
 
+.ranking-column:first-child {
+    color: yellow;
+    font-size: 20px;
+    font-weight: bold;
+}
+.ranking-column:last-child {
+    color:#A663F6;
+    font-weight: bold;
 }
 
 /* 커밍 순 */
@@ -403,6 +418,7 @@ span.span2 {
     align-items: center;
     justify-content: flex-center; /* 왼쪽 정렬 */
     padding-left: 45px;		/* 순위 부분 왼쪽 뛰움 */
+    background-color: #000000;
 }
 
 .ranking-column {
@@ -419,18 +435,19 @@ span.span2 {
 
 /* =================== 하단 css===============  */
 
+
 #bottomMain {
-    height: 15%;
+    border-radius: 10px;
+    height: 10%;
     display: flex;
     padding: 0;
     margin: 0;
     
-    background-color: #1a102f; /* 기본 어두운 바탕 */
-    background-image:
-        radial-gradient(120% 120% at 100% 100%, rgba(0,209,255,0.15), transparent 50%),
-        radial-gradient(120% 120% at 0% 100%, rgba(180,130,255,0.15), transparent 50%),
-        radial-gradient(120% 120% at 0% 0%, rgba(155,92,255,0.12), transparent 50%);
-    background-attachment: fixed; /* 스크롤해도 고정 */
+   
+    background-color: rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    
+/*     border: 1px solid red; */
     
 }
 
@@ -443,29 +460,31 @@ span.span2 {
     width: 100%;
     height: 100%;
 
-    color: #b39ddb;
+    color: white;
     font-family: 'KccAnchangho';
     font-size: 30px;      /* 기본 폰트 */
     font-weight: bold;
     cursor: pointer;
-    border: none;
+/* 	border: 1px solid #E79AEC;  */
+
     position: relative;
     overflow: hidden;
-    border-radius: 5px;
+/*     border-radius: 30px; */
 
-    background-color: #07080d;
-    background-image:
-        radial-gradient(120% 120% at 100% 100%, rgba(0, 180, 255, 0.04), transparent 60%),
-        radial-gradient(120% 120% at 0% 100%, rgba(150, 100, 255, 0.04), transparent 55%),
-        radial-gradient(120% 120% at 0% 0%, rgba(255, 0, 150, 0.03), transparent 50%);
+/*     background-color: #07080d; */
+/*     background-image: */
+/*         radial-gradient(120% 120% at 100% 100%, rgba(0, 180, 255, 0.04), transparent 60%), */
+/*         radial-gradient(120% 120% at 0% 100%, rgba(150, 100, 255, 0.04), transparent 55%), */
+/*         radial-gradient(120% 120% at 0% 0%, rgba(255, 0, 150, 0.03), transparent 50%); */
     background-attachment: fixed;
-
+	background-color: transparent;
     transition: transform 0.3s ease, color 0.3s ease; /* 글자 확대/축소만 부드럽게 */
+    letter-spacing: 3px;
 }
 
 /* 현재 슬라이드 버튼 강조 */
 #bottomMain button.active {
-    color: #00d1ff;
+    background-color: rgba(138, 43, 226, 0.3);
 }
 
 /* 4~50등 텍스트 */

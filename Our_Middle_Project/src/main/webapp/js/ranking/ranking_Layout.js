@@ -1,6 +1,6 @@
 // 메인페이지 이동
 function goHome() {
-    window.location.href = "gameHome.do"; 
+    window.location.href = "gameHome.do";
 }
 
 lucide.createIcons();
@@ -11,7 +11,7 @@ const numberColumns = document.querySelectorAll('.ranking-column.score, .ranking
 // 숫자에 콤마 추가
 numberColumns.forEach(col => {
     let value = col.textContent.trim();
-    if(!isNaN(value)) { // 숫자인 경우만
+    if (!isNaN(value) && value !== '') { // 숫자인 경우만 (빈 문자열 제외)
         col.textContent = Number(value).toLocaleString();
     }
 });
@@ -25,8 +25,9 @@ function randomInt(min, max) {
 
 // ================================================
 // 난이도 리스트 ID
-const difficultyIds = ['rankingList-1','rankingList-2','rankingList-3']; // eazy, normal, hard
+const difficultyIds = ['rankingList-1', 'rankingList-2', 'rankingList-3']; // eazy, normal, hard
 
+// **[중복 코드 제거됨]** 4등부터 100등까지 더미 데이터 생성 (기존 로직 유지)
 difficultyIds.forEach(listId => {
     const listDiv = document.getElementById(listId);
 
@@ -75,53 +76,7 @@ const totalSlides = buttons.length;
 let currentIndex = 0; // 현재 슬라이드 인덱스
 
 // ============================================
-// 슬라이드 이동 함수
-function moveSlide(index) {
-    if (index < 0) index = 0;
-    if (index >= totalSlides) index = totalSlides - 1;
-
-    currentIndex = index;
-    const offset = -20 * index; // 각 칸 20%
-    topSlide.style.transform = `translateX(${offset}%)`;
-    centerSlide.style.transform = `translateX(${offset}%)`;
-
-    // 좌/우 버튼 표시 여부
-    if(prevBtn) prevBtn.style.display = currentIndex === 0 ? 'none' : 'flex';
-    if(nextBtn) nextBtn.style.display = currentIndex === totalSlides - 1 ? 'none' : 'flex';
-}
-
-// ============================================
-// 난이도 버튼 이벤트 연결
-buttons.forEach((btnId, i) => {
-    const btn = document.getElementById(btnId);
-    if(btn) {
-        btn.addEventListener('click', () => moveSlide(i));
-    }
-});
-
-// ============================================
-// 양쪽 화살표 버튼 이벤트
-const prevBtn = document.getElementById('prevSlide');
-const nextBtn = document.getElementById('nextSlide');
-
-if(prevBtn) {
-    prevBtn.addEventListener('click', () => {
-        if(!prevBtn.classList.contains('disabled')) moveSlide(currentIndex - 1);
-    });
-}
-
-if(nextBtn) {
-    nextBtn.addEventListener('click', () => {
-        if(!nextBtn.classList.contains('disabled')) moveSlide(currentIndex + 1);
-    });
-}
-// ============================================
-// 초기 슬라이드 위치
-moveSlide(0);
-
-
-//======================================
-//하단 버튼 위치 시각적 표현
+// 슬라이드 이동 함수 (하단 버튼 active 및 화살표 disabled 로직 포함)
 function moveSlide(index) {
     if (index < 0) index = 0;
     if (index >= totalSlides) index = totalSlides - 1;
@@ -132,24 +87,56 @@ function moveSlide(index) {
     centerSlide.style.transform = `translateX(${offset}%)`;
 
     // 좌/우 버튼 disabled 처리
-    if(prevBtn) {
-        if(currentIndex === 0) prevBtn.classList.add('disabled');
+    const prevBtn = document.getElementById('prevSlide');
+    const nextBtn = document.getElementById('nextSlide');
+    
+    if (prevBtn) {
+        if (currentIndex === 0) prevBtn.classList.add('disabled');
         else prevBtn.classList.remove('disabled');
     }
-    if(nextBtn) {
-        if(currentIndex === totalSlides - 1) nextBtn.classList.add('disabled');
+    if (nextBtn) {
+        if (currentIndex === totalSlides - 1) nextBtn.classList.add('disabled');
         else nextBtn.classList.remove('disabled');
     }
 
     // 하단 버튼 active 표시
     buttons.forEach((btnId, i) => {
         const btn = document.getElementById(btnId);
-        if(btn) {
-            if(i === currentIndex) btn.classList.add('active');
+        if (btn) {
+            if (i === currentIndex) btn.classList.add('active');
             else btn.classList.remove('active');
         }
     });
 }
+
+// ============================================
+// 난이도 버튼 이벤트 연결
+buttons.forEach((btnId, i) => {
+    const btn = document.getElementById(btnId);
+    if (btn) {
+        btn.addEventListener('click', () => moveSlide(i));
+    }
+});
+
+// ============================================
+// 양쪽 화살표 버튼 이벤트
+const prevBtn = document.getElementById('prevSlide');
+const nextBtn = document.getElementById('nextSlide');
+
+if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+        if (!prevBtn.classList.contains('disabled')) moveSlide(currentIndex - 1);
+    });
+}
+
+if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+        if (!nextBtn.classList.contains('disabled')) moveSlide(currentIndex + 1);
+    });
+}
+// ============================================
+// 초기 슬라이드 위치
+moveSlide(0);
 
 
 //======================================
@@ -158,132 +145,72 @@ document.querySelectorAll('#rankingList-4, #rankingList-5').forEach(el => {
     el.textContent = 'COMING SOON';
 });
 
-//======================================
-// easyRanking 1~3등
-for (let i = 0; i <= 2; i++) {
-    const data = easyRanking[i];
-    const rankId = `#rankingTop${i + 1}-1`; // easy 1~3등은 -1
+// ================================================
+// **[통합 함수]** 난이도별 랭킹 데이터 처리 함수 (1~3등 상단 및 4~50등 목록)
+function updateRankingData(rankingData, difficultyIndex) {
+    const listId = difficultyIndex + 1; // 1: easy, 2: normal, 3: hard
+    const listDiv = document.getElementById(`rankingList-${listId}`);
 
-    // nickname
-    document.querySelector(`${rankId} .ranking-column.nickname .span2`).textContent = data.nickname;
-    // mem_id
-    document.querySelector(`${rankId} .ranking-column.userId .span2`).textContent = data.mem_id;
-    // combo
-    document.querySelector(`${rankId} .ranking-column.combo .span2`).textContent = data.combo;
-    // clear_time
-    document.querySelector(`${rankId} .ranking-column.time .span2`).textContent = data.clear_time + "초";
-    // score_best
-    document.querySelector(`${rankId} .ranking-column.score`).textContent = data.score_best;
+    // --- 1. 상단 1~3등 데이터 바인딩 ---
+    for (let i = 0; i < 3; i++) {
+        const data = rankingData[i];
+        if (!data) continue; // 데이터가 3개 미만일 경우 처리
+
+        const rankId = `#rankingTop${i + 1}-${listId}`;
+        const rankElement = document.querySelector(rankId);
+
+        if (rankElement) {
+            // nickname
+            rankElement.querySelector('.ranking-column.nickname .span2').textContent = data.nickname;
+            // mem_id
+            rankElement.querySelector('.ranking-column.userId .span2').textContent = data.mem_id;
+            // combo
+            rankElement.querySelector('.ranking-column.combo .span2').textContent = Number(data.combo).toLocaleString();
+            // clear_time
+            rankElement.querySelector('.ranking-column.time .span2').textContent = data.clear_time + "초";
+            // score_best
+            // score에 콤마 추가 적용을 위해 toLocaleString 사용
+            rankElement.querySelector('.ranking-column.score').textContent = Number(data.score_best).toLocaleString();
+        }
+    }
+
+    // --- 2. 4~50등 목록 데이터 바인딩 ---
+    // 헤더 유지 (중앙 리스트에서)
+    const header = listDiv.querySelector('.ranking-header');
+    
+    // 4등 이상부터 생성할 것이므로, 더미 데이터는 이미 위에서 생성되었지만,
+    // 실제 데이터로 덮어쓰기 위해 다시 초기화 (헤더만 남김)
+    listDiv.innerHTML = '';
+    listDiv.appendChild(header);
+
+    // 실제 데이터 4등(인덱스 3)부터 50등까지 표시
+    for (let i = 3; i < Math.min(50, rankingData.length); i++) {
+        const data = rankingData[i];
+
+        const item = document.createElement('div');
+        item.classList.add('ranking-item');
+
+        item.innerHTML = `
+            <div class="ranking-column-main-1">#${i + 1}</div>
+            <div class="ranking-column-main-2">${data.nickname}</div>
+            <div class="ranking-column-main-3">${data.mem_id}</div>
+            <div class="ranking-column-main-4">${Number(data.combo).toLocaleString()}</div>
+            <div class="ranking-column-main-5">${data.clear_time}초</div>
+            <div class="ranking-column-main-6">${Number(data.score_best).toLocaleString()}</div>
+        `;
+
+        listDiv.appendChild(item);
+    }
 }
-// NORMAL
-for (let i = 0; i <= 2; i++) {
-    const data = normalRanking[i];
-    const rankId = `#rankingTop${i + 1}-2`; // normal 1~3등
-    document.querySelector(`${rankId} .ranking-column.nickname .span2`).textContent = data.nickname;
-    document.querySelector(`${rankId} .ranking-column.userId .span2`).textContent = data.mem_id;
-    document.querySelector(`${rankId} .ranking-column.combo .span2`).textContent = data.combo;
-    document.querySelector(`${rankId} .ranking-column.time .span2`).textContent = data.clear_time + "초";
-    document.querySelector(`${rankId} .ranking-column.score`).textContent = data.score_best;
-}
-// HARD
-for (let i = 0; i <= 2; i++) {
-    const data = hardRanking[i];
-    const rankId = `#rankingTop${i + 1}-3`; // hard 1~3등
-    document.querySelector(`${rankId} .ranking-column.nickname .span2`).textContent = data.nickname;
-    document.querySelector(`${rankId} .ranking-column.userId .span2`).textContent = data.mem_id;
-    document.querySelector(`${rankId} .ranking-column.combo .span2`).textContent = data.combo;
-    document.querySelector(`${rankId} .ranking-column.time .span2`).textContent = data.clear_time + "초";
-    document.querySelector(`${rankId} .ranking-column.score`).textContent = data.score_best;
-}
 
 
-//=======================================easy 4~50===================
-const easyRankingData = easyRanking; 
+// **[통합된 함수 호출]**
 
-const easyListDiv = document.getElementById('rankingList-1');
+// easyRanking
+updateRankingData(easyRanking, 0);
 
-// 헤더 유지
-const header = easyListDiv.querySelector('.ranking-header');
+// normalRanking
+updateRankingData(normalRanking, 1);
 
-// 기존 내용 초기화 후 헤더만 남김
-easyListDiv.innerHTML = '';
-easyListDiv.appendChild(header);
-
-// 실제 데이터 1~50등 표시
-for (let i = 3; i < Math.min(50, easyRankingData.length); i++) {
-    const data = easyRankingData[i];
-
-    const item = document.createElement('div');
-    item.classList.add('ranking-item');
-
-    item.innerHTML = `
-        <div class="ranking-column-main-1">#${i + 1}</div>
-        <div class="ranking-column-main-2">${data.nickname}</div>
-        <div class="ranking-column-main-3">${data.mem_id}</div>
-        <div class="ranking-column-main-4">${data.combo}</div>
-        <div class="ranking-column-main-5">${data.clear_time}초</div>
-        <div class="ranking-column-main-6">${data.score_best}</div>
-    `;
-
-    easyListDiv.appendChild(item);
-}
-// =============================normal 4~50등=======================
-const normalRankingData = normalRanking;
-
-const normalListDiv = document.getElementById('rankingList-2');
-
-// 헤더 유지
-const headerNormal = normalListDiv.querySelector('.ranking-header');
-
-// 기존 내용 초기화 후 헤더만 남김
-normalListDiv.innerHTML = '';
-normalListDiv.appendChild(headerNormal);
-
-
-for (let i = 3; i < Math.min(50, normalRankingData.length); i++) {
-    const data = normalRankingData[i];
-
-    const item = document.createElement('div');
-    item.classList.add('ranking-item');
-
-    item.innerHTML = `
-        <div class="ranking-column-main-1">#${i + 1}</div>
-        <div class="ranking-column-main-2">${data.nickname}</div>
-        <div class="ranking-column-main-3">${data.mem_id}</div>
-        <div class="ranking-column-main-4">${data.combo}</div>
-        <div class="ranking-column-main-5">${data.clear_time}초</div>
-        <div class="ranking-column-main-6">${data.score_best}</div>
-    `;
-
-    normalListDiv.appendChild(item);
-}
-// =============================hard 4~50등=======================
-const hardRankingData = hardRanking; // 이미 JSP에서 선언된 변수
-
-const hardListDiv = document.getElementById('rankingList-3');
-
-// 헤더 유지
-const headerHard = hardListDiv.querySelector('.ranking-header');
-
-// 기존 내용 초기화 후 헤더만 남김
-hardListDiv.innerHTML = '';
-hardListDiv.appendChild(headerHard);
-
-
-for (let i = 3; i < Math.min(50, hardRankingData.length); i++) {
-    const data = hardRankingData[i];
-
-    const item = document.createElement('div');
-    item.classList.add('ranking-item');
-
-    item.innerHTML = `
-        <div class="ranking-column-main-1">#${i + 1}</div>
-        <div class="ranking-column-main-2">${data.nickname}</div>
-        <div class="ranking-column-main-3">${data.mem_id}</div>
-        <div class="ranking-column-main-4">${data.combo}</div>
-        <div class="ranking-column-main-5">${data.clear_time}초</div>
-        <div class="ranking-column-main-6">${data.score_best}</div>
-    `;
-
-    hardListDiv.appendChild(item);
-}
+// hardRanking
+updateRankingData(hardRanking, 2);

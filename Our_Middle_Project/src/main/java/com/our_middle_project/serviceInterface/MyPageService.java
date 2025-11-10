@@ -14,4 +14,8 @@ public interface MyPageService {
 
 	List<GameLogDTO> getMyGameLogData(UserInfoDTO loingUser);
 
+	boolean deleteMember(String mem_id, String inputPw);
+
+	boolean updateMember(String mem_id, String nickname, String password, String hp, String mail);
+
 }

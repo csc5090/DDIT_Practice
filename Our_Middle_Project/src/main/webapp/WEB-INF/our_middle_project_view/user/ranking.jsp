@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>    
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,9 +36,9 @@
    
    <div id="nickname">
       <span class="nick">
-         <c:out value="${sessionScope.loginUser.mem_id}" />
+     	 <c:out value="${sessionScope.loginUser.nickname}#${sessionScope.loginUser.mem_id}님" />
       </span>
-      <span class="hi">님 안녕하세요</span>
+      <span class="hi">안녕하세요</span>
    </div>
    
       <div class="home-button-container">
@@ -61,7 +62,7 @@
                   <!-- 이지1등 -->
                   <div id="rankingTop1-1"  class="ranking-card">
                          <div class="ranking-column rank-1">
-                            <span class="rank-text">1st • TOP 1</span>
+                            <span class="rank-text rank-1">1st • TOP 1</span>
                          </div>
                          <div class="ranking-column nickname">
                              <span class="span1">닉네임</span>
@@ -84,7 +85,7 @@
                   <!-- 이지2등 -->
                   <div id="rankingTop2-1" class="ranking-card">
                          <div class="ranking-column rank-2">
-                            <span class="rank-text">2nd • TOP 2</span>
+                            <span class="rank-text rank-2">2nd • TOP 2</span>
                          </div>
                          <div class="ranking-column nickname">
                              <span class="span1">닉네임</span>
@@ -107,7 +108,7 @@
                   <!-- 이지3등 -->
                   <div id="rankingTop3-1" class="ranking-card"> 
                          <div class="ranking-column rank-3">
-                            <span class="rank-text">3rd • TOP 3</span>
+                            <span class="rank-text rank-3">3rd • TOP 3</span>
                          </div>
                          <div class="ranking-column nickname">
                              <span class="span1">닉네임</span>
@@ -134,7 +135,7 @@
                   <!-- 노멀1등 -->
                   <div id="rankingTop1-2"  class="ranking-card"> 
                          <div class="ranking-column rank-1">
-                            <span class="rank-text">1st • TOP 1</span>
+                            <span class="rank-text rank-1">1st • TOP 1</span>
                          </div>
                         <div class="ranking-column nickname">
                              <span class="span1">닉네임</span>
@@ -157,7 +158,7 @@
                   <!-- 노멀2등 -->
                   <div id="rankingTop2-2" class="ranking-card">
                          <div class="ranking-column rank-2">
-                            <span class="rank-text">2nd • TOP 2</span>
+                            <span class="rank-text rank-2">2nd • TOP 2</span>
                          </div>
                         <div class="ranking-column nickname">
                              <span class="span1">닉네임</span>
@@ -180,7 +181,7 @@
                   <!-- 노멀3등 -->
                   <div id="rankingTop3-2" class="ranking-card"> 
                          <div class="ranking-column rank-3">
-                            <span class="rank-text">3rd • TOP 3</span>
+                            <span class="rank-text rank-3">3rd • TOP 3</span>
                          </div>
                          <div class="ranking-column nickname">
                              <span class="span1">닉네임</span>
@@ -207,7 +208,7 @@
                   <!-- 하드1등 -->
                   <div id="rankingTop1-3"  class="ranking-card"> 
                          <div class="ranking-column rank-1">
-                            <span class="rank-text">1st • TOP 1</span>
+                            <span class="rank-text rank-1">1st • TOP 1</span>
                          </div>
                          <div class="ranking-column nickname">
                              <span class="span1">닉네임</span>
@@ -230,7 +231,7 @@
                   <!-- 하드2등 -->
                   <div id="rankingTop2-3" class="ranking-card">
                          <div class="ranking-column rank-2">
-                            <span class="rank-text">2nd • TOP 2</span>
+                            <span class="rank-text rank-2">2nd • TOP 2</span>
                          </div>
                          <div class="ranking-column nickname">
                              <span class="span1">닉네임</span>
@@ -253,7 +254,7 @@
                   <!-- 하드3등 -->
                   <div id="rankingTop3-3" class="ranking-card"> 
                          <div class="ranking-column rank-3">
-                            <span class="rank-text">3rd • TOP 3</span>
+                            <span class="rank-text rank-3">3rd • TOP 3</span>
                          </div>
                          <div class="ranking-column nickname">
                              <span class="span1">닉네임</span>
@@ -408,19 +409,19 @@
          <div id="bottomMain">
             
             <div id="navArea-1">
-               <button id="btnEasy">easy</button>
+               <button id="btnEasy">EAZY</button>
             </div>
             <div id="navArea-2">
-               <button id="btnNormal">normal</button>
+               <button id="btnNormal">NORMAL</button>
             </div>
             <div id="navArea-3">
-               <button id="btnHard">hard</button>
+               <button id="btnHard">HARD</button>
             </div>
             <div id="navArea-4">
-               <button id="btnVs">vs</button>
+               <button id="btnVs">VS</button>
             </div>
             <div id="navArea-5">
-               <button id="btnTotal">total</button>
+               <button id="btnTotal">TOTAL</button>
             </div>
          
          </div>

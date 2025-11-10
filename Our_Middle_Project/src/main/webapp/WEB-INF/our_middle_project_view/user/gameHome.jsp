@@ -33,7 +33,7 @@
 		
 			<div id="nickname">
 				<span class="nick">
-					<c:out value="${sessionScope.loginUser.mem_id}님" />
+					<c:out value="${sessionScope.loginUser.nickname}#${sessionScope.loginUser.mem_id}님" />
 				</span>
 				<span class="hi">안녕하세요</span>
 			</div>

@@ -28,7 +28,7 @@ public class RankingController implements Action {
         List<RankingDTO> easyList = new ArrayList<>();
         List<RankingDTO> normalList = new ArrayList<>();
         List<RankingDTO> hardList = new ArrayList<>();
-        
+            
         for(int i=0 ; i<rankingList.size() ; i++) {
         	
         	int lv_no = rankingList.get(i).getLevel_no();

@@ -67,6 +67,31 @@
 		)
 		WHERE ROWNUM <![CDATA[ <= ]]> 20
 	</select>
+	
+	<select id="getPasswordByMemId" resultType="map">
+	    SELECT MEM_PASS, SALT
+	    FROM MEMBER
+	    WHERE MEM_ID = #{memId}
+	</select>
+	
+	<update id="updateStatusToDeleted">
+	    UPDATE MEMBER
+	    SET STATUS = 'DELETED'
+	    WHERE MEM_ID = #{memId}
+	</update>
+	
+	<update id="updateMemberInfo">
+	    UPDATE MEMBER
+	    <set>
+	        NICKNAME = #{nickname},
+	        MEM_HP = #{hp},
+	        MEM_MAIL = #{mail}
+	        <if test="mem_pass != null">
+	            , MEM_PASS = #{mem_pass}
+	        </if>
+	    </set>
+	    WHERE MEM_ID = #{memId}
+</update>
 
 </mapper>
 

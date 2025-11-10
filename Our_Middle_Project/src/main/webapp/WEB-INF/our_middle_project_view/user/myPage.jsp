@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>   
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -12,14 +13,6 @@
 	<!-- 폰트 -->
 	<link rel="stylesheet" href="./css/fonts.css">
 	
-	<!-- 부트스트랩 -->
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/js/lib/bootstrap/css/bootstrap.min.css">
-	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/bootstrap/js/bootstrap.min.js"></script>
-	
-	<!-- 스위트어럴트2 -->
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/js/lib/sweetalert2/dist/sweetalert2.min.css">
-	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/sweetalert2/dist/sweetalert2.min.js"></script>
-	
 	<!-- jquery -->
 	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/jquery/jquery-3.7.1.min.js"></script>
 	
@@ -28,7 +21,15 @@
 	
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/myPage/myPage.css">
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/fonts.css">
+	
+	<!-- 부트스트랩 -->
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/js/lib/bootstrap/css/bootstrap.min.css">
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/bootstrap/js/bootstrap.min.js"></script>
 
+	<!-- 스위트어럴트2 -->
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/js/lib/sweetalert2/dist/sweetalert2.min.css">
+	<script type="text/javascript" src="<%=request.getContextPath()%>/js/lib/sweetalert2/dist/sweetalert2.min.js"></script>
+	
 </head>
 <body>
 
@@ -37,9 +38,9 @@
 		<div class="my-main-header">
 			<div class="my-logo">MyLogo</div>
 			<div class="my-header-menu">
-				<div data-text="게임하러가기" data-hover="PLAY GAME"></div>
-				<div data-text="게시판가기" data-hover="BOARD"></div>
-				<div data-text="로그아웃" data-hover="LOGOUT"></div>
+				<div data-text="돌아가기" data-hover="GAME HOME" onclick="location.href='gameHome.do'"></div>
+				<div data-text="게시판가기" data-hover="BOARD" onclick="location.href='board.do'"></div>
+				<div data-text="로그아웃" data-hover="LOGOUT" onclick="location.href='login.do'"></div>
 			</div>
 		</div>
 
@@ -83,37 +84,37 @@
 						</div>
 						<div class="my-game-info-row">
 							<span>점수</span>
-							<span>8200</span>
+							<span>${sessionScope.MyPage_RankingDataNormal.score_best}</span>
 						</div>
 						<div class="my-game-info-row">
 							<span>클리어타임</span>
-							<span>05:10</span>
+							<span>${sessionScope.MyPage_RankingDataNormal.clear_time}</span>
 						</div>
 						<div class="my-game-info-row">
 							<span>콤보</span>
-							<span>78</span>
+							<span>${sessionScope.MyPage_RankingDataNormal.combo}</span>
 						</div>
 					</div>
 					<div class="my-game-card">
 						<div class="my-game-info-head">
 							<span>Easy Mode</span>
-							<span>12등</span>
+							<span>${sessionScope.MyPage_RankingDataEasy.rank}등</span>
 						</div>
 						<div class="my-game-info-row">
 							<span>일자</span>
-							<span>2025-11-05</span>
+							<span>${fn:substring(sessionScope.MyPage_RankingDataEasy.played_last_date, 0, 10)}</span>
 						</div>
 						<div class="my-game-info-row">
 							<span>점수</span>
-							<span>8200</span>
+							<span>${sessionScope.MyPage_RankingDataEasy.score_best}</span>
 						</div>
 						<div class="my-game-info-row">
 							<span>클리어타임</span>
-							<span>05:10</span>
+							<span>${sessionScope.MyPage_RankingDataEasy.clear_time}</span>
 						</div>
 						<div class="my-game-info-row">
 							<span>콤보</span>
-							<span>78</span>
+							<span>${sessionScope.MyPage_RankingDataEasy.combo}</span>
 						</div>
 					</div>
 				</div>
@@ -121,262 +122,44 @@
 
 			<!-- 중앙: 최근 30게임 -->
 			<div class="my-panel my-middle-panel">
-				<div class="my-panel-header">
-					<span>Recent Game</span>
-				</div>
-				<div class="my-panel-content">
-					<div class="my-recent-header">
-						<div>번호</div>
-						<div>난이도</div>
-						<div>일자</div>
-						<div>점수</div>
-						<div>클리어타임</div>
-						<div>콤보</div>
-					</div>
-					<div class="my-recent-games">
-						<div class="my-recent-row">
-							<div>1</div>
-							<div>하</div>
-							<div>2025-11-01</div>
-							<div>9000</div>
-							<div>04:10</div>
-							<div>75</div>
-						</div>
-						<div class="my-recent-row">
-							<div>2</div>
-							<div>중</div>
-							<div>2025-11-01</div>
-							<div>8500</div>
-							<div>04:50</div>
-							<div>60</div>
-						</div>
-						<div class="my-recent-row">
-							<div>3</div>
-							<div>상</div>
-							<div>2025-11-02</div>
-							<div>7800</div>
-							<div>05:20</div>
-							<div>50</div>
-						</div>
-						<div class="my-recent-row">
-							<div>4</div>
-							<div>하</div>
-							<div>2025-11-02</div>
-							<div>9100</div>
-							<div>03:50</div>
-							<div>80</div>
-						</div>
-						<div class="my-recent-row">
-							<div>5</div>
-							<div>중</div>
-							<div>2025-11-03</div>
-							<div>8600</div>
-							<div>04:30</div>
-							<div>65</div>
-						</div>
-						<div class="my-recent-row">
-							<div>6</div>
-							<div>상</div>
-							<div>2025-11-03</div>
-							<div>7900</div>
-							<div>05:10</div>
-							<div>55</div>
-						</div>
-						<div class="my-recent-row">
-							<div>7</div>
-							<div>하</div>
-							<div>2025-11-04</div>
-							<div>9200</div>
-							<div>03:45</div>
-							<div>85</div>
-						</div>
-						<div class="my-recent-row">
-							<div>8</div>
-							<div>중</div>
-							<div>2025-11-04</div>
-							<div>8700</div>
-							<div>04:20</div>
-							<div>70</div>
-						</div>
-						<div class="my-recent-row">
-							<div>9</div>
-							<div>상</div>
-							<div>2025-11-05</div>
-							<div>8000</div>
-							<div>05:05</div>
-							<div>60</div>
-						</div>
-						<div class="my-recent-row">
-							<div>10</div>
-							<div>하</div>
-							<div>2025-11-05</div>
-							<div>9300</div>
-							<div>03:40</div>
-							<div>90</div>
-						</div>
-						<div class="my-recent-row">
-							<div>11</div>
-							<div>중</div>
-							<div>2025-11-06</div>
-							<div>8800</div>
-							<div>04:15</div>
-							<div>68</div>
-						</div>
-						<div class="my-recent-row">
-							<div>12</div>
-							<div>상</div>
-							<div>2025-11-06</div>
-							<div>8100</div>
-							<div>05:00</div>
-							<div>58</div>
-						</div>
-						<div class="my-recent-row">
-							<div>13</div>
-							<div>하</div>
-							<div>2025-11-07</div>
-							<div>9400</div>
-							<div>03:35</div>
-							<div>95</div>
-						</div>
-						<div class="my-recent-row">
-							<div>14</div>
-							<div>중</div>
-							<div>2025-11-07</div>
-							<div>8900</div>
-							<div>04:05</div>
-							<div>72</div>
-						</div>
-						<div class="my-recent-row">
-							<div>15</div>
-							<div>상</div>
-							<div>2025-11-08</div>
-							<div>8200</div>
-							<div>05:10</div>
-							<div>60</div>
-						</div>
-						<div class="my-recent-row">
-							<div>16</div>
-							<div>하</div>
-							<div>2025-11-08</div>
-							<div>9500</div>
-							<div>03:30</div>
-							<div>100</div>
-						</div>
-						<div class="my-recent-row">
-							<div>17</div>
-							<div>중</div>
-							<div>2025-11-09</div>
-							<div>8700</div>
-							<div>04:25</div>
-							<div>70</div>
-						</div>
-						<div class="my-recent-row">
-							<div>18</div>
-							<div>상</div>
-							<div>2025-11-09</div>
-							<div>8300</div>
-							<div>05:05</div>
-							<div>62</div>
-						</div>
-						<div class="my-recent-row">
-							<div>19</div>
-							<div>하</div>
-							<div>2025-11-10</div>
-							<div>9600</div>
-							<div>03:25</div>
-							<div>105</div>
-						</div>
-						<div class="my-recent-row">
-							<div>20</div>
-							<div>중</div>
-							<div>2025-11-10</div>
-							<div>8800</div>
-							<div>04:00</div>
-							<div>75</div>
-						</div>
-						<div class="my-recent-row">
-							<div>21</div>
-							<div>상</div>
-							<div>2025-11-11</div>
-							<div>8400</div>
-							<div>05:15</div>
-							<div>64</div>
-						</div>
-						<div class="my-recent-row">
-							<div>22</div>
-							<div>하</div>
-							<div>2025-11-11</div>
-							<div>9700</div>
-							<div>03:20</div>
-							<div>110</div>
-						</div>
-						<div class="my-recent-row">
-							<div>23</div>
-							<div>중</div>
-							<div>2025-11-12</div>
-							<div>8900</div>
-							<div>04:10</div>
-							<div>78</div>
-						</div>
-						<div class="my-recent-row">
-							<div>24</div>
-							<div>상</div>
-							<div>2025-11-12</div>
-							<div>8500</div>
-							<div>05:05</div>
-							<div>66</div>
-						</div>
-						<div class="my-recent-row">
-							<div>25</div>
-							<div>하</div>
-							<div>2025-11-13</div>
-							<div>9800</div>
-							<div>03:15</div>
-							<div>115</div>
-						</div>
-						<div class="my-recent-row">
-							<div>26</div>
-							<div>중</div>
-							<div>2025-11-13</div>
-							<div>8900</div>
-							<div>04:00</div>
-							<div>80</div>
-						</div>
-						<div class="my-recent-row">
-							<div>27</div>
-							<div>상</div>
-							<div>2025-11-14</div>
-							<div>8600</div>
-							<div>05:20</div>
-							<div>70</div>
-						</div>
-						<div class="my-recent-row">
-							<div>28</div>
-							<div>하</div>
-							<div>2025-11-14</div>
-							<div>9900</div>
-							<div>03:10</div>
-							<div>120</div>
-						</div>
-						<div class="my-recent-row">
-							<div>29</div>
-							<div>중</div>
-							<div>2025-11-15</div>
-							<div>9000</div>
-							<div>04:05</div>
-							<div>82</div>
-						</div>
-						<div class="my-recent-row">
-							<div>30</div>
-							<div>상</div>
-							<div>2025-11-15</div>
-							<div>8700</div>
-							<div>05:10</div>
-							<div>68</div>
-						</div>
-					</div>
-				</div>
+			    <div class="my-panel-header">
+			        <span>Recent Game</span>
+			    </div>
+			    <div class="my-panel-content">
+			        <div class="my-recent-header">
+			            <div>번호</div>
+			            <div>난이도</div>
+			            <div>일자</div>
+			            <div>점수</div>
+			            <div>클리어타임</div>
+			            <div>콤보</div>
+			        </div>
+			
+			        <div class="my-recent-games">
+			
+			            <c:forEach var="log" items="${sessionScope.MyPage_GameLogData}" varStatus="status">
+			                <c:if test="${status.index < 30}">
+			                    <div class="my-recent-row">
+			                        <div>${status.index + 1}</div>
+			                        <div>
+			                            <c:choose>
+			                                <c:when test="${log.levelNo == 3}">상</c:when>
+			                                <c:when test="${log.levelNo == 2}">중</c:when>
+			                                <c:when test="${log.levelNo == 1}">하</c:when>
+			                            </c:choose>
+			                        </div>
+			                        <div>${log.startTimeStr}</div>
+			                        <div>${log.score}</div>
+			                        <div>${log.clearTime}</div>
+			                        <div>${log.combo}</div>
+			                    </div>
+			                </c:if>
+			            </c:forEach>
+			
+			        </div>
+			    </div>
 			</div>
+
 
 
 			<!-- 오른쪽: 나의 정보 -->
@@ -395,16 +178,18 @@
 									<input type="text" value="${sessionScope.MyPage_UserData.mem_id}" readonly>
 								</div>
 								<div class="my-info-item">
-									<label>닉네임</label>
-									<input type="text" value="${sessionScope.MyPage_UserData.nickname}">
+								    <label>닉네임</label>
+								    <input type="text" id="updateNickname" value="${sessionScope.MyPage_UserData.nickname}">
 								</div>
 							</div>
 							<div class="my-group-col">
 								<div class="my-info-item">
-									<label>비밀번호 변경</label><input type="password" placeholder="새 비밀번호 입력">
+								    <label>비밀번호 변경</label>
+								    <input type="password" id="updatePassword" placeholder="새 비밀번호 입력">
 								</div>
 								<div class="my-info-item">
-									<label>변경 확인</label><input type="password" placeholder="새 비밀번호 입력 확인">
+								    <label>변경 확인</label>
+								    <input type="password" id="updatePasswordConfirm" placeholder="새 비밀번호 입력 확인">
 								</div>
 							</div>
 						</div>
@@ -413,7 +198,7 @@
 						<div class="my-info-group">
 							<div class="my-group-col">
 								<div class="my-info-item">
-									<label>실제 이름</label>
+									<label>이름</label>
 									<input type="text" value="${sessionScope.MyPage_UserData.mem_name}" readonly>
 								</div>
 								<div class="my-info-item">
@@ -436,14 +221,15 @@
 						<div class="my-info-group">
 							<div class="my-group-col">
 								<div class="my-info-item">
-									<label>핸드폰번호</label>
-									<input type="tel" value="${sessionScope.MyPage_UserData.mem_hp}">
+								    <label>핸드폰번호</label>
+								    <input type="text" id="updateHp" value="${sessionScope.MyPage_UserData.mem_hp}"
+								    					 maxlength="13">
 								</div>
 							</div>
 							<div class="my-group-col">
 								<div class="my-info-item">
-									<label>메일</label>
-									<input type="email" value="${sessionScope.MyPage_UserData.mem_mail}">
+								    <label>메일</label>
+								    <input type="email" id="updateMail" value="${sessionScope.MyPage_UserData.mem_mail}">
 								</div>
 							</div>
 						</div>
@@ -472,22 +258,203 @@
 						</div>
 					</div>
 
-					<!-- ✅ 새로 분리된 가입일자 섹션 -->
 					<div class="my-join-section">
 						<div class="my-join-row">
 							<span class="my-join-label">Join Day</span>
-							<span class="my-join-text">${sessionScope.MyPage_UserData.create_date}</span>
+							<span class="my-join-text">${fn:substring(sessionScope.MyPage_UserData.create_date, 0, 10)}</span>
 						</div>
 					</div>
 
 					<div class="my-info-footer">
-						<button type="button">탈퇴</button>
-						<button type="button">변경</button>
+					    <button type="button" onclick="sendDelete()">탈퇴</button>
+					    <button type="button" onclick="updateUserInfo()">변경</button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
+
+	<script>
+	document.querySelectorAll('.my-game-card').forEach(card => {
+	    card.style.cursor = 'pointer'; // 마우스 커서가 손가락 모양으로
+	    card.addEventListener('click', () => {
+	      location.href = 'ranking.do';
+	    });
+	  });
+	
+	function sendDelete() {
+		Swal.fire({
+		    title: '정말 탈퇴 하시겠습니까?',
+		    input: 'password',
+		    inputLabel: '비밀번호를 입력해주세요',
+		    inputPlaceholder: '비밀번호',
+		    showCancelButton: true,
+		    confirmButtonText: '확인',
+		    cancelButtonText: '취소',
+		    allowOutsideClick: false,
+		    backdrop: false // 아예 배경 제거
+	        
+	    }).then((result) => {
+	        if (result.isConfirmed) {
+	            const pw = result.value;
+	            fetch('myPageDelete.do', {
+	                method: 'POST',
+	                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+	                body: 'password=' + encodeURIComponent(pw)
+	            })
+	            .then(res => res.text())
+	            .then(msg => {
+	                if (msg === 'OK') {
+	                    Swal.fire({
+	                        icon: 'success',
+	                        title: '탈퇴 완료',
+	                        showConfirmButton: true,
+	                        backdrop: false
+	                    }).then(() => {
+	                        location.href = 'login.do';
+	                    });
+	                } else {
+	                    Swal.fire({
+	                        icon: 'error',
+	                        title: '비밀번호가 틀렸습니다',
+	                        showConfirmButton: true,
+	                        backdrop: false
+	                    });
+	                }
+	            })
+	            .catch(err => console.error(err));
+	        }
+	    });
+	}
+
+	//-----------------------------------------------
+	function updateUserInfo() {
+	    const nickname = document.getElementById('updateNickname').value.trim();
+	    const password = document.getElementById('updatePassword').value.trim();
+	    const passwordConfirm = document.getElementById('updatePasswordConfirm').value.trim();
+	    const hp = document.getElementById('updateHp').value.trim();
+	    const mail = document.getElementById('updateMail').value.trim();
+	
+	    if (!nickname || !hp || !mail) {
+	        Swal.fire({
+	            icon: 'warning',
+	            title: '필수 입력',
+	            text: '닉네임, 핸드폰, 메일은 필수입니다.'
+	        });
+	        return;
+	    }
+	
+	    // 전화번호 정규식
+	    const hpPattern = /^010-\d{4}-\d{4}$/;
+	    if (!hpPattern.test(hp)) {
+	        Swal.fire({
+	            icon: 'error',
+	            title: '전화번호 형식 오류',
+	            text: '핸드폰 번호 형식이 올바르지 않습니다. 010-1234-5678 형식으로 입력해주세요.'
+	        });
+	        return;
+	    }
+	
+	    // 이메일 정규식
+	    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+	    if (!emailPattern.test(mail)) {
+	        Swal.fire({
+	            icon: 'error',
+	            title: '이메일 형식 오류',
+	            text: '이메일 형식이 올바르지 않습니다.'
+	        });
+	        return;
+	    }
+	
+	    // 비밀번호 확인
+	    if (password || passwordConfirm) {
+	        if (password !== passwordConfirm) {
+	            Swal.fire({
+	                icon: 'error',
+	                title: '비밀번호 불일치',
+	                text: '비밀번호와 확인 값이 일치하지 않습니다.',
+	                backdrop: false
+	            });
+	            return;
+	        }
+	    }
+	
+	    const params = new URLSearchParams();
+	    params.append('nickname', nickname);
+	    params.append('password', password);
+	    params.append('hp', hp);
+	    params.append('mail', mail);
+	
+	    fetch('myPageUpdate.do', {
+	        method: 'POST',
+	        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+	        body: params.toString()
+	    })
+	    .then(res => res.text())
+	    .then(msg => {
+	        if (msg === 'OK') {
+	            Swal.fire({
+	                icon: 'success',
+	                title: '정보 변경 완료',
+	                showConfirmButton: true,
+	                backdrop: false
+	            }).then(() => {
+	                location.reload();
+	            });
+	        } else {
+	            Swal.fire({
+	                icon: 'error',
+	                title: '변경 실패',
+	                text: msg
+	            });
+	        }
+	    })
+	    .catch(err => console.error(err));
+	}
+	
+	// ----------------- 전화번호 입력 자동 하이픈 -----------------
+	const hpInput = document.getElementById('updateHp');
+	
+	hpInput.addEventListener('input', function(e) {
+	    let value = e.target.value.replace(/\D/g, ''); // 숫자만 남기기
+	
+	    if (!value.startsWith('010')) {
+	        value = '010' + value.slice(3);
+	    }
+	
+	    if (value.length > 3 && value.length <= 7) {
+	        value = value.slice(0, 3) + '-' + value.slice(3);
+	    } else if (value.length > 7) {
+	        value = value.slice(0, 3) + '-' + value.slice(3, 7) + '-' + value.slice(7, 11);
+	    }
+	
+	    e.target.value = value;
+	});
+	
+	// 커서 위치 010- 뒤로
+	hpInput.addEventListener('focus', function(e) {
+	    setTimeout(() => {
+	        if (hpInput.selectionStart < 4) {
+	            hpInput.setSelectionRange(4, 4);
+	        }
+	    }, 0);
+	});
+	
+	// ----------------- 이메일 실시간 정규화 -----------------
+	const mailInput = document.getElementById('updateMail');
+	const emailPatternRealtime = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+	
+	mailInput.addEventListener('input', function(e) {
+	    const value = e.target.value.trim();
+	    if (value === '') {
+	        mailInput.style.borderColor = 'rgba(255,255,255,0.2)';
+	    } else if (!emailPatternRealtime.test(value)) {
+	        mailInput.style.borderColor = 'red';
+	    } else {
+	        mailInput.style.borderColor = '#FFDC5A';
+	    }
+	});
+</script>
 </body>
 </html>
