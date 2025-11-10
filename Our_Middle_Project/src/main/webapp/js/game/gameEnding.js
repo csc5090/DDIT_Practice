@@ -49,8 +49,7 @@ function endingInfoHandle() {
 					clearInterval(window["endingInfoInterval" + i]);
 				}
 			}, 1)				
-		}, 1000)
-		
+		}, 500)
 	}
 }
 
