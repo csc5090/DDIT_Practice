@@ -109,11 +109,6 @@ public class AdminServiceImpl implements AdminService {
 		// 닉네임 변경 여부 확인
 		boolean isNicknameChanged = !oldNickname.equals(newNickname);
 
-		// 2. 'USER' 역할 처리
-		if ("USER".equals(memberDTO.getRole())) {
-			memberDTO.setRole(null);
-		}
-
 		// 3. DB 업데이트 실행
 		int result = memberDAO.updateUser(memberDTO);
 

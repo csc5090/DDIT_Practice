@@ -97,6 +97,7 @@ public class LoginCheckController implements Action {
         				result.put("pwCheck", true);
 
         				request.getSession().setAttribute("loginAdmin", idCheckValue);
+        				request.getSession().setAttribute("loginUser", idCheckValue);
         				request.getSession().setAttribute("ADMIN_PASS", true);
         				System.out.println("세션 loginAdmin ID: " + request.getSession().getId());
         				System.out.println(">>> 세션 저장 완료: " + request.getSession().getAttribute("loginAdmin"));

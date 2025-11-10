@@ -34,10 +34,10 @@ const PostPage = {
 		this.loadAndRender(keyword.trim());
 	},
 
-	Start: function() {
-		this.clearDetailPanel();
-		this.loadAndRender();
-	},
+	Start: async function() {
+			this.clearDetailPanel();
+			await this.loadAndRender();
+		},
 
 	// --- 이벤트 핸들러 ---
 	handleClick: function(e) {

@@ -106,8 +106,11 @@
 		parameterType="java.lang.String">
 		SELECT MEM_ID AS userId, MEM_NAME AS
 		userName, NICKNAME AS nickname,
-		STATUS AS status, TO_CHAR(CREATED_DATE,
-		'YYYY-MM-DD') AS regDate FROM
+		STATUS AS status,
+		ROLE AS role,
+		TO_CHAR(CREATED_DATE, 'YYYY-MM-DD') AS regDate
+
+		FROM
 		MEMBER
 		<where>
 			<if test="keyword != null and keyword != ''">
@@ -143,14 +146,26 @@
 	<update id="updateUser"
 		parameterType="com.our_middle_project.dto.MemberDTO">
 		UPDATE MEMBER
-		SET
-		NICKNAME = #{nickname},
-		STATUS = #{status},
+		<set>
+			<if test="nickname != null and nickname != ''">
+				NICKNAME = #{nickname},
+			</if>
 
-		ROLE = #{role, jdbcType=VARCHAR},
+			<if test="status != null and status != ''">
+				STATUS = #{status},
 
-		DELETED_DATE = (CASE WHEN #{status} = 'DELETED' THEN SYSDATE ELSE
-		DELETED_DATE END)
+				<if test="status == 'DELETED'">
+					DELETED_DATE = SYSDATE,
+				</if>
+				<if test="status != 'DELETED'">
+					DELETED_DATE = NULL,
+				</if>
+			</if>
+
+			<if test="role != null and role != ''">
+				ROLE = #{role, jdbcType=VARCHAR},
+			</if>
+		</set>
 		WHERE
 		MEM_ID = #{userId}
 	</update>

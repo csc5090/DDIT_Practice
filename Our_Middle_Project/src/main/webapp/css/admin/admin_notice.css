@@ -1,4 +1,4 @@
-/* admin_notice.css (수정본 3 - 스코프 격리) */
+/* admin_notice.css /
 
 /* #notice-management 전체 레이아웃 */
 #notice-management {
@@ -202,8 +202,6 @@
 }
 
 #notice-management .form-group label {
-	font-weight: 500;
-	color: var(--text-muted);
 	font-size: 0.875rem;
 	margin-bottom: 0;
 	text-align: left;

@@ -1,13 +1,9 @@
 package com.our_middle_project.controller;
 
 import java.io.IOException;
-import java.util.List;
 
 import com.our_middle_project.action.Action;
 import com.our_middle_project.action.ActionForward;
-import com.our_middle_project.dto.ReviewDTO;
-import com.our_middle_project.service.ReviewServiceImpl;
-import com.our_middle_project.serviceInterface.ReviewService;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +17,7 @@ public class ReviewController implements Action {
 			throws ServletException, IOException {
 
 		ActionForward forward = new ActionForward();
-        forward.setPath("/WEB-INF/our_middle_project_view/review.jsp");
+        forward.setPath("/WEB-INF/our_middle_project_view/user/review.jsp");
         forward.setRedirect(false);
         return forward;
 

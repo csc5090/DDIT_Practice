@@ -20,14 +20,14 @@ const NoticePage = {
 	},
 
 	// admin-core.js가 메뉴 클릭 시 호출
-	Start: function() {
-		// [수정] 기본 정렬값 초기화
-		this.currentSort.key = 'created_date';
-		this.currentSort.order = 'desc';
+	Start: async function() {
+		
+			this.currentSort.key = 'created_date';
+			this.currentSort.order = 'desc';
 
-		this.clearDetailPanel();
-		this.loadAndRenderList();
-	},
+			this.clearDetailPanel();
+			await this.loadAndRenderList();
+		},
 
 	// --- 이벤트 핸들러 ---
 
