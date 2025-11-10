@@ -45,6 +45,9 @@ function addEventHandle() {
 	let exitBtn = document.getElementById('exitBtn');
 	exitBtn.addEventListener("click", (e) => { handleExit(e) });
 	
+	let chatSendBtn = document.getElementById("chatSendBtn");
+	chatSendBtn.addEventListener("click", () => { gameChatMessageSend() });
+	
 }
 
 //======스타트 버튼 및 게임 시작 로직 

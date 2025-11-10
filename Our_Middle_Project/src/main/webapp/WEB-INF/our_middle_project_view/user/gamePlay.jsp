@@ -217,10 +217,10 @@
 					</div>
 					
 					<div class="chat-send-area">
-						<form class="chat-form" id="chat-form">
+						<div class="chat-form" id="chat-form">
 							<input type="text">
-						</form>
-						<button type="submit">전송</button>					
+						</div>
+						<button id="chatSendBtn">전송</button>
 					</div>
 				</div>
 			
@@ -283,16 +283,19 @@
 	%>
 	
 	<script type="text/javascript">
+	
 		const userDataCase = JSON.parse('<%= userJson %>');
-		console.log(userDataCase);
 
  		const savedNo = `${sessionScope.map.level_no}`;
 		const savedName = `${sessionScope.map.level_name}`;
 		const savedArray = `${sessionScope.map.level_array}`;
-	
-		console.log(savedNo);
-		console.log(savedName);
-		console.log(savedArray);
+		
+		// 서버 WebSocket 엔드포인트 주소
+		// JSP에서 contextPath 고려해서 동적으로 가져오기
+		const host = window.location.host; // ex) localhost:8080
+		const contextPath = "<%= request.getContextPath() %>"; // ex) /our_middle_project
+		const socket = new WebSocket("ws://" + host + contextPath + "/chat");
+		
 	</script>
 	
 
@@ -302,6 +305,7 @@
 
 	<script type="text/javascript" src="./js/common.js"></script>
 	<script type="text/javascript" src="./js/game/gamePlay.js"></script>
+	<script type="text/javascript" src="./js/game/gameChat.js"></script>
 	<script type="text/javascript" src="./js/game/gamePlayToDB.js"></script>
 	<script type="text/javascript" src="./js/game/gameEnding.js"></script>
 
