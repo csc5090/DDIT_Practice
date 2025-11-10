@@ -16,6 +16,8 @@
 
 <%-- 공통 CSS --%>
 <link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/fonts.css">
+<link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/admin/admin_common.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/admin/admin_layout.css">
@@ -93,100 +95,143 @@
 
 		<div class="main-area-wrapper">
 			<header class="main-header">
-				
-				<button type="button" id="global-refresh-btn" class="action-btn primary" style="margin-right: 20px;">
-									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-				  						<path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
-				  						<path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+
+				<button type="button" id="global-refresh-btn"
+					class="action-btn primary" style="margin-right: 20px;">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+						fill="currentColor" class="bi bi-arrow-clockwise"
+						viewBox="0 0 16 16">
+				  						<path fill-rule="evenodd"
+							d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z" />
+				  						<path
+							d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466" />
 									</svg>
-									리스트 갱신
-								</button>
-				
-				
-				
+					<span class="btn-text">리스트 갱신</span>
+				</button>
+
+
+
 				<%-- ... (유저 프로필 드롭다운) ... --%>
 				<div class="user-profile">
-									<button type="button" class="user-profile-toggle">
-										<span> <c:out value="${sessionScope.loginAdmin.mem_name}" />
-										</span>
-										
-										
-										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
-										  <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0"/>
-										  <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c-1.79-.527-1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z"/>
+					<button type="button" class="user-profile-toggle">
+						<span> <c:out value="${sessionScope.loginAdmin.mem_name}" /> # <c:out value="${sessionScope.loginAdmin.mem_id}" />
+						</span>
+
+
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+							fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
+										  <path
+								d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0" />
+										  <path
+								d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c-1.79-.527-1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z" />
 										</svg>
-					<div class="user-profile-dropdown">
-						<ul>
-							<li><a href="/my-profile.do">내 프로필</a></li>
-							<li><a
-								href="${pageContext.request.contextPath}/adminlogout.do">로그아웃</a></li>
-						</ul>
-					</div>
+						<div class="user-profile-dropdown">
+							<ul>
+								<li><a href="${pageContext.request.contextPath}/myPage.do">내
+										프로필</a></li>
+								<li><a
+									href="${pageContext.request.contextPath}/adminlogout.do">로그아웃</a></li>
+							</ul>
+						</div>
 				</div>
 			</header>
 
 			<main class="main-content-area">
 				<%-- ================= 대시보드 ================= --%>
 				<div class="bodyArea active" id="dashboard-main">
-									<div class="card-container">
-									
-										<div class="card-row-3">
-											<div class="card">
-												<div class="card-header"><h3>총회원</h3></div>
-												<div class="card-body"><span class="main-number" id="cardTotalUsers">0</span></div>
-											</div>
-											<div class="card">
-												<div class="card-header"><h3>일일 단위 탈퇴자</h3></div>
-												<div class="card-body"><span class="main-number" id="cardDailyDeleted">0</span></div>
-											</div>
-											<div class="card">
-												<div class="card-header"><h3>일일 단위 가입자</h3></div>
-												<div class="card-body"><span class="main-number" id="cardDailyNewUsers">0</span></div>
-											</div>
-										</div>
-										
-										<div class="card-row-4">
-											<div class="card">
-												<div class="card-header"><h3>모든 게임 판수</h3></div>
-												<div class="card-body"><span class="main-number" id="cardTotalGames">0</span></div>
-											</div>
-											<div class="card">
-												<div class="card-header"><h3>이지모드 게임수</h3></div>
-												<div class="card-body"><span class="main-number" id="cardEasyGames">0</span></div>
-											</div>
-											<div class="card">
-												<div class="card-header"><h3>노말모드 게임수</h3></div>
-												<div class="card-body"><span class="main-number" id="cardNormalGames">0</span></div>
-											</div>
-											<div class="card">
-												<div class="card-header"><h3>하드모드 게임수</h3></div>
-												<div class="card-body"><span class="main-number" id="cardHardGames">0</span></div>
-											</div>
-										</div>
-										
-										<div class="chart-row-3">
-											<div class="chart" id="chart-a-wrapper">
-												<div class="chart-header"><h3>총회원 / 모든 게임 누적 판수 (14일)</h3></div>
-												<div class="chart-body">
-													<canvas id="chartA"></canvas>
-												</div>
-											</div>
-											<div class="chart" id="chart-b-wrapper">
-												<div class="chart-header"><h3>일일 단위 탈퇴 / 가입 (14일)</h3></div>
-												<div class="chart-body">
-													<canvas id="chartB"></canvas>
-												</div>
-											</div>
-											<div class="chart" id="chart-c-wrapper">
-												<div class="chart-header"><h3>모드별 판수 (14일)</h3></div>
-												<div class="chart-body">
-													<canvas id="chartC"></canvas>
-												</div>
-											</div>
-										</div>
-										
-									</div>
+					<div class="card-container">
+
+						<div class="card-row-3">
+							<div class="card">
+								<div class="card-header">
+									<h3>총회원</h3>
 								</div>
+								<div class="card-body">
+									<span class="main-number" id="cardTotalUsers">0</span>
+								</div>
+							</div>
+							<div class="card">
+								<div class="card-header">
+									<h3>일일 단위 탈퇴자</h3>
+								</div>
+								<div class="card-body">
+									<span class="main-number" id="cardDailyDeleted">0</span>
+								</div>
+							</div>
+							<div class="card">
+								<div class="card-header">
+									<h3>일일 단위 가입자</h3>
+								</div>
+								<div class="card-body">
+									<span class="main-number" id="cardDailyNewUsers">0</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="card-row-4">
+							<div class="card">
+								<div class="card-header">
+									<h3>모든 게임 판수</h3>
+								</div>
+								<div class="card-body">
+									<span class="main-number" id="cardTotalGames">0</span>
+								</div>
+							</div>
+							<div class="card">
+								<div class="card-header">
+									<h3>이지모드 게임수</h3>
+								</div>
+								<div class="card-body">
+									<span class="main-number" id="cardEasyGames">0</span>
+								</div>
+							</div>
+							<div class="card">
+								<div class="card-header">
+									<h3>노말모드 게임수</h3>
+								</div>
+								<div class="card-body">
+									<span class="main-number" id="cardNormalGames">0</span>
+								</div>
+							</div>
+							<div class="card">
+								<div class="card-header">
+									<h3>하드모드 게임수</h3>
+								</div>
+								<div class="card-body">
+									<span class="main-number" id="cardHardGames">0</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="chart-row-3">
+							<div class="chart" id="chart-a-wrapper">
+								<div class="chart-header">
+									<h3>총회원 / 모든 게임 누적 판수 (14일)</h3>
+								</div>
+								<div class="chart-body">
+									<canvas id="chartA"></canvas>
+								</div>
+							</div>
+							<div class="chart" id="chart-b-wrapper">
+								<div class="chart-header">
+									<h3>일일 단위 탈퇴 / 가입 (14일)</h3>
+								</div>
+								<div class="chart-body">
+									<canvas id="chartB"></canvas>
+								</div>
+							</div>
+							<div class="chart" id="chart-c-wrapper">
+								<div class="chart-header">
+									<h3>모드별 판수 (14일)</h3>
+								</div>
+								<div class="chart-body">
+									<canvas id="chartC"></canvas>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
 
 				<%-- ================= 유저 관리 ================= --%>
 				<div class="bodyArea" id="user-management">
@@ -289,70 +334,79 @@
 
 				<div class="bodyArea" id="notice-management">
 
-				    <%-- 1. 왼쪽: 목록 패널 --%>
-				    <div class="user-list-panel">
-				        <div class="list-toolbar">
-				            <%-- '새 글 작성' 버튼을 list-toolbar로 이동 --%>
-				            <button id="notice-new-btn" class="action-btn primary">새 공지사항 작성</button>
-				        </div>
+					<%-- 1. 왼쪽: 목록 패널 --%>
+					<div class="user-list-panel">
+						<div class="list-toolbar">
+							<%-- '새 글 작성' 버튼을 list-toolbar로 이동 --%>
+							<button id="notice-new-btn" class="action-btn primary">새
+								공지사항 작성</button>
+						</div>
 
-				        <div class="user-list-wrapper">
-				            <%-- user-list-table 클래스 적용 --%>
-				            <table class="user-list-table">
+						<div class="user-list-wrapper">
+							<%-- user-list-table 클래스 적용 --%>
+							<table class="user-list-table">
 								<thead>
-												                    <tr>
-												                       
-												                        <th class="sortable" data-sort-key="board_title" data-sort-order="none" style="width: 60%;">
-												                        	제목 <span class="sort-icon"></span>
-												                        </th>
-												                        
-												                        <th style="width: 15%;">작성자</th>
-												                        
-												                        
-												                        <th class="sortable" data-sort-key="created_date" data-sort-order="none" style="width: 25%;">
-												                        	작성일 <span class="sort-icon"></span>
-												                        </th>
-												                    </tr>
-												                </thead>
-				                <tbody id="notice-list-tbody">
-				                    <%-- JS로 채워짐 --%>
-				                </tbody>
-				            </table>
-				        </div>
-				    </div>
+									<tr>
 
-				    <%-- 2. 오른쪽: 상세정보/편집 패널 --%>
-				    <div class="user-detail-panel">
-				        <div class="detail-content">
-				            <%-- 헤더 (user-management 템플릿 적용) --%>
-				            <div class="detail-header">
-				                <h2 id="detail-notice-header"></h2>
-				                <p class="header-guideline">편집할 공지사항을 더블클릭하세요.</p>
-				            </div>
+										<th class="sortable" data-sort-key="board_title"
+											data-sort-order="none" style="width: 60%;">제목 <span
+											class="sort-icon"></span>
+										</th>
 
-				            <%-- 상세정보 폼 (user-management 템플릿 적용) --%>
-				            <div class="detail-body">
-				                <div class="form-group full-width">
-				                    <label for="notice-title">제목</label>
-				                    <input type="text" id="notice-title" placeholder="제목을 입력하세요">
-				                </div>
-				                <div class="form-group full-width" style="flex: 1; display: flex; flex-direction: column;">
-				                    <label for="notice-content">내용</label>
-				                    <%-- CSS에서 높이를 제어할 수 있도록 style="flex: 1;" 추가 --%>
-				                    <textarea id="notice-content" placeholder="내용을 입력하세요." style="flex: 1; resize: none;"></textarea>
-				                </div>
-				            </div>
+										<th style="width: 15%;">작성자</th>
 
-				            <%-- 하단 버튼 (user-management 템플릿 적용) --%>
-				            <div class="detail-footer">
-				                <button id="notice-cancel-btn" class="action-btn secondary">취소</button>
-				                <button id="notice-delete-btn" class="action-btn danger" style="display: none;">삭제하기</button>
-				                <button id="notice-save-btn" class="action-btn primary">저장하기</button>
-				            </div>
-				        </div> <%-- .detail-content 끝 --%>
-				    </div> <%-- .user-detail-panel 끝 --%>
-				</div> <%-- #notice-management .bodyArea 끝 --%>
-				
+
+										<th class="sortable" data-sort-key="created_date"
+											data-sort-order="none" style="width: 25%;">작성일 <span
+											class="sort-icon"></span>
+										</th>
+									</tr>
+								</thead>
+								<tbody id="notice-list-tbody">
+									<%-- JS로 채워짐 --%>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<%-- 2. 오른쪽: 상세정보/편집 패널 --%>
+					<div class="user-detail-panel">
+						<div class="detail-content">
+							<%-- 헤더 (user-management 템플릿 적용) --%>
+							<div class="detail-header">
+								<h2 id="detail-notice-header"></h2>
+								<p class="header-guideline">편집할 공지사항을 더블클릭하세요.</p>
+							</div>
+
+							<%-- 상세정보 폼 (user-management 템플릿 적용) --%>
+							<div class="detail-body">
+								<div class="form-group full-width">
+									<label for="notice-title">제목</label> <input type="text"
+										id="notice-title" placeholder="제목을 입력하세요">
+								</div>
+								<div class="form-group full-width"
+									style="flex: 1; display: flex; flex-direction: column;">
+									<label for="notice-content">내용</label>
+									<%-- CSS에서 높이를 제어할 수 있도록 style="flex: 1;" 추가 --%>
+									<textarea id="notice-content" placeholder="내용을 입력하세요."
+										style="flex: 1; resize: none;"></textarea>
+								</div>
+							</div>
+
+							<%-- 하단 버튼 (user-management 템플릿 적용) --%>
+							<div class="detail-footer">
+								<button id="notice-cancel-btn" class="action-btn secondary">취소</button>
+								<button id="notice-delete-btn" class="action-btn danger"
+									style="display: none;">삭제하기</button>
+								<button id="notice-save-btn" class="action-btn primary">저장하기</button>
+							</div>
+						</div>
+						<%-- .detail-content 끝 --%>
+					</div>
+					<%-- .user-detail-panel 끝 --%>
+				</div>
+				<%-- #notice-management .bodyArea 끝 --%>
+
 
 				<%-- ================= 게시물 관리 ================= --%>
 
@@ -541,43 +595,43 @@
 
 				<%-- ================= 데이터/통계 ================= --%>
 				<div class="bodyArea" id="stats-main">
-									
-									<div class="stats-toolbar">
-									    <div class="filter-group">
-									        <label for="stats-start-date">시작일</label>
-									        <input type="date" id="stats-start-date" class="form-control">
-									    </div>
-									    <div class="filter-group">
-									        <label for="stats-end-date">종료일</label>
-									        <input type="date" id="stats-end-date" class="form-control">
-									    </div>
-									
-									    <div class="filter-group">
-									        <label for="stats-report-type">분석 주제</label>
-									        <select id="stats-report-type" class="form-select">
-									            <option value="">주제를 선택하세요</option>
-									            <option value="game_balance">게임 밸런스</option>
-									            <option value="user_activity">유저 활동</option>
-									            <!-- <option value="community_feedback">커뮤니티 피드백</option> -->
-									        </select>
-									    </div>
-									    
-									    <button id="stats-run-report-btn" class="action-btn primary">조회</button>
-									</div>
-									
-									<div class="stats-tab-container" style="display:none;">
-										<div class="tab-item active" data-tab="game_balance">게임 밸런스</div>
-										<div class="tab-item" data-tab="user_activity">유저 경험</div>
-										<!-- <div class="tab-item" data-tab="community_feedback">커뮤니티</div> -->
-									</div>
-									
-									<div class="stats-report-area">
-									    <div id="stats-chart-container">
-									        <p class="stats-placeholder">조회할 기간과 분석 주제를 선택해 주세요.</p>
-									    </div>
-									</div>
-									
-								</div>
+
+					<div class="stats-toolbar">
+						<div class="filter-group">
+							<label for="stats-start-date">시작일</label> <input type="date"
+								id="stats-start-date" class="form-control">
+						</div>
+						<div class="filter-group">
+							<label for="stats-end-date">종료일</label> <input type="date"
+								id="stats-end-date" class="form-control">
+						</div>
+
+						<div class="filter-group">
+							<label for="stats-report-type">분석 주제</label> <select
+								id="stats-report-type" class="form-select">
+								<option value="">주제를 선택하세요</option>
+								<option value="game_balance">게임 밸런스</option>
+								<option value="user_activity">유저 활동</option>
+								<!-- <option value="community_feedback">커뮤니티 피드백</option> -->
+							</select>
+						</div>
+
+						<button id="stats-run-report-btn" class="action-btn primary">조회</button>
+					</div>
+
+					<div class="stats-tab-container" style="display: none;">
+						<div class="tab-item active" data-tab="game_balance">게임 밸런스</div>
+						<div class="tab-item" data-tab="user_activity">유저 경험</div>
+						<!-- <div class="tab-item" data-tab="community_feedback">커뮤니티</div> -->
+					</div>
+
+					<div class="stats-report-area">
+						<div id="stats-chart-container">
+							<p class="stats-placeholder">조회할 기간과 분석 주제를 선택해 주세요.</p>
+						</div>
+					</div>
+
+				</div>
 			</main>
 		</div>
 	</div>
@@ -611,6 +665,9 @@
 			: "";
 	%>
 
+
+
+		<!-- 따옴표 구간 -->
 	<script type="text/javascript">
 		const ADMIN_DATA = {
 			name: "<%=adminName%>",
@@ -622,21 +679,22 @@
 	</script>
 
 	<%-- F5/뒤로가기 차단 스크립트--%>
-    <script type="text/javascript">
-        (function() {
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'F5' || (e.ctrlKey && e.key === 'r') || (e.ctrlKey && e.key === 'R')) {
-                    e.preventDefault();
-                    Swal.fire({
-                        icon : 'error',
-                        title : '새로고침 금지',
-                        text : '이 페이지에서는 새로고침을 사용할 수 없습니다.',
-                    });
-                }
-            });
-        })();
-    </script>
-    
+	<script type="text/javascript">
+		(function() {
+			document.addEventListener('keydown', function(e) {
+				if (e.key === 'F5' || (e.ctrlKey && e.key === 'r')
+						|| (e.ctrlKey && e.key === 'R')) {
+					e.preventDefault();
+					Swal.fire({
+						icon : 'error',
+						title : '새로고침 금지',
+						text : '이 페이지에서는 새로고침을 사용할 수 없습니다.',
+					});
+				}
+			});
+		})();
+	</script>
+
 
 	<%-- 라이브러리 JS --%>
 	<script

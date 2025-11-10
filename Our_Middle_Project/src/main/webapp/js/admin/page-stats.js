@@ -1,4 +1,4 @@
-// page-stats.js (최종 수정본 - 반응성, 화질, 레이아웃 문제 모두 해결)
+// page-stats.js (최종 수정본 - 차트 쏠림 현상 해결)
 
 const StatsPage = {
 	charts: {},
@@ -212,7 +212,10 @@ const StatsPage = {
 					tension: 0.4, pointRadius: 3, pointHoverRadius: 5
 				}]
 			},
-			options: this.getChartOptions('x', '일간 활성 유저 (DAU)', true)
+			options: {
+				...this.getChartOptions('x', '일간 활성 유저 (DAU)', true),
+				layout: { padding: 15 } // 🚨 쏠림 방지 패딩 추가 🚨
+			}
 		});
 
 		// --- 차트 2: 가입 vs 재방문 (Combined Bar/Line Chart) ---
@@ -244,7 +247,10 @@ const StatsPage = {
 					}
 				]
 			},
-			options: this.getChartOptions('x', '일일 신규 가입 vs 재방문 추이', true)
+			options: {
+				...this.getChartOptions('x', '일일 신규 가입 vs 재방문 추이', true),
+				layout: { padding: 15 } // 🚨 쏠림 방지 패딩 추가 🚨
+			}
 		});
 
 		// --- 차트 3: 커뮤니티 활성도 믹스 (Donut Chart) ---
@@ -254,14 +260,11 @@ const StatsPage = {
 		const canvas3 = document.getElementById('statsChart_CommunityMix');
 
 		if (communityMixData && typeof communityMixData === 'object' && Object.keys(communityMixData).length > 0) {
-			// 키 이름(POSTS_COUNT, REVIEWS_COUNT, REPLIES_COUNT)을 한글 레이블로 변환
 			const keyMap = {
 				'POSTS_COUNT': '게시글 수',
 				'REVIEWS_COUNT': '리뷰 수',
 				'REPLIES_COUNT': '댓글 수'
 			};
-
-			// 키와 값 추출
 			Object.keys(communityMixData).forEach(key => {
 				communityLabels.push(keyMap[key] || key);
 				communityValues.push(communityMixData[key] || 0);
@@ -284,6 +287,7 @@ const StatsPage = {
 				options: {
 					responsive: true,
 					maintainAspectRatio: false,
+					layout: { padding: 15 }, // 🚨 쏠림 방지 패딩 추가 🚨
 					plugins: {
 						legend: { display: true, position: 'right', labels: { color: '#ffffff' } },
 						title: { display: true, text: '커뮤니티 활성도 믹스', color: '#ffffff', font: { size: 14 } }
@@ -292,7 +296,6 @@ const StatsPage = {
 			});
 
 		} else {
-			// 데이터가 없을 경우 Placeholder 유지
 			const placeholderDiv = document.createElement('div');
 			placeholderDiv.style.cssText = 'position: absolute; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #a0a0c0; font-size: 1.1rem;';
 			placeholderDiv.textContent = '커뮤니티 데이터 없음';
@@ -315,7 +318,11 @@ const StatsPage = {
 						barPercentage: 0.6
 					}]
 				},
-				options: this.getChartOptions('x', '리뷰 평점 분포', true)
+				options: {
+					// 🚨 수정: 'x'축이 아닌 'y'축 기준으로 변경 (Horizontal Bar)
+					...this.getChartOptions('y', '리뷰 평점 분포', true),
+					layout: { padding: 15 } // 🚨 쏠림 방지 패딩 추가 🚨
+				}
 			});
 		}
 
@@ -323,7 +330,6 @@ const StatsPage = {
 		const heatmapCanvas = document.getElementById('statsChart_PlaytimeHeatmap');
 		if (Array.isArray(playtimeHeatmapData) && playtimeHeatmapData.length > 0) {
 
-			// 데이터 가공 (기존 로직 유지)
 			const totalPlaysByHour = {};
 			const hourLabels = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0'));
 
@@ -345,7 +351,10 @@ const StatsPage = {
 						backgroundColor: 'rgba(64, 186, 255, 0.7)',
 					}]
 				},
-				options: this.getChartOptions('x', '플레이타임 히트맵 (시간대별 총합)', false)
+				options: {
+					...this.getChartOptions('x', '플레이타임 히트맵 (시간대별 총합)', false),
+					layout: { padding: 15 } // 🚨 쏠림 방지 패딩 추가 🚨
+				}
 			});
 		} else if (heatmapCanvas) { // 데이터가 없는 경우만 Placeholder를 출력합니다.
 			const placeholderDiv = document.createElement('div');

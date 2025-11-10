@@ -1,4 +1,4 @@
-// admin-core.js (수정본 - if (window.Page) 버그 완전 제거)
+// admin-core.js
 
 const AdminCore = {
 	init: function() {
@@ -21,34 +21,61 @@ const AdminCore = {
 		}
 	},
 
-	// '데이터/통계' 페이지 갱신 로직 추가 및 if (window.Page) 버그 제거
-	handleGlobalRefresh: function() {
+
+	handleGlobalRefresh: async function() {
+
+		// --- 로딩 상태 시작 ---
+		const btn = document.getElementById('global-refresh-btn');
+		if (!btn) return;
+
+		const btnText = btn.querySelector('.btn-text');
+		const originalText = btnText ? btnText.textContent : '';
+
+
+		btn.disabled = true;
+		btn.classList.add('loading');
+		if (btnText) btnText.textContent = '갱신 중...';
+
+
 		const activePage = document.querySelector('.bodyArea.active');
-		if (!activePage) return;
+		if (!activePage) {
+			if (btnText) btnText.textContent = originalText;
+			btn.disabled = false;
+			btn.classList.remove('loading');
+			return;
+		}
 
 		const activePageId = activePage.id;
 		console.log(`수동 갱신: ${activePageId}`);
 
-		// "if (window.Page)" 검사를 모두 제거하고 함수를 직접 호출
-		switch (activePageId) {
-			case 'dashboard-main':
-				DashboardPage.updateAllStats();
-				break;
-			case 'user-management':
-				UserPage.getList(document.getElementById('user-search-input').value); // 현재 검색어 유지
-				break;
-			case 'notice-management':
-				NoticePage.Start();
-				break;
-			case 'post-management':
-				PostPage.Start();
-				break;
-			case 'review-management':
-				ReviewPage.loadAndRender();
-				break;
-			case 'stats-main':
-				StatsPage.handleRunReport(); // '조회' 버튼 클릭과 동일하게 작동
-				break;
+		try {
+			switch (activePageId) {
+				case 'dashboard-main':
+					await DashboardPage.updateAllStats();
+					break;
+				case 'user-management':
+					await UserPage.getList(document.getElementById('user-search-input').value); // 현재 검색어 유지
+					break;
+				case 'notice-management':
+					await NoticePage.Start();
+					break;
+				case 'post-management':
+					await PostPage.Start();
+					break;
+				case 'review-management':
+					await ReviewPage.loadAndRender();
+					break;
+				case 'stats-main':
+					await StatsPage.handleRunReport(); // '조회' 버튼 클릭과 동일하게 작동
+					break;
+			}
+		} catch (error) {
+			console.error("수동 갱신 중 오류:", error);
+		} finally {
+			if (btnText) btnText.textContent = originalText;
+			btn.disabled = false;
+			btn.classList.remove('loading');
+
 		}
 	},
 
