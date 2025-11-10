@@ -17,6 +17,8 @@ public class RankingDTO {
 	    private int combo;
 	    private int clear_time;
 	    
+	    private int rank;  // 몇 등
+	    
 	    //member
 	    private String nickname;
 	    private String mem_id;

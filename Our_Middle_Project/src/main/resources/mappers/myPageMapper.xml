@@ -4,7 +4,25 @@
 <mapper namespace="myPageMapper">
 
 	<select id="loingUserInfo" resultType="userInfoDTO">
-		SELECT *    
+		SELECT 
+	        MEM_NO,
+	        MEM_ID,
+	        MEM_PASS,
+	        MEM_NAME,
+	        MEM_GENDER,
+	        MEM_BIRTH,
+	        MEM_ZIP,
+	        MEM_ADD1,
+	        MEM_ADD2,
+	        MEM_HP,
+	        MEM_MAIL,
+	        NICKNAME,
+	        CREATED_DATE AS create_date,
+	        DELETED_DATE,
+	        DELETED_REASON,
+	        STATUS,
+	        ROLE,
+	        SALT
 	    FROM MEMBER
 		WHERE MEM_NO = #{mem_no}
 		ORDER BY MEM_NO

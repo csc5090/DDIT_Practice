@@ -67,7 +67,7 @@
 			<div class="profile">
 			
 				<div class="player">
-					<img src="./images/char/${sessionScope.loginUser.mem_gender == 'M' ? 'm' : 'f'}.PNG" alt="캐릭터">
+					<img src="./images/char/${sessionScope.loginUser.mem_gender == 'M' ? 'm' : 'f'}.png" alt="캐릭터">
 					<div class="name">
 						<c:out value="${sessionScope.loginUser.mem_id}" />
 					</div>

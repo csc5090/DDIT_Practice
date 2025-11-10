@@ -5,11 +5,21 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import com.google.gson.JsonSyntaxException;
 import com.our_middle_project.action.Action;
 import com.our_middle_project.action.ActionForward;
 import com.our_middle_project.dao.GameLogDAOImpl;
-import com.our_middle_project.dashboardendpt.DashboardEndPoint; 
+import com.our_middle_project.dashboardendpt.DashboardEndPoint;
 import com.our_middle_project.dto.GameLogDTO;
 import com.our_middle_project.dto.UserInfoDTO;
 import com.our_middle_project.service.GameLogServiceImpl;
@@ -75,12 +85,22 @@ public class GameLogController implements Action {
 
             // 3. 세션에서 가져온 memNo 세팅
             gameLog.setMemNo(memNo);
-
+            
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            if (gameLog.getStartTimeStr() != null && gameLog.getStartTime() == null)
-                gameLog.setStartTime(LocalDateTime.parse(gameLog.getStartTimeStr(), formatter));
-            if (gameLog.getEndTimeStr() != null && gameLog.getEndTime() == null)
-                gameLog.setEndTime(LocalDateTime.parse(gameLog.getEndTimeStr(), formatter));
+         // UTC 문자열 -> LocalDateTime KST로 변환
+            if (gameLog.getStartTimeStr() != null && gameLog.getStartTime() == null) {
+                LocalDateTime utcStart = LocalDateTime.parse(gameLog.getStartTimeStr(), formatter);
+                gameLog.setStartTime(utcStart.plusHours(9)); // KST 적용
+            }
+
+            if (gameLog.getEndTimeStr() != null && gameLog.getEndTime() == null) {
+                LocalDateTime utcEnd = LocalDateTime.parse(gameLog.getEndTimeStr(), formatter);
+                gameLog.setEndTime(utcEnd.plusHours(9)); // KST 적용
+            }
+
+            // DB에 문자열로 저장할 경우 KST 반영
+            gameLog.setStartTimeStr(gameLog.getStartTime().format(formatter));
+            gameLog.setEndTimeStr(gameLog.getEndTime().format(formatter));
 
         } catch (JsonSyntaxException | JsonIOException e) {
             e.printStackTrace();

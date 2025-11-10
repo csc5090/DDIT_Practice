@@ -44,6 +44,7 @@ function addEventHandle() {
 	
 	let exitBtn = document.getElementById('exitBtn');
 	exitBtn.addEventListener("click", (e) => { handleExit(e) });
+	
 }
 
 //======스타트 버튼 및 게임 시작 로직 
@@ -90,7 +91,7 @@ function createCard(value){
 		text += `
 		  <div class="card" >
 		    <div class="card-inner">
-		      <div class="card-back" onclick="cardChoice(this, event)">?</div>
+		      <div class="card-back" onclick="cardChoice(this, event)"></div>
 		      <div class="card-front">${cardEmojis[i]}</div>
 		    </div>
 		  </div>
@@ -194,11 +195,13 @@ function countDown(callback){
 
 //======레벨별 기본 시간
 function getDefaultTimeByLevel() {
-    switch(savedArray){
-        case 4: return 30.9;		//딜레이가 있어서 0.9초 더 부여
+    console.log("콘솔", savedArray, typeof savedArray); // 타입 확인
+    const level = Number(savedArray); // 문자열이면 숫자로 변환
+    switch(level) {
+        case 4: return 30.9;
         case 6: return 180.9;
         case 8: return 300.9;
-        default: return 30.9;
+        default: return 4.9;
     }
 }
 

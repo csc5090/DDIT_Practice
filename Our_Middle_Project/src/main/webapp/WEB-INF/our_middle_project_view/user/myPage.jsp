@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>   
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -50,33 +53,33 @@
 					<div class="my-game-card">
 						<div class="my-game-info-head">
 							<span>Hard Mode</span>
-							<span>12등</span>
+							<span>${sessionScope.MyPage_RankingDataHard.rank}등</span>
 						</div>
 						<div class="my-game-info-row">
 							<span>일자</span>
-							<span>2025-11-05</span>
+							<span>${fn:substring(sessionScope.MyPage_RankingDataHard.played_last_date, 0, 10)}</span>
 						</div>
 						<div class="my-game-info-row">
 							<span>점수</span>
-							<span>8200</span>
+							<span>${sessionScope.MyPage_RankingDataHard.score_best}</span>
 						</div>
 						<div class="my-game-info-row">
 							<span>클리어타임</span>
-							<span>05:10</span>
+							<span>${sessionScope.MyPage_RankingDataHard.clear_time}</span>
 						</div>
 						<div class="my-game-info-row">
 							<span>콤보</span>
-							<span>78</span>
+							<span>${sessionScope.MyPage_RankingDataHard.combo}</span>
 						</div>
 					</div>
 					<div class="my-game-card">
 						<div class="my-game-info-head">
 							<span>Normal Mode</span>
-							<span>12등</span>
+							<span>${sessionScope.MyPage_RankingDataNormal.rank}등</span>
 						</div>
 						<div class="my-game-info-row">
 							<span>일자</span>
-							<span>2025-11-05</span>
+							<span>${fn:substring(sessionScope.MyPage_RankingDataNormal.played_last_date, 0, 10)}</span>
 						</div>
 						<div class="my-game-info-row">
 							<span>점수</span>
@@ -388,10 +391,12 @@
 						<div class="my-info-group">
 							<div class="my-group-col">
 								<div class="my-info-item">
-									<label>아이디</label><input type="text" value="myUserID" readonly>
+									<label>아이디</label>
+									<input type="text" value="${sessionScope.MyPage_UserData.mem_id}" readonly>
 								</div>
 								<div class="my-info-item">
-									<label>닉네임</label><input type="text" value="홍길동">
+									<label>닉네임</label>
+									<input type="text" value="${sessionScope.MyPage_UserData.nickname}">
 								</div>
 							</div>
 							<div class="my-group-col">
@@ -408,10 +413,12 @@
 						<div class="my-info-group">
 							<div class="my-group-col">
 								<div class="my-info-item">
-									<label>실제 이름</label><input type="text" value="홍길동" readonly>
+									<label>실제 이름</label>
+									<input type="text" value="${sessionScope.MyPage_UserData.mem_name}" readonly>
 								</div>
 								<div class="my-info-item">
-									<label>성별</label><input type="text" value="남성" readonly>
+									<label>성별</label>
+									<input type="text" value="${sessionScope.MyPage_UserData.mem_gender == 'M' ? '남성' : '여성'}" readonly>
 								</div>
 							</div>
 							<div class="my-group-col">
@@ -419,7 +426,8 @@
 									<label></label><input type="hidden">
 								</div>
 								<div class="my-info-item">
-									<label>생일</label><input type="text" value="1995-05-10" readonly>
+									<label>생일</label>
+									<input type="text" value="${sessionScope.MyPage_UserData.mem_birth.substring(0,10)}" readonly>
 								</div>
 							</div>
 						</div>
@@ -428,12 +436,14 @@
 						<div class="my-info-group">
 							<div class="my-group-col">
 								<div class="my-info-item">
-									<label>핸드폰번호</label><input type="tel" value="010-1234-5678">
+									<label>핸드폰번호</label>
+									<input type="tel" value="${sessionScope.MyPage_UserData.mem_hp}">
 								</div>
 							</div>
 							<div class="my-group-col">
 								<div class="my-info-item">
-									<label>메일</label><input type="email" value="user@example.com">
+									<label>메일</label>
+									<input type="email" value="${sessionScope.MyPage_UserData.mem_mail}">
 								</div>
 							</div>
 						</div>
@@ -442,10 +452,12 @@
 						<div class="my-info-group">
 							<div class="my-group-col">
 								<div class="my-info-item">
-									<label>우편번호</label><input type="text" value="12345">
+									<label>우편번호</label>
+									<input type="text" value="${sessionScope.MyPage_UserData.mem_zip}">
 								</div>
 								<div class="my-info-item">
-									<label>주소1</label><input type="text" value="서울특별시 강남구">
+									<label>주소1</label>
+									<input type="text" value="${sessionScope.MyPage_UserData.mem_add1}">
 								</div>
 							</div>
 							<div class="my-group-col">
@@ -453,7 +465,8 @@
 									<label></label>
 								</div>
 								<div class="my-info-item">
-									<label>주소2</label><input type="text" value="101동 202호">
+									<label>주소2</label>
+									<input type="text" value="${sessionScope.MyPage_UserData.mem_add2}">
 								</div>
 							</div>
 						</div>
@@ -463,7 +476,7 @@
 					<div class="my-join-section">
 						<div class="my-join-row">
 							<span class="my-join-label">Join Day</span>
-							<span class="my-join-text">2023-01-01</span>
+							<span class="my-join-text">${sessionScope.MyPage_UserData.create_date}</span>
 						</div>
 					</div>
 
