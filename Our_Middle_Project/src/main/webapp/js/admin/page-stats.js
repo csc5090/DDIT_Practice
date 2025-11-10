@@ -239,7 +239,7 @@ const StatsPage = {
 						data: returningUserChartData.values,
 						borderColor: returningUserColor,
 						type: 'line',
-						fill: false, tension: 0.4, pointRadius: 3, pointHoverRadius: 5,
+						fill: false, tension: 0.3, pointRadius: 3, pointHoverRadius: 5,
 						order: 1
 					}
 				]
@@ -312,7 +312,7 @@ const StatsPage = {
 						label: '리뷰 수',
 						data: ratingCounts,
 						backgroundColor: 'rgba(255, 206, 86, 0.8)',
-						barPercentage: 0.8
+						barPercentage: 0.6
 					}]
 				},
 				options: this.getChartOptions('x', '리뷰 평점 분포', true)

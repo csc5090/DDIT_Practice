@@ -558,7 +558,7 @@
 									            <option value="">주제를 선택하세요</option>
 									            <option value="game_balance">게임 밸런스</option>
 									            <option value="user_activity">유저 활동</option>
-									            <option value="community_feedback">커뮤니티 피드백</option>
+									            <!-- <option value="community_feedback">커뮤니티 피드백</option> -->
 									        </select>
 									    </div>
 									    
@@ -568,7 +568,7 @@
 									<div class="stats-tab-container" style="display:none;">
 										<div class="tab-item active" data-tab="game_balance">게임 밸런스</div>
 										<div class="tab-item" data-tab="user_activity">유저 경험</div>
-										<div class="tab-item" data-tab="community_feedback">커뮤니티</div>
+										<!-- <div class="tab-item" data-tab="community_feedback">커뮤니티</div> -->
 									</div>
 									
 									<div class="stats-report-area">
