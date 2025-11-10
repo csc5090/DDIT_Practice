@@ -23,6 +23,8 @@ public class LoginCheckController implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
+		System.out.println("LoginCheckController Start");
+		
 		BufferedReader reader = request.getReader();
 		StringBuilder sb = new StringBuilder();
 		
@@ -59,33 +61,49 @@ public class LoginCheckController implements Action {
         			System.out.println("이 사람은 USER 이다.");
         			System.out.println(idCheckValue);
         			
-        			// 입력받은 비밀번호 + DB에 저장된 salt로 암호화
-        			String inputEncryptedPw = PWencrypt.hashPassword(userInfo.getMem_pass(), idCheckValue.getSalt());
-        			System.out.println("입력한 비밀번호 암호화 결과: " + inputEncryptedPw);
-        			System.out.println("DB 저장된 비밀번호: " + idCheckValue.getMem_pass());
-        			
-        			// 비밀번호 비교
-        			if (inputEncryptedPw.equals(idCheckValue.getMem_pass())) {
+        			// 이 회원이 ACTIVE 인지만 확인 아닌경우 프론트에서 구분
+        			if(idCheckValue.getStatus().equals("ACTIVE")) {
         				
-        				result.put("pwCheck", true);
-        				
-        				idCheckValue.setMem_pass("");
-        				idCheckValue.setSalt("");
-        				
-        				request.getSession().setAttribute("loginUser", idCheckValue);
-        				System.out.println("세션 loginAdmin ID: " + request.getSession().getId());
-        				System.out.println(">>> 세션 저장 완료: " + request.getSession().getAttribute("loginAdmin"));
+        				// 입력받은 비밀번호 + DB에 저장된 salt로 암호화
+            			String inputEncryptedPw = PWencrypt.hashPassword(userInfo.getMem_pass(), idCheckValue.getSalt());
+            			System.out.println("입력한 비밀번호 암호화 결과: " + inputEncryptedPw);
+            			System.out.println("DB 저장된 비밀번호: " + idCheckValue.getMem_pass());
+            			
+            			// 비밀번호 비교
+            			if (inputEncryptedPw.equals(idCheckValue.getMem_pass())) {
+            				
+            				result.put("pwCheck", true);
+            				
+            				idCheckValue.setMem_pass("");
+            				idCheckValue.setSalt("");
+            				
+            				request.getSession().setAttribute("loginUser", idCheckValue);
+            				System.out.println("세션 loginAdmin ID: " + request.getSession().getId());
+            				System.out.println(">>> 세션 저장 완료: " + request.getSession().getAttribute("loginAdmin"));
+            				
+            			}
+            			else {
+            				
+            				result.put("pwCheck", false);
+            				
+            			}
+            			
+            			result.put("idCheck", true);
+            			result.put("role", idCheckValue.getRole());
+            			result.put("status", idCheckValue.getStatus());
+            			result.put("url", request.getContextPath() + "/gameHome.do");
         				
         			}
         			else {
         				
+        				result.put("idCheck", true);
         				result.put("pwCheck", false);
+        				result.put("role", idCheckValue.getRole());
+        				result.put("status", idCheckValue.getStatus());
         				
         			}
         			
-        			result.put("idCheck", true);
-        			result.put("role", idCheckValue.getRole());
-        			result.put("url", request.getContextPath() + "/gameHome.do");
+        			
         			
         			
         		}

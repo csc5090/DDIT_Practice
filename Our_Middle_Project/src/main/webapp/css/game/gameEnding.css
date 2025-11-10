@@ -19,9 +19,10 @@
 	
 	position: absolute;
 	left: 0px;
-	top: -100vh;
+	top: 0vh;
+	z-index: -10;
 	
-	background-color: #1e1e2f; 
+	background: rgba(0, 0, 0, 0.5); 
 	/* opacity: 0.75; */
 	
 	display: flex;
@@ -29,12 +30,9 @@
     justify-content: center;
     align-items: center;
     
-    transition: all 1s;
+    opacity: 0;
     
-	user-select: none;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
+    transition: all 1s;
 }
 
 .ending-head {
@@ -128,6 +126,7 @@
 	align-items: center;
 	
 	opacity: 0;
+	transition: all 1s;
 }
 
 .ending-info .info {

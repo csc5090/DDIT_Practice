@@ -19,6 +19,9 @@ body {
 	display: flex;
 	width: 100%;
 	height: 100vh;
+	
+	opacity: 1;
+	transition: all 1s;
 }
 
 /* 좌측 게임 영역 전체 70% */
@@ -404,7 +407,7 @@ body {
 	font-weight: bold;
    	font-size: 1em;
    	
-   	color: #E9674D;
+   	color: white;
    	transition: all 0.4s ease;
 }
 
@@ -456,11 +459,9 @@ body {
 	background: transparent;
 	
 	box-sizing: border-box;
-
-	cursor: pointer;
 }
 
-#startBtn {
+.start-on {
 	width: 100%;
 	height: 100%;
 	
@@ -485,9 +486,10 @@ body {
    	
    	color: #E9674D;
    	transition: all 0.4s ease;
+   	cursor: pointer;
 }
 
-#startBtn:hover {
+.start-on:hover {
 	color: #ff8a70; /* 더 밝은 붉은빛 */
 	
 	text-shadow:
@@ -503,6 +505,34 @@ body {
 
 	transform: scale(1.05);
 	filter: brightness(1.1);
+}
+
+.start-off {
+	width: 100%;
+	height: 100%;
+	
+	background: transparent;
+	border: none;
+	border-radius: 10px;
+	
+	box-shadow: 
+		0 0 12px rgba(100, 100, 100, 0.25), 
+		0 0 26px rgba(80, 80, 80, 0.15), 
+		0 0 43px rgba(60, 60, 60, 0.1), 
+		inset 0 0 24px rgba(100, 100, 100, 0.2), 
+		inset 0 0 48px rgba(70, 70, 70, 0.15);
+	
+	text-shadow:
+		0 0 4px rgba(120, 120, 120, 0.4),
+		0 0 10px rgba(80, 80, 80, 0.2);
+	
+	font-family: 'LAB_digital';
+	letter-spacing: 3px;
+	font-size: 2.5em;
+	
+	color: #777;
+	transition: all 0.4s ease;
+	cursor: default;
 }
 
 /* 채팅 영역 */
@@ -668,50 +698,4 @@ body {
    	font-size: 1.1em;
 	
 	color: #E9674D;
-}
-
-/* 
-.chat-form input {
-	width: 80%;
-	height: 40px;
-	
-	background-color: rgba(0, 0, 0, 0.4);
-	color: #fff;
-	
-	border: 1px solid rgba(255, 255, 255, 0.2);
-	border-radius: 10px;
-	box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.1);
-	
-	font-family: 'Escoredream';
-	font-size: 1em;
-	letter-spacing: 1px;
-	
-	transition: border 0.3s ease, box-shadow 0.3s ease;
-}
-
-.chat-form input:focus:not([readonly]) {
-	outline: none;
-	border: 1px solid #FFDC5A;
-	box-shadow: 0 0 8px rgba(255, 220, 90, 0.6);
-	background-color: rgba(0, 0, 0, 0.6);
-}
-
-#chat-form button {
-	padding: 8px 15px;
-	border: none;
-	border-radius: 10px;
-	background: #ff416c;
-	color: white;
-	cursor: pointer;
-	font-weight: bold;
-}
- */
-/* sweetAlert2 */
-
-/* 모달 전체 둥글게 */
-.my-popup {
-	background-color: #0d0d0d !important;
-	border: 2px solid #39ff14;
-	border-radius: 25px; /* 여기서 둥글기 조절 */
-	box-shadow: 0 0 20px #39ff14, 0 0 40px #39ff14, 0 0 60px #39ff14;
 }

@@ -1,10 +1,10 @@
 
 let endingValue = true;
 let endingInfo = {
-	score: 1120,
-	plusTime: 100,
-	combo: 10,
-	cardCount: 15
+	score: 0,
+	plusTime: 0,
+	combo: 0,
+	cardCount: 0
 
 }
 		
@@ -13,7 +13,11 @@ function endGame() {
 	console.log('게임종료')
 	
 	let eM = document.getElementById("endingModal")
-	eM.style.top = "0px";
+	eM.style.zIndex = 10;
+	eM.style.opacity = 1;
+	
+	let main = document.getElementById("main")
+	main.style.opacity = 0;
 	
 	setTimeout(() => {
 		endingTextHandle();
@@ -38,7 +42,7 @@ function endingInfoHandle() {
 	let infos = document.getElementsByClassName('ending-info');
 	for(let i=0 ; i<infos.length ; i++) {
 		infos[i].style.opacity = 1;
-		infos[i].style.transition = '1s';
+		/*infos[i].style.transition = '1s';*/
 		let valueBox = infos[i].getElementsByClassName('value')[0]; 	
 		let value = valueBox.getAttribute('data-info');
 		

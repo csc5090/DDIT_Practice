@@ -28,7 +28,7 @@
 </head>
 <body>
 
-	<div class="main">
+	<div id="main" class="main">
 		<!-- 좌측 영역 70% -->
 
 		<div id="leftGame">
@@ -144,9 +144,9 @@
 				</div>
 	
 				<div id="buttonCover">
-	   				<button id="startBtn">Start</button>
+	   				<button id="startBtn" class="start-on">Start</button>
 				</div>
-	
+
 				<!-- 채팅창 영역 -->
 				<div class="chat">
 					<div class="chat-messages" id="chat-messages">

@@ -48,13 +48,13 @@ function addEventHandle() {
 }
 
 //======스타트 버튼 및 게임 시작 로직 
-function startGame() {
+function startGame(e) {
 	console.log('날 눌렀다.');
-	
+
 	gameStartTimeStr = new Date().toISOString().slice(0,19).replace("T"," "); // 시작 시간 기록
 	
 	startBtn.disabled = true;			//버튼 누른 후 다시 버튼 x
-	startBtn.style.cursor = 'default';
+	startBtn.className = "start-off"
 	/*document.body.appendChild();*/
 
 	if(savedArray == 4 || savedArray == 6 || savedArray == 8) createCard(savedArray);
@@ -150,11 +150,13 @@ function cardChoice(obj, e) {
 			// 모든 카드 맞출 시 ★ 종료 시점 ★
 			let endCard = (savedArray * savedArray) / 2;
 			if(count == endCard){
-			/*	================종료 로직 테스트중========================== */
+				/*	================종료 로직 테스트중========================== */
+				endingValue = true;
 				dataSave();
 				return;
 				}
-			} else {	//카드 짝이 틀리다면 => 0.x초 후 다시 뒤집기
+			} 
+			else {	//카드 짝이 틀리다면 => 0.x초 후 다시 뒤집기
 			
 			comboCount = 0;  // 콤보 초기화
 			
@@ -233,6 +235,7 @@ function startTimer(initialTime) {
 
 			
 			// ✅🔥 시간이 0이 되면 종료 처리
+			endingValue = false;
 			dataSave();
 	    }
 	}, 100); // 🔹 100ms 단위
@@ -387,13 +390,13 @@ function dataSave() {
 	gameLogToDB(jsonData);
 	
 	endingInfo = {
-	       score: totalscore,
-	       plusTime: clearTime,
-	       combo: maxCombo,
-	       cardCount: count
-	   };
-	   
-	   console.log("endingInfo", endingInfo);
+       score: totalscore,
+       plusTime: clearTime,
+       combo: maxCombo,
+       cardCount: count
+   };
+   
+   console.log("endingInfo", endingInfo);
 	   
     endGame();
 }

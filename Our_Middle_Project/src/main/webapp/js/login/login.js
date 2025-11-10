@@ -326,19 +326,30 @@ function adminUserCheck(obj) {
 	}
 	else if(value === "USER") {
 		
-		if(obj.pwCheck === false) {
-			onlyCheckAlert("error", "비밀번호를 틀렸습니다.")
-		}
-		else {
-			window.scrollTo({
-				top: 0,
-				behavior: 'smooth'
-			});
+		if(obj.status === "ACTIVE") {
 			
-			setTimeout(() => {
-				window.location.href = obj.url		
-			}, 1000)			
+			if(obj.pwCheck === false) {
+				onlyCheckAlert("error", "비밀번호를 틀렸습니다.")
+			}
+			else {
+				window.scrollTo({
+					top: 0,
+					behavior: 'smooth'
+				});
+				
+				setTimeout(() => {
+					window.location.href = obj.url		
+				}, 1000)			
+			}
+			
 		}
+		else if(obj.status === "SUSPENDED") {
+			onlyCheckAlert("error", "활동이 중단된 회원입니다.")
+		}
+		else if(obj.status === "DELETED") {
+			onlyCheckAlert("error", "탈퇴한 회원 입니다.<br> 복구문의는 고객센터를 이용해주세요.")
+		}
+		
 		
 	}
 	else if(value === "ADMIN") {
