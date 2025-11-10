@@ -30,5 +30,15 @@ public class MyPageDAOImpl implements MyPageDAO {
 	public List<GameLogDTO> getMyGameLogData(UserInfoDTO loingUser) {
 		return sqlSession.selectList("myPageMapper.loingUserGmaeLog", loingUser);
 	}
+	
+	@Override
+	public String getPasswordByMemId(String memId) {
+	    return sqlSession.selectOne("MyPageMapper.getPasswordByMemId", memId);
+	}
+
+	@Override
+	public int updateStatusToDeleted(String memId) {
+	    return sqlSession.update("MyPageMapper.updateStatusToDeleted", memId);
+	}
 
 }

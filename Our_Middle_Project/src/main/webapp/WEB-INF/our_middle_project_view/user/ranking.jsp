@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>    
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,9 +36,9 @@
    
    <div id="nickname">
       <span class="nick">
-         <c:out value="${sessionScope.loginUser.mem_id}" />
+     	 <c:out value="${sessionScope.loginUser.nickname}#${sessionScope.loginUser.mem_id}님" />
       </span>
-      <span class="hi">님 안녕하세요</span>
+      <span class="hi">안녕하세요</span>
    </div>
    
       <div class="home-button-container">

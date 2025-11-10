@@ -17,11 +17,9 @@ body {
     justify-content: center;     /* 가로 가운데 */
     align-items: flex-start;     /* 위쪽 기준 배치, 필요 시 center로 바꾸면 세로도 가운데 */
     
-    background-color: #0a0c12;
-    background-image:
-        radial-gradient(120% 120% at 0% 0%, rgba(0,209,255,0.15), transparent 55%),
-        radial-gradient(120% 120% at 100% 0%, rgba(180,130,255,0.15), transparent 50%),
-        radial-gradient(120% 120% at 100% 100%, rgba(155,92,255,0.12), transparent 50%);
+	background-image: url('../../images/mypage/rankingPage_back2.png');
+	background-size: 120% 100%; /* 가로 100%, 세로는 비율 유지 */
+	background-repeat: no-repeat; /* 반복 방지 */
     background-attachment: fixed;
 }
 
@@ -50,8 +48,9 @@ body {
     color: #fff;        
     
     z-index: 1000;       
-    
 }
+
+
 /*===우측 상단에 메인홈 이동  */
 .home-button-container {
     position: absolute;
@@ -142,6 +141,8 @@ body {
 	
 	display: flex;          /* flex 활성화 */
 	flex-direction: column;
+	
+	opacity: 0.95;
 }
 
 /* =================== 상단 css===============  */
@@ -179,8 +180,8 @@ body {
     
     background-color: #0a0c12;
     background-image:
-        radial-gradient(120% 120% at 100% 100%, rgba(0,209,255,0.15), transparent 55%),
-        radial-gradient(120% 120% at 0% 100%, rgba(180,130,255,0.15), transparent 50%),
+        radial-gradient(120% 120% at 100% 100%, rgba(0,0,0,0.9), transparent 55%),
+        radial-gradient(120% 120% at 100% 100%, rgba(0,0,0,0.9), transparent 55%),
         radial-gradient(120% 120% at 0% 0%, rgba(155,92,255,0.12), transparent 50%);
     background-attachment: fixed;
 
@@ -267,13 +268,16 @@ body {
     display: flex;
     flex-direction: column; /* span 세로 정렬 */
     gap: 2px;               /* span 사이 간격 */
+    white-space: nowrap;    /* 줄바꿈 방지 */
+    overflow: hidden;       /* 넘치면 숨김 */
+    text-overflow: ellipsis; /* ... 처리 */
 }
 
 span.span1 {
     font-size: 10px;   
 }
 span.span2 {
-	font-size: 16px;   
+	font-size: 15px;   
 }
 
 /*=================== 중단 css=============== */
@@ -338,8 +342,8 @@ span.span2 {
 }
 
 .ranking-item:hover {
-    background-color: rgba(0,209,255,0.1);
-    color: #00d1ff;
+    background-color: rgba(138, 43, 226, 0.1);
+    color: #8A2BE2;
 }
 
 .ranking-column {
@@ -443,7 +447,7 @@ span.span2 {
     width: 100%;
     height: 100%;
 
-    color: #b39ddb;
+    color: gray;
     font-family: 'KccAnchangho';
     font-size: 30px;      /* 기본 폰트 */
     font-weight: bold;
@@ -465,7 +469,7 @@ span.span2 {
 
 /* 현재 슬라이드 버튼 강조 */
 #bottomMain button.active {
-    color: #00d1ff;
+    color: #8A2BE2;
 }
 
 /* 4~50등 텍스트 */

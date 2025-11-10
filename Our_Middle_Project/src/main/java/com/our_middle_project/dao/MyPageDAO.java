@@ -14,4 +14,8 @@ public interface MyPageDAO {
 
 	List<GameLogDTO> getMyGameLogData(UserInfoDTO loingUser);
 
+	String getPasswordByMemId(String memId);
+
+	int updateStatusToDeleted(String memId);
+
 }
