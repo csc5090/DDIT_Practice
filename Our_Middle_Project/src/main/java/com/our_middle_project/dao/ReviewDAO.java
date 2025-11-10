@@ -23,5 +23,18 @@ public interface ReviewDAO {
 
 	// 바 차트: 리뷰 평점 분포
 	List<Map<String, Object>> getRatingDistribution();
+	
+	int checkReviewAuthority(Map<String, Object> param);
+	
+	// --- (삭제 트랜잭션용 메소드) ---
+    // ReviewServiceImpl이 SqlSession을 직접 제어하며 호출할 것임
+    void deleteReviewImages(Map<String, Object> param);
+    void deleteReviewStars(Map<String, Object> param);
+    void deleteReviewReplies(Map<String, Object> param);
+    void deleteReviewBoard(Map<String, Object> param);
+    
+    int updateReviewBoard(Map<String, Object> param);
+    
+    int updateReviewStar(Map<String, Object> param);
 
 }

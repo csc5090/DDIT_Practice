@@ -4,33 +4,79 @@
 <!-- 글 INSERT (PK는 트리거), AFTER에 CURRVAL로 회수 -->
 <mapper namespace="mappers.reviewMapper">
 
+	<select id="checkReviewAuthority" parameterType="map"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM BOARD
+		WHERE BOARD_NO = #{boardNo} AND
+		MEM_NO = #{memNo} AND TYPE_NO = 2
+	</select>
+
+	<delete id="deleteReviewImages" parameterType="int">
+		DELETE FROM
+		BOARD_IMAGE
+		WHERE BOARD_NO = #{boardNo}
+	</delete>
+
+	<delete id="deleteReviewStars" parameterType="int">
+		DELETE FROM
+		BOARD_STAR
+		WHERE BOARD_NO = #{boardNo}
+	</delete>
+
+	<delete id="deleteReviewReplies" parameterType="int">
+		DELETE FROM
+		BOARD_REPLY
+		WHERE BOARD_NO = #{boardNo}
+	</delete>
+
+	<delete id="deleteReviewBoard" parameterType="int">
+		DELETE FROM BOARD
+		WHERE BOARD_NO = #{boardNo}
+	</delete>
+
+
+
 	<insert id="insertBoard"
 		parameterType="com.our_middle_project.dto.ReviewDTO">
-		<selectKey keyProperty="boardNo" resultType="int" order="AFTER">
+		<selectKey keyProperty="boardNo" resultType="int"
+			order="AFTER">
 			SELECT SEQ_BOARD.CURRVAL FROM DUAL
-		</selectKey> INSERT INTO
-		BOARD ( BOARD_TITLE, BOARD_CONTENT, CREATED_DATE, UPDATED_DATE, MEM_NO,
-		TYPE_NO) VALUES ('[리뷰]', #{boardContent, jdbcType=VARCHAR}, SYSDATE,
-		SYSDATE, #{memNo}, 2) </insert>
+		</selectKey>
+		INSERT INTO
+		BOARD ( BOARD_TITLE, BOARD_CONTENT, CREATED_DATE,
+		UPDATED_DATE, MEM_NO,
+		TYPE_NO) VALUES ('[리뷰]', #{boardContent,
+		jdbcType=VARCHAR}, SYSDATE,
+		SYSDATE, #{memNo}, 2)
+	</insert>
 
 	<!-- 이미지 INSERT (FILE_DATA는 NULL 저장) -->
 	<!-- BOARD_IMAGE INSERT (파일 메타 저장; FILE_NO는 트리거) -->
 
 	<insert id="insertImage"
 		parameterType="com.our_middle_project.dto.FileImageDTO">
-		<selectKey keyProperty="fileNo" resultType="int" order="AFTER">
+		<selectKey keyProperty="fileNo" resultType="int"
+			order="AFTER">
 			SELECT SEQ_BOARD_IMAGE.CURRVAL FROM DUAL
-		</selectKey> INSERT
+		</selectKey>
+		INSERT
 		INTO BOARD_IMAGE ( FILE_NAME, FILE_DATA, FILE_PATH, FILE_SIZE,
-		FILE_TYPE, UPLOAD_DATE, TYPE_NO, BOARD_NO ) VALUES ( #{fileName}, NULL,
-		#{filePath}, #{fileSize}, #{fileType}, SYSDATE, 2, #{boardNo} ) </insert>
+		FILE_TYPE, UPLOAD_DATE, TYPE_NO, BOARD_NO ) VALUES ( #{fileName},
+		NULL,
+		#{filePath}, #{fileSize}, #{fileType}, SYSDATE, 2, #{boardNo} )
+	</insert>
 
 	<insert id="insertAuthorStar" parameterType="map">
-		<selectKey keyProperty="starNo" resultType="int" order="AFTER">
+		<selectKey keyProperty="starNo" resultType="int"
+			order="AFTER">
 			SELECT SEQ_BOARD_STAR.CURRVAL FROM DUAL
-		</selectKey> INSERT INTO
-		BOARD_STAR ( STAR, CREATED_DATE, UPDATED_DATE, MEM_NO, BOARD_NO ) VALUES
-		( #{star}, SYSDATE, SYSDATE, #{memNo}, #{boardNo} ) </insert>
+		</selectKey>
+		INSERT INTO
+		BOARD_STAR ( STAR, CREATED_DATE, UPDATED_DATE, MEM_NO,
+		BOARD_NO ) VALUES
+		( #{star}, SYSDATE, SYSDATE, #{memNo}, #{boardNo} )
+	</insert>
 
 	<!-- 완료 화면 조회 -->
 	<select id="selectReview" parameterType="int"
@@ -38,7 +84,8 @@
 		SELECT
 		B.BOARD_NO AS boardNo,
 		B.MEM_NO AS memNo,
-		M.NICKNAME AS nickName,
+		M.NICKNAME AS
+		nickName,
 		M.MEM_ID AS memId,
 		B.BOARD_CONTENT AS boardContent,
 		TO_CHAR(B.CREATED_DATE, 'YYYY-MM-DD HH24:MI:SS') AS createdDate,
@@ -49,42 +96,104 @@
 		NVL((
 		SELECT S.STAR
 		FROM BOARD_STAR S
-		WHERE S.BOARD_NO = B.BOARD_NO
+		WHERE S.BOARD_NO
+		= B.BOARD_NO
 		AND S.MEM_NO = B.MEM_NO
 		FETCH FIRST 1 ROWS ONLY
-		), 0) AS star,
+		), 0) AS
+		star,
 
 		/* 대표 썸네일 (가장 최근 1장) */
 		(
-		SELECT I.FILE_PATH
+		SELECT I.FILE_PATH || '/' || I.FILE_NAME
 		FROM BOARD_IMAGE I
 		WHERE I.BOARD_NO = B.BOARD_NO
-		ORDER BY I.UPLOAD_DATE DESC,
+		ORDER BY I.UPLOAD_DATE
+		DESC,
 		I.FILE_NO DESC
 		FETCH FIRST 1 ROWS ONLY
-		) AS thumbUrl
+		) AS thumbUrl,
+
+		(
+		SELECT BR.REPLY_CONTENT
+		FROM BOARD_REPLY BR
+		JOIN MEMBER M_ADMIN ON BR.MEM_NO = M_ADMIN.MEM_NO
+		WHERE BR.BOARD_NO = B.BOARD_NO
+		AND M_ADMIN.ROLE = 'ADMIN'
+		AND BR.UP_REPLY_NO IS NULL -- (관리자 답글은 대댓글이 아니라고 가정)
+		ORDER BY BR.CREATE_DATE DESC
+		FETCH FIRST 1 ROWS ONLY
+		) AS adminReplyContent,
+
+		(
+		SELECT TO_CHAR(BR.CREATE_DATE, 'YYYY-MM-DD')
+		FROM BOARD_REPLY BR
+		JOIN MEMBER M_ADMIN ON BR.MEM_NO = M_ADMIN.MEM_NO
+		WHERE BR.BOARD_NO = B.BOARD_NO
+		AND M_ADMIN.ROLE = 'ADMIN'
+		AND BR.UP_REPLY_NO IS NULL
+		ORDER BY BR.CREATE_DATE DESC
+		FETCH FIRST 1 ROWS ONLY
+		) AS adminReplyDate
 
 		FROM BOARD B
-		JOIN MEMBER M ON M.MEM_NO = B.MEM_NO
+		JOIN MEMBER M ON M.MEM_NO =
+		B.MEM_NO
 		WHERE B.TYPE_NO = 2
-		ORDER BY B.BOARD_NO DESC
+		ORDER BY
+		B.BOARD_NO DESC
 	</select>
 
 	<select id="getTodayReviewCount" resultType="int">
 		SELECT COUNT(*)
-		FROM BOARD
+		FROM
+		BOARD
 		WHERE TYPE_NO = 2 AND TRUNC(CREATED_DATE) = TRUNC(SYSDATE)
 	</select>
 
-	<select id="getRatingDistribution" resultType="java.util.HashMap">
+	<select id="getRatingDistribution"
+		resultType="java.util.HashMap">
 		SELECT
 		S.STAR AS "RATING",
 		COUNT(S.STAR_NO) AS "COUNT"
-		FROM BOARD_STAR S
+		FROM
+		BOARD_STAR S
 		JOIN BOARD B ON S.BOARD_NO = B.BOARD_NO
 		WHERE B.TYPE_NO = 2
 		GROUP BY S.STAR
 		ORDER BY S.STAR DESC
 	</select>
+
+	<update id="updateReviewBoard" parameterType="map">
+		UPDATE BOARD
+		SET
+		BOARD_CONTENT = #{boardContent},
+		UPDATED_DATE = SYSDATE
+		WHERE
+		BOARD_NO =
+		#{boardNo}
+		AND MEM_NO = #{memNo}
+	</update>
+
+	<update id="updateReviewStar" parameterType="map">
+		MERGE INTO
+		BOARD_STAR S
+		USING (SELECT #{boardNo} AS BOARD_NO, #{memNo} AS MEM_NO,
+		#{star} AS STAR
+		FROM DUAL) D
+		ON (S.BOARD_NO = D.BOARD_NO AND S.MEM_NO =
+		D.MEM_NO)
+		WHEN MATCHED THEN
+		UPDATE SET S.STAR = D.STAR, S.UPDATED_DATE =
+		SYSDATE
+		WHERE S.STAR != D.STAR
+		WHEN NOT MATCHED THEN
+		INSERT (S.STAR_NO,
+		S.STAR, S.CREATED_DATE, S.UPDATED_DATE, S.MEM_NO,
+		S.BOARD_NO)
+		VALUES
+		(SEQ_BOARD_STAR.NEXTVAL, D.STAR, SYSDATE, SYSDATE, D.MEM_NO,
+		D.BOARD_NO)
+	</update>
 
 </mapper>

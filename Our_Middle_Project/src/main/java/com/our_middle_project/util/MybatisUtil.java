@@ -31,5 +31,9 @@ public class MybatisUtil {
 	public static SqlSession getSqlSession() {
 		return sqlSessionFactory.openSession(true); // true: auto-commit
 	}
+	
+	public static SqlSession getSqlSession(boolean autoCommit) {
+		return sqlSessionFactory.openSession(autoCommit); // autoCommit 설정
+	}
 
 }

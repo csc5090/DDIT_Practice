@@ -17,5 +17,9 @@ public interface ReviewService {
 	
     // select
     List<ReviewDTO> selectReview();
-       
+    int writeReviewTransaction(ReviewDTO boardDTO, int star, List<FileImageDTO> imageList);
+    
+    boolean deleteReviewTransaction(int boardNo, int memNo);
+    
+    boolean updateReviewTransaction(int boardNo, int memNo, String newContent, int newStar);
 }

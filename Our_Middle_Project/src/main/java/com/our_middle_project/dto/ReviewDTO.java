@@ -40,4 +40,7 @@ public class ReviewDTO {
 	// DB: FILE_IMAGE.PATH (FILE_PATH)
 	private String thumbUrl;
 	
+	private String adminReplyContent; // 관리자 댓글 내용
+    private String adminReplyDate;    // 관리자 댓글 작성일
+	
 }

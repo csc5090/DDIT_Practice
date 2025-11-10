@@ -89,4 +89,49 @@ public class ReviewDAOImpl implements ReviewDAO {
 			return Collections.emptyList();
 		}
 	}
+
+	@Override
+	public int checkReviewAuthority(Map<String, Object> param) {
+		try (SqlSession session = MybatisUtil.getSqlSession()) {
+			return session.selectOne("mappers.reviewMapper.checkReviewAuthority", param);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
+	@Override
+	public void deleteReviewImages(Map<String, Object> param) {
+		// (트랜잭션 관리를 위해 ServiceImpl에서 SqlSession을 직접 사용함)
+		// 이 DAOImpl 메소드는 직접 사용되지 않음.
+	}
+
+	@Override
+	public void deleteReviewStars(Map<String, Object> param) {
+		// (트랜잭션 관리를 위해 ServiceImpl에서 SqlSession을 직접 사용함)
+	}
+
+	@Override
+	public void deleteReviewReplies(Map<String, Object> param) {
+		// (트랜잭션 관리를 위해 ServiceImpl에서 SqlSession을 직접 사용함)
+	}
+
+	@Override
+	public void deleteReviewBoard(Map<String, Object> param) {
+		// (트랜잭션 관리를 위해 ServiceImpl에서 SqlSession을 직접 사용함)
+	}
+	
+	@Override
+    public int updateReviewBoard(Map<String, Object> param) {
+        // (트랜잭션 관리를 위해 ServiceImpl에서 SqlSession을 직접 사용함)
+        // 이 DAOImpl 메소드는 직접 사용되지 않음.
+        return 0;
+    }
+	
+	@Override
+    public int updateReviewStar(Map<String, Object> param) {
+        // (트랜잭션 관리를 위해 ServiceImpl에서 SqlSession을 직접 사용함)
+        // 이 DAOImpl 메소드는 직접 사용되지 않음.
+        return 0;
+    }
 }
