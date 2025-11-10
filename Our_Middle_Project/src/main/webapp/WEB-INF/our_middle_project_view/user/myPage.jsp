@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>   
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -37,9 +38,9 @@
 		<div class="my-main-header">
 			<div class="my-logo">MyLogo</div>
 			<div class="my-header-menu">
-				<div data-text="게임하러가기" data-hover="PLAY GAME"></div>
-				<div data-text="게시판가기" data-hover="BOARD"></div>
-				<div data-text="로그아웃" data-hover="LOGOUT"></div>
+				<div data-text="게임하러가기" data-hover="PLAY GAME" onclick="location.href='gameHome.do'"></div>
+				<div data-text="게시판가기" data-hover="BOARD" onclick="location.href='board.do'"></div>
+				<div data-text="로그아웃" data-hover="LOGOUT" onclick="location.href='login.do'"></div>
 			</div>
 		</div>
 
@@ -83,37 +84,37 @@
 						</div>
 						<div class="my-game-info-row">
 							<span>점수</span>
-							<span>8200</span>
+							<span>${sessionScope.MyPage_RankingDataNormal.score_best}</span>
 						</div>
 						<div class="my-game-info-row">
 							<span>클리어타임</span>
-							<span>05:10</span>
+							<span>${sessionScope.MyPage_RankingDataNormal.clear_time}</span>
 						</div>
 						<div class="my-game-info-row">
 							<span>콤보</span>
-							<span>78</span>
+							<span>${sessionScope.MyPage_RankingDataNormal.combo}</span>
 						</div>
 					</div>
 					<div class="my-game-card">
 						<div class="my-game-info-head">
 							<span>Easy Mode</span>
-							<span>12등</span>
+							<span>${sessionScope.MyPage_RankingDataEasy.rank}등</span>
 						</div>
 						<div class="my-game-info-row">
 							<span>일자</span>
-							<span>2025-11-05</span>
+							<span>${fn:substring(sessionScope.MyPage_RankingDataEasy.played_last_date, 0, 10)}</span>
 						</div>
 						<div class="my-game-info-row">
 							<span>점수</span>
-							<span>8200</span>
+							<span>${sessionScope.MyPage_RankingDataEasy.score_best}</span>
 						</div>
 						<div class="my-game-info-row">
 							<span>클리어타임</span>
-							<span>05:10</span>
+							<span>${sessionScope.MyPage_RankingDataEasy.clear_time}</span>
 						</div>
 						<div class="my-game-info-row">
 							<span>콤보</span>
-							<span>78</span>
+							<span>${sessionScope.MyPage_RankingDataEasy.combo}</span>
 						</div>
 					</div>
 				</div>
@@ -121,262 +122,44 @@
 
 			<!-- 중앙: 최근 30게임 -->
 			<div class="my-panel my-middle-panel">
-				<div class="my-panel-header">
-					<span>Recent Game</span>
-				</div>
-				<div class="my-panel-content">
-					<div class="my-recent-header">
-						<div>번호</div>
-						<div>난이도</div>
-						<div>일자</div>
-						<div>점수</div>
-						<div>클리어타임</div>
-						<div>콤보</div>
-					</div>
-					<div class="my-recent-games">
-						<div class="my-recent-row">
-							<div>1</div>
-							<div>하</div>
-							<div>2025-11-01</div>
-							<div>9000</div>
-							<div>04:10</div>
-							<div>75</div>
-						</div>
-						<div class="my-recent-row">
-							<div>2</div>
-							<div>중</div>
-							<div>2025-11-01</div>
-							<div>8500</div>
-							<div>04:50</div>
-							<div>60</div>
-						</div>
-						<div class="my-recent-row">
-							<div>3</div>
-							<div>상</div>
-							<div>2025-11-02</div>
-							<div>7800</div>
-							<div>05:20</div>
-							<div>50</div>
-						</div>
-						<div class="my-recent-row">
-							<div>4</div>
-							<div>하</div>
-							<div>2025-11-02</div>
-							<div>9100</div>
-							<div>03:50</div>
-							<div>80</div>
-						</div>
-						<div class="my-recent-row">
-							<div>5</div>
-							<div>중</div>
-							<div>2025-11-03</div>
-							<div>8600</div>
-							<div>04:30</div>
-							<div>65</div>
-						</div>
-						<div class="my-recent-row">
-							<div>6</div>
-							<div>상</div>
-							<div>2025-11-03</div>
-							<div>7900</div>
-							<div>05:10</div>
-							<div>55</div>
-						</div>
-						<div class="my-recent-row">
-							<div>7</div>
-							<div>하</div>
-							<div>2025-11-04</div>
-							<div>9200</div>
-							<div>03:45</div>
-							<div>85</div>
-						</div>
-						<div class="my-recent-row">
-							<div>8</div>
-							<div>중</div>
-							<div>2025-11-04</div>
-							<div>8700</div>
-							<div>04:20</div>
-							<div>70</div>
-						</div>
-						<div class="my-recent-row">
-							<div>9</div>
-							<div>상</div>
-							<div>2025-11-05</div>
-							<div>8000</div>
-							<div>05:05</div>
-							<div>60</div>
-						</div>
-						<div class="my-recent-row">
-							<div>10</div>
-							<div>하</div>
-							<div>2025-11-05</div>
-							<div>9300</div>
-							<div>03:40</div>
-							<div>90</div>
-						</div>
-						<div class="my-recent-row">
-							<div>11</div>
-							<div>중</div>
-							<div>2025-11-06</div>
-							<div>8800</div>
-							<div>04:15</div>
-							<div>68</div>
-						</div>
-						<div class="my-recent-row">
-							<div>12</div>
-							<div>상</div>
-							<div>2025-11-06</div>
-							<div>8100</div>
-							<div>05:00</div>
-							<div>58</div>
-						</div>
-						<div class="my-recent-row">
-							<div>13</div>
-							<div>하</div>
-							<div>2025-11-07</div>
-							<div>9400</div>
-							<div>03:35</div>
-							<div>95</div>
-						</div>
-						<div class="my-recent-row">
-							<div>14</div>
-							<div>중</div>
-							<div>2025-11-07</div>
-							<div>8900</div>
-							<div>04:05</div>
-							<div>72</div>
-						</div>
-						<div class="my-recent-row">
-							<div>15</div>
-							<div>상</div>
-							<div>2025-11-08</div>
-							<div>8200</div>
-							<div>05:10</div>
-							<div>60</div>
-						</div>
-						<div class="my-recent-row">
-							<div>16</div>
-							<div>하</div>
-							<div>2025-11-08</div>
-							<div>9500</div>
-							<div>03:30</div>
-							<div>100</div>
-						</div>
-						<div class="my-recent-row">
-							<div>17</div>
-							<div>중</div>
-							<div>2025-11-09</div>
-							<div>8700</div>
-							<div>04:25</div>
-							<div>70</div>
-						</div>
-						<div class="my-recent-row">
-							<div>18</div>
-							<div>상</div>
-							<div>2025-11-09</div>
-							<div>8300</div>
-							<div>05:05</div>
-							<div>62</div>
-						</div>
-						<div class="my-recent-row">
-							<div>19</div>
-							<div>하</div>
-							<div>2025-11-10</div>
-							<div>9600</div>
-							<div>03:25</div>
-							<div>105</div>
-						</div>
-						<div class="my-recent-row">
-							<div>20</div>
-							<div>중</div>
-							<div>2025-11-10</div>
-							<div>8800</div>
-							<div>04:00</div>
-							<div>75</div>
-						</div>
-						<div class="my-recent-row">
-							<div>21</div>
-							<div>상</div>
-							<div>2025-11-11</div>
-							<div>8400</div>
-							<div>05:15</div>
-							<div>64</div>
-						</div>
-						<div class="my-recent-row">
-							<div>22</div>
-							<div>하</div>
-							<div>2025-11-11</div>
-							<div>9700</div>
-							<div>03:20</div>
-							<div>110</div>
-						</div>
-						<div class="my-recent-row">
-							<div>23</div>
-							<div>중</div>
-							<div>2025-11-12</div>
-							<div>8900</div>
-							<div>04:10</div>
-							<div>78</div>
-						</div>
-						<div class="my-recent-row">
-							<div>24</div>
-							<div>상</div>
-							<div>2025-11-12</div>
-							<div>8500</div>
-							<div>05:05</div>
-							<div>66</div>
-						</div>
-						<div class="my-recent-row">
-							<div>25</div>
-							<div>하</div>
-							<div>2025-11-13</div>
-							<div>9800</div>
-							<div>03:15</div>
-							<div>115</div>
-						</div>
-						<div class="my-recent-row">
-							<div>26</div>
-							<div>중</div>
-							<div>2025-11-13</div>
-							<div>8900</div>
-							<div>04:00</div>
-							<div>80</div>
-						</div>
-						<div class="my-recent-row">
-							<div>27</div>
-							<div>상</div>
-							<div>2025-11-14</div>
-							<div>8600</div>
-							<div>05:20</div>
-							<div>70</div>
-						</div>
-						<div class="my-recent-row">
-							<div>28</div>
-							<div>하</div>
-							<div>2025-11-14</div>
-							<div>9900</div>
-							<div>03:10</div>
-							<div>120</div>
-						</div>
-						<div class="my-recent-row">
-							<div>29</div>
-							<div>중</div>
-							<div>2025-11-15</div>
-							<div>9000</div>
-							<div>04:05</div>
-							<div>82</div>
-						</div>
-						<div class="my-recent-row">
-							<div>30</div>
-							<div>상</div>
-							<div>2025-11-15</div>
-							<div>8700</div>
-							<div>05:10</div>
-							<div>68</div>
-						</div>
-					</div>
-				</div>
+			    <div class="my-panel-header">
+			        <span>Recent Game</span>
+			    </div>
+			    <div class="my-panel-content">
+			        <div class="my-recent-header">
+			            <div>번호</div>
+			            <div>난이도</div>
+			            <div>일자</div>
+			            <div>점수</div>
+			            <div>클리어타임</div>
+			            <div>콤보</div>
+			        </div>
+			
+			        <div class="my-recent-games">
+			
+			            <c:forEach var="log" items="${sessionScope.MyPage_GameLogData}" varStatus="status">
+			                <c:if test="${status.index < 30}">
+			                    <div class="my-recent-row">
+			                        <div>${status.index + 1}</div>
+			                        <div>
+			                            <c:choose>
+			                                <c:when test="${log.levelNo == 3}">상</c:when>
+			                                <c:when test="${log.levelNo == 2}">중</c:when>
+			                                <c:when test="${log.levelNo == 1}">하</c:when>
+			                            </c:choose>
+			                        </div>
+			                        <div>${log.startTimeStr}</div>
+			                        <div>${log.score}</div>
+			                        <div>${log.clearTime}</div>
+			                        <div>${log.combo}</div>
+			                    </div>
+			                </c:if>
+			            </c:forEach>
+			
+			        </div>
+			    </div>
 			</div>
+
 
 
 			<!-- 오른쪽: 나의 정보 -->
@@ -476,7 +259,7 @@
 					<div class="my-join-section">
 						<div class="my-join-row">
 							<span class="my-join-label">Join Day</span>
-							<span class="my-join-text">${sessionScope.MyPage_UserData.create_date}</span>
+							<span class="my-join-text">${fn:substring(sessionScope.MyPage_UserData.create_date, 0, 10)}</span>
 						</div>
 					</div>
 

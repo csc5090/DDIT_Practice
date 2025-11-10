@@ -1,6 +1,7 @@
 package com.our_middle_project.controller;
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.our_middle_project.action.Action;
@@ -53,8 +54,20 @@ public class MyPageController implements Action {
             else if (dto.getLevel_no() == 1) easy = dto;
         }
         
+
+        
         // 게임 로그 가져오기
         List<GameLogDTO> gameLogDTO = myPageService.getMyGameLogData(loginUser);  
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        for(GameLogDTO log : gameLogDTO) {
+            if(log.getStartTime() != null) {
+                log.setStartTimeStr(log.getStartTime().format(formatter));
+            } else {
+                log.setStartTimeStr("-");
+            }
+        }
         
         // 세션에 각각 담기
         request.getSession().setAttribute("MyPage_UserData", userInfoDTO);
@@ -62,6 +75,10 @@ public class MyPageController implements Action {
         request.getSession().setAttribute("MyPage_RankingDataNormal", normal);
         request.getSession().setAttribute("MyPage_RankingDataEasy", easy);
         request.getSession().setAttribute("MyPage_GameLogData", gameLogDTO);
+        
+        
+        System.out.println("0 startTimeStr = " + gameLogDTO.get(0).getStartTimeStr());
+        System.out.println("1 startTimeStr = " + gameLogDTO.get(1).getStartTimeStr());
         
         System.out.println(userInfoDTO);
  
