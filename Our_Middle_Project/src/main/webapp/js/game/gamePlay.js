@@ -174,14 +174,16 @@ function cardChoice(obj, e) {
 	}
 
 //======카운트 다운 로직 
-function countDown(callback){	
+function countDown(callback){
+		
 	const countEl = document.getElementById("countDown");
-	countEl.style.display = "flex"; // 버튼 클릭 후 표시
+	const countEl_in = document.getElementById("countDown-in");
+//	countEl.style.display = "flex"; // 버튼 클릭 후 표시
 
 	let count = 3;
 
 	const timer = setInterval(() => {
-		countEl.textContent = count > 0 ? count : "GO!";
+		countEl_in.textContent = count > 0 ? count : "GO!";
 		count--;
 
 		if (count < 0) {

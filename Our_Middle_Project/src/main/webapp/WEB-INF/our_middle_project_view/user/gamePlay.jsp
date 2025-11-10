@@ -32,18 +32,23 @@
 		<!-- 좌측 영역 70% -->
 
 		<div id="leftGame">
-				
+  			
 			<div id="leftAreaLeft">
-				
+				<div class="score-board">
+	   				  <div>점수: <span class="score">0</span></div>
+	   		 		  <div>콤보: <span class="combo">0</span></div>
+	  				  <div>최고 콤보: <span class="max-combo">0</span></div>
+	  			</div>
 				<div id="gameTimer">
-				<div id="timeCount">00 : 00</div>
+					<div id="timeCount">00 : 00</div>
 				</div>
 			</div>	
 	
 			<div id="leftArea"></div>	<!--실제 카드 놓이는곳 -->
-			<div id="countDown"></div> 
-			
-			<div id="leftAreaRight"></div>
+			<div id="countDown">
+				<div></div>
+				<div id="countDown-in"></div>
+			</div> 
 			
 			
 		</div>
@@ -56,54 +61,171 @@
 				<button id="exitBtn">나가기</button>
 			</div>
 			
-			<div class="score-board">
-   				  <div>점수: <span class="score">0</span></div>
-   		 		  <div>콤보: <span class="combo">0</span></div>
-  				  <div>최고 콤보: <span class="max-combo">0</span></div>
-  			</div>
-
-
-			<!-- 프로필 영역 -->
-			<div class="profile">
+			<div class="rightAreaContent">
 			
-				<div class="player">
-					<img src="./images/char/${sessionScope.loginUser.mem_gender == 'M' ? 'm' : 'f'}.png" alt="캐릭터">
-					<div class="name">
-						<c:out value="${sessionScope.loginUser.mem_id}" />
+				<!-- 프로필 영역 -->
+				<div class="profile">
+				
+					<div class="player-card">
+						<div class="player-infos">
+							<span>USERNO: </span>
+							<span>
+								<c:out value="${sessionScope.loginUser.mem_no}" />
+							</span>
+						</div>
+						<div class="player-infos">
+							<span>NICKNAME: </span>
+							<span>
+								<c:out value="${sessionScope.loginUser.mem_id}" />
+							</span>
+						</div>
+						<div class="player-infos">
+							<span>NICKNAME: </span>
+							<span>
+								<c:out value="${sessionScope.loginUser.nickname}" />
+							</span>
+						</div>
 					</div>
-					<div class="name">
-						<c:out value="${sessionScope.loginUser.nickname}" />
+					
+					<div class="empty-area">
+					
+						<svg 
+						xmlns="http://www.w3.org/2000/svg"	
+						viewBox="0 0 1024 1024" role="img"
+						aria-label="Twin Cards logo - white outline back card, filled front card with question mark cutout, transparent background">
+				
+							<defs>
+								<!-- 카드 내부 기준 마스크 -->
+								<mask id="cutQuestion">
+									<!-- 카드 전체 흰색 (보이는 영역) -->
+									<rect x="0" y="0" width="100%" height="100%" fill="white" />
+									<!-- 물음표: 카드 중앙에 위치, 가로폭 85%로 축소 -->
+									<text x="165" y="270" text-anchor="middle"
+										dominant-baseline="middle"
+										font-family="'Arial Black', 'Malgun Gothic', sans-serif"
+										font-weight="700" font-size="384" fill="black"
+										transform="translate(15,0) scale(0.85,1)">?</text>
+								</mask>
+							</defs>
+					
+							<!-- 카드 그룹 -->
+							<g id="cards" transform="translate(0,20)">
+								<!-- 뒷카드 (20px 왼쪽 이동, 왼쪽으로 기울임 -12도) -->
+								<g transform="translate(220,160) rotate(-12 170 240)">
+									<rect x="0" y="0" width="330" height="480" rx="28" ry="28"
+										fill="none" stroke="#E9674D" stroke-width="12" opacity="1" />
+								</g>
+					
+								<!-- 앞카드 (오른쪽으로 총 25px 이동 + 오른쪽으로 기울이기 +6도) -->
+								<g transform="translate(495,220) rotate(6 165 240)">
+									<rect x="0" y="0" width="330" height="480" rx="28" ry="28"
+										fill="#E9674D" mask="url(#cutQuestion)" />
+								</g>
+							</g>
+					
+							<!-- "Twin Cards" 텍스트 -->
+							<g id="wordmark">
+								<text x="512" y="880" text-anchor="middle"
+									font-family="'KCCAnchangho', cursive"
+									font-size="160" font-weight="600" letter-spacing="6" fill="#E9674D">
+									Twin Cards
+								</text>
+					
+								<text x="512" y="840" text-anchor="middle"
+									font-family="'KCCAnchangho', cursive"
+									font-size="152" font-weight="600" letter-spacing="6" fill="none"
+									stroke="#E9674D" stroke-width="6" stroke-linejoin="round"
+									stroke-linecap="round" paint-order="stroke fill" />
+							</g>
+						</svg>
+					
 					</div>
 					
 				</div>
-				
-<!-- 				<div class="other"> -->
-<!-- 					<img src="" alt="*"> -->
-<!-- 					<div class="name">미야옹</div> -->
-<!-- 					<div class="score">score:0</div> -->
-<!-- 				</div> -->
-				
-				<!-- 버튼 -->
+	
 				<div id="buttonCover">
-    				<button id="startBtn">START</button>
+	   				<button id="startBtn">Start</button>
 				</div>
-				<!-- 버튼 -->
+	
+				<!-- 채팅창 영역 -->
+				<div class="chat">
+					<div class="chat-messages" id="chat-messages">
+					
+						<div class="message myChat">
+							<div class="myChat_info">
+								<span class="chat_detail">안녕하세요.</span>
+							</div>
+						</div>
+						
+						<div class="message theirChat">
+							<div class="theirChat_info">
+								<span class="chat_nickName">닉네임</span>
+								<span class="chat_id">#molly001</span>
+								:
+								<span class="chat_detail">
+									안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안
+								</span>
+							</div>
+						</div>
+						
+						<div class="message theirChat">
+							<div class="theirChat_info">
+								<span class="chat_nickName">닉네임</span>
+								<span class="chat_id">#molly001</span>
+								:
+								<span class="chat_detail">
+									안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안
+								</span>
+							</div>
+						</div>
+						
+						<div class="message myChat">
+							<div class="myChat_info">
+								<span class="chat_detail">안녕하세요.</span>
+							</div>
+						</div>
+						
+						<div class="message theirChat">
+							<div class="theirChat_info">
+								<span class="chat_nickName">닉네임</span>
+								<span class="chat_id">#molly001</span>
+								:
+								<span class="chat_detail">
+									안녕하세요안녕하
+								</span>
+							</div>
+						</div>
+						
+						<div class="message myChat">
+							<div class="myChat_info">
+								<span class="chat_detail">안녕하세요.</span>
+							</div>
+						</div>
+						
+						<div class="message myChat">
+							<div class="myChat_info">
+								<span class="chat_detail">안녕하세요.</span>
+							</div>
+						</div>
+						
+						<div class="message myChat">
+							<div class="myChat_info">
+								<span class="chat_detail">안녕하세요.</span>
+							</div>
+						</div>
+						
+					</div>
+					
+					<div class="chat-send-area">
+						<form class="chat-form" id="chat-form">
+							<input type="text">
+						</form>
+						<button type="submit">전송</button>					
+					</div>
+				</div>
 			
-				
 			</div>
-
-			<!-- 채팅창 영역 -->
-			<div class="chat">
-				<div class="chat-messages" id="chat-messages">
-					<div class="message sent">안녕하세요!</div>
-					<div class="message received">반갑습니다 😄</div>
-					<div class="message sent">즐겜하세요 ~~</div>
-				</div>
-				<form class="chat-form" id="chat-form">
-					<input type="text" id="chat-input">
-					<button type="submit">전송</button>
-				</form>
-			</div>
+			
 		</div>
 	</div>
 	
