@@ -150,75 +150,12 @@
 				<!-- 채팅창 영역 -->
 				<div class="chat">
 					<div class="chat-messages" id="chat-messages">
-					
-						<div class="message myChat">
-							<div class="myChat_info">
-								<span class="chat_detail">안녕하세요.</span>
-							</div>
-						</div>
-						
-						<div class="message theirChat">
-							<div class="theirChat_info">
-								<span class="chat_nickName">닉네임</span>
-								<span class="chat_id">#molly001</span>
-								:
-								<span class="chat_detail">
-									안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안
-								</span>
-							</div>
-						</div>
-						
-						<div class="message theirChat">
-							<div class="theirChat_info">
-								<span class="chat_nickName">닉네임</span>
-								<span class="chat_id">#molly001</span>
-								:
-								<span class="chat_detail">
-									안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안
-								</span>
-							</div>
-						</div>
-						
-						<div class="message myChat">
-							<div class="myChat_info">
-								<span class="chat_detail">안녕하세요.</span>
-							</div>
-						</div>
-						
-						<div class="message theirChat">
-							<div class="theirChat_info">
-								<span class="chat_nickName">닉네임</span>
-								<span class="chat_id">#molly001</span>
-								:
-								<span class="chat_detail">
-									안녕하세요안녕하
-								</span>
-							</div>
-						</div>
-						
-						<div class="message myChat">
-							<div class="myChat_info">
-								<span class="chat_detail">안녕하세요.</span>
-							</div>
-						</div>
-						
-						<div class="message myChat">
-							<div class="myChat_info">
-								<span class="chat_detail">안녕하세요.</span>
-							</div>
-						</div>
-						
-						<div class="message myChat">
-							<div class="myChat_info">
-								<span class="chat_detail">안녕하세요.</span>
-							</div>
-						</div>
 						
 					</div>
 					
 					<div class="chat-send-area">
 						<div class="chat-form" id="chat-form">
-							<input type="text">
+							<input id="chat_input" type="text">
 						</div>
 						<button id="chatSendBtn">전송</button>
 					</div>

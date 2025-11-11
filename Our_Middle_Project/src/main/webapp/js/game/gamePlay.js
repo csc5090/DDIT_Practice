@@ -16,6 +16,8 @@ let timeEl;
 // let gameEnded = false;	//게임 종료
 let gamePlay = false;
 
+// chat-messages 객체
+let chatMessages;
 
 //======페이지 로드
 window.onload = () => {
@@ -24,7 +26,8 @@ window.onload = () => {
 	comboElement = document.querySelector(".combo");
 	maxComboElement = document.querySelector(".max-combo");
 	timeEl = document.getElementById("timeCount");
-
+	chatMessages = document.getElementById("chat-messages")
+	
 	addEventHandle();
 }
 
@@ -48,6 +51,8 @@ function addEventHandle() {
 	let chatSendBtn = document.getElementById("chatSendBtn");
 	chatSendBtn.addEventListener("click", () => { gameChatMessageSend() });
 	
+	let chatInput = document.getElementById("chat_input")
+	chatInput.addEventListener("keyup", (e) => { chatInputChangeHandle(e) })
 }
 
 //======스타트 버튼 및 게임 시작 로직 
@@ -403,3 +408,36 @@ function dataSave() {
 	   
     endGame();
 }
+
+function chatInputChangeHandle(e) {
+	
+	if(e.key === "Enter") {
+	
+		let target = e.target;
+		let value = target.value;
+		
+		if(value.trim() !== "") {
+			
+			let message = {
+				id: userDataCase.mem_id,
+				nick: userDataCase.nickname,
+				value: value
+			}
+			
+			gameChatMessageSend(message);
+			target.value = "";
+			
+		}
+		
+			
+	}
+	
+	
+	
+	
+}
+
+
+
+
+
