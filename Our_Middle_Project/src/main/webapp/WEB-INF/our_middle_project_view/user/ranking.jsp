@@ -26,7 +26,6 @@
    <script src="https://unpkg.com/lucide@latest"></script><!-- 홈 이모티콘 -->
    <link rel="stylesheet"href="./css/ranking/ranking_layout.css">
    
-   <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
    <link rel="stylesheet" href="./css/fonts.css">
    
 <!-- ===================================================================================== -->

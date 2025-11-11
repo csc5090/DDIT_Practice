@@ -1,12 +1,5 @@
 @charset "UTF-8";
 
-@font-face {
-  font-family: 'KCCAnchangho';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_1@1.0/KCC-Ahnchangho.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-}
-
 body {
     height: 100vh; 
     margin: 0;
