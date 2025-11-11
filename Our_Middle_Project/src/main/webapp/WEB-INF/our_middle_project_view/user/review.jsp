@@ -4,62 +4,72 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <div id="iReviewModal" class="reviewModal review-modal-off">
-    <div class="bootstrap-env"> 
+	<div class="bootstrap-env">
 		<div class="reviewDialog">
-            
-            <div class="reviewHeader">
-				<button id="iCloseModal" class="closeModal" type="button"> 
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
-					  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-					  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+
+			<div class="reviewHeader">
+				<button id="iCloseModal" class="closeModal" type="button">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+						fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+					  <path
+							d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+					  <path
+							d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
 					</svg>
 				</button>
 			</div>
-			
-            <div id="iReviewToolbar" class="reviewToolbar">
-				<button id="iwrtBtn" class="wrtBtn" type="button" aria-expanded="false">
-				                    리뷰 작성
-				                </button>
-			    <button class="sortBtn" data-sort="oldest">최신순</button>
-			    <button class="sortBtn" data-sort="newest">오래된 순</button>
-			</div>
-            
-            <div class="bottomBar" id="iBottomBar">
+
+			<div id="iReviewToolbar" class="reviewToolbar">
+				<button id="iwrtBtn" class="wrtBtn" type="button"
+					aria-expanded="false">리뷰 작성</button>
+				<div class="sortBtnGroup">
+					<button class="sortBtn" data-sort="newest">오래된 순</button>
+					<button class="sortBtn" data-sort="oldest">최신순</button>
+				</div>
 			</div>
 
 			<div class="innerContent">
 				<section id="iReviewList" class="reviewList">
 
 					<c:if test="${!empty reviewList}">
+
 						<c:forEach var="r" items="${reviewList}">
-							<article class="rv-card" data-board-no="${r.boardNo}" data-mem-no="${r.memNo}" >
+
+							<c:set var="isUserReview"
+								value="${sessionScope.loginUser.mem_no == r.memNo}" />
+
+							<article class="rv-card" data-board-no="${r.boardNo}"
+								data-mem-no="${r.memNo}"
+								<c:if test="${isUserReview}">id="myReviewCard"</c:if>>
+
 								<div class="rv-head">
 									<span class="nickname"><c:out value="${r.nickName}" /></span>
-									<span class="memId">#<c:out value="${r.memId}" /></span>
-									<span class="stars" aria-label="${r.star}점">
-									<c:forEach var="i" begin="1" end="5">
+									<span class="memId">#<c:out value="${r.memId}" /></span> <span
+										class="stars" aria-label="${r.star}점"> <c:forEach
+											var="i" begin="1" end="5">
 											<c:choose>
-												<c:when test="${i <= (r.star lt 0 ? 0 : (r.star gt 5 ? 5 : r.star))}">★</c:when>
+												<c:when
+													test="${i <= (r.star lt 0 ? 0 : (r.star gt 5 ? 5 : r.star))}">★</c:when>
 												<c:otherwise>☆</c:otherwise>
 											</c:choose>
 										</c:forEach>
 									</span>
-									
-									
+
+
 									<div class="rv-actions">
-									<span class="date"> <c:out
-											value="${empty r.updatedDate ? r.createdDate : r.updatedDate}" />
-									</span>
+										<span class="date"> <c:out
+												value="${empty r.updatedDate ? r.createdDate : r.updatedDate}" />
+										</span>
 
-									<c:if test="${sessionScope.loginUser.mem_no == r.memNo}">
-										<button type="button"
-											class="btn btn-outline-info btn-sm ms-auto btn-update-review"
-											data-board-no="${r.boardNo}">수정</button>
+										<c:if test="${isUserReview}">
+											<button type="button"
+												class="btn btn-outline-info btn-sm ms-auto btn-update-review"
+												data-board-no="${r.boardNo}">수정</button>
 
-										<button type="button"
-											class="btn btn-outline-danger btn-sm ms-auto btn-delete-review"
-											data-board-no="${r.boardNo}">삭제</button>
-									</c:if>
+											<button type="button"
+												class="btn btn-outline-danger btn-sm ms-auto btn-delete-review"
+												data-board-no="${r.boardNo}">삭제</button>
+										</c:if>
 									</div>
 								</div>
 
@@ -121,7 +131,7 @@
 				</section>
 			</div>
 
-            <aside id="iWrtReview" class="wrtReview">
+			<aside id="iWrtReview" class="wrtReview">
 				<form id="iReviewForm">
 					<input type="hidden" name="typeNo" value="2">
 
@@ -179,7 +189,7 @@
 							<div class="rowNew">
 								<div class="textareaWrapNew">
 									<textarea id="content" name="boardContent" class="textareaNew"
-										required maxlength="1000"
+										required 
 										placeholder="리뷰를 작성해주세요 (최소 10자)&#10;게임/서비스의 장단점, 추천 여부 등을 자유롭게 적어주세요."></textarea>
 									<div class="counterNew">
 										<span id="cnt">0</span>/1000

@@ -261,7 +261,8 @@
 	}
 
 	const userDataCase = JSON.parse('<%= userJson %>');
-    const CURRENT_USER_MEM_NO = userDataCase ? userDataCase.mem_no : null;
+    const MEM_NO = userDataCase ? userDataCase.mem_no : null;
+    window.CURRENT_USER_MEM_NO = MEM_NO;
 </script>
 	
 	<script type="text/javascript" src="./js/common.js"></script>
