@@ -29,13 +29,12 @@
 
 
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/board/boardCont.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/fonts.css">
 
 
 <!-- ==================================================================================== -->
 <body>
-	<div class="container">
-
-        <h1 class="neon-text title">   </h1>
+	<div class="c_container">
 
         <%-- String boardNum = request.getParameter("id"); --%>
         <%-- BoardVO board = boardService.getPost(boardNum); --%>

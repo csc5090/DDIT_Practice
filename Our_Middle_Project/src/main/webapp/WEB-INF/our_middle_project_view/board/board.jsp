@@ -57,25 +57,34 @@
 
 	<div class="container">
 
-		<h1 class="neon-text title">게시판</h1>
+		<h1 class="neon-text title">Board</h1>
 
 		<div class="board-header">
 			<button class="neon-button" onclick="goToWritePage()">글쓰기</button>
 		</div>
-
-		<table class="board-table">
-			<thead id="boardTableHead">
-				<tr>
-					<th class="neon-text-small">번호</th>
-					<th class="neon-text-small">제목</th>
-					<th class="neon-text-small">작성자</th>
-					<th class="neon-text-small">작성일</th>
-					<th class="neon-text-small">조회수</th>
-				</tr>
-			</thead>
-			<tbody id="boardTableBody">
-			</tbody>
-		</table>
+	
+		
+		<div class="tableBox">
+			<div class="tableHead">
+				<table>
+					<thead id="boardTableHead">
+						<tr>
+							<th class="neon-text-small" style="width: 10%">번호</th>
+							<th class="neon-text-small" style="width: 50%">제목</th>
+							<th class="neon-text-small" style="width: 15%">작성자</th>
+							<th class="neon-text-small" style="width: 15%">작성일</th>
+							<th class="neon-text-small" style="width: 10%">조회수</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<div class="tableBody">
+				<table class="board-table">
+					<tbody id="boardTableBody">
+					</tbody>
+				</table>
+			</div>
+		</div>
 
 		<div class="footer">
 

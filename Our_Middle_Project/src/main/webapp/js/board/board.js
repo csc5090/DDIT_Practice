@@ -15,7 +15,7 @@ function boardListMake(Lists) {
 		const isNotice = Lists[i].boardTitle.startsWith('[공지]');
 		
 		newElement += `
-			<tr class="board-row ${isNotice ? 'notice' : ''}" data-board-no="${ Lists[i].boardNo }">
+			<tr stlye="height:55px;" class="board-row ${isNotice ? 'notice' : ''}" data-board-no="${ Lists[i].boardNo }">
 	            <td>${ Lists[i].boardNo }</td>
 	            <td class="post-title">${ Lists[i].boardTitle }</td>
 	            <td>${ Lists[i].memId }</td>

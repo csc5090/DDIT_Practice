@@ -18,6 +18,9 @@ body {
     
     text-align: center;
     
+    width: 100%;
+    height: 100vh;
+    
     white-space: nowrap; 
     overflow: hidden;
     text-overflow: ellipsis;
@@ -73,7 +76,7 @@ body {
     /* border: 1.5px solid #a066ff;               ✅ 퍼플 라인 */
     border: none;
     
-    color: white;  
+    color: #3B5998;  
 	padding: 0;
     border-radius: 8px;
     
@@ -86,38 +89,45 @@ body {
     margin: 0 auto;
     padding: 20px;
     margin-top: 20px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);  
+    
     border-radius: 5px;
-    height:875px;
-    width: 58%; 
+    
+    width: 58%;
+    height: 100%;
+     
     color: white;
   
 }
 
 /* 네온 텍스트 스타일 (큰 제목) */
 .neon-text {
-    font-family: 'cursive', sans-serif; 
-    font-size: 3rem;
-    color: #fff; 
-    text-shadow:
-        0 0 5px #000000, 
-        0 0 10px #000000,
-        0 0 20px #000000, 
-        0 0 40px #000000,
-        0 0 80px #000000;
-    letter-spacing: 10px
+	font-family: 'KccAnchangho';
+	font-size: 10vh;
+	color: #D6D6D6;
+	text-shadow: 
+    	0 0 5px #0088cc,
+    	0 0 10px #0088cc,
+    	0 0 20px #0088cc,
+    	0 0 40px #0088cc,
+    	0 0 80px #0088cc;
+    letter-spacing: 5px;
+    animation: flicker 1s infinite alternate;
 }
+
+
+/* 깜빡이는 애니메이션 */
 @keyframes flicker {
     0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        /* [수정] 애니메이션도 흰색 코어 + 다크 그림자 사용 */
         text-shadow:
             0 0 5px var(--neon-color-white),
             0 0 10px var(--neon-color-white),
-            0 0 20px var(--neon-color-gray),
-            0 0 40px var(--neon-color-black),
-            0 0 80px var(--neon-color-black);
+            0 0 20px rgba(0, 0, 0, 0.8),
+            0 0 40px rgba(0, 0, 0, 0.6),
+            0 0 80px rgba(0, 0, 0, 0.3);
     }
     20%, 24%, 55% {        
-	  text-shadow: none; /*잠시 네온 효과를 끔 */
+	  text-shadow: none;
     }
 }
 
@@ -125,70 +135,94 @@ body {
 
 /* 네온 텍스트 스타일 (작은 제목/글자) */
 .neon-text-small {
-    font-size: 1.2rem;
-    color: var(--neon-color-white);
+    font-size: 1.1rem;
     text-shadow:
         0 0 3px var(--neon-color-white), 
         0 0 8px var(--neon-color-pink),
         0 0 15px var(--neon-color-pink);
 }
 
-.board-table {
-    /* display: block;  <- tbody에만 적용되도록 제거 */
-    width: 100%;             /* 기존 너비 유지 */
-    height: 80%;
-	border-collapse: collapse; /* 셀 경계선 겹치기 */
-	border-spacing: 0;         /* 셀 사이 간격 제거 */
-    font-size: 1rem;
-	table-layout: fixed; /* <-- 핵심 */
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);  
+.tableBox {
+	width: 100%;
+	height: 70%;
+	
+	box-shadow:
+	    0 0 8px rgba(59, 89, 152, 0.35),   /* #3B5998 기반 */
+	    0 0 18px rgba(59, 89, 152, 0.25),
+	    0 0 28px rgba(59, 89, 152, 0.15),
+	    inset 0 0 12px rgba(59, 89, 152, 0.3),
+	    inset 0 0 24px rgba(59, 89, 152, 0.2);
+	
+	background: rgba(0, 0, 0, 0.5);
 
-    border-radius: 10px;
-    overflow: hidden;
+	border-radius: 10px;
+		
+	font-family: 'Escoredream';
+	font-size: 1rem;
+	font-weight: bold;
+	color: #D6D6D6;
+	text-shadow: 
+    	0 0 5px #0088cc,
+    	0 0 10px #0088cc,
+    	0 0 20px #0088cc,
+    	0 0 40px #0088cc,
+    	0 0 80px #0088cc;
+	
+	overflow: hidden;
 }
 
-.board-table thead {
-    display: table;
-    width: 100%; 
-    height: 10%;
+.tableHead{
+	width: 100%;
+	height: 10%;
+}
+
+.tableHead > table {
+	width: 100%;
+	height: 100%;
+}
+
+.tableBody {
+	width: 100%;
+	height: 90%;
+	
+	overflow-y: scroll;
+	scrollbar-width: none;  /* ✅ Firefox: 스크롤바 숨김 */
+	-ms-overflow-style: none; /* ✅ IE/Edge: 스크롤바 숨김 */
+}
+
+/* ✅ Chrome, Safari, Opera */
+.tableBody::-webkit-scrollbar {
+  display: none; 
+}
+
+.board-table {
+    width: 100%;             /* 기존 너비 유지 */
     
-    table-layout: fixed;
+	border-spacing: 0;         /* 셀 사이 간격 제거 */
+    
+	border-collapse: collapse;
+	table-layout: fixed; /* ✅ 셀 너비 고정 */
 }
 
 .board-table tbody {
-    display: block;
-    max-height: 600px;       /* 스크롤 영역 높이 */
-    overflow-y: scroll;
     width: 100%;
-	height: 90%;
-    /* 스크롤 숨기기 */
-    scrollbar-width: none;   
-    -ms-overflow-style: none;
 }
-
-.board-table th {
-	padding: 12px 8px;
-	background: rgba(0, 0, 0, 0.5);
-} 
 
 .board-table td {
     padding: 12px 8px; 
     box-sizing: border-box;
     
-    white-space: nowrap; 
-    overflow: hidden;
-    
-    text-overflow: ellipsis; 
-
-    text-align: center; 
-    background-color: rgba(0, 0, 0, 0.7);
+	white-space: nowrap;        /* 줄바꿈 금지 */
+	overflow: hidden;           /* 넘치는 부분 숨김 */
+	text-overflow: ellipsis;    /* 넘친 텍스트 … 표시 */
 }
-
-
 
 /* 게시물 행 스타일 */
 .board-row {
+	height: 55px;
+	max-height: 55px;
     cursor: pointer;
+    overflow: hidden; /* 필요시 내용 넘침 숨김 */
     transition: background-color 0.3s;
 }
 
@@ -204,58 +238,98 @@ body {
 
 .board-header{
 	display:flex;
+	flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    
+	width: 100%;
+	height: 6%;
+	
+	margin-bottom: 12px;
+	padding: 5px 0 5px 0;
 }
 
 /* 네온 버튼 스타일 */
 .neon-button {
-    background-color: rgba(0, 0, 0, 0.5);
-    color: var(--neon-color-white);
-    border: 2px solid #666666; /* 어두운 회색으로 변경 (검정보다 부드럽게) */
-    padding: 5px 10px;
+    background: rgba(0, 0, 0, 0.2);
+    color: white;
+    
+    width: 8%;
+    height: 100%;
+    
+    border: none; /* 어두운 회색으로 변경 (검정보다 부드럽게) */
     cursor: pointer;
     font-size: 1rem;
     border-radius: 5px;
-    box-shadow: 0 0 10px #1a1a1a; /* 기본 네온 효과를 어두운 색으로 */
+    
+	box-shadow:
+	    0 0 8px rgba(59, 89, 152, 0.35),   /* #3B5998 기반 */
+	    0 0 18px rgba(59, 89, 152, 0.25),
+	    0 0 28px rgba(59, 89, 152, 0.15),
+	    inset 0 0 12px rgba(59, 89, 152, 0.3),
+	    inset 0 0 24px rgba(59, 89, 152, 0.2);
+    
     transition: all 0.3s ease;
-    margin-left: auto;
-    margin-bottom: 7px; 
 }
 
 .neon-button:hover {
-    background-color: #111111; /* 아주 진한 검정색 배경 */
+    background: rgba(0, 0, 0, 0.5);
     color: white;
-    /* 호버 시 검은 빛 효과: 아주 진한 검정색으로 강한 그림자 효과를 줍니다. */
-    box-shadow: 0 0 20px #000000, 0 0 40px #000000, 0 0 80px #000000;
 }
 
 /* 페이징 및 링크 스타일 */
 .footer {
-    margin-top: 20px;
+	width: 100%;
+	height: 6%;
     display:flex;
-}
-
-.neon-link {
-    display: inline-block;
-    padding: 5px 10px;
-    margin: 0 5px;
-    color: var(--neon-color-black);
-    cursor: pointer;
-    text-shadow: 0 0 5px var(--neon-color-black);
-    transition: text-shadow 0.3s;
-    left: 20px;
-}
-
-.neon-link:hover, .neon-link.current {
-    text-shadow: 0 0 10px #000080, 0 0 20px #4d4dff; 
-    font-weight: bold;
+    
+    margin-top: 12px;
+    padding: 5px 0 5px 0;
 }
 
 .search-area {
-	margin-left: auto;
+	
+	width: 100%;
+	height: 100%;
+	
+	display: flex;
+	gap: 1%;
+	flex-direction: row;
+    align-content: center;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#searchInput {
+	width: 15%;
+	height: 100%;
+	
+	border: none;
+	border-radius: 5px;
+	
+	font-family: 'Escoredream';
+	font-size: 1rem;
+	font-weight: bold;
+	color: #D6D6D6;
+	
+	background: rgba(0, 0, 0, 0.5);
+	
+	padding-left: 15px;
+}
+
+#searchInput:focus {
+	outline: none;
+	border-color: rgba(100, 160, 255, 0.6);
+	box-shadow:
+		0 0 8px rgba(100, 160, 255, 0.35),
+		0 0 18px rgba(80, 140, 255, 0.25),
+		0 0 28px rgba(60, 120, 255, 0.15),
+		inset 0 0 12px rgba(100, 160, 255, 0.3),
+		inset 0 0 24px rgba(80, 140, 255, 0.2);
 }
 
 tr.notice {
-    background-color: rgba(255, 0, 0, 0.4);
+    background-color: rgba(255, 0, 0, 0.2);
     font-weight: bold; /* 원하면 글자 강조 */
 }
 
@@ -266,27 +340,27 @@ tr.notice {
 }
 
 /* 📣 [유지] 이전 너비로 복구 및 적용 */
-.board-table th:nth-child(1),
 .board-table td:nth-child(1) { /* 번호 */
-    width: 10%; 
+    width: 10%;
+    height: 55px; 
 }
 
-.board-table th:nth-child(2),
 .board-table td:nth-child(2) { /* 제목 */
-    width: 50%; 
+    width: 50%;
+    height: 55px; 
 }
 
-.board-table th:nth-child(3),
 .board-table td:nth-child(3) { /* 작성자 */
-    width: 15%; 
+    width: 15%;
+    height: 55px;
 }
 
-.board-table th:nth-child(4),
 .board-table td:nth-child(4) { /* 작성일 */
-    width: 15%; 
+    width: 15%;
+    height: 55px;
 }
 
-.board-table th:nth-child(5),
 .board-table td:nth-child(5) { /* 조회수 */
-    width: 10%; 
+    width: 10%;
+    height: 55px; 
 }

@@ -15,26 +15,63 @@ body {
     margin: 0;
     padding: 20px;
     text-align: center;
+    
+  	width: 100%;
+    height: 100vh;
 }
 
-.container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 20px;
-    /* 약간의 네온 테두리 효과 */
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3); 
-    border-radius: 5px;
-    background-color: rgba(0,0,0, 0.8)
+.c_container {
+	
+	width: 100%;
+	height: 100%;
+    
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    
+   	font-family: 'Escoredream';
+	font-size: 1rem;
+	color: #D6D6D6;
+	text-shadow: 
+    	0 0 5px #0088cc,
+    	0 0 10px #0088cc,
+    	0 0 20px #0088cc,
+    	0 0 40px #0088cc,
+    	0 0 80px #0088cc;
 }
+
 
 /* 네온 텍스트 스타일 (큰 제목) */
-.neon-text-small {
-    font-size: 1.2rem;
+.neon-text {
+	width: 60%;
+	height: 10%;
+	
+	margin-bottom: 20px;
+	
+   	font-family: 'KccAnchangho';
+	color: #D6D6D6;
+    font-size: 5rem;
     color: var(--neon-color-white);
-    text-shadow:
-        0 0 3px var(--neon-color-white),
-        0 0 8px var(--neon-color-pink),
-        0 0 15px var(--neon-color-pink);
+    animation: flicker 1s infinite alternate;
+}
+
+
+/* 깜빡이는 애니메이션 */
+@keyframes flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        /* [수정] 애니메이션도 흰색 코어 + 다크 그림자 사용 */
+        text-shadow:
+            0 0 5px var(--neon-color-white),
+            0 0 10px var(--neon-color-white),
+            0 0 20px rgba(0, 0, 0, 0.8),
+            0 0 40px rgba(0, 0, 0, 0.6),
+            0 0 80px rgba(0, 0, 0, 0.3);
+    }
+    20%, 24%, 55% {        
+	  text-shadow: none;
+    }
 }
 
 /* 네온 텍스트 스타일 (작은 제목/글자) */
@@ -49,25 +86,54 @@ body {
 
 /* 네온 버튼 스타일 */
 .neon-button {
-    /* [기억된 스타일 적용] 반투명 검정 배경 */
-    background-color: rgba(0, 0, 0, 0.5); 
     color: var(--neon-color-white);
-    /* [기억된 스타일 적용] 어두운 회색 (#666666) 테두리 */
-    border: 2px solid #666666; 
+    
     padding: 10px 20px;
-    cursor: pointer;
-    font-size: 1rem;
+	
+	border: none;
     border-radius: 5px;
-    /* [기억된 스타일 적용] 어두운 그림자 */
-    box-shadow: 0 0 10px #1a1a1a; 
+    
+    background: rgba(0, 0, 0, 0.5); 
+    
+   	box-shadow:
+	    0 0 8px rgba(59, 89, 152, 0.35),
+	    0 0 18px rgba(59, 89, 152, 0.25),
+	    0 0 28px rgba(59, 89, 152, 0.15),
+	    inset 0 0 12px rgba(59, 89, 152, 0.3),
+	    inset 0 0 24px rgba(59, 89, 152, 0.2);
+	    
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .neon-button:hover {
-    background-color: #111111; /* 아주 진한 검정색 배경 */
-    color: white;
-    /* [기억된 스타일 적용] 호버 시 검은 빛 효과 */
-    box-shadow: 0 0 20px #000000, 0 0 40px #000000, 0 0 80px #000000;
+    color: #ffffff; /* 글씨를 조금 더 밝게 */
+    box-shadow:
+        0 0 12px rgba(59, 89, 152, 0.7),
+        0 0 24px rgba(59, 89, 152, 0.5),
+        0 0 36px rgba(59, 89, 152, 0.3),
+        inset 0 0 16px rgba(59, 89, 152, 0.4),
+        inset 0 0 32px rgba(59, 89, 152, 0.25);
+}
+
+
+#writeForm {
+	width: 60%;
+	height: 60%;
+	padding: 15px;
+	
+   	box-shadow:
+	    0 0 8px rgba(59, 89, 152, 0.35),
+	    0 0 18px rgba(59, 89, 152, 0.25),
+	    0 0 28px rgba(59, 89, 152, 0.15),
+	    inset 0 0 12px rgba(59, 89, 152, 0.3),
+	    inset 0 0 24px rgba(59, 89, 152, 0.2);
+	    
+	background: rgba(0, 0, 0, 0.5);
+	
+	border-radius: 10px;
 }
 
 /* 입력 폼 공통 스타일 (boardWrite, boardReply, boardEdit 공통) */
@@ -81,52 +147,39 @@ body {
     margin-bottom: 8px;
 }
 
-.neon-input {
+.neon-input, .neon-textarea {
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.3); /* 반투명 배경 */
-    color: var(--neon-color-white);
-    /* [기억된 스타일 적용] 어두운 회색 테두리 */
-    border: 2px solid #666666; 
     padding: 10px 15px;
-    font-size: 1rem;
+    border: none;
     border-radius: 5px;
-    caret-color: var(--neon-color-white); /* 커서색 흰색 */
-    /* [기억된 스타일 적용] 은은한 흰색 그림자 */
-    box-shadow: 0 0 5px rgba(255, 255, 255, 0.2); 
-    transition: box-shadow 0.3s ease, border-color 0.3s ease;
-    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    outline: none;
+
+    /* 기본 그림자: 약간 은은하게 */
+    box-shadow:
+        0 0 4px rgba(59, 89, 152, 0.2),
+        0 0 10px rgba(59, 89, 152, 0.1),
+        inset 0 0 6px rgba(59, 89, 152, 0.15);
+    
+    transition: all 0.3s ease;
 }
 
 .neon-input:focus, .neon-textarea:focus {
-    outline: none;
-    /* [기억된 스타일 적용] 포커스 시 흰색 테두리와 핑크 네온 강조 */
-    border-color: var(--neon-color-white);
-    box-shadow: 
-        0 0 5px var(--neon-color-white),
-        0 0 10px var(--neon-color-pink),
-        0 0 20px rgba(255, 102, 169, 0.7);
+    box-shadow:
+        0 0 8px rgba(59, 89, 152, 0.35),
+        0 0 18px rgba(59, 89, 152, 0.25),
+        0 0 28px rgba(59, 89, 152, 0.15),
+        inset 0 0 12px rgba(59, 89, 152, 0.3),
+        inset 0 0 24px rgba(59, 89, 152, 0.2);
+    
+    transform: scale(1.01); /* 살짝 확대 효과로 강조 가능 */
 }
 
 .neon-input::placeholder, .neon-textarea::placeholder {
     color: rgba(255, 255, 255, 0.4); 
-}
-
-.neon-textarea {
-    width: 100%;
-    min-height: 250px;
-    background-color: rgba(0, 0, 0, 0.3); /* 반투명 배경 */
-    color: var(--neon-color-white);
-    /* [기억된 스타일 적용] 어두운 회색 테두리 */
-    border: 2px solid #666666; 
-    padding: 15px;
-    font-size: 1rem;
-    border-radius: 5px;
-    /* [기억된 스타일 적용] 은은한 흰색 그림자 */
-    box-shadow: 0 0 5px rgba(255, 255, 255, 0.2); 
-    caret-color: var(--neon-color-white); 
-    resize: vertical;
-    box-sizing: border-box;
-    transition: box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 /* 쓰기/수정/답글 페이지 버튼 영역 */

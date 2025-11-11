@@ -447,7 +447,7 @@ function sendBtnHandle() {
 		}
 		
 		gameChatMessageSend(message);
-		target.value = "";
+		chatInput.value = "";
 		
 	}
 	
