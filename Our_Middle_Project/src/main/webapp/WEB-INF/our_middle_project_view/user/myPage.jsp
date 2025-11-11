@@ -276,25 +276,31 @@
 
 
 	<script>
-	document.querySelectorAll('.my-game-card').forEach(card => {
-	    card.style.cursor = 'pointer'; // 마우스 커서가 손가락 모양으로
-	    card.addEventListener('click', () => {
-	      location.href = 'ranking.do';
-	    });
-	  });
 	
+	document.getElementById('updateNickname').value = nickname;
+	document.getElementById('updateHp').value = hp;
+	document.getElementById('updateMail').value = mail;
+	
+	// ----------------- 게임 카드 클릭 이동 -----------------
+	document.querySelectorAll('.my-game-card').forEach(card => {
+	    card.style.cursor = 'pointer';
+	    card.addEventListener('click', () => {
+	        location.href = 'ranking.do';
+	    });
+	});
+
+	// ----------------- 회원 탈퇴 -----------------
 	function sendDelete() {
-		Swal.fire({
-		    title: '정말 탈퇴 하시겠습니까?',
-		    input: 'password',
-		    inputLabel: '비밀번호를 입력해주세요',
-		    inputPlaceholder: '비밀번호',
-		    showCancelButton: true,
-		    confirmButtonText: '확인',
-		    cancelButtonText: '취소',
-		    allowOutsideClick: false,
-		    backdrop: false // 아예 배경 제거
-	        
+	    Swal.fire({
+	        title: '정말 탈퇴 하시겠습니까?',
+	        input: 'password',
+	        inputLabel: '비밀번호를 입력해주세요',
+	        inputPlaceholder: '비밀번호',
+	        showCancelButton: true,
+	        confirmButtonText: '확인',
+	        cancelButtonText: '취소',
+	        allowOutsideClick: false,
+	        backdrop: false
 	    }).then((result) => {
 	        if (result.isConfirmed) {
 	            const pw = result.value;
@@ -328,14 +334,14 @@
 	    });
 	}
 
-	//-----------------------------------------------
+	// ----------------- 회원 정보 업데이트 -----------------
 	function updateUserInfo() {
 	    const nickname = document.getElementById('updateNickname').value.trim();
 	    const password = document.getElementById('updatePassword').value.trim();
 	    const passwordConfirm = document.getElementById('updatePasswordConfirm').value.trim();
 	    const hp = document.getElementById('updateHp').value.trim();
 	    const mail = document.getElementById('updateMail').value.trim();
-	
+
 	    if (!nickname || !hp || !mail) {
 	        Swal.fire({
 	            icon: 'warning',
@@ -344,7 +350,7 @@
 	        });
 	        return;
 	    }
-	
+
 	    // 전화번호 정규식
 	    const hpPattern = /^010-\d{4}-\d{4}$/;
 	    if (!hpPattern.test(hp)) {
@@ -355,7 +361,7 @@
 	        });
 	        return;
 	    }
-	
+
 	    // 이메일 정규식
 	    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 	    if (!emailPattern.test(mail)) {
@@ -366,7 +372,7 @@
 	        });
 	        return;
 	    }
-	
+
 	    // 비밀번호 확인
 	    if (password || passwordConfirm) {
 	        if (password !== passwordConfirm) {
@@ -379,13 +385,13 @@
 	            return;
 	        }
 	    }
-	
+
 	    const params = new URLSearchParams();
 	    params.append('nickname', nickname);
 	    params.append('password', password);
 	    params.append('hp', hp);
 	    params.append('mail', mail);
-	
+
 	    fetch('myPageUpdate.do', {
 	        method: 'POST',
 	        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -393,68 +399,50 @@
 	    })
 	    .then(res => res.text())
 	    .then(msg => {
-	        if (msg === 'OK') {
-	            Swal.fire({
-	                icon: 'success',
-	                title: '정보 변경 완료',
-	                showConfirmButton: true,
-	                backdrop: false
-	            }).then(() => {
-	                location.reload();
-	            });
-	        } else {
-	            Swal.fire({
-	                icon: 'error',
-	                title: '변경 실패',
-	                text: msg
-	            });
-	        }
-	    })
+		    if (msg === 'OK') {
+		        Swal.fire({
+		            icon: 'success',
+		            title: '정보 변경 완료',
+		            showConfirmButton: true,
+		            backdrop: false
+		        });
+		        // 페이지 새로고침 없음 → 그대로 화면에 반영 가능
+		    } else {
+		        Swal.fire({
+		            icon: 'error',
+		            title: '변경 실패',
+		            text: msg
+		        });
+		    }
+		})
 	    .catch(err => console.error(err));
 	}
-	
-	// ----------------- 전화번호 입력 자동 하이픈 -----------------
+
+	// ----------------- 전화번호 자동 하이픈 -----------------
 	const hpInput = document.getElementById('updateHp');
-	
 	hpInput.addEventListener('input', function(e) {
-	    let value = e.target.value.replace(/\D/g, ''); // 숫자만 남기기
-	
-	    if (!value.startsWith('010')) {
-	        value = '010' + value.slice(3);
-	    }
-	
-	    if (value.length > 3 && value.length <= 7) {
-	        value = value.slice(0, 3) + '-' + value.slice(3);
-	    } else if (value.length > 7) {
-	        value = value.slice(0, 3) + '-' + value.slice(3, 7) + '-' + value.slice(7, 11);
-	    }
-	
+	    let value = e.target.value.replace(/\D/g, '');
+	    if (!value.startsWith('010')) value = '010' + value.slice(3);
+	    if (value.length > 3 && value.length <= 7) value = value.slice(0, 3) + '-' + value.slice(3);
+	    else if (value.length > 7) value = value.slice(0, 3) + '-' + value.slice(3, 7) + '-' + value.slice(7, 11);
 	    e.target.value = value;
 	});
-	
-	// 커서 위치 010- 뒤로
-	hpInput.addEventListener('focus', function(e) {
+	hpInput.addEventListener('focus', function() {
 	    setTimeout(() => {
-	        if (hpInput.selectionStart < 4) {
-	            hpInput.setSelectionRange(4, 4);
-	        }
+	        if (hpInput.selectionStart < 4) hpInput.setSelectionRange(4, 4);
 	    }, 0);
 	});
-	
-	// ----------------- 이메일 실시간 정규화 -----------------
+
+	// ----------------- 이메일 입력 실시간 검증 -----------------
 	const mailInput = document.getElementById('updateMail');
 	const emailPatternRealtime = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-	
 	mailInput.addEventListener('input', function(e) {
 	    const value = e.target.value.trim();
-	    if (value === '') {
-	        mailInput.style.borderColor = 'rgba(255,255,255,0.2)';
-	    } else if (!emailPatternRealtime.test(value)) {
-	        mailInput.style.borderColor = 'red';
-	    } else {
-	        mailInput.style.borderColor = '#FFDC5A';
-	    }
+	    if (value === '') mailInput.style.borderColor = 'rgba(255,255,255,0.2)';
+	    else if (!emailPatternRealtime.test(value)) mailInput.style.borderColor = 'red';
+	    else mailInput.style.borderColor = '#FFDC5A';
 	});
+
 </script>
 </body>
 </html>

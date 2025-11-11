@@ -378,7 +378,7 @@ function dataSave() {
 	
 	const start = new Date(startTimeStr);
 	const end   = new Date(endTimeStr);
-	const clearTime = Math.floor((end - start) / 1000);
+	const clearTime = Math.floor((end - start) / 1000)-5;
 	console.log("몇초걸렸냐?",clearTime);
 	
 	let timeBonus = Math.round((getDefaultTimeByLevel() - clearTime) * 100); 
@@ -399,7 +399,7 @@ function dataSave() {
 	
 	endingInfo = {
        score: totalscore,
-       plusTime: clearTime,
+       plusTime: clearTime-5,
        combo: maxCombo,
        cardCount: count
    };

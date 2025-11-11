@@ -40,6 +40,10 @@ public class MyPageUpdateController implements Action {
         boolean result = myPageService.updateMember(loginUser.getMem_id(), nickname, password, hp, mail);
 
         if (result) {
+            // DB 업데이트 성공 → 세션에 새 정보 반영
+            UserInfoDTO updatedUser = myPageService.getMyUserData(loginUser);
+            request.getSession().setAttribute("loginUser", updatedUser);
+
             response.getWriter().write("OK");
         } else {
             response.getWriter().write("FAIL");
