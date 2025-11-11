@@ -1,4 +1,4 @@
-/* ★★★★★ review.css (v5.3 Final Fix) ★★★★★ */
+/* ★★★★★ review.css (v6.0 - LevelModal Glow Match Edition) ★★★★★ */
 
 /* ===== 1. 기본 및 모달 프레임 ===== */
 * {
@@ -7,46 +7,74 @@
 .bootstrap-env {
 	width: 100%;
 	height: 100%;
+	
+	display: flex;
+	flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 .reviewModal[hidden] {
 	display: none !important;
 }
 .reviewModal {
 	z-index: 1050;
-	display: block;
+	
+	display: flex;
+	flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    
 	position: fixed;
-	top: 0;
-	left: 100%;
+	top: -1%;
+	left: 101%;
+	
 	width: 45%;
-	height: 100%;
+	height: 104%;
+	
 	background: rgba(0, 0, 0, 0.2);
 	backdrop-filter: blur(3px);
-	box-shadow: 0 0 20px rgba(20, 50, 30, 0.8), 0 0 40px
-		rgba(25, 70, 35, 0.6), 0 0 80px rgba(20, 60, 30, 0.4), inset 0 0 20px
-		rgba(25, 70, 35, 0.8), inset 0 0 40px rgba(15, 40, 25, 0.6);
-	border-radius: 12px;
+	box-shadow:
+		0 0 20px rgba(20, 50, 30, 0.8),
+		0 0 40px rgba(25, 70, 35, 0.6),
+		0 0 80px rgba(20, 60, 30, 0.4),
+		inset 0 0 20px rgba(25, 70, 35, 0.8),
+		inset 0 0 40px rgba(15, 40, 25, 0.6);
+		
+	/* border: 1px solid rgba(0, 255, 100, 0.25); */
+	
 	overflow: hidden;
+	transition: all 0.6s cubic-bezier(0.6, 0, 1, 0.4);
+	
+	font-family: 'Daeojamjil';
+	font-size: 1rem;
+	/* font-weight: bold; */
+}
+
+.review-modal-on {
+	left: 57%;
+	box-shadow:
+		0 0 20px rgba(20, 50, 30, 0.8),
+		0 0 40px rgba(25, 70, 35, 0.6),
+/* 		0 0 80px rgba(20, 60, 30, 0.4), */
+		inset 0 0 20px rgba(25, 70, 35, 0.8),
+		inset 0 0 40px rgba(15, 40, 25, 0.6);
+	transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.review-modal-off {
+	left: 104%;
 	transition: all 0.5s cubic-bezier(0.6, 0, 1, 0.4);
 }
 
 /* ===== 2. 모달 내부 (Content) ===== */
 .reviewDialog {
 	display: grid;
-	width: 100%;
+	width: 85%;
 	height: 100%;
-	min-width: unset;
 	background: transparent;
 	grid-template-rows: auto auto 1fr auto;
-	overflow: hidden;
-	color: #e0f0e0;
-}
-.review-modal-on {
-	left: 55%;
-	transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.review-modal-off {
-	left: 100%;
-	transition: all 0.5s cubic-bezier(0.6, 0, 1, 0.4);
+	color: #e8ffe8;
 }
 
 /* ===== 3. 모달 상단 (헤더/툴바) ===== */
@@ -56,17 +84,15 @@
 	align-items: center;
 	padding: 15px;
 	border-bottom: 1px solid rgba(0, 255, 100, 0.2);
-	background: transparent;
+	/* background: rgba(0, 10, 0, 0.3); */
 }
 .closeModal {
 	all: unset;
 	cursor: pointer;
-	border: none;
-	background: transparent;
-	color: rgb(140, 180, 150);
+	color: rgb(150, 200, 150);
 	font-size: 1.6rem;
-	fill: rgb(140, 180, 150);
-	transition: 0.5s;
+	fill: rgb(150, 200, 150);
+	transition: all 0.4s ease;
 }
 .closeModal svg {
 	width: 25px;
@@ -74,49 +100,51 @@
 	fill: inherit;
 }
 .closeModal:hover {
-	color: white;
-	text-shadow: 0 0 6px rgba(80, 160, 110, 0.6), 0 0 14px
-		rgba(100, 200, 130, 0.4), 0 0 24px rgba(140, 255, 190, 0.2);
+	color: #00ff66;
+	text-shadow: 0 0 6px rgba(0, 255, 100, 0.7), 0 0 16px rgba(0, 255, 100, 0.4);
 }
 .closeModal:hover svg {
-	fill: white;
+	fill: #00ff66;
 }
 
 .reviewToolbar {
 	display: flex;
-	justify-content: flex-start;
 	align-items: center;
 	gap: 10px;
 	padding: 10px 15px;
 	border-bottom: 1px solid rgba(0, 255, 100, 0.2);
-	background: transparent;
+	/* background: rgba(0, 10, 0, 0.3); */
 }
 
-/* "리뷰 작성" 버튼 (왼쪽) */
+/* "리뷰 작성" 버튼 */
 .wrtBtn {
 	border: 1px solid rgba(0, 255, 100, 0.4);
-	background: rgba(30, 40, 35, 0.5);
-	color: #00ff66;
+	
+	background: rgba(0, 0, 0, 0.5);
+	color: rgba(50, 100, 70);
+	
 	font-size: 14px;
 	font-weight: 700;
 	border-radius: 10px;
 	padding: 6px 12px;
 	cursor: pointer;
-	display: inline-flex !important; 
+	display: inline-flex !important;
 	align-items: center;
 	justify-content: center;
-	transition: background 0.3s;
+	transition: all 0.3s ease;
 }
 .wrtBtn:hover {
-	background: rgba(50, 60, 55, 0.7);
-	color: #ffffff;
+	background: rgba(30, 60, 40, 0.7);
+	color: #fff;
+	box-shadow: 0 0 5px rgba(0, 255, 100, 0.5);
 }
 .wrtBtn.btn-update-mode {
 	border-color: #00bcd4;
 	color: #00bcd4;
+	box-shadow: 0 0 5px rgba(0, 188, 212, 0.4);
 }
 
-/* "최신순/오래된순" 그룹 (오른쪽) */
+/* 정렬 그룹 */
 .sortBtnGroup {
 	display: flex;
 	gap: 15px;
@@ -127,60 +155,68 @@
 	all: unset;
 	cursor: pointer;
 	font-size: 14px;
-	color: #aaa;
+	color: #888;
 	font-weight: 500;
 	transition: color 0.3s;
 }
 .sortBtn:hover {
-	color: #00ff66;
+	color: rgba(50, 100, 70);
+	text-shadow: 0 0 5px rgba(0, 255, 100, 0.4);
 }
 .sortBtn.active {
 	color: #fff;
 	font-weight: 700;
-	text-shadow: 0 0 5px rgba(0, 255, 100, 0.5);
+	text-shadow: 0 0 6px rgba(0, 255, 100, 0.7);
 }
 
-/* ===== 4. 리뷰 목록 (스크롤 영역) ===== */
+/* ===== 4. 리뷰 목록 ===== */
 .innerContent {
 	overflow-y: auto;
-	padding: 10px;
-	background-color: transparent;
+	padding: 12px;
+	background: transparent;
+	
 	height: 100%;
-	-ms-overflow-style: none;
+	
 	scrollbar-width: none;
+	-ms-overflow-style: none;
 }
+
 .innerContent::-webkit-scrollbar {
 	display: none;
 }
+
 .reviewList {
 	display: flex;
 	flex-direction: column;
-	gap: 15px;
+	align-items: center;
+	gap: 25px;
 }
 
-/* ===== 5. 개별 리뷰 카드 (.rv-card) ===== */
+/* ===== 5. 개별 리뷰 카드 ===== */
 .rv-card {
-	background: rgba(0, 10, 0, 0.7);
+	width: 90%;
+	
+	background: rgba(0, 10, 0, 0.3);
 	border: 1px solid rgba(0, 255, 100, 0.3);
-	box-shadow: 0 0 5px rgba(0, 255, 100, 0.2);
+	box-shadow: 0 0 5px rgba(0, 255, 100, 0.15);
 	padding: 15px;
-	color: #f0fff0;
-	border-radius: 16px;
-	transition: all 0.2s ease;
+	color: #e8ffe8;
+	border-radius: 10px;
+	transition: all 0.25s ease;
 }
 .rv-card:hover {
-	background: rgba(10, 25, 15, 0.8);
-	border-color: #00ff66;
-	box-shadow: 0 0 10px #00ff66;
+	background: rgba(10, 30, 10, 0.3);
+	/* background: rgba(10, 30, 20, 0.8); */
+	/* border-color: #00ff66; */
+	box-shadow: 0 0 10px rgba(0, 255, 100, 0.5);
 }
 .rv-head {
 	display: flex;
 	align-items: center;
 	gap: 10px;
-	margin-bottom: 12px;
-	padding-bottom: 5px;
+	margin-bottom: 10px;
+	padding-bottom: 6px;
 	border-bottom: 1px solid rgba(0, 255, 100, 0.1);
-	color: #f0fff0;
 }
 .rv-body {
 	padding: 0 18px 5px 18px;
@@ -197,11 +233,10 @@
 	width: 10vh;
 	min-width: 85px;
 	height: 10vh;
-	border-radius: 10px;
-	border: 1px solid rgba(0, 255, 100, 0.4);
+	border-radius: 5px;
+	border: 1px solid rgba(50, 100, 70);
+	background: rgba(0, 0, 0, 0.1);
 	overflow: hidden;
-	background: rgba(0, 0, 0, 0.7);
-	position: relative;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -211,10 +246,12 @@
 	height: 100%;
 	object-fit: contain;
 }
+
 .nickname {
-	color: #00ff66;
+	color: white;
 	font-weight: 700;
 	font-size: 15px;
+	/* text-shadow: 0 0 3px rgba(0, 255, 100, 0.5); */
 }
 .memId {
 	color: #a0aada;
@@ -224,144 +261,98 @@
 .stars {
 	color: #00ff66;
 	font-size: 1.1em;
-	text-shadow: 0 0 3px rgba(0, 255, 102, 0.7);
-	transform: translateY(-3px);
-}
-.rv-actions {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-	margin-left: auto;
+	/* text-shadow: 0 0 3px rgba(0, 255, 100, 0.7); */
+	transform: translateY(-2px);
 }
 .date {
-	color: #aaaaaa;
+	color: #999;
 	font-size: 12px;
 }
-.rv-actions .btn-update-review {
-	display: none;
-}
-.rv-actions .btn-delete-review {
-	display: inline-block;
-	white-space: nowrap;
-}
-.reply {
-	padding: 15px 12px;
-	margin-top: 5px;
-	border-left: 3px solid #00bcd4;
-	background: rgba(0, 188, 212, 0.1);
-	color: #b3ffff;
-	border-radius: 8px;
-	font-size: 14px;
-}
 
-/* ===== 6. 리뷰 작성창 (펼쳐지는 영역) ===== */
+/* ===== 6. 작성창 (애니메이션) ===== */
 .wrtReview {
 	background: transparent;
 	border-top: 1px solid rgba(0, 255, 100, 0.2);
 	color: #f0fff0;
-	max-height: 0; 
-	padding-top: 0;
-	padding-bottom: 0;
-	padding-left: 15px;
-	padding-right: 15px;
+	max-height: 0;
+	padding: 0 15px;
 	opacity: 0;
 	overflow: hidden;
-	transition: max-height 0.5s ease-in-out, 
-				padding-top 0.5s ease-in-out, 
-				padding-bottom 0.5s ease-in-out, 
-				opacity 0.3s ease-in-out;
+	transition:
+		max-height 0.6s ease,
+		opacity 0.4s ease,
+		padding 0.4s ease;
 }
 
 .wrtReview.open {
-	max-height: 50vh; 
-	padding-top: 15px;
-	padding-bottom: 15px;
+	max-height: 50vh;
+	padding: 10px 20px 40px 20px;
 	opacity: 1;
-	overflow-y: auto;
+	/* overflow-y는 JS에서 제어 (애니메이션 끊김 방지) */
+	scrollbar-width: none;
+	-ms-overflow-style: none;
 }
 
-/* 폼 스크롤바 */
+
 .wrtReview.open::-webkit-scrollbar {
-	width: 10px;
-}
-.wrtReview.open::-webkit-scrollbar-track {
-	background: rgba(0, 0, 0, 0.5);
-	border-radius: 10px;
-}
-.wrtReview.open::-webkit-scrollbar-thumb {
-	background-color: #00ff66;
-	border-radius: 10px;
-	border: 2px solid rgba(0, 0, 0, 0.5);
-	box-shadow: 0 0 5px rgba(0, 255, 100, 0.5);
-}
-.wrtReview.open::-webkit-scrollbar-thumb:hover {
-	background-color: #ffffff;
-	box-shadow: 0 0 10px rgba(0, 255, 100, 0.8);
-}
-.bottomBar {
 	display: none;
 }
 
-/* ===== 7. "쌈@뽕한" 작성창 내부 (폼 스타일) ===== */
+/* ===== 7. 작성 폼 ===== */
 .wrtBody--new {
 	display: flex;
-	flex-direction: row; /* 가로 배치 */
+	flex-direction: row;
 	gap: 20px;
 }
-
-/* [수정] 왼쪽 컬럼 (30%) */
 .wrtColLeftNew {
-	flex: 0 0 30%; /* 30% 비율 고정 */
+	flex: 0 0 30%;
 	display: flex;
 	flex-direction: column;
 	gap: 20px;
 }
-
-/* [수정] 오른쪽 컬럼 (70%) */
 .wrtColRightNew {
-	flex: 1 1 70%; /* 70% 비율 (남은 공간 모두 차지) */
+	flex: 1 1 70%;
 	display: flex;
 	flex-direction: column;
-	/* [수정] Textarea와 버튼을 위아래로 밀착 */
-	justify-content: space-between; 
+	justify-content: space-between;
 }
 
-/* [수정] Row 간격 (flex gap이 처리하므로 margin 제거) */
-.rowNew {
-	margin-bottom: 0;
-}
-.btnRowNew {
-	margin-bottom: 0;
-}
-
-/* 별점 영역 */
+/* 별점 */
 #starsGroup {
 	display: flex;
 	justify-content: center;
 	gap: 10px;
 }
+
 .starBtn {
+	
+	display: flex;
+	
+	padding: 0;
 	background: rgba(0, 0, 0, 0.7);
 	border: 1px solid rgba(0, 255, 100, 0.3);
-    color: #444;
-    padding: 0;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-    flex-grow: 1; 
-    aspect-ratio: 1 / 1;
-    position: relative; 
-    overflow: hidden;
+	color: #444;
+	border-radius: 8px;
+	transition: all 0.25s ease;
+	flex-grow: 1;
+	aspect-ratio: 1 / 1;
+	position: relative;
+	overflow: hidden;
 }
 
 .starBtn span {
+	
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+	padding-top: 8%;
 	color: #c9ced6;
-    transition: all 0.2s ease;
-    font-size: 2rem; 
-    
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -55%); 
+	/* font-size: 2rem; */
+	/* position: absolute;
+	top: 50%;
+	left: 50%; */
+	/* transform: translate(-50%, -55%); */
+	transition: all 0.25s ease;
 }
 
 .starBtn:hover span {
@@ -370,10 +361,10 @@
 }
 .starBtn.filled span {
 	color: #00ff66;
-	text-shadow: 0 0 3px rgba(0, 255, 102, 0.7), 0 0 10px rgba(0, 255, 100, 0.5);
+	text-shadow: 0 0 8px rgba(0, 255, 100, 0.8);
 }
 
-/* 파일 업로드 영역 */
+/* 파일 업로드 */
 .uploaderNew {
 	display: grid;
 	grid-template-areas: "button hint" "button count";
@@ -381,12 +372,8 @@
 	gap: 5px 15px;
 	align-items: center;
 }
-#fileBtn { grid-area: button; }
-.fileHintNew { grid-area: hint; }
-.fileCountNew { grid-area: count; }
-
 .fileButtonNew {
-	background: rgba(30, 40, 35, 0.5);
+	background: rgba(10, 25, 15, 0.5);
 	color: #00ff66;
 	border: 1px solid rgba(0, 255, 100, 0.5);
 	border-radius: 8px;
@@ -394,21 +381,20 @@
 	transition: all 0.3s ease;
 }
 .fileButtonNew:hover {
-	background: rgba(0, 255, 100, 0.2);
-	color: #fff;
+	background: rgba(0, 255, 100, 0.15);
 	box-shadow: 0 0 10px rgba(0, 255, 100, 0.5);
+	color: #fff;
 }
 .fileHintNew, .fileCountNew {
 	font-size: 0.9em;
 	color: #aaa;
-	padding-left: 5px;
 }
 .fileCountNew {
 	color: #00ff66;
 	font-weight: bold;
 }
 
-/* [수정] 파일 목록 (미리보기 -> 파일명 리스트) */
+/* 미리보기 */
 .previewGridNew {
 	background: rgba(0, 0, 0, 0.3);
 	border: 1px solid rgba(0, 255, 100, 0.2);
@@ -419,116 +405,43 @@
 	flex-direction: column;
 	gap: 8px;
 }
-.previewGridNew .emptyBoxNew {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	color: rgba(0, 255, 100, 0.5);
-	font-size: 14px;
-	height: 100%;
-	min-height: 80px;
-}
-/* [추가] 개별 파일명 스타일 */
-.file-row {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	background: rgba(0, 255, 100, 0.05);
-	border-radius: 4px;
-	padding: 5px 10px;
-	font-size: 0.9em;
-	color: #f0fff0;
-}
-.file-name {
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	padding-right: 10px;
-}
-.rmNew {
-	background: rgba(255, 0, 0, 0.5);
-	color: #fff;
-	border: none;
-	border-radius: 50%;
-	width: 18px;
-	height: 18px;
-	cursor: pointer;
-	font-weight: bold;
-	line-height: 18px;
-	padding: 0;
-	flex-shrink: 0;
-}
-.rmNew:hover {
-	background: rgba(255, 0, 0, 0.8);
-}
 
-/* Textarea (오른쪽 컬럼) */
+/* 텍스트 입력 */
 .textareaNew {
 	min-height: 150px;
-	background: rgba(0, 0, 0, 0.7) !important;
+	background: rgba(0, 0, 0, 0.7);
 	border: 1px solid rgba(0, 255, 100, 0.3);
-	color: #f0fff0 !important;
+	color: #e8ffe8;
 	line-height: 1.6;
-	font: inherit;
 	padding: 12px;
 	border-radius: 12px;
 	width: 100%;
-	/* [수정] 높이 100%로 설정 (버튼 제외) */
 	height: 100%;
-	resize: none; /* 크기 조절 방지 */
+	resize: none;
+	transition: all 0.3s ease;
+}
+.textareaNew:focus {
+	border-color: #00ff66;
+	box-shadow: 0 0 10px rgba(0, 255, 100, 0.4);
 }
 .textareaNew::placeholder {
 	color: rgba(140, 180, 150, 0.7);
-	font-style: italic;
-}
-.textareaWrapNew {
-	position: relative;
-	height: 100%; /* [수정] 높이 100% */
-}
-.counterNew {
-	position: absolute;
-	bottom: 15px;
-	right: 15px;
-	font-size: 0.8em;
-	color: #777;
-	background: rgba(0, 0, 0, 0.5);
-	padding: 2px 5px;
-	border-radius: 4px;
 }
 
-/* Textarea 스크롤바 */
-.textareaNew::-webkit-scrollbar {
-	width: 10px;
-}
-.textareaNew::-webkit-scrollbar-track {
-	background: rgba(0, 0, 0, 0.5);
-	border-radius: 10px;
-}
-.textareaNew::-webkit-scrollbar-thumb {
-	background-color: #00ff66;
-	border-radius: 10px;
-	border: 2px solid rgba(0, 0, 0, 0.5);
-	box-shadow: 0 0 5px rgba(0, 255, 100, 0.5);
-}
-.textareaNew::-webkit-scrollbar-thumb:hover {
-	background-color: #ffffff;
-	box-shadow: 0 0 10px rgba(0, 255, 100, 0.8);
-}
-
-/* 등록 버튼 (오른쪽 컬럼) */
+/* 등록 버튼 */
 .submitBtnNew {
 	background: #00ff66;
-	box-shadow: 0 0 12px rgba(0, 255, 100, 0.8);
 	color: #000;
 	font-weight: 700;
 	border: none;
 	padding: 12px 15px;
 	border-radius: 8px;
 	cursor: pointer;
-	transition: all 0.3s ease;
 	width: 100%;
 	font-size: 1.1em;
+	box-shadow: 0 0 15px rgba(0, 255, 100, 0.8);
 	animation: pulseGlow 2s infinite ease-in-out;
+	transition: all 0.3s ease;
 }
 .submitBtnNew:hover:not(:disabled) {
 	background: #fff;
@@ -537,7 +450,7 @@
 	animation: none;
 }
 .submitBtnNew:disabled {
-	background: rgba(50, 80, 50, 0.5);
+	background: rgba(50, 80, 50, 0.4);
 	color: #aaa;
 	box-shadow: none;
 	cursor: not-allowed;
@@ -545,24 +458,17 @@
 }
 
 @keyframes pulseGlow {
-	0% {
-		box-shadow: 0 0 12px rgba(0, 255, 100, 0.7);
-	}
-	50% {
-		box-shadow: 0 0 20px rgba(0, 255, 100, 1);
-	}
-	100% {
-		box-shadow: 0 0 12px rgba(0, 255, 100, 0.7);
-	}
+	0% { box-shadow: 0 0 10px rgba(0, 255, 100, 0.7); }
+	50% { box-shadow: 0 0 20px rgba(0, 255, 100, 1); }
+	100% { box-shadow: 0 0 10px rgba(0, 255, 100, 0.7); }
 }
 
-/* ===== 8. "내 리뷰" 강조 스타일 ===== */
+/* ===== 8. "내 리뷰" 강조 ===== */
 .rv-card#myReviewCard {
-	border: 1px solid #00ffff; 
-	box-shadow: 
+	border: 1px solid #00ffff;
+	box-shadow:
 		0 0 10px rgba(0, 255, 255, 0.5),
-		0 0 15px rgba(0, 255, 255, 0.3),
-		0 0 5px rgba(0, 255, 100, 0.2); 
+		0 0 20px rgba(0, 255, 255, 0.3);
 }
 .rv-card#myReviewCard .rv-head::before {
 	content: 'MY';
@@ -577,13 +483,7 @@
 	animation: pulseGlowMyReview 2s infinite ease-in-out;
 }
 @keyframes pulseGlowMyReview {
-    0% {
-        box-shadow: 0 0 4px rgba(0, 255, 255, 0.4);
-    }
-    50% {
-        box-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
-    }
-    100% {
-        box-shadow: 0 0 4px rgba(0, 255, 255, 0.4);
-    }
+	0% { box-shadow: 0 0 4px rgba(0, 255, 255, 0.4); }
+	50% { box-shadow: 0 0 10px rgba(0, 255, 255, 0.8); }
+	100% { box-shadow: 0 0 4px rgba(0, 255, 255, 0.4); }
 }
