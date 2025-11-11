@@ -1,10 +1,15 @@
+.bootstrap-env {
+	width: 100%;
+	height: 100%;
+}
 
-/* ===== 기본 레이아웃(중앙 버튼) ===== */
+
 * {
 	box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
 	margin: 0;
 	height: 100%;
 }
@@ -15,457 +20,331 @@ html, body {
 	height: 100%;
 }
 
-/* ===== 모달 ===== */
+/* [추가] 부트스트랩 환경 요소에 높이 100% 강제 부여 (스크롤 영역 확보) */
+.bootstrap-env {
+	width: 100%;
+	height: 100%;
+}
+
+/* ===== 모달 컨테이너 (슬라이드 애니메이션) - 왼쪽 모달과 대칭되도록 조정 ===== */
 .reviewModal[hidden] {
 	display: none !important;
 }
 
 .reviewModal {
-	display: grid;
+	z-index: 9999;
+
+	display: block;
 	position: fixed;
-	inset: 0;
-	place-items: center;
-	z-index: 50;
-	background: rgba(0, 0, 0, .12);
+	/* 왼쪽 모달과 대칭되는 위치 */
+	top: -1%;
+	left: 100%;
+	/* 초기 위치 (화면 밖) */
+
+	/* 왼쪽 모달과 동일한 크기 (45% 폭) */
+	width: 45%;
+	height: 104%;
+	background: rgba(0, 0, 0, 0.2);
+	backdrop-filter: blur(3px);
+
+	/* 외부와 동일한 네온 그림자 효과 */
+	box-shadow:
+		0 0 20px rgba(20, 50, 30, 0.8),
+		0 0 40px rgba(25, 70, 35, 0.6),
+		0 0 80px rgba(20, 60, 30, 0.4),
+		inset 0 0 20px rgba(25, 70, 35, 0.8),
+		inset 0 0 40px rgba(15, 40, 25, 0.6);
+
+	border-radius: 12px;
+	overflow: hidden;
+	transition: all 0.5s cubic-bezier(0.6, 0, 1, 0.4);
 }
 
 .reviewDialog {
 	display: grid;
-	width: 45vh;
-	min-width: 600px;
-	height: 85vh;
-	background: #fff;
-	border-radius: 18px;
-	border: 1px solid #000;
-	box-shadow: 0 24px 80px rgba(0, 0, 0, .1);
-	grid-template-rows: auto 1fr auto;
+	width: 100%;
+	height: 100%;
+	min-width: unset;
+	background: rgba(10, 20, 15, 0.85);
+	/* [수정] 헤더(auto) + 툴바(auto) + 작성 버튼(auto) + 내용(1fr) + 작성창(auto) */
+	grid-template-rows: auto auto auto 1fr auto;
 	overflow: hidden;
+	color: #e0f0e0;
 }
 
-/* 헤더 */
+/* 슬라이드 상태 */
+.review-modal-on {
+	/* 왼쪽 모달(left: -1%)과 대칭되도록 위치 조정 */
+	left: 55%;
+	transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.review-modal-off {
+	left: 100%;
+	transition: all 0.5s cubic-bezier(0.6, 0, 1, 0.4);
+}
+
+/* 헤더 및 작성 영역 배경 (투명 설정) */
+.reviewHeader,
+.wrtReview {
+	background: transparent;
+	border-bottom: 1px solid rgba(0, 255, 100, 0.2);
+	color: #f0fff0;
+}
+
+/* 헤더 - 닫기 버튼을 오른쪽으로 배치하도록 flex-end 사용 */
 .reviewHeader {
 	display: flex;
+	justify-content: flex-end;
 	align-items: center;
-	gap: 10px;
-	justify-content: space-between;
 	padding: 15px;
-	border-bottom: 1px solid #ececec;
-	background: #fff;
+	border-bottom: 1px solid rgba(0, 255, 100, 0.2);
 }
 
-.reviewTitle {
-	font-weight: 700;
-	font-size: 25px;
+
+
+/* 닫기 버튼 - gameHome.css의 #closeModal 디자인을 참고하여 통일 */
+.closeModal {
+	all: unset;
+	cursor: pointer;
+	border: none;
+	background: transparent;
+
+	/* 왼쪽 모달의 #closeModal 스타일과 통일 */
+	color: rgb(140, 180, 150);
+	font-size: 1.6rem;
+	fill: rgb(140, 180, 150);
+
+	transition: 0.5s;
 }
 
-.closeModal, .wrtBtn {
-	border: 1px solid #ececec;
-	background: #fff;
-	color: #000;
+.closeModal svg {
+	width: 25px;
+	height: 25px;
+	fill: inherit;
+}
+
+/* 호버 효과를 왼쪽 모달과 통일 */
+.closeModal:hover {
+	color: white;
+	text-shadow:
+		0 0 6px rgba(80, 160, 110, 0.6),
+		0 0 14px rgba(100, 200, 130, 0.4),
+		0 0 24px rgba(140, 255, 190, 0.2);
+}
+
+.closeModal:hover svg {
+	fill: white;
+}
+
+
+/* ===== 정렬 툴바 스타일 ===== */
+.reviewToolbar>div {
+	display: flex;
+	/* 버튼 그룹 내부의 간격 조정: 최신순/오래된순이 붙어 보이게 됩니다. */
+	gap: 15px; 
+	align-items: center;
+	/* 정렬 그룹 내에서는 flex-end를 사용할 필요 없으나, 확실히 하기 위해 추가 */
+	justify-content: flex-end; 
+}
+
+.reviewToolbar>div {
+	display: flex;
+	gap: 15px;
+	align-items: center;
+}
+
+.sortBtn {
+	all: unset;
+	cursor: pointer;
 	font-size: 14px;
+	color: #aaa;
+	font-weight: 500;
+	transition: color 0.3s;
+}
+
+.sortBtn:hover {
+	color: #00ff66;
+}
+
+.sortBtn.active {
+	color: #fff;
 	font-weight: 700;
-	border-radius: 10px;
-	padding: 6px 12px;
+	text-shadow: 0 0 5px rgba(0, 255, 100, 0.5);
 }
 
-#iwrtBtn svg {
-	transition: transform 0.25s cubic-bezier(0.45, 0, 0.25, 1);
-	transform-origin: center;
-}
 
-/* 열림 상태에서 위쪽 화살표로 회전 */
-#iwrtBtn[aria-expanded="true"] svg {
-	transform: rotate(180deg);
-}
-
-/* 모션 최소화 환경 대응 */
-@media ( prefers-reduced-motion : reduce) {
-	#iwrtBtn svg {
-		transition: none;
-	}
-}
-
-.closeModal:hover, .wrtBtn:hover {
-	background: #e8e8e8;
-}
-
-/* 목록 영역 */
+/* 목록 영역 (스크롤 전담) */
 .innerContent {
-	overflow: auto;
+	overflow-y: auto;
 	padding: 10px;
+	background-color: transparent;
+	height: 100%;
+
+	/* 스크롤바 숨김 (기능은 유지) */
+	-ms-overflow-style: none;
+	scrollbar-width: none;
 }
 
 .innerContent::-webkit-scrollbar {
 	display: none;
 }
 
+
+/* ★★★★★★★ 리뷰 모달 내부 카드 스타일 (rv-card) - 격리된 클래스 ★★★★★★★ */
 .reviewList {
-	display: grid;
-	gap: 10px;
-}
-
-.card {
-	border: 1px solid #ececec;
-	border-radius: 16px;
-	box-shadow: 0 6px 20px rgba(0, 0, 0, .1);
-	background: #fff;
-	padding: 15px;
-}
-
-.head {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-	margin-bottom: 10px;
-}
-
-.nickname {
-	font-weight: 700;
-	font-size: 15px;
-}
-
-.memId {
-	color: #aaa;
-	font-size: 0.9em;
-	margin-left: 4px;
-}
-
-.stars {
-	color: #f7b500;
-	font-size: 17px;
-	transform: translateY(-3px);
-}
-
-.date {
-	margin-left: auto;
-	color: #656565;
-	font-size: 12px;
-}
-
-.body {
-	padding-left: 18px;
-	display: grid;
-	gap: 10px;
-}
-
-.row {
-	display: grid;
-	grid-template-columns: 85px 1fr;
-	gap: 12px;
-	align-items: start;
-}
-
-.thumb {
-	width: 10vh;
-	min-width: 85px;
-	height: 10vh;
-	border-radius: 10px;
-	border: 1px solid #ececec;
-	overflow: hidden;
-	background: #fafafa;
-	position: relative;
-}
-
-.thumb img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	display: block;
-}
-
-.reply {
-	margin-top: 4px;
-	padding-left: 16px;
-	border-left: 3px solid #eef3ff;
-	background: #f7faff;
-	color: #2b3a55;
-	border-radius: 8px;
-	padding: 10px 12px;
-	font-size: 14px;
-}
-
-/* ===== 작성창(열기/닫기 전환) ===== */
-.wrtReview {
-	height: 7vh;
-	border-top: 1px solid #ececec;
-	background: #fff;
-	transition: height .25s ease;
-	display: grid;
-	grid-template-rows: auto 1fr;
-}
-
-.wrtReview.open {
-	height: 34vh;
-}
-
-.bottomBar {
-	display: flex;
-	align-items: center;
-	justify-content: flex-end;
-	gap: 10px;
-	padding: 15px;
-}
-
-.wrtlabel {
-	font-weight: 700;
-	color: #000;
-	font-size: 17px;
-}
-
-.wrtBody--new {
-	display: grid;
-	grid-template-columns: 280px 1fr;
-	gap: 14px;
-	padding: 0 12px 12px;
-	opacity: 0;
-	pointer-events: none;
-	transition: opacity .2s ease;
-}
-
-.wrtReview.open .wrtBody--new {
-	opacity: 1;
-	pointer-events: auto;
-}
-
-.wrtColLeftNew {
-	display: grid;
-	gap: 10px;
-	align-content: start;
-	min-width: 240px;
-}
-
-.wrtColRightNew {
+	/* [수정] display: grid; 대신 세로 배치 (틈 문제 해결) */
 	display: flex;
 	flex-direction: column;
-	gap: 0px;
+	gap: 15px;
 }
 
-.rowNew {
-	display: grid;
-	gap: 8px;
-	align-items: start;
+.rv-card {
+	background: rgba(30, 40, 35, 0.8);
+	border: 1px solid rgba(0, 255, 100, 0.3);
+	box-shadow: 0 0 5px rgba(0, 255, 100, 0.2);
+	padding: 30px;
+	color: #f0fff0;
+	border-radius: 16px;
+	transition: all 0.2s ease;
 }
 
-.wrtReviewLabel {
-	font-size: 13px;
-	color: #6b7280;
-}
-
-/* 별점 */
-.starsNew {
+.rv-head {
 	display: flex;
-	gap: 8px;
-	flex-wrap: wrap;
+		align-items: center;
+		gap: 10px;
+		margin-bottom: 12px;
+		padding-bottom: 5px;
+		border-bottom: 1px solid rgba(0, 255, 100, 0.1);
+		color: #f0fff0;
 }
 
-/* 기본 별 색상과 전환 효과 */
-.starsNew .starBtn span {
-	color: #c9ced6; /* 기본 회색 톤 */
-	transition: color .22s ease, text-shadow .22s ease, transform .12s ease;
+.rv-body {
+	padding: 0 18px 5px 18px; 
+		display: grid;
+		gap: 15px;
 }
 
-/* 선택한 값 이하(채워진) 모든 별에 파란 테두리 & 글로우 */
-.starsNew .starBtn.filled {
-	border-color: #00bcd4;
-	box-shadow: 0 0 16px rgba(0, 188, 212, .2), inset 0 0 10px
-		rgba(0, 188, 212, .08);
-}
 
-/* hover가 회색 테두리로 덮어쓰지 않도록 보정 */
-.starsNew .starBtn.filled:hover {
-	border-color: #00bcd4;
-}
-
-/* 채워진(선택된 값 이하) 별 */
-.starsNew .starBtn.filled span {
-	color: #f7b500; /* 금색 */
-	text-shadow: 0 0 8px rgba(247, 181, 0, .45);
-}
-
-/* 클릭 순간(눌림) */
-.starsNew .starBtn:active span {
-	transform: scale(0.9);
-}
-
-/* 마우스오버 미리보기(선택 전 가벼운 강조) — 선택 사항 */
-.starsNew .starBtn:hover span {
-	color: #ffd86b;
-	text-shadow: 0 0 6px rgba(255, 216, 107, .55);
-}
-
-/* ★ 권장 1: flex 중앙정렬 + 라인 높이 리셋 (교체용) */
-.starBtn {
-	width: 30px;
-	height: 30px;
-	border-radius: 10px;
-	border: 1px solid #ececec;
-	background: #fff;
-	display: flex; /* grid → flex */
-	align-items: center; /* 세로 중앙 */
-	justify-content: center; /* 가로 중앙 */
-	padding: 0; /* 기본 패딩 제거 */
-	line-height: 0; /* 라인박스 영향 제거 */
-	box-sizing: border-box;
-	-webkit-appearance: none; /* 브라우저 기본 버튼 스타일 제거 */
-	appearance: none;
-	cursor: pointer;
-	transition: transform .08s ease, box-shadow .15s ease, border-color .15s
-		ease;
-}
-
-/* span은 인라인 베이스라인 영향 제거 + 글자 크기만 */
-.starBtn span {
-	display: block;
-	line-height: 1; /* 글리프 균형 */
-	font-size: 18px; /* 필요 시 16~18px로 미세조정 */
-	transform: translateY(-3px);
-}
-
-.starBtn:hover {
-	transform: translateY(-1px);
-	border-color: #d0d5dd;
-}
-
-.starBtn[aria-checked="true"] {
-	border-color: #00bcd4;
-	box-shadow: 0 0 16px rgba(0, 188, 212, .2), inset 0 0 10px
-		rgba(0, 188, 212, .08);
-}
-
-.uploaderNew {
+/* ===== 작성창 토글 버튼 영역 (bottomBar) ===== */
+.bottomBar {
 	display: flex;
+	justify-content: flex-end;
 	align-items: center;
-	gap: 10px;
-	flex-wrap: wrap;
+	padding: 8px 15px;
+	border-top: 1px solid rgba(0, 255, 100, 0.2);
 }
 
-.fileButtonNew {
-	border: 1px solid #ececec;
-	background: #fff;
-	padding: 8px 14px;
+.wrtBtn {
+	all: unset;
+	/* 초기화 */
+	border: 1px solid rgba(0, 255, 100, 0.4);
+	background: rgba(30, 40, 35, 0.5);
+	color: #00ff66;
+	font-size: 14px;
+	font-weight: 700;
 	border-radius: 10px;
+	padding: 6px 12px;
 	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 }
 
-.fileButtonNew:hover {
-	background: #f5f5f5;
+.wrtBtn:hover {
+	background: rgba(50, 60, 55, 0.7);
+	color: #ffffff;
 }
 
-.fileHintNew {
-	font-size: 12px;
-	color: #6b7280;
+#iwrtBtn svg {
+	display: none;
 }
 
-.fileCountNew {
-	font-size: 12px;
-	color: #10b981;
-}
+/* ===== 작성창(<aside id="iWrtReview">) 스타일 ===== */
+.wrtReview {
+	background: transparent;
+	border-top: 1px solid rgba(0, 255, 100, 0.2);
+	/* 툴바와의 경계선 */
+	color: #f0fff0;
 
-input#imageInput[hidden] {
-	display: none !important;
-}
-
-/* 미리보기 — 최대 2장에 맞춰 2열 그리드 */
-.previewGridNew {
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	gap: 10px;
-	min-height: 88px;
-	border: 1px dashed #e2e8f0;
-	border-radius: 12px;
-	padding: 10px;
-	background: #fafcff;
-}
-
-.thumbNew, .emptyBoxNew {
-	aspect-ratio: 1/1;
-	width: 100%;
-	border-radius: 12px;
+	height: 0;
+	padding: 0 15px;
+	opacity: 0;
 	overflow: hidden;
-	border: 1px solid #ececec;
-	background: #fff;
-	display: grid;
-	place-items: center;
-	position: relative;
+
+	transition: all 0.5s ease-out;
 }
 
-.thumbNew img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	display: block;
+/* 작성창 열린 상태 (.open) */
+.wrtReview.open {
+	/* 열린 상태: 높이를 auto로 복구하고, 패딩을 원래대로 설정 */
+	height: auto;
+	padding: 15px;
+	opacity: 1;
+	overflow: visible;
 }
 
-.rmNew {
-	position: absolute;
-	top: 6px;
-	right: 6px;
-	width: 26px;
-	height: 26px;
-	border-radius: 8px;
-	border: 1px solid #ddd;
-	background: #fff;
-	cursor: pointer;
-	display: grid;
-	place-items: center;
-	font-size: 16px;
-	line-height: 1;
+/* 버튼 영역 스타일 */
+.bottomBar {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	padding: 0;
 }
 
-.rmNew:hover {
-	background: #f2f2f2;
-}
-
-.textareaWrapNew {
-	position: relative;
-}
-
-.textareaNew {
-	width: 100%;
-	min-height: 21vh;
-	max-height: 46vh;
-	resize: none;
-	border: 1px solid #ececec;
-	border-radius: 12px;
-	padding: 12px;
-	background: #fff;
+/* 입력 필드 */
+.textareaNew,
+.fileButtonNew {
+	background: rgba(0, 0, 0, 0.7);
+	border: 1px solid rgba(0, 255, 100, 0.3);
+	color: #f0fff0;
 	line-height: 1.6;
 	font: inherit;
+	padding: 12px;
+	border-radius: 12px;
 }
 
 .textareaNew:focus {
-	outline: none;
 	border-color: #00bcd4;
-	box-shadow: 0 0 0 3px rgba(0, 188, 212, .12);
+	box-shadow: 0 0 0 3px rgba(0, 188, 212, .3);
 }
 
-.counterNew {
-	position: absolute;
-	right: 10px;
-	bottom: 8px;
-	font-size: 12px;
-	color: #6b7280;
+.fileButtonNew {
+	background: rgba(30, 40, 35, 0.5);
+	color: #00ff66;
+	border: 1px solid rgba(0, 255, 100, 0.5);
 }
 
-/* 제출버튼 */
-.btnRowNew {
-	display: flex;
-	justify-content: flex-end;
-	transform: translateY(2px);
+/* 별점 버튼 */
+.starBtn {
+	background: rgba(0, 0, 0, 0.7);
+	border: 1px solid rgba(0, 255, 100, 0.3);
 }
 
+.starBtn span {
+	color: #c9ced6;
+}
+
+.starBtn.filled span {
+	color: #00ff66;
+	text-shadow: 0 0 3px rgba(0, 255, 102, 0.7);
+}
+
+.reply {
+	padding: 15px 12px;
+	margin-top: 5px;
+}
+
+/* 등록 버튼 */
 .submitBtnNew {
-	width: 100%;
-	height: 4vh;
-	border: none;
-	background: #0a84ff;
+	background: #00bcd4;
+	box-shadow: 0 0 12px rgba(0, 188, 212, 0.8);
 	color: #fff;
-	border-radius: 12px;
-	font-weight: 600;
-	cursor: pointer;
+	font-weight: 700;
 }
 
-.submitBtnNew[disabled] {
-	opacity: .6;
-	cursor: not-allowed;
+.reviewList {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
 }

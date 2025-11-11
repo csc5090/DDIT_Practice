@@ -76,10 +76,51 @@ function modalClose(e) {
 function goBoard() {
     window.location.href = "board.do"; 
 }
+
 //리뷰 이동
 function goReview() {
-    window.location.href = "review.do"; 
+    const modalContainer = document.getElementById('reviewModalContainer');
+
+    if (modalContainer.querySelector('#iReviewModal')) {
+        if (typeof openReviewModal === 'function') {
+            openReviewModal();
+        }
+        return;
+    }
+    
+ 
+    const reviewUrl = 'review.do';
+    
+    axios.get(reviewUrl)
+        .then(response => {
+            modalContainer.innerHTML = response.data;
+
+            const scriptPath = (typeof BASE_URL !== 'undefined' ? BASE_URL : '') + '/js/review/review.js'; 
+            
+            const script = document.createElement('script');
+            script.src = scriptPath; 
+            
+            script.onload = () => {
+                if (typeof initReviewElements === 'function') {
+                    initReviewElements();
+                }
+                
+                // 모달 열기
+                if (typeof openReviewModal === 'function') {
+                    openReviewModal();
+                } else {
+                    console.error('review.js 초기화/열기 함수를 찾을 수 없습니다. 경로 확인 필요:', scriptPath);
+                }
+            };
+            document.body.appendChild(script);
+            
+        })
+        .catch(error => {
+            console.error('리뷰 모달 로드 실패:', error);
+            Swal.fire('오류', '리뷰 창을 불러오지 못했습니다.', 'error');
+        });
 }
+
 //랭킹 이동
 function goRanking() {
     window.location.href = "ranking.do"; 

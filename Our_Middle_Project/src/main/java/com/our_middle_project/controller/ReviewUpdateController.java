@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpSession;
 
 public class ReviewUpdateController implements Action {
 
-	private final ReviewService reviewService = new ReviewServiceImpl();
+	private final ReviewService reviewService = new ReviewServiceImpl(); // ★ 필드 정의 유지
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
@@ -33,7 +33,6 @@ public class ReviewUpdateController implements Action {
 		int memNo = loginUser.getMem_no(); // (★) 수정을 시도하는 사람
 
 		// 2. (★) 파라미터 받기 (boardNo, boardContent, star)
-		// (JS에서 application/x-www-form-urlencoded; charset=UTF-8 로 전송)
 		request.setCharacterEncoding("UTF-8");
 
 		String boardNoStr = request.getParameter("boardNo");
@@ -58,7 +57,6 @@ public class ReviewUpdateController implements Action {
 		}
 
 		// 4. (★) 서비스 호출 (트랜잭션 수정)
-		// (Service가 내부적으로 본인 확인(Authority)까지 처리)
 		boolean isSuccess = reviewService.updateReviewTransaction(boardNo, memNo, boardContent.trim(), star);
 
 		// 5. (★) 결과 JSON으로 응답
@@ -74,6 +72,6 @@ public class ReviewUpdateController implements Action {
 		}
 
 		out.flush();
-		return null; // AJAX 컨트롤러는 항상 null을 반환
+		return null;
 	}
 }

@@ -22,6 +22,7 @@
 
 	<link rel="stylesheet" href="./css/fonts.css">
 	<link rel="stylesheet" href="./css/gameHome/gameHome.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/review/review.css">
 </head>
 <body>
 	
@@ -234,7 +235,9 @@
 				<button id="closeModal"> ◁ </button>
 			</div>
 		</div>
-		
+		<div id="reviewModalContainer">
+			
+		</div>
 	</div>
 
 	
@@ -258,6 +261,6 @@
 	<script type="text/javascript" src="./js/common.js"></script>
 	<script type="text/javascript" src="./js/gameHome/gameHome.js"></script>
 	<script type="text/javascript" src="./js/gameHome/gameHomeToDB.js"></script>
-
+	<script type="text/javascript" src="./js/review/review.js"></script>
 </body>
 </html>
