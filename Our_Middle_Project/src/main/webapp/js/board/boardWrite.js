@@ -9,7 +9,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const titleInput = document.getElementById('title');
     const fixedPrefix = "[자유] ";
-    const MAX_TITLE_LENGTH = 50; // 최대 글자 수
+    const MAX_TITLE_LENGTH = 30; // 최대 글자 수
 
     // 초기값
     titleInput.value = fixedPrefix;
