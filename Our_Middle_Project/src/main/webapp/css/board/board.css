@@ -1,15 +1,15 @@
 /* 전체 글 색상  */
-:root {
-    --neon-color-pink: #ff66a9; /* 주 네온 색상 (핑크) */
-    --neon-color-white: #fff;   /* 네온 중심 색상 (화이트) */
-    --background-color: #0c001c; /* 어두운 배경 */
-}
+/* :root { */
+/*     --neon-color-pink: black; */
+/*     --neon-color-white: #fff;   네온 중심 색상 (화이트) */
+/*     --background-color: #0c001c; 어두운 배경 */
+/* } */
 
 
 body {
 	
-    background-image: url('../../images/logins/loginBack.png');
-	background-size: 50% 100%;
+    background-image: url('../../images/board/board_Back2.png');
+	background-size: 110% 100%;
     background-attachment: fixed;
     
     color: var(--neon-color-white);
@@ -47,10 +47,11 @@ body {
     
     margin: 0 auto;
     padding: 20px;
-    box-shadow: 0 0 10px rgba(255, 102, 169, 0.3); 
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);  
     border-radius: 5px;
     height:875px;
     width: 58%; 
+    color: white;
   
 }
 
@@ -76,9 +77,9 @@ body {
     text-shadow:
         0 0 5px var(--neon-color-white), 
         0 0 10px var(--neon-color-white),
-        0 0 20px var(--neon-color-pink), 
-        0 0 40px var(--neon-color-pink),
-        0 0 80px var(--neon-color-pink);
+        0 0 20px var(--neon-color-black), 
+        0 0 40px var(--neon-color-black),
+        0 0 80px var(--neon-color-black);
     animation: flicker 1.5s infinite alternate; 
 }
 @keyframes flicker {
@@ -86,9 +87,9 @@ body {
         text-shadow:
             0 0 5px var(--neon-color-white),
             0 0 10px var(--neon-color-white),
-            0 0 20px var(--neon-color-pink),
-            0 0 40px var(--neon-color-pink),
-            0 0 80px var(--neon-color-pink);
+            0 0 20px var(--neon-color-gray),
+            0 0 40px var(--neon-color-black),
+            0 0 80px var(--neon-color-black);
     }
     20%, 24%, 55% {        
 	  text-shadow: none; /*잠시 네온 효과를 끔 */
@@ -112,7 +113,7 @@ body {
     max-height: 2000px;      /* 테이블 최대 높이 */
     overflow-y: auto;       /* 세로 스크롤 활성화 */
     margin-top: 30px;
-    border: 1px solid rgba(255, 102, 169, 0.5);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3); 
     border-radius: 5px;
     
     table-layout: fixed;
@@ -128,7 +129,7 @@ body {
     font-size: 0.95rem;
 
 	table-layout: fixed; /* 너비 고정 */
-    border: 1px solid rgba(255, 102, 169, 0.5); 
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);  
 }
 
 .board-table thead {
@@ -142,7 +143,7 @@ body {
     height: 600px;
     overflow-y: auto;
     margin-top: 30px;
-    border: 1px solid rgba(255, 102, 169, 0.5);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3); 
     border-radius: 5px;
 }
 
@@ -160,18 +161,18 @@ body {
 
 .board-table th, .board-table td {
     padding: 12px 8px;
-    border: 1px solid rgba(255, 102, 169, 0.2);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.9); 
     /* width: 20%; <- 제거됨 */
     box-sizing: border-box;
     max-height: 50px;
-    
-    /* 📌 [유지] 모든 셀 내용 줄바꿈 방지 로직 적용 */
+
     white-space: nowrap; 
     overflow: hidden;
     text-overflow: ellipsis; 
 
-    /* 📌 [유지] 모든 컬럼 텍스트 가운데 정렬 기본 설정 */
     text-align: center; 
+    
+    border: 1px solid black;
 }
 
 .board-table thead th {
@@ -190,9 +191,9 @@ body {
 }
 
 .board-row:hover {
-    background-color: rgba(255, 102, 169, 0.15);
+    background-color: rgba(200, 200, 200, 0.3);
     color: var(--neon-color-pink);
-    text-shadow: 0 0 5px var(--neon-color-pink);
+    text-shadow: 0 0 5px var(--neon-color-black);
 }
 
 .post-title {
@@ -205,23 +206,24 @@ body {
 
 /* 네온 버튼 스타일 */
 .neon-button {
-    background-color: transparent;
+    background-color: rgba(0, 0, 0, 0.5);
     color: var(--neon-color-white);
-    border: 2px solid var(--neon-color-pink);
+    border: 2px solid #333333; /* 어두운 회색으로 변경 (검정보다 부드럽게) */
     padding: 5px 10px;
     cursor: pointer;
     font-size: 1rem;
     border-radius: 5px;
-    box-shadow: 0 0 10px var(--neon-color-pink); /* 버튼 자체에 네온 효과 */
+    box-shadow: 0 0 10px #1a1a1a; /* 기본 네온 효과를 아주 어두운 색으로 */
     transition: all 0.3s ease;
     margin-left: auto;
     margin-bottom: 7px; 
 }
 
 .neon-button:hover {
-    background-color: var(--neon-color-pink);
-    color: var(--background-color);
-    box-shadow: 0 0 20px var(--neon-color-pink), 0 0 40px var(--neon-color-pink);
+    background-color: #111111; /* 아주 진한 검정색 배경 */
+    color: white;
+    /* 호버 시 검은 빛 효과: 아주 진한 검정색으로 강한 그림자 효과를 줍니다. */
+    box-shadow: 0 0 20px #000000, 0 0 40px #000000, 0 0 80px #000000;
 }
 
 /* 페이징 및 링크 스타일 */
@@ -234,15 +236,15 @@ body {
     display: inline-block;
     padding: 5px 10px;
     margin: 0 5px;
-    color: var(--neon-color-pink);
+    color: var(--neon-color-black);
     cursor: pointer;
-    text-shadow: 0 0 5px var(--neon-color-pink);
+    text-shadow: 0 0 5px var(--neon-color-black);
     transition: text-shadow 0.3s;
     left: 20px;
 }
 
 .neon-link:hover, .neon-link.current {
-    text-shadow: 0 0 10px var(--neon-color-pink), 0 0 20px rgba(255, 102, 169, 0.8);
+    text-shadow: 0 0 10px #000080, 0 0 20px #4d4dff; 
     font-weight: bold;
 }
 

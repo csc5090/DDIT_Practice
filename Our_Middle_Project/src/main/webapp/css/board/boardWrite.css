@@ -6,9 +6,8 @@
 }
 
 body {
-    background-image: url('../../images/logins/loginBack.png');
-	background-size: 50% 100%;
-
+    background-image: url('../../images/board/board_Back2.png');
+	background-size: 110% 100%;
     background-attachment: fixed;
     
     color: var(--neon-color-white);
@@ -23,7 +22,7 @@ body {
     margin: 0 auto;
     padding: 20px;
     /* 약간의 네온 테두리 효과 */
-    box-shadow: 0 0 10px rgba(255, 102, 169, 0.3); 
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3); 
     border-radius: 5px;
 }
 

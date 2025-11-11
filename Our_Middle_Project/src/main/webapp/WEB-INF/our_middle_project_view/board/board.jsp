@@ -41,7 +41,7 @@
 	
 <div class="container">
 
-        <h1 class="neon-text title">⭐ 게시판 ⭐</h1>
+        <h1 class="neon-text title">게시판</h1>
         
         <div class="board-header">
           	 <button class="neon-button" onclick="goToWritePage()">글쓰기</button>
