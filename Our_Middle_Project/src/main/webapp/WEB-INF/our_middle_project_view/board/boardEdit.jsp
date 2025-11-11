@@ -66,8 +66,9 @@
 
         <div class="write-actions">
             <button type="submit" class="neon-button edit-btn">수정 완료</button>
-            <button type="button" class="neon-button cancel-btn" onclick="goBack()">취소</button>
+            <button type="button" class="neon-button cancel-btn" onclick="gogoBack()">취소</button>
         </div>            
+        <input type="hidden" name="boardNo" value="${b.boardNo}">
 
     </form>  <!-- ← 이렇게 form 닫아야함 -->
 

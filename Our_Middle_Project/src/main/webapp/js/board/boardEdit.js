@@ -53,8 +53,9 @@ document.addEventListener('DOMContentLoaded', () => {
 /**
  * 이전 페이지로 돌아갑니다. (취소 버튼)
  */
-function goBack() {
-    window.history.back();
+function gogoBack() {
+    const boardNo = document.querySelector('input[name="boardNo"]').value;
+    window.location.href = `boardCont.do?boardNo=${boardNo}&state=cont`;
 }
 
 /**

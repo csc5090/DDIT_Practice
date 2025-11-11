@@ -55,8 +55,8 @@
 					</div>
 					
 					<div id="exit">
-						<button class="exitBtn" onclick="goExit()">
-							<span>⚪ Log Out</span>
+							<button class="exitBtn" onclick="location.href='<%=request.getContextPath()%>/gameHome.do?action=logout'">
+						    <span>⚪ Log Out</span>
 						</button>
 					</div>
 					

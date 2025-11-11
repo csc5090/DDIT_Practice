@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class RankingDTO {
 
+		private int mem_no;
 	    private int level_no;
 	    private int score_best;
 	    private int score_total;

@@ -40,7 +40,7 @@
 			<div class="my-header-menu">
 				<div data-text="돌아가기" data-hover="GAME HOME" onclick="location.href='gameHome.do'"></div>
 				<div data-text="게시판가기" data-hover="BOARD" onclick="location.href='board.do'"></div>
-				<div data-text="로그아웃" data-hover="LOGOUT" onclick="location.href='login.do'"></div>
+				<div data-text="로그아웃" data-hover="LOGOUT" onclick="location.href='myPage.do?action=logout'"></div>
 			</div>
 		</div>
 

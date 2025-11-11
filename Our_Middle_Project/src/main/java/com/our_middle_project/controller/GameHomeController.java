@@ -22,39 +22,35 @@ public class GameHomeController implements Action {
 	
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-		System.out.println("GameHomeController Start");
+	        throws ServletException, IOException {
 
 	    // 세션 체크
 	    UserInfoDTO loginUser = (UserInfoDTO) request.getSession().getAttribute("loginUser");
 
+	    // logout 파라미터가 있으면 세션 종료
+	    if ("logout".equals(request.getParameter("action"))) {
+	        request.getSession().invalidate(); // 세션 종료
+	        ActionForward forward = new ActionForward();
+	        forward.setRedirect(true);
+	        forward.setPath("/login.do"); // 로그인 페이지 이동
+	        return forward;
+	    }
+
 	    if (loginUser == null) {
-	        System.out.println("로그인 정보 없음 -> login.do 로 이동");
 	        ActionForward forward = new ActionForward();
 	        forward.setRedirect(true);
 	        forward.setPath("/login.do");
 	        return forward;
 	    }
-		
-		    
-			//-------------------
-		
-		GameService gameService = new GameServiceImpl(); 
-		List<GameLevelDTO> gameLevelList = gameService.getLevelInfo();
-		for(int i=0 ; i<gameLevelList.size() ; i++) {
-			System.out.println(gameLevelList.get(i));
-		}
-	
-		request.setAttribute("levelList", gameLevelList);
-		System.out.println("레벨 리스트 내용 확인: " + gameLevelList.get(0).getClass().getName());
-		
-		ActionForward forward = new ActionForward();
-		forward.setRedirect(false);
-		forward.setPath("/WEB-INF/our_middle_project_view/user/gameHome.jsp");
-		
-		return forward;
-		
-	}
+ 
+	    // 기존 레벨 리스트 로직
+	    GameService gameService = new GameServiceImpl(); 
+	    List<GameLevelDTO> gameLevelList = gameService.getLevelInfo();
+	    request.setAttribute("levelList", gameLevelList);
 
+	    ActionForward forward = new ActionForward();
+	    forward.setRedirect(false);
+	    forward.setPath("/WEB-INF/our_middle_project_view/user/gameHome.jsp");
+	    return forward;
+	}
 }
