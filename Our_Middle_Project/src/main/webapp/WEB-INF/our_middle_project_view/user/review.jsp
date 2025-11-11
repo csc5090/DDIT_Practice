@@ -177,16 +177,18 @@
 
 							<div class="rowNew">
 								<div id="previewGrid" class="previewGridNew">
-									<div class="emptyBoxNew" data-empty>이미지 없음</div>
+									<div class="emptyBoxNew" data-empty>첨부파일 없음</div>
 								</div>
 							</div>
+						</div>
+
+						<div class="wrtColRightNew">
 
 							<div class="rowNew">
 								<div class="textareaWrapNew">
 									<textarea id="content" name="boardContent" class="textareaNew"
-										required
-										maxlength="1000"
-										placeholder="리뷰를 작성해주세요 (최소 10자)&#10;게임/서비스의 장단점, 추천 여부 등을 자유롭게 적어주세요."><%-- [복구] placeholder 텍스트 --%></textarea>
+										required maxlength="1000"
+										placeholder="리뷰를 작성해주세요 (최소 10자)&#10;게임/서비스의 장단점, 추천 여부 등을 자유롭게 적어주세요."></textarea>
 									<div class="counterNew">
 										<span id="cnt">0</span>/1000
 									</div>

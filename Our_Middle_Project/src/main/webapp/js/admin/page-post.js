@@ -159,17 +159,46 @@ const PostPage = {
 	},
 
 	sortAndRenderTable: function(key, order) {
-		if (!this.currentList || this.currentList.length === 0) { this.renderList(); return; }
-		this.currentList.sort((a, b) => {
-			const valA = a[key]; const valB = b[key]; let compareResult = 0;
-			if (key === 'board_no' || key === 'comment_count') { compareResult = valA - valB; }
-			else if (key === 'created_date') { const dateA = new Date(valA.replace(' ', 'T')); const dateB = new Date(valB.replace(' ', 'T')); compareResult = dateA - dateB; }
-			else if (typeof valA === 'string' && typeof valB === 'string') { compareResult = valA.localeCompare(valB); }
-			else { if (valA < valB) compareResult = -1; else if (valA > valB) compareResult = 1; }
-			return (order === 'asc' ? compareResult : compareResult * -1);
-		});
-		this.updateSortIcons(key, order); this.renderList();
-	},
+			if (!this.currentList || this.currentList.length === 0) { 
+				this.renderList(); 
+				return; 
+			}
+
+			this.currentList.sort((a, b) => {
+				const valA = a[key]; 
+				const valB = b[key]; 
+				let compareResult = 0;
+
+				// [핵심 수정] '작성자' 컬럼 정렬 로직
+				// '작성자' 헤더의 data-sort-key가 'nickname'이든 'userId'이든
+				// 실제 숫자 정렬 기준인 'mem_no'를 사용하도록 강제합니다.
+				if (key === 'nickname' || key === 'userId') {
+					// 보이는 텍스트(valA, valB) 대신, 객체 내부의 숫자 'mem_no'로 직접 비교
+					compareResult = a.mem_no - b.mem_no;
+				}
+				// --- 나머지 정렬 로직 (기존 유지) ---
+				else if (key === 'board_no' || key === 'comment_count') {
+					compareResult = valA - valB;
+				} 
+				else if (key === 'created_date') {
+					const dateA = new Date(valA.replace(' ', 'T')); 
+					const dateB = new Date(valB.replace(' ', 'T')); 
+					compareResult = dateA - dateB;
+				} 
+				else if (typeof valA === 'string' && typeof valB === 'string') {
+					compareResult = valA.localeCompare(valB);
+				} 
+				else {
+					if (valA < valB) compareResult = -1; 
+					else if (valA > valB) compareResult = 1;
+				}
+				
+				return (order === 'asc' ? compareResult : compareResult * -1);
+			});
+			
+			this.updateSortIcons(key, order); 
+			this.renderList();
+		},
 
 	updateSortIcons: function(key, order) {
 		document.querySelectorAll('#post-management .sortable').forEach(th => {
