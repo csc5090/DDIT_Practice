@@ -6,6 +6,9 @@ body {
 	padding: 0;
 	color: white;
 	overflow: hidden;
+	
+	user-select: none;
+	
 	background-image: url('../../images/logins/loginBack.png');
 	background-size: 50% 100%;
 }

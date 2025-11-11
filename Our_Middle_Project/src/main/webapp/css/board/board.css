@@ -4,8 +4,6 @@
     --neon-color-gray: #555; 
 }
 
-
-
 body {
 	
     background-image: url('../../images/board/board_Back2.png');
@@ -16,7 +14,7 @@ body {
     font-family: Arial, sans-serif; 
     
     margin: 0;
-    padding: 20px;
+    padding: 0px;
     
     text-align: center;
     
@@ -26,47 +24,74 @@ body {
  
 }
 
-#nickname {
+.header {
+	width: 100%;
+	height: 6%;
 	
-    position: absolute;  
-    top: 40px;           
-    right: 140px;         
+	position: fixed;
+	
+	display: flex;
+	gap: 1%;
+	flex-direction: row;
+    align-content: center;
+    justify-content: flex-end;
+    align-items: center;
     
+    font-family: 'Escoredream';
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+}
+
+#nickname {
+
     display: flex;
     align-items: center;
-    gap: 5px;            
+    gap: 10px;            
     
     font-size: 15px;
     color: #fff;        
     
     z-index: 1000;       
+}
+
+
+/*===우측 상단에 메인홈 이동  */
+.home-button-container {
+	margin-right: 1%;
+	
+	width: 3%;
+	height: 90%;
+}
+
+.home-button {
+	
+	width: 100%;
+	height: 100%;
+	
+    background: transparent;                /* ✅ 배경 투명 */
+    /* border: 1.5px solid #a066ff;               ✅ 퍼플 라인 */
+    border: none;
     
+    color: white;  
+	padding: 0;
+    border-radius: 8px;
+    
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .container {
     
     margin: 0 auto;
     padding: 20px;
+    margin-top: 20px;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);  
     border-radius: 5px;
     height:875px;
     width: 58%; 
     color: white;
   
-}
-
-/* 홈 버튼 */
-#home {
-    position: absolute;
-    top: 15px;
-    right: 50px;
-}
-#homeBtn {
-	color:white;
-    font-size: 50px;
-    background: none;
-    border: none;
-    cursor: pointer;
 }
 
 /* 네온 텍스트 스타일 (큰 제목) */
@@ -108,56 +133,37 @@ body {
         0 0 15px var(--neon-color-pink);
 }
 
-/* 게시판 테이블 스타일 */
-.board-table-container {
-    max-height: 2000px;      /* 테이블 최대 높이 */
-    overflow-y: auto;       /* 세로 스크롤 활성화 */
-    margin-top: 30px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3); 
-    border-radius: 5px;
-    background-color: rgba(0, 0, 0, 0.5); 
-    
-    table-layout: fixed;
-}
-
-
-
 .board-table {
     /* display: block;  <- tbody에만 적용되도록 제거 */
     width: 100%;             /* 기존 너비 유지 */
     height: 80%;
-    border-collapse: collapse;
-    font-size: 0.95rem;
-
-	table-layout: fixed; /* 너비 고정 */
+	border-collapse: collapse; /* 셀 경계선 겹치기 */
+	border-spacing: 0;         /* 셀 사이 간격 제거 */
+    font-size: 1rem;
+	table-layout: fixed; /* <-- 핵심 */
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);  
+
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 .board-table thead {
     display: table;
-    /* 📌 [수정/확인] 스크롤바 너비만큼 thead 너비 조정하여 조회수 정렬 불일치 문제 해결 */
-    width: calc(100% - 1px); 
+    width: 100%; 
+    height: 10%;
+    
     table-layout: fixed;
-}
-
-.board-table-container {
-    height: 600px;
-    overflow-y: auto;
-    margin-top: 30px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3); 
-    border-radius: 5px;
 }
 
 .board-table tbody {
     display: block;
     max-height: 600px;       /* 스크롤 영역 높이 */
-    overflow-y: scroll;      /* 스크롤 가능하게 */
+    overflow-y: scroll;
     width: 100%;
-
+	height: 90%;
     /* 스크롤 숨기기 */
     scrollbar-width: none;   
-    -ms-overflow-style: none; 
-
+    -ms-overflow-style: none;
 }
 
 .board-table th, .board-table td {
@@ -172,16 +178,11 @@ body {
     text-overflow: ellipsis; 
 
     text-align: center; 
-    
-    border: 1px solid rgba(255, 255, 255, 0.1);
     background-color: rgba(0, 0, 0, 0.7);
 }
 
-.board-table thead th {
-    position: sticky;
-    top: 0;
-    background-color: #000000;
-    z-index: 2;
+.board-table th {
+    background: rgba(0, 0, 0, 0.5);
 }
 
 
