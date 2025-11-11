@@ -139,6 +139,15 @@ body {
 
 
 /* ===== 정렬 툴바 스타일 ===== */
+
+.reviewToolbar {
+	display: flex;
+	
+	
+	
+}
+
+
 .reviewToolbar>div {
 	display: flex;
 	/* 버튼 그룹 내부의 간격 조정: 최신순/오래된순이 붙어 보이게 됩니다. */
@@ -217,6 +226,24 @@ body {
 		padding-bottom: 5px;
 		border-bottom: 1px solid rgba(0, 255, 100, 0.1);
 		color: #f0fff0;
+}
+
+.rv-head .date { 
+    color: #aaaaaa;
+	font-size: 12px;
+}
+
+.btn-update-review, .btn-delete-review {
+    white-space: nowrap;
+}
+
+.rv-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 버튼과 날짜 사이의 간격 */
+    
+    /* [핵심 수정] 이 그룹을 오른쪽 끝으로 밀어냅니다. */
+    margin-left: auto; 
 }
 
 .rv-body {
@@ -348,3 +375,5 @@ body {
 	flex-direction: column;
 	gap: 15px;
 }
+
+.review

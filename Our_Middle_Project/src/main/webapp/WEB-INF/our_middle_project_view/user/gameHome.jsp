@@ -253,10 +253,16 @@
 	    String userJson = gson.toJson(user);
 	%>
 	
-	<script type="text/javascript">
-		const userDataCase = JSON.parse('<%= userJson %>');
-		console.log(userDataCase);
-	</script>
+<script type="text/javascript">
+
+	const CONTEXT_PATH = '<%= request.getContextPath() %>';
+	function getBaseUrl() {
+		return CONTEXT_PATH;
+	}
+
+	const userDataCase = JSON.parse('<%= userJson %>');
+    const CURRENT_USER_MEM_NO = userDataCase ? userDataCase.mem_no : null;
+</script>
 	
 	<script type="text/javascript" src="./js/common.js"></script>
 	<script type="text/javascript" src="./js/gameHome/gameHome.js"></script>

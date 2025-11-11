@@ -25,14 +25,6 @@
 			</div>
             
             <div class="bottomBar" id="iBottomBar">
-				<button id="iwrtBtn" class="wrtBtn btn btn-outline-secondary"
-					type="button" aria-expanded="false">
-					<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-						fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-							d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707 1.354 11.354a.5.5 0 1 1-.708-.708l6-6z" />
-                    </svg>
-				</button>
 			</div>
 
 			<div class="innerContent">
@@ -40,7 +32,7 @@
 
 					<c:if test="${!empty reviewList}">
 						<c:forEach var="r" items="${reviewList}">
-							<article class="rv-card" data-board-no="${r.boardNo}">
+							<article class="rv-card" data-board-no="${r.boardNo}" data-mem-no="${r.memNo}" >
 								<div class="rv-head">
 									<span class="nickname"><c:out value="${r.nickName}" /></span>
 									<span class="memId">#<c:out value="${r.memId}" /></span>
@@ -52,6 +44,9 @@
 											</c:choose>
 										</c:forEach>
 									</span>
+									
+									
+									<div class="rv-actions">
 									<span class="date"> <c:out
 											value="${empty r.updatedDate ? r.createdDate : r.updatedDate}" />
 									</span>
@@ -65,6 +60,7 @@
 											class="btn btn-outline-danger btn-sm ms-auto btn-delete-review"
 											data-board-no="${r.boardNo}">삭제</button>
 									</c:if>
+									</div>
 								</div>
 
 								<div class="rv-body">

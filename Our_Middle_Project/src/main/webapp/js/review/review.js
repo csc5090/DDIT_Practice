@@ -1,5 +1,6 @@
+
+
 if (typeof BASE_URL === 'undefined') {
-	// 경고는 그대로 유지하며, BASE_URL 대신 빈 문자열을 사용합니다.
 	console.warn("BASE_URL이 아직 정의되지 않았습니다. 동적 로딩 환경 확인 필요.");
 }
 
@@ -7,7 +8,6 @@ if (typeof BASE_URL === 'undefined') {
 function openReviewModal() {
 	const modalElement = document.getElementById('iReviewModal');
 	if (!modalElement) {
-		// initReviewElements가 호출되기 전일 수 있습니다.
 		console.error("iReviewModal 요소를 찾을 수 없습니다. 초기화 실패.");
 		return;
 	}
@@ -277,6 +277,10 @@ function buildNewCard(r) {
 	const card = document.createElement('article');
 	card.className = 'rv-card';
 	card.dataset.boardNo = r.boardNo;
+	
+	if (r.memNo) {
+	        card.dataset.memNo = r.memNo;
+	    }
 
 	// (★) 썸네일 HTML 생성
 	let thumbHtml = '';
@@ -320,29 +324,51 @@ function buildNewCard(r) {
 }
 
 
-// [추가] 리뷰 정렬 함수
+// 리뷰 정렬 함수
 function sortReviews(sortType) {
 	const list = formElements.list;
-	if (!list) return;
+	    if (!list) return;
 
-	// 1. 모든 리뷰 카드(.rv-card)를 배열로 가져옵니다.
-	const cards = Array.from(list.querySelectorAll('article.rv-card'));
+	    const cards = Array.from(list.querySelectorAll('article.rv-card'));
 
-	// 2. 리뷰 카드들을 정렬합니다. (DOM에서 boardNo를 사용)
-	cards.sort((a, b) => {
-		const boardNoA = parseInt(a.dataset.boardNo);
-		const boardNoB = parseInt(b.dataset.boardNo);
+	    // 1. 카드를 정렬하는 새로운 비교 함수 정의
+	    cards.sort((a, b) => {
+	        const boardNoA = parseInt(a.dataset.boardNo);
+	        const boardNoB = parseInt(b.dataset.boardNo);
+	        
+	        // [수정] dataset에서 memNo를 가져옵니다.
+	        const memNoA = parseInt(a.dataset.memNo); 
+	        const memNoB = parseInt(b.dataset.memNo);
 
-		if (sortType === 'newest') {
-			// 최신순 = boardNo 내림차순 (큰 번호가 먼저)
-			return boardNoB - boardNoA;
-		} else {
-			// 오래된순 = boardNo 오름차순 (작은 번호가 먼저)
-			return boardNoA - boardNoB;
-		}
-	});
+	        // --- [최상단 고정 로직] ---
+	        // 로그인 상태가 아니거나 memNo가 없는 경우, 최상단 고정을 수행하지 않습니다.
+	        if (!CURRENT_USER_MEM_NO || isNaN(CURRENT_USER_MEM_NO)) {
+	             // 일반 정렬 로직 (보드 번호 기준)
+	            if (sortType === 'newest') {
+	                return boardNoB - boardNoA; 
+	            } else {
+	                return boardNoA - boardNoB;
+	            }
+	        }
+	        
+	        const isUserAReview = memNoA === CURRENT_USER_MEM_NO;
+	        const isUserBReview = memNoB === CURRENT_USER_MEM_NO;
+	        
+	        // 2. A만 내 리뷰일 경우: A가 B보다 상단에 위치 (음수 반환)
+	        if (isUserAReview && !isUserBReview) return -1;
 
-	// 3. 정렬된 순서대로 다시 DOM에 추가 (DOM 조작 최소화를 위해 document fragment 사용 권장)
+	        // 3. B만 내 리뷰일 경우: B가 A보다 상단에 위치 (양수 반환)
+	        if (!isUserAReview && isUserBReview) return 1;
+
+	        // 4. 둘 다 내 리뷰가 아니거나 둘 다 내 리뷰일 경우: 일반 정렬 로직 (보드 번호 기준)
+	        if (sortType === 'newest') {
+	            return boardNoB - boardNoA; 
+	        } else {
+	            return boardNoA - boardNoB;
+	        }
+    });
+
+	// 정렬된 순서대로 다시 DOM에 추가 (DOM 조작 최소화를 위해 document fragment 사용 권장)
 	const fragment = document.createDocumentFragment();
 	cards.forEach(card => fragment.appendChild(card));
 
