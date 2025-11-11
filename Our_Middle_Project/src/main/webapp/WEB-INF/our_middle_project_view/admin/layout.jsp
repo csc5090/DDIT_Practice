@@ -41,7 +41,7 @@
 		<nav class="sidearea">
 			<%-- ... (로고, 사이드바 메뉴) ... --%>
 			<div class="logo-wrapper">
-				<span class="logo-span"> 로고 들어갈 자리 </span>
+				<span class="logo-span">T w i n   C a r d s</span>
 			</div>
 
 			<div class="ul-wrapper">
