@@ -343,25 +343,34 @@
 .starBtn {
 	background: rgba(0, 0, 0, 0.7);
 	border: 1px solid rgba(0, 255, 100, 0.3);
-	color: #444;
-	font-size: 1.5rem;
-	padding: 5px;
-	border-radius: 8px;
-	transition: all 0.2s ease;
-	flex-grow: 1;
+    color: #444;
+    padding: 0;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    flex-grow: 1; 
+    aspect-ratio: 1 / 1;
+    position: relative; 
+    overflow: hidden;
 }
+
 .starBtn span {
 	color: #c9ced6;
-	transition: all 0.2s ease;
+    transition: all 0.2s ease;
+    font-size: 2rem; 
+    
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -55%); 
 }
+
 .starBtn:hover span {
 	color: #fff;
 	text-shadow: 0 0 8px rgba(0, 255, 100, 0.7);
 }
 .starBtn.filled span {
 	color: #00ff66;
-	text-shadow: 0 0 3px rgba(0, 255, 102, 0.7), 0 0 10px
-		rgba(0, 255, 100, 0.5);
+	text-shadow: 0 0 3px rgba(0, 255, 102, 0.7), 0 0 10px rgba(0, 255, 100, 0.5);
 }
 
 /* 파일 업로드 영역 */
