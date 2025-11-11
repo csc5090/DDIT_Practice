@@ -34,12 +34,27 @@ body {
     box-sizing: border-box;    
 }
 
-#nickname {
+.header {
+	width: 100%;
+	height: 6%;
 	
-    position: absolute;  
-    top: 40px;           
-    right: 140px;         
+	position: fixed;
+	
+	display: flex;
+	gap: 1%;
+	flex-direction: row;
+    align-content: center;
+    justify-content: flex-end;
+    align-items: center;
     
+    font-family: 'Escoredream';
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+}
+
+#nickname {
+
     display: flex;
     align-items: center;
     gap: 10px;            
@@ -53,34 +68,34 @@ body {
 
 /*===우측 상단에 메인홈 이동  */
 .home-button-container {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    z-index: 1000;
+	margin-right: 1%;
+	
+	width: 3%;
+	height: 90%;
 }
 
 .home-button {
+	
+	width: 100%;
+	height: 100%;
+	
     background: transparent;                /* ✅ 배경 투명 */
-    border: 1.5px solid #a066ff;               /* ✅ 퍼플 라인 */
-    color: #cfa9ff;                            /* ✅ 밝은 퍼플 글자색 */              
-    font-size: 14px;
-    font-weight: 600;
-    padding: 10px 18px;
+    /* border: 1.5px solid #a066ff;               ✅ 퍼플 라인 */
+    border: none;
+    
+    color: #cfa9ff;  
+	padding: 0;
     border-radius: 8px;
+    
     cursor: pointer;
-    letter-spacing: 1px;
     transition: all 0.3s ease;
-}
-
-.home-button:hover {
-    transform: scale(1.07);                
 }
 
 /* ====좌우 슬라이드 버튼 공통 */
 
 .slide-btn {
-    background-color: rgba(30, 15, 50, 0.5); /* 진한 보라 반투명 */
-    color: #c39fff;                         /* 네온 보라 글자 */
+    background-color: rgba(0, 0, 0, 0.2); /* 진한 보라 반투명 */
+    color: white;                         /* 네온 보라 글자 */
     font-size: 1.2rem;
     font-weight: bold;
     border: none;
@@ -89,31 +104,34 @@ body {
     position: absolute;
     top: 60%;
     transform: translateY(-50%);
-    width: 25px;                             /* 길쭉한 가로 */
-    height: 100px;                            /* 얄쌉한 세로 */
+    width: 40px;                             /* 길쭉한 가로 */
+    height: 150px;                            /* 얄쌉한 세로 */
     
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
 
-    box-shadow: 0 0 8px rgba(195, 159, 255, 0.1), 0 0 20px rgba(195, 159, 255, 0.4);
+	box-shadow: 
+	    0 0 8px rgba(180, 100, 255, 0.25),
+	    0 0 18px rgba(190, 120, 255, 0.18),
+	    inset 0 0 12px rgba(190, 100, 255, 0.2);
     transition: all 0.3s ease;
 }
 
 /* 왼쪽 버튼 */
 .slide-btn.left {
-    left: calc(50% - 30% - -15px); /* 기존 구조 유지 */
+    left: calc(50% - 30% - 30px); /* 기존 구조 유지 */
 }
 
 /* 오른쪽 버튼 */
 .slide-btn.right {
-    left: calc(50% + 30% + -40px); /* 기존 구조 유지 */
+    left: calc(50% + 30% + -10px); /* 기존 구조 유지 */
 }
 
 /* hover 효과 */
 .slide-btn:hover {
-    transform: translateY(-50%) scale(1.1);
+    transform: translateY(-50%) scale(1.02);
     box-shadow: 0 0 12px rgba(195, 159, 255, 0.9), 0 0 25px rgba(195, 159, 255, 0.5);
 }
 
@@ -141,8 +159,7 @@ body {
 	
 	display: flex;          /* flex 활성화 */
 	flex-direction: column;
-	
-	opacity: 0.95;
+
 }
 
 /* =================== 상단 css===============  */
@@ -176,27 +193,20 @@ body {
     flex: 1;
     height: 100%;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.7);
-    background-color: rgba(255,255,255,0.1); /* 반투명 네온 느낌 */
-/*     background-color: #0a0c12; */
-/*     background-image: */
-/*         radial-gradient(120% 120% at 100% 100%, rgba(0,0,0,0.9), transparent 55%), */
-/*         radial-gradient(120% 120% at 100% 100%, rgba(0,0,0,0.9), transparent 55%), */
-/*         radial-gradient(120% 120% at 0% 0%, rgba(155,92,255,0.12), transparent 50%); */
-/*     background-attachment: fixed; */
+    
+    background: rgba(0, 0, 0, 0.2); /* 반투명 네온 느낌 */
 
     color: white;
     
  	display: flex;
     flex-direction: row;         /* ✅ 가로 정렬로 변경 */
     justify-content: flex-start;; /* 항목 사이 간격 일정하게 */
-    
-    
     align-items: center;         /* 세로 가운데 정렬 */
+    
     padding: 0 20px;             /* 좌우 여백 */
     text-align: center;          /* 텍스트 중앙 정렬 */
 
-    border: 1px solid #E79AEC; /* ← 거의 안 보이지만 은은한 경계감 */
+    border: 1px solid #C77DFF; /* ← 거의 안 보이지만 은은한 경계감 */
     gap: 5px; 
     
     position: relative;
@@ -216,18 +226,27 @@ body {
 
 /* 1,2,3등 메달 */
 .ranking-card .rank-text.rank-1 { 
-    color: gold; 
-    text-shadow: 0 0 10px gold; 
-    font-size: 1.7rem; /* 상위 div의 폰트 사이즈를 여기에 다시 적용 */
+    color: #FFD700; 
+    
+    text-shadow: 0 0 10px #FFD700;
+    
+    font-family: 'LAB_digital';
+    font-size: 1.7rem;
 }
 .ranking-card .rank-text.rank-2 { 
-    color: silver; 
-    text-shadow: 0 0 8px silver; 
+    color: #C0C0C0;
+     
+    text-shadow: 0 0 8px #C0C0C0;
+     
+	font-family: 'LAB_digital';
     font-size: 1.7rem;
 }
 .ranking-card .rank-text.rank-3 { 
-    color: #cd7f32; 
-    text-shadow: 0 0 6px #cd7f32; 
+    color: #CD7F32; 
+    
+    text-shadow: 0 0 6px #CD7F32;
+     
+    font-family: 'LAB_digital';
     font-size: 1.7rem;
 }
 
@@ -247,9 +266,15 @@ body {
     position: absolute;      /* 카드 안에서 절대 위치 */
     bottom: 20px;             /* 카드 아래쪽 여백 */
     right: 20px;              /* 카드 왼쪽 여백 */
-    font-size: 2rem;       /* 글자 크게 */
-    font-weight: bold;
     
+	font-family: 'LAB_digital';
+    font-size: 1.8rem;
+    color: #C77DFF;
+    
+	text-shadow:
+	    0 0 10px rgba(160, 60, 255, 0.6),
+	    0 0 22px rgba(200, 120, 255, 0.4),
+	    0 0 36px rgba(240, 180, 255, 0.25);
 }
 
 /* 부모 카드도 relative로 위치 기준 잡기 */
@@ -271,10 +296,14 @@ body {
 }
 
 span.span1 {
-    font-size: 10px;   
+	font-family: 'LAB_digital';
+    font-size: 1rem;
+    color: white;
 }
 span.span2 {
-	font-size: 14px;   
+	font-family: 'LAB_digital';
+    font-size: 1rem;
+    color: white;
 }
 
 /*=================== 중단 css=============== */
@@ -313,6 +342,11 @@ span.span2 {
 	display: flex;
   	transition: transform 0.5s ease;
   	align-items: flex-start;
+  	
+    font-family: 'Escoredream';
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
 }
 
 #centerWidth500 > div {
@@ -320,7 +354,7 @@ span.span2 {
     height: 100%;  
   	display: flex;
   	flex-direction: column;
-  	gap: 10px;
+  	gap: 2px;
   	
 
 }
@@ -329,23 +363,21 @@ span.span2 {
     height: 50px;
     width: 100%;           
     line-height: 50px;
-    padding: 0 10px;        /* 좌우만 */
     display: flex;           
     justify-content: space-between;
     align-items: center;
-    font-size: 14px;
     
     border-bottom: 1px solid rgba(255,255,255,0.1);
-    background-color: rgba(255,255,255,0.1); /* 반투명 네온 느낌 */
+    background: rgba(255,255,255,0.1); /* 반투명 네온 느낌 */
     color: #e0e0ff; /* 글자색 약간 밝은 블루톤 */
     font-weight: 500;
     border-radius: 6px;
     transition: all 0.3s ease;
 }
 
-.ranking-item:hover {
-    background-color: rgba(138, 43, 226, 0.1);
-    color: #8A2BE2;
+.ranking-item:not(:first-child):hover {
+    background: rgba(0, 0, 0, 0.5);
+    color: #C77DFF;
 }
 
 .ranking-column {
@@ -389,16 +421,6 @@ span.span2 {
     font-weight: 550;  /* 굵게 */
 }
 
-.ranking-column:first-child {
-    color: yellow;
-    font-size: 20px;
-    font-weight: bold;
-}
-.ranking-column:last-child {
-    color:#A663F6;
-    font-weight: bold;
-}
-
 /* 커밍 순 */
 .coming-soon {
     display: flex;
@@ -409,16 +431,20 @@ span.span2 {
     font-weight: bold;
     /* color: #aa66ff;           보라톤 */
     height: 150px;            /* 원하는 높이 지정 */
-    background-color: #07080d; /* 선택 사항: 배경 */
+    background: rgba(0, 0, 0, 0.2); /* 선택 사항: 배경 */
     border-radius: 10px;      /* 선택 사항: 모서리 둥글게 */
 }
 
 .ranking-item.ranking-header {
     display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
     align-items: center;
-    justify-content: flex-center; /* 왼쪽 정렬 */
-    padding-left: 45px;		/* 순위 부분 왼쪽 뛰움 */
-    background-color: #000000;
+    
+    width: 100%;
+    
+    background: rgba(0, 0, 0, 0.5);
 }
 
 .ranking-column {
@@ -426,12 +452,20 @@ span.span2 {
     padding: 0 5px;
 }
 
-.ranking-column-main-1 { width: 60px; }   /* 순위 */
-.ranking-column-main-2 { width: 125px; }  /* 닉네임 */
-.ranking-column-main-3 { width: 120px; }  /* 아이디 */
-.ranking-column-main-4 { width: 85px; }   /* 콤보 */
-.ranking-column-main-5 { width: 115px; }  /* 클리어시간 */
-.ranking-column-main-6 { width: 132px; }  /* 최대점수 */
+.ranking-column-main-1 { width: 10%; } 
+.ranking-column-main-2 { width: 20%; } 
+.ranking-column-main-3 { width: 20%; } 
+.ranking-column-main-4 { width: 10%; } 
+.ranking-column-main-5 { width: 20%; } 
+.ranking-column-main-6 { width: 20%; } 
+
+.ranking-columns {
+	display: flex;
+	flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
 
 /* =================== 하단 css===============  */
 
@@ -443,8 +477,7 @@ span.span2 {
     padding: 0;
     margin: 0;
     
-   
-    background-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
     overflow: hidden;
     
 /*     border: 1px solid red; */
@@ -462,20 +495,13 @@ span.span2 {
 
     color: white;
     font-family: 'KccAnchangho';
-    font-size: 30px;      /* 기본 폰트 */
-    font-weight: bold;
+    font-size: 1.5rem;      /* 기본 폰트 */
     cursor: pointer;
-/* 	border: 1px solid #E79AEC;  */
+	border: none;
 
     position: relative;
     overflow: hidden;
-/*     border-radius: 30px; */
 
-/*     background-color: #07080d; */
-/*     background-image: */
-/*         radial-gradient(120% 120% at 100% 100%, rgba(0, 180, 255, 0.04), transparent 60%), */
-/*         radial-gradient(120% 120% at 0% 100%, rgba(150, 100, 255, 0.04), transparent 55%), */
-/*         radial-gradient(120% 120% at 0% 0%, rgba(255, 0, 150, 0.03), transparent 50%); */
     background-attachment: fixed;
 	background-color: transparent;
     transition: transform 0.3s ease, color 0.3s ease; /* 글자 확대/축소만 부드럽게 */
@@ -494,30 +520,4 @@ span.span2 {
     font-weight: bold;     /* 볼드 */
     text-align: center;    /* 가운데 정렬 */
 
-}
-/* easy, normal, hard 공통으로 적용 */
-#rankingList-1 .ranking-item:not(.ranking-header) .ranking-column-main-1,
-#rankingList-2 .ranking-item:not(.ranking-header) .ranking-column-main-1,
-#rankingList-3 .ranking-item:not(.ranking-header) .ranking-column-main-1 {
-    margin-left: 35px;
-}
-
-#rankingList-1 .ranking-item:not(.ranking-header) .ranking-column-main-4,
-#rankingList-2 .ranking-item:not(.ranking-header) .ranking-column-main-4,
-#rankingList-3 .ranking-item:not(.ranking-header) .ranking-column-main-4 {
-    margin-left: 30px;
-}
-
-#rankingList-1 .ranking-item:not(.ranking-header) .ranking-column-main-5,
-#rankingList-2 .ranking-item:not(.ranking-header) .ranking-column-main-5,
-#rankingList-3 .ranking-item:not(.ranking-header) .ranking-column-main-5 {
-    display: flex;
-    padding-left: 20px;
-}
-
-#rankingList-1 .ranking-item:not(.ranking-header) .ranking-column-main-6,
-#rankingList-2 .ranking-item:not(.ranking-header) .ranking-column-main-6,
-#rankingList-3 .ranking-item:not(.ranking-header) .ranking-column-main-6 {
-    display: flex;
-    padding-left: 20px;
 }

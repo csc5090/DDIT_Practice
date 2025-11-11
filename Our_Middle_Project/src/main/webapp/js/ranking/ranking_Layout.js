@@ -191,12 +191,12 @@ function updateRankingData(rankingData, difficultyIndex) {
         item.classList.add('ranking-item');
 
         item.innerHTML = `
-            <div class="ranking-column-main-1">#${i + 1}</div>
-            <div class="ranking-column-main-2">${data.nickname}</div>
-            <div class="ranking-column-main-3">${data.mem_id}</div>
-            <div class="ranking-column-main-4">${Number(data.combo).toLocaleString()}</div>
-            <div class="ranking-column-main-5">${data.clear_time}초</div>
-            <div class="ranking-column-main-6">${Number(data.score_best).toLocaleString()}</div>
+            <div class="ranking-column-main-1 ranking-columns">#${i + 1}</div>
+            <div class="ranking-column-main-2 ranking-columns">${data.nickname}</div>
+            <div class="ranking-column-main-3 ranking-columns">${data.mem_id}</div>
+            <div class="ranking-column-main-4 ranking-columns">${Number(data.combo).toLocaleString()}</div>
+            <div class="ranking-column-main-5 ranking-columns">${data.clear_time}초</div>
+            <div class="ranking-column-main-6 ranking-columns">${Number(data.score_best).toLocaleString()}</div>
         `;
 
         listDiv.appendChild(item);
