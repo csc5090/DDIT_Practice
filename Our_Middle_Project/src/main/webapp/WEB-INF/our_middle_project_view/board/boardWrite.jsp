@@ -33,7 +33,7 @@
 
 <div class="container">
 	
-       <h1 class="neon-text title">⭐ 새 글 작성 ⭐</h1>
+       <h1 class="neon-text title">새 글 작성</h1>
 
        <form id="writeForm" action="boardWrite.do" method="post">
        <input type="hidden" name="state" value="submit">

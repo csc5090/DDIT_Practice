@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.our_middle_project.action.Action;
 import com.our_middle_project.action.ActionForward;
 import com.our_middle_project.dto.BoardDTO;
+import com.our_middle_project.dto.UserInfoDTO;
 import com.our_middle_project.service.BoardServiceImpl;
 import com.our_middle_project.serviceInterface.BoardService;
 
@@ -25,22 +26,27 @@ public class BoardFreeController implements Action {
 		
 		System.out.println("BoardFreeController Start");
 		
+	    // 세션 체크
+	    UserInfoDTO loginUser = (UserInfoDTO) request.getSession().getAttribute("loginUser");
+
+	    if (loginUser == null) {
+	        response.setContentType("application/json; charset=UTF-8");
+	        response.getWriter().write("{\"status\":\"error\",\"message\":\"login required\"}");
+	        return null;
+	    }
+		
+		
 		try{
-			/*
-			 * BoardDTO board = new BoardDTO(); board.setFindBoard(3);
-			 */
-			
+	
 			BoardService boardService = new BoardServiceImpl();
 			
 			List<BoardDTO> boardList = new ArrayList<>();
 			boardList = boardService.selectFreeBoard();
-//			for(int i=0 ; i<boardList.size() ; i++) {
-//				System.out.println(boardList.get(i));
-//			}
+
 			
 			Gson gson = new Gson();
 			response.getWriter().write(gson.toJson(boardList));
-//			System.out.println(gson.toJson(boardList));
+
 			
 		} catch (Exception e) {
 			e.printStackTrace();

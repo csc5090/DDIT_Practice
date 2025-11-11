@@ -2,14 +2,11 @@
 window.onload = async () => {
 	
 	const boardDBList = await boardListCallDB();
-	console.log(boardDBList)
 	boardListMake(boardDBList)
-	console.log("백업")
 	
 }
 
 function boardListMake(Lists) {
-	console.log(Lists);
 	
 	let newElement = ``;
 	for(let i=0 ; i<Lists.length ; i++) {
@@ -29,7 +26,6 @@ function boardListMake(Lists) {
 		
 	} 
 	
-	console.log(document.getElementsByClassName('board-row'))
 	let boardTableBody = document.getElementById('boardTableBody');
 	boardTableBody.innerHTML = newElement;
 	
@@ -56,8 +52,12 @@ async function boardListCallDB() {
 		responseType: 'json'
 	})
 	.then(function (response) {
-		console.log(response)
-		result = response.data
+	        // 로그인 체크
+	        if(response.data.status === 'error') {
+	            window.location.href = '/Our_Middle_Project/login.do';
+	            return;
+			}
+		result = response.data;		
 	})
 	.catch(function (err) {
     	console.error(err);	// errror

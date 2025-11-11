@@ -1,9 +1,9 @@
-/* 전체 글 색상  */
-/* :root { */
-/*     --neon-color-pink: black; */
-/*     --neon-color-white: #fff;   네온 중심 색상 (화이트) */
-/*     --background-color: #0c001c; 어두운 배경 */
-/* } */
+:root {
+    --neon-color-white: #fff;  
+    --neon-color-black: #000; 
+    --neon-color-gray: #555; 
+}
+
 
 
 body {
@@ -72,15 +72,15 @@ body {
 /* 네온 텍스트 스타일 (큰 제목) */
 .neon-text {
     font-family: 'cursive', sans-serif; 
-    font-size: 3.5rem;
-    color: var(--neon-color-white);
+    font-size: 3rem;
+    color: #fff; 
     text-shadow:
-        0 0 5px var(--neon-color-white), 
-        0 0 10px var(--neon-color-white),
-        0 0 20px var(--neon-color-black), 
-        0 0 40px var(--neon-color-black),
-        0 0 80px var(--neon-color-black);
-    animation: flicker 1.5s infinite alternate; 
+        0 0 5px #000000, 
+        0 0 10px #000000,
+        0 0 20px #000000, 
+        0 0 40px #000000,
+        0 0 80px #000000;
+    letter-spacing: 10px
 }
 @keyframes flicker {
     0%, 18%, 22%, 25%, 53%, 57%, 100% {
@@ -115,6 +115,7 @@ body {
     margin-top: 30px;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.3); 
     border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.5); 
     
     table-layout: fixed;
 }
@@ -172,13 +173,14 @@ body {
 
     text-align: center; 
     
-    border: 1px solid black;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 .board-table thead th {
     position: sticky;
     top: 0;
-    background: #0c001c;  /* 네 배경색(어두운 배경) */
+    background-color: #000000;
     z-index: 2;
 }
 
@@ -191,15 +193,15 @@ body {
 }
 
 .board-row:hover {
-    background-color: rgba(200, 200, 200, 0.3);
+    background-color: rgba(77, 77, 255, 1);
     color: var(--neon-color-pink);
     text-shadow: 0 0 5px var(--neon-color-black);
 }
 
 .post-title {
-    /* .board-table th, .board-table td에 이미 줄바꿈 방지 로직이 적용됨 */
     text-align: left;
 }
+
 .board-header{
 	display:flex;
 }
@@ -208,12 +210,12 @@ body {
 .neon-button {
     background-color: rgba(0, 0, 0, 0.5);
     color: var(--neon-color-white);
-    border: 2px solid #333333; /* 어두운 회색으로 변경 (검정보다 부드럽게) */
+    border: 2px solid #666666; /* 어두운 회색으로 변경 (검정보다 부드럽게) */
     padding: 5px 10px;
     cursor: pointer;
     font-size: 1rem;
     border-radius: 5px;
-    box-shadow: 0 0 10px #1a1a1a; /* 기본 네온 효과를 아주 어두운 색으로 */
+    box-shadow: 0 0 10px #1a1a1a; /* 기본 네온 효과를 어두운 색으로 */
     transition: all 0.3s ease;
     margin-left: auto;
     margin-bottom: 7px; 
@@ -253,7 +255,7 @@ body {
 }
 
 tr.notice {
-    background-color: rgba(255, 0, 0, 0.2);
+    background-color: rgba(255, 0, 0, 0.4);
     font-weight: bold; /* 원하면 글자 강조 */
 }
 

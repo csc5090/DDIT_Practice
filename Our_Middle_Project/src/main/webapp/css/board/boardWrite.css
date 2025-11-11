@@ -1,6 +1,6 @@
 
 :root {
-    --neon-color-pink: #ff66a9; /* 주 네온 색상 (핑크) */
+/*     --neon-color-pink: #ff66a9; 주 네온 색상 (핑크) */
     --neon-color-white: #fff;   /* 네온 중심 색상 (화이트) */
     --background-color: #0c001c; /* 어두운 배경 */
 }
@@ -24,20 +24,17 @@ body {
     /* 약간의 네온 테두리 효과 */
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.3); 
     border-radius: 5px;
+    background-color: rgba(0,0,0, 0.8)
 }
 
 /* 네온 텍스트 스타일 (큰 제목) */
-.neon-text {
-    font-family: 'cursive', sans-serif;
-    font-size: 3.5rem;
+.neon-text-small {
+    font-size: 1.2rem;
     color: var(--neon-color-white);
     text-shadow:
-        0 0 5px var(--neon-color-white), 
-        0 0 10px var(--neon-color-white),
-        0 0 20px var(--neon-color-pink),
-        0 0 40px var(--neon-color-pink),
-        0 0 80px var(--neon-color-pink);
-    animation: flicker 1.5s infinite alternate;
+        0 0 3px var(--neon-color-white),
+        0 0 8px var(--neon-color-pink),
+        0 0 15px var(--neon-color-pink);
 }
 
 /* 네온 텍스트 스타일 (작은 제목/글자) */
@@ -52,21 +49,25 @@ body {
 
 /* 네온 버튼 스타일 */
 .neon-button {
-    background-color: transparent;
+    /* [기억된 스타일 적용] 반투명 검정 배경 */
+    background-color: rgba(0, 0, 0, 0.5); 
     color: var(--neon-color-white);
-    border: 2px solid var(--neon-color-pink);
+    /* [기억된 스타일 적용] 어두운 회색 (#666666) 테두리 */
+    border: 2px solid #666666; 
     padding: 10px 20px;
     cursor: pointer;
     font-size: 1rem;
     border-radius: 5px;
-    box-shadow: 0 0 10px var(--neon-color-pink);
+    /* [기억된 스타일 적용] 어두운 그림자 */
+    box-shadow: 0 0 10px #1a1a1a; 
     transition: all 0.3s ease;
 }
 
 .neon-button:hover {
-    background-color: var(--neon-color-pink);
-    color: var(--background-color);
-    box-shadow: 0 0 20px var(--neon-color-pink), 0 0 40px var(--neon-color-pink);
+    background-color: #111111; /* 아주 진한 검정색 배경 */
+    color: white;
+    /* [기억된 스타일 적용] 호버 시 검은 빛 효과 */
+    box-shadow: 0 0 20px #000000, 0 0 40px #000000, 0 0 80px #000000;
 }
 
 /* 입력 폼 공통 스타일 (boardWrite, boardReply, boardEdit 공통) */
@@ -82,41 +83,50 @@ body {
 
 .neon-input {
     width: 100%;
-    background-color: transparent;
+    background-color: rgba(0, 0, 0, 0.3); /* 반투명 배경 */
     color: var(--neon-color-white);
-    border: 2px solid var(--neon-color-pink);
+    /* [기억된 스타일 적용] 어두운 회색 테두리 */
+    border: 2px solid #666666; 
     padding: 10px 15px;
     font-size: 1rem;
     border-radius: 5px;
-    caret-color: var(--neon-color-pink); 
-    box-shadow: 0 0 5px rgba(255, 102, 169, 0.5); 
-    transition: box-shadow 0.3s ease;
-    box-sizing: border-box; /* padding이 width에 포함되도록 */
+    caret-color: var(--neon-color-white); /* 커서색 흰색 */
+    /* [기억된 스타일 적용] 은은한 흰색 그림자 */
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.2); 
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    box-sizing: border-box;
 }
 
 .neon-input:focus, .neon-textarea:focus {
     outline: none;
+    /* [기억된 스타일 적용] 포커스 시 흰색 테두리와 핑크 네온 강조 */
     border-color: var(--neon-color-white);
-    box-shadow: 0 0 10px var(--neon-color-pink), 0 0 20px rgba(255, 102, 169, 0.7);
+    box-shadow: 
+        0 0 5px var(--neon-color-white),
+        0 0 10px var(--neon-color-pink),
+        0 0 20px rgba(255, 102, 169, 0.7);
 }
 
 .neon-input::placeholder, .neon-textarea::placeholder {
-    color: rgba(255, 255, 255, 0.5); 
+    color: rgba(255, 255, 255, 0.4); 
 }
 
 .neon-textarea {
     width: 100%;
     min-height: 250px;
-    background-color: transparent;
+    background-color: rgba(0, 0, 0, 0.3); /* 반투명 배경 */
     color: var(--neon-color-white);
-    border: 2px solid var(--neon-color-pink);
+    /* [기억된 스타일 적용] 어두운 회색 테두리 */
+    border: 2px solid #666666; 
     padding: 15px;
     font-size: 1rem;
     border-radius: 5px;
-    box-shadow: 0 0 5px rgba(255, 102, 169, 0.5); 
-    caret-color: var(--neon-color-pink); 
+    /* [기억된 스타일 적용] 은은한 흰색 그림자 */
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.2); 
+    caret-color: var(--neon-color-white); 
     resize: vertical;
     box-sizing: border-box;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 /* 쓰기/수정/답글 페이지 버튼 영역 */
@@ -135,25 +145,32 @@ body {
     margin-top: 30px;
     border-collapse: collapse;
     font-size: 0.95rem;
-    border: 1px solid rgba(255, 102, 169, 0.5);
+    /* [수정] 테이블 전체 테두리를 은은한 흰색으로 변경 */
+    border: 1px solid rgba(255, 255, 255, 0.1); 
 }
+
 .board-table th, .board-table td {
     padding: 12px 8px;
-    border: 1px solid rgba(255, 102, 169, 0.2);
+    /* [수정] 셀 내부 테두리를 은은한 흰색으로 변경 */
+    border: 1px solid rgba(255, 255, 255, 0.1); 
 }
+
 .board-table th {
-    background-color: rgba(255, 102, 169, 0.1);
+    /* [수정] 헤더 배경을 진한 검정 (#000000) 또는 어두운 배경색 (#0c001c)으로 설정 */
+    background-color: #000000;
 }
+
 .board-row {
     cursor: pointer;
     transition: background-color 0.3s;
 }
-.board-row:hover {
-    background-color: rgba(255, 102, 169, 0.15);
-    color: var(--neon-color-pink);
-    text-shadow: 0 0 5px var(--neon-color-pink);
-}
 
+.board-row:hover {
+    /* [기억된 스타일 적용] 호버 시 반투명 파란색 네온 효과 */
+    background-color: rgba(77, 77, 255, 0.1); 
+    color: var(--neon-color-white); /* 글자색 흰색 유지 */
+    text-shadow: 0 0 5px rgba(77, 77, 255, 0.5); /* 약한 파란색 네온 그림자 */
+}
 /* 상세 보기 스타일 (boardCont) */
 .post-detail-box {
     margin-top: 30px;

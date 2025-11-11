@@ -35,7 +35,7 @@
 <body>
 	<div class="container">
 
-        <h1 class="neon-text title">⭐ 내 용 ⭐</h1>
+        <h1 class="neon-text title">   </h1>
 
         <%-- String boardNum = request.getParameter("id"); --%>
         <%-- BoardVO board = boardService.getPost(boardNum); --%>

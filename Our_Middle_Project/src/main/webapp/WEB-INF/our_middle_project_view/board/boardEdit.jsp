@@ -35,7 +35,7 @@
 <body>
 
 <div class="container">
-    <h1 class="neon-text title">⭐ 게시물 수정 ⭐</h1>
+    <h1 class="neon-text title">게시물 수정</h1>
 
     <form id="editForm" action="<%=request.getContextPath()%>/boardEdit.do?state=submit" method="post">
     
