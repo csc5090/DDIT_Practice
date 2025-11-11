@@ -1,3 +1,24 @@
+// [수정] gameHome.jsp에서 로드된 window.userDataCase에서 CURRENT_USER_MEM_NO를 가져옵니다.
+const CURRENT_USER_MEM_NO = window.CURRENT_USER_MEM_NO;
+
+// [수정] 전역 변수는 함수 외부에 한 번만 선언합니다.
+let userHasReview = false;
+let userReviewBoardNo = null;
+let currentEditMode = { active: false, boardNo: null };
+let files = [];
+let formElements = {};
+
+function updateUserWriteButton() {
+	if (userHasReview) {
+		// 이미 리뷰를 작성했다면: '리뷰 수정'으로 변경
+		formElements.composerBtn.textContent = "리뷰 수정";
+		formElements.composerBtn.classList.add('btn-update-mode');
+	} else {
+		// 리뷰를 작성하지 않았다면: '리뷰 작성'으로 유지
+		formElements.composerBtn.textContent = "리뷰 작성";
+		formElements.composerBtn.classList.remove('btn-update-mode');
+	}
+}
 
 
 if (typeof BASE_URL === 'undefined') {
@@ -52,9 +73,6 @@ const composer = {
 	toggle() { this.root.classList.contains('open') ? this.close() : this.open(); }
 };
 
-let currentEditMode = { active: false, boardNo: null };
-let files = [];
-let formElements = {};
 
 // (★) 폼 초기화 및 리셋 함수
 function resetReviewForm() {
@@ -152,6 +170,14 @@ async function handleDeleteReview(boardNo) {
 			Swal.fire('삭제 완료', '리뷰가 삭제되었습니다.', 'success');
 			const cardToRemove = document.querySelector(`article.rv-card[data-board-no="${boardNo}"]`);
 			if (cardToRemove) cardToRemove.remove();
+
+			// [추가] 내 리뷰 삭제 후, 작성 버튼을 '리뷰 작성' 모드로 되돌림
+			if (userHasReview && boardNo == userReviewBoardNo) { // userReviewBoardNo는 문자열일 수 있으므로 == 사용
+				userHasReview = false;
+				userReviewBoardNo = null;
+				updateUserWriteButton(); // 버튼 UI 업데이트
+			}
+
 		} catch (error) {
 			console.error('리뷰 삭제 실패:', error);
 			const errorMsg = error.response?.data?.message || '삭제에 실패했습니다.';
@@ -277,22 +303,30 @@ function buildNewCard(r) {
 	const card = document.createElement('article');
 	card.className = 'rv-card';
 	card.dataset.boardNo = r.boardNo;
-	
+
 	if (r.memNo) {
-	        card.dataset.memNo = r.memNo;
-	    }
+		card.dataset.memNo = r.memNo;
+	}
+
+	// [수정] 1인 1리뷰 관련 상태 업데이트 및 마킹
+	card.id = 'myReviewCard';
+	card.dataset.isUserReview = 'true';
+	userHasReview = true;
+	updateUserWriteButton(); // 버튼 UI 즉시 업데이트
 
 	// (★) 썸네일 HTML 생성
 	let thumbHtml = '';
 	if (r.thumbUrl) {
-		// (★) 경로 수정: BASE_URL 사용
 		thumbHtml = `<img src="${getBaseUrl()}${r.thumbUrl}" alt="리뷰 이미지">`;
 	}
 
-	// (★) 삭제/수정 버튼 HTML 생성
-	let buttonsHtml = `
-        <button type="button" class="btn btn-outline-info btn-sm ms-auto btn-update-review" data-board-no="${r.boardNo}">수정</button>
-        <button type="button" class="btn btn-outline-danger btn-sm btn-delete-review" data-board-no="${r.boardNo}">삭제</button>
+	// [수정] 삭제/수정 버튼 HTML 생성 (CSS가 숨길 수 있도록 .rv-actions로 감쌈)
+	let actionsHtml = `
+		<div class="rv-actions">
+			<span class="date">${r.createdDate}</span>
+			<button type="button" class="btn btn-outline-info btn-sm ms-auto btn-update-review" data-board-no="${r.boardNo}">수정</button>
+			<button type="button" class="btn btn-outline-danger btn-sm ms-auto btn-delete-review" data-board-no="${r.boardNo}">삭제</button>
+		</div>
     `;
 
 	// 3. 카드 내부 HTML 조립
@@ -303,8 +337,7 @@ function buildNewCard(r) {
             <span class="stars" aria-label="${r.star}점">
                 ${'★'.repeat(r.star) + '☆'.repeat(5 - r.star)}
             </span>
-            <span class="date">${r.createdDate}</span>
-            ${buttonsHtml}
+            ${actionsHtml}
         </div>
         <div class="rv-body">
             <div class="rv-row">
@@ -327,46 +360,46 @@ function buildNewCard(r) {
 // 리뷰 정렬 함수
 function sortReviews(sortType) {
 	const list = formElements.list;
-	    if (!list) return;
+	if (!list) return;
 
-	    const cards = Array.from(list.querySelectorAll('article.rv-card'));
+	const cards = Array.from(list.querySelectorAll('article.rv-card'));
 
-	    // 1. 카드를 정렬하는 새로운 비교 함수 정의
-	    cards.sort((a, b) => {
-	        const boardNoA = parseInt(a.dataset.boardNo);
-	        const boardNoB = parseInt(b.dataset.boardNo);
-	        
-	        // [수정] dataset에서 memNo를 가져옵니다.
-	        const memNoA = parseInt(a.dataset.memNo); 
-	        const memNoB = parseInt(b.dataset.memNo);
+	// 1. 카드를 정렬하는 새로운 비교 함수 정의
+	cards.sort((a, b) => {
+		const boardNoA = parseInt(a.dataset.boardNo);
+		const boardNoB = parseInt(b.dataset.boardNo);
 
-	        // --- [최상단 고정 로직] ---
-	        // 로그인 상태가 아니거나 memNo가 없는 경우, 최상단 고정을 수행하지 않습니다.
-	        if (!CURRENT_USER_MEM_NO || isNaN(CURRENT_USER_MEM_NO)) {
-	             // 일반 정렬 로직 (보드 번호 기준)
-	            if (sortType === 'newest') {
-	                return boardNoB - boardNoA; 
-	            } else {
-	                return boardNoA - boardNoB;
-	            }
-	        }
-	        
-	        const isUserAReview = memNoA === CURRENT_USER_MEM_NO;
-	        const isUserBReview = memNoB === CURRENT_USER_MEM_NO;
-	        
-	        // 2. A만 내 리뷰일 경우: A가 B보다 상단에 위치 (음수 반환)
-	        if (isUserAReview && !isUserBReview) return -1;
+		// [수정] dataset에서 memNo를 가져옵니다.
+		const memNoA = parseInt(a.dataset.memNo);
+		const memNoB = parseInt(b.dataset.memNo);
 
-	        // 3. B만 내 리뷰일 경우: B가 A보다 상단에 위치 (양수 반환)
-	        if (!isUserAReview && isUserBReview) return 1;
+		// --- [최상단 고정 로직] ---
+		// 로그인 상태가 아니거나 memNo가 없는 경우, 최상단 고정을 수행하지 않습니다.
+		if (!CURRENT_USER_MEM_NO || isNaN(CURRENT_USER_MEM_NO)) {
+			// 일반 정렬 로직 (보드 번호 기준)
+			if (sortType === 'newest') {
+				return boardNoB - boardNoA;
+			} else {
+				return boardNoA - boardNoB;
+			}
+		}
 
-	        // 4. 둘 다 내 리뷰가 아니거나 둘 다 내 리뷰일 경우: 일반 정렬 로직 (보드 번호 기준)
-	        if (sortType === 'newest') {
-	            return boardNoB - boardNoA; 
-	        } else {
-	            return boardNoA - boardNoB;
-	        }
-    });
+		const isUserAReview = memNoA === CURRENT_USER_MEM_NO;
+		const isUserBReview = memNoB === CURRENT_USER_MEM_NO;
+
+		// 2. A만 내 리뷰일 경우: A가 B보다 상단에 위치 (음수 반환)
+		if (isUserAReview && !isUserBReview) return -1;
+
+		// 3. B만 내 리뷰일 경우: B가 A보다 상단에 위치 (양수 반환)
+		if (!isUserAReview && isUserBReview) return 1;
+
+		// 4. 둘 다 내 리뷰가 아니거나 둘 다 내 리뷰일 경우: 일반 정렬 로직 (보드 번호 기준)
+		if (sortType === 'newest') {
+			return boardNoB - boardNoA;
+		} else {
+			return boardNoA - boardNoB;
+		}
+	});
 
 	// 정렬된 순서대로 다시 DOM에 추가 (DOM 조작 최소화를 위해 document fragment 사용 권장)
 	const fragment = document.createDocumentFragment();
@@ -419,6 +452,14 @@ function initReviewElements() {
 		sortBtns: Array.from(document.querySelectorAll('#iReviewToolbar .sortBtn')),
 	};
 
+	// [수정] 'myReviewCard' 중복 선언 오류 해결 (하나만 남김)
+	const myReviewCard = document.getElementById('myReviewCard');
+	if (myReviewCard) {
+		userHasReview = true;
+		userReviewBoardNo = myReviewCard.dataset.boardNo; // 수정할 boardNo 저장
+	}
+	updateUserWriteButton(); // UI 업데이트
+
 	// 2. 모달 열고 닫기 (이벤트 재연결)
 	const closeModalBtn = document.getElementById('iCloseModal');
 	if (closeModalBtn) {
@@ -438,14 +479,33 @@ function initReviewElements() {
 	composer.root = formElements.composerRoot;
 	composer.toggleBtn = formElements.composerBtn;
 	composer.textarea = formElements.content;
+
+	// [수정] 버튼 클릭 시, 작성 모드/수정 모드 분기
 	composer.toggleBtn.addEventListener('click', () => {
+		if (userHasReview) {
+			// 수정 모드: 기존 리뷰 데이터를 불러와 작성창을 채움
+			// [수정] 중복 선언을 피하기 위해, 여기서 myReviewCard를 다시 찾습니다.
+			const myReviewCard = document.getElementById('myReviewCard');
+			if (myReviewCard) {
+				// 기존의 수정 버튼 클릭 로직을 직접 호출
+				const updateBtn = myReviewCard.querySelector('.btn-update-review');
+				if (updateBtn) {
+					// updateBtn을 클릭한 것처럼 처리 (수정 로직 재활용)
+					updateBtn.click();
+					return;
+				}
+			}
+		}
+
+		// 작성 모드 또는 리뷰 카드를 찾지 못했을 때: 일반 토글
 		composer.toggle();
 		if (composer.root.classList.contains('open') && !currentEditMode.active) {
-			// (★) 오류 수정: ratingHidden을 사용
 			const cur = Number(formElements.ratingHidden.value) || 0;
 			if (cur === 0) setRating(5);
 		}
 	});
+
+	// [삭제] 중복 선언된 'myReviewCard' 블록 제거
 
 	// 4. 별점 이벤트
 	formElements.starBtns.forEach((btn, i) => {

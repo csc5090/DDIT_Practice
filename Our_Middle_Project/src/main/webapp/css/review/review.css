@@ -1,57 +1,48 @@
-/* ★★★★★ 최종 풀 버전 review.css (v4.0) ★★★★★
+/* ★★★★★ review.css (v5.3 Final Fix) ★★★★★
+ * - [수정] 툴바의 .wrtBtn이 사라지는 문제 (display: inline-flex !important)
+ * - "내 리뷰" 뱃지 스타일 포함
+ */
 
-/* ===== 기본 레이아웃 ===== */
+/* ===== 1. 기본 및 모달 프레임 ===== */
 * {
 	box-sizing: border-box;
 }
-
 .bootstrap-env {
 	width: 100%;
 	height: 100%;
 }
-
-/* ===== 모달 컨테이너 (외부 프레임) ===== */
 .reviewModal[hidden] {
 	display: none !important;
 }
-
 .reviewModal {
-	z-index: 9999;
+	z-index: 1050; /* 스윗알럿(1060)보다 낮게 */
 	display: block;
 	position: fixed;
-	top: -1%;
+	top: 0;
 	left: 100%;
 	width: 45%;
-	height: 104%;
+	height: 100%;
 	background: rgba(0, 0, 0, 0.2);
 	backdrop-filter: blur(3px);
-	box-shadow:
-		0 0 20px rgba(20, 50, 30, 0.8),
-		0 0 40px rgba(25, 70, 35, 0.6),
-		0 0 80px rgba(20, 60, 30, 0.4),
-		inset 0 0 20px rgba(25, 70, 35, 0.8),
-		inset 0 0 40px rgba(15, 40, 25, 0.6);
+	box-shadow: 0 0 20px rgba(20, 50, 30, 0.8), 0 0 40px
+		rgba(25, 70, 35, 0.6), 0 0 80px rgba(20, 60, 30, 0.4), inset 0 0 20px
+		rgba(25, 70, 35, 0.8), inset 0 0 40px rgba(15, 40, 25, 0.6);
 	border-radius: 12px;
 	overflow: hidden;
 	transition: all 0.5s cubic-bezier(0.6, 0, 1, 0.4);
 }
 
-/* ===== 모달 내부 (Content) ===== */
+/* ===== 2. 모달 내부 (Content) ===== */
 .reviewDialog {
-display: grid;
+	display: grid;
 	width: 100%;
 	height: 100%;
 	min-width: unset;
-	
-    /* [수정] 2. 게임 모달(왼쪽)과 통일성을 위해 내부 배경을 '투명'하게 변경 */
-	background: transparent; 
-	
-    grid-template-rows: auto auto 1fr auto; /* 헤더, 툴바, 내용(1fr), 작성창 */
+	background: transparent;
+	grid-template-rows: auto auto 1fr auto;
 	overflow: hidden;
 	color: #e0f0e0;
 }
-
-/* 슬라이드 상태 */
 .review-modal-on {
 	left: 55%;
 	transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
@@ -61,17 +52,15 @@ display: grid;
 	transition: all 0.5s cubic-bezier(0.6, 0, 1, 0.4);
 }
 
-/* 헤더 (닫기 버튼 영역) */
+/* ===== 3. 모달 상단 (헤더/툴바) ===== */
 .reviewHeader {
-    display: flex;
-    justify-content: flex-end; /* 닫기 버튼 오른쪽 정렬 */
-    align-items: center;
-    padding: 15px;
-    border-bottom: 1px solid rgba(0, 255, 100, 0.2);
-    /* [수정] 배경을 reviewDialog가 담당하므로 transparent로 변경 */
-    background: transparent; 
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	padding: 15px;
+	border-bottom: 1px solid rgba(0, 255, 100, 0.2);
+	background: transparent;
 }
-
 .closeModal {
 	all: unset;
 	cursor: pointer;
@@ -89,33 +78,52 @@ display: grid;
 }
 .closeModal:hover {
 	color: white;
-	text-shadow:
-		0 0 6px rgba(80, 160, 110, 0.6),
-		0 0 14px rgba(100, 200, 130, 0.4),
-		0 0 24px rgba(140, 255, 190, 0.2);
+	text-shadow: 0 0 6px rgba(80, 160, 110, 0.6), 0 0 14px
+		rgba(100, 200, 130, 0.4), 0 0 24px rgba(140, 255, 190, 0.2);
 }
 .closeModal:hover svg {
 	fill: white;
 }
 
-/* ===== 툴바 (작성/정렬 버튼) ===== */
 .reviewToolbar {
 	display: flex;
-	justify-content: space-between; /* 양쪽 끝 배치 */
+	justify-content: flex-start;
 	align-items: center;
 	gap: 10px;
 	padding: 10px 15px;
 	border-bottom: 1px solid rgba(0, 255, 100, 0.2);
-    /* [수정] 배경을 reviewDialog가 담당하므로 transparent로 변경 */
 	background: transparent;
 }
-/* 정렬 버튼 그룹 (오른쪽) */
+/* "리뷰 작성" 버튼 (왼쪽) */
+.wrtBtn {
+	border: 1px solid rgba(0, 255, 100, 0.4);
+	background: rgba(30, 40, 35, 0.5);
+	color: #00ff66;
+	font-size: 14px;
+	font-weight: 700;
+	border-radius: 10px;
+	padding: 6px 12px;
+	cursor: pointer;
+	/* [수정] !important를 추가하여 강제로 보이게 함 */
+	display: inline-flex !important; 
+	align-items: center;
+	justify-content: center;
+	transition: background 0.3s;
+}
+.wrtBtn:hover {
+	background: rgba(50, 60, 55, 0.7);
+	color: #ffffff;
+}
+.wrtBtn.btn-update-mode {
+	border-color: #00bcd4;
+	color: #00bcd4;
+}
+/* "최신순/오래된순" 그룹 (오른쪽) */
 .sortBtnGroup {
 	display: flex;
 	gap: 15px;
 	align-items: center;
-    /* [수정] 툴바 버튼 배치를 위해 margin-left: auto; 사용 */
-    margin-left: auto;
+	margin-left: auto;
 }
 .sortBtn {
 	all: unset;
@@ -133,32 +141,8 @@ display: grid;
 	font-weight: 700;
 	text-shadow: 0 0 5px rgba(0, 255, 100, 0.5);
 }
-/* 리뷰 작성 버튼 (왼쪽) */
-.wrtBtn {
-	border: 1px solid rgba(0, 255, 100, 0.4);
-	background: rgba(30, 40, 35, 0.5);
-	color: #00ff66;
-	font-size: 14px;
-	font-weight: 700;
-	border-radius: 10px;
-	padding: 6px 12px;
-	cursor: pointer;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-    transition: background 0.3s;
-}
-.wrtBtn:hover {
-	background: rgba(50, 60, 55, 0.7);
-	color: #ffffff;
-}
-/* '리뷰 수정' 모드일 때 버튼 스타일 (선택사항) */
-.wrtBtn.btn-update-mode {
-    border-color: #00bcd4;
-    color: #00bcd4;
-}
 
-/* ===== 리뷰 목록 (스크롤 영역) ===== */
+/* ===== 4. 리뷰 목록 (스크롤 영역) ===== */
 .innerContent {
 	overflow-y: auto;
 	padding: 10px;
@@ -176,13 +160,12 @@ display: grid;
 	gap: 15px;
 }
 
-/* ===== 리뷰 카드 ===== */
+/* ===== 5. 개별 리뷰 카드 (.rv-card) ===== */
 .rv-card {
-	/* [수정] 카드 배경을 내부 컨텐츠와 통일 (더 어둡게) */
-	background: rgba(30, 40, 35, 0.8);
+	background: rgba(0, 10, 0, 0.7);
 	border: 1px solid rgba(0, 255, 100, 0.3);
 	box-shadow: 0 0 5px rgba(0, 255, 100, 0.2);
-	padding: 15px; /* 내부 간격은 유지 */
+	padding: 15px;
 	color: #f0fff0;
 	border-radius: 16px;
 	transition: all 0.2s ease;
@@ -202,91 +185,78 @@ display: grid;
 	color: #f0fff0;
 }
 .rv-body {
-	padding: 0 18px 5px 18px; /* 간격 조절 */
+	padding: 0 18px 5px 18px;
 	display: grid;
 	gap: 15px;
 }
 .rv-row {
-    display: grid;
-    grid-template-columns: 85px 1fr;
-    gap: 20px;
-    align-items: start;
+	display: grid;
+	grid-template-columns: 85px 1fr;
+	gap: 20px;
+	align-items: start;
 }
 .rv-thumb {
-    width: 10vh;
-    min-width: 85px;
-    height: 10vh;
-    border-radius: 10px;
-    border: 1px solid rgba(0, 255, 100, 0.4);
-    overflow: hidden;
-    background: rgba(0, 0, 0, 0.7); /* 이미지가 꽉 차지 않을 때 이 배경색이 보임 */
-    position: relative;
-    
-    /* [추가] 내부 이미지를 중앙 정렬하기 위해 flex 사용 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+	width: 10vh;
+	min-width: 85px;
+	height: 10vh;
+	border-radius: 10px;
+	border: 1px solid rgba(0, 255, 100, 0.4);
+	overflow: hidden;
+	background: rgba(0, 0, 0, 0.7);
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
-
 .rv-thumb img {
-    width: 100%;
-    height: 100%;
-    
-    /* * 'contain'을 사용하면 이미지가 잘리지 않고,
-     * 비율을 유지한 채 썸네일 박스 안에 모두 표시됩니다.
-     */
-    object-fit: contain; 
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
 }
-
-/* 카드 내부 텍스트 */
 .nickname {
-    color: #00ff66; 
+	color: #00ff66;
 	font-weight: 700;
 	font-size: 15px;
 }
 .memId {
-	color: #a0aada; 
+	color: #a0aada;
 	font-size: 0.9em;
 	margin-left: 4px;
 }
 .stars {
-	color: #00ff66; 
+	color: #00ff66;
 	font-size: 1.1em;
 	text-shadow: 0 0 3px rgba(0, 255, 102, 0.7);
-    transform: translateY(-3px);
+	transform: translateY(-3px);
 }
-
-/* 날짜 및 버튼 영역 */
 .rv-actions {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* 날짜와 버튼 사이 간격 */
-    margin-left: auto; /* 오른쪽 끝으로 밀어내기 */
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-left: auto;
 }
 .date {
 	color: #aaaaaa;
 	font-size: 12px;
 }
-/* [수정] 1. 카드 내부의 수정/삭제 버튼 숨김 */
 .rv-actions .btn-update-review {
-    display: none;
+	display: none;
 }
-
 .rv-actions .btn-delete-review {
-    display: inline-block;
-    white-space: nowrap;
+	display: inline-block;
+	white-space: nowrap;
 }
 .reply {
 	padding: 15px 12px;
 	margin-top: 5px;
-    border-left: 3px solid #00bcd4; 
+	border-left: 3px solid #00bcd4;
 	background: rgba(0, 188, 212, 0.1);
-	color: #b3ffff; 
-    border-radius: 8px;
-    font-size: 14px;
+	color: #b3ffff;
+	border-radius: 8px;
+	font-size: 14px;
 }
 
-/* ===== 작성창 (펼쳐지는 영역) ===== */
+/* ===== 6. 리뷰 작성창 (펼쳐지는 영역) ===== */
 .wrtReview {
 	background: transparent;
 	border-top: 1px solid rgba(0, 255, 100, 0.2);
@@ -301,124 +271,275 @@ display: grid;
 	height: auto;
 	padding: 15px;
 	opacity: 1;
-	overflow: visible;
+	overflow-y: auto;
+	max-height: 50vh; /* 스크롤 생성 */
+}
+/* 폼 스크롤바 */
+.wrtReview.open::-webkit-scrollbar {
+	width: 10px;
+}
+.wrtReview.open::-webkit-scrollbar-track {
+	background: rgba(0, 0, 0, 0.5);
+	border-radius: 10px;
+}
+.wrtReview.open::-webkit-scrollbar-thumb {
+	background-color: #00ff66;
+	border-radius: 10px;
+	border: 2px solid rgba(0, 0, 0, 0.5);
+	box-shadow: 0 0 5px rgba(0, 255, 100, 0.5);
+}
+.wrtReview.open::-webkit-scrollbar-thumb:hover {
+	background-color: #ffffff;
+	box-shadow: 0 0 10px rgba(0, 255, 100, 0.8);
 }
 .bottomBar {
-    display: none; /* [수정] 툴바로 기능이 이전되어 이 영역은 완전히 숨김 */
-}
-
-.wrtBtn {
-	all: unset;
-	/* 초기화 */
-	border: 1px solid rgba(0, 255, 100, 0.4);
-	background: rgba(30, 40, 35, 0.5);
-	color: #00ff66;
-	font-size: 14px;
-	font-weight: 700;
-	border-radius: 10px;
-	padding: 6px 12px;
-	cursor: pointer;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.wrtBtn:hover {
-	background: rgba(50, 60, 55, 0.7);
-	color: #ffffff;
-}
-
-#iwrtBtn svg {
 	display: none;
 }
 
-/* ===== 작성창(<aside id="iWrtReview">) 스타일 ===== */
-.wrtReview {
-	background: transparent;
-	border-top: 1px solid rgba(0, 255, 100, 0.2);
-	/* 툴바와의 경계선 */
-	color: #f0fff0;
-
-	height: 0;
-	padding: 0 15px;
-	opacity: 0;
-	overflow: hidden;
-
-	transition: all 0.5s ease-out;
-}
-
-/* 작성창 열린 상태 (.open) */
-.wrtReview.open {
-	/* 열린 상태: 높이를 auto로 복구하고, 패딩을 원래대로 설정 */
-	height: auto;
-	padding: 15px;
-	opacity: 1;
-	overflow: visible;
-}
-
-/* 버튼 영역 스타일 */
-.bottomBar {
+/* ===== 7. "쌈@뽕한" 작성창 내부 (폼 스타일) ===== */
+.wrtBody--new {
 	display: flex;
-	justify-content: flex-end;
-	align-items: center;
-	padding: 0;
+	flex-direction: column;
+	gap: 20px;
 }
+.wrtColLeftNew, .wrtColRightNew {
+	width: 100%;
+}
+.rowNew {
+    margin-bottom: 20px;
+}
+.btnRowNew {
+    margin-bottom: 0;
+}
+#starsGroup {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+.uploaderNew {
+    display: grid;
+    grid-template-areas: 
+        "button hint"
+        "button count";
+    grid-template-columns: auto 1fr;
+    gap: 5px 15px;
+    align-items: center;
+}
+#fileBtn { grid-area: button; }
+.fileHintNew { grid-area: hint; }
+.fileCountNew { grid-area: count; }
 
-/* 입력 필드 */
-.textareaNew,
-.fileButtonNew {
-	background: rgba(0, 0, 0, 0.7);
+.textareaNew {
+    min-height: 150px;
+    background: rgba(0, 0, 0, 0.7) !important;
 	border: 1px solid rgba(0, 255, 100, 0.3);
-	color: #f0fff0;
+	color: #f0fff0 !important;
 	line-height: 1.6;
 	font: inherit;
 	padding: 12px;
 	border-radius: 12px;
+    width: 100%;
 }
-
-.textareaNew:focus {
-	border-color: #00bcd4;
-	box-shadow: 0 0 0 3px rgba(0, 188, 212, .3);
+.textareaNew::placeholder {
+    color: rgba(140, 180, 150, 0.7);
+    font-style: italic;
+}
+.textareaWrapNew {
+    position: relative;
+}
+.counterNew {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    font-size: 0.8em;
+    color: #777;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 2px 5px;
+    border-radius: 4px;
+}
+.textareaNew::-webkit-scrollbar {
+	width: 10px;
+}
+.textareaNew::-webkit-scrollbar-track {
+	background: rgba(0, 0, 0, 0.5);
+	border-radius: 10px;
+}
+.textareaNew::-webkit-scrollbar-thumb {
+	background-color: #00ff66;
+	border-radius: 10px;
+	border: 2px solid rgba(0, 0, 0, 0.5);
+	box-shadow: 0 0 5px rgba(0, 255, 100, 0.5);
+}
+.textareaNew::-webkit-scrollbar-thumb:hover {
+	background-color: #ffffff;
+	box-shadow: 0 0 10px rgba(0, 255, 100, 0.8);
 }
 
 .fileButtonNew {
 	background: rgba(30, 40, 35, 0.5);
 	color: #00ff66;
 	border: 1px solid rgba(0, 255, 100, 0.5);
+    border-radius: 8px;
+    padding: 10px 15px;
+    transition: all 0.3s ease;
+}
+.fileButtonNew:hover {
+    background: rgba(0, 255, 100, 0.2);
+    color: #fff;
+    box-shadow: 0 0 10px rgba(0, 255, 100, 0.5);
+}
+.fileHintNew, .fileCountNew {
+    font-size: 0.9em;
+    color: #aaa;
+    padding-left: 5px;
+}
+.fileCountNew {
+    color: #00ff66;
+    font-weight: bold;
 }
 
-/* 별점 버튼 */
+.previewGridNew .emptyBoxNew {
+	display: flex;
+    flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 120px;
+	border-radius: 8px;
+	border: 2px dashed rgba(0, 255, 100, 0.3);
+	color: rgba(0, 255, 100, 0.5);
+	font-size: 14px;
+	background: rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+.previewGridNew .emptyBoxNew:hover {
+    background: rgba(0, 255, 100, 0.05);
+    border-color: rgba(0, 255, 100, 0.7);
+    color: rgba(0, 255, 100, 0.8);
+}
+.previewGridNew .emptyBoxNew::before {
+    content: '🖼️';
+    font-size: 2rem;
+    margin-bottom: 10px;
+    opacity: 0.5;
+}
+.previewGridNew .thumbNew {
+	position: relative;
+	border: 1px solid rgba(0, 255, 100, 0.5);
+	border-radius: 8px;
+	overflow: hidden;
+	box-shadow: 0 0 5px rgba(0, 255, 100, 0.3);
+}
+.previewGridNew .thumbNew img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+.previewGridNew .rmNew {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	background: rgba(0, 0, 0, 0.7);
+	color: #fff;
+	border: none;
+	border-radius: 50%;
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+	font-weight: bold;
+	line-height: 20px;
+	padding: 0;
+}
+
 .starBtn {
 	background: rgba(0, 0, 0, 0.7);
 	border: 1px solid rgba(0, 255, 100, 0.3);
+    color: #444;
+    font-size: 1.5rem;
+    padding: 5px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    flex-grow: 1;
 }
-
 .starBtn span {
 	color: #c9ced6;
+    transition: all 0.2s ease;
 }
-
+.starBtn:hover span {
+    color: #fff;
+    text-shadow: 0 0 8px rgba(0, 255, 100, 0.7);
+}
 .starBtn.filled span {
 	color: #00ff66;
-	text-shadow: 0 0 3px rgba(0, 255, 102, 0.7);
+	text-shadow: 0 0 3px rgba(0, 255, 102, 0.7), 0 0 10px rgba(0, 255, 100, 0.5);
 }
 
-.reply {
-	padding: 15px 12px;
-	margin-top: 5px;
-}
-
-/* 등록 버튼 */
 .submitBtnNew {
-	background: #00bcd4;
-	box-shadow: 0 0 12px rgba(0, 188, 212, 0.8);
-	color: #fff;
+	background: #00ff66;
+	box-shadow: 0 0 12px rgba(0, 255, 100, 0.8);
+	color: #000;
 	font-weight: 700;
+	border: none;
+	padding: 12px 15px;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	width: 100%;
+    font-size: 1.1em;
+    animation: pulseGlow 2s infinite ease-in-out;
+}
+.submitBtnNew:hover:not(:disabled) {
+	background: #fff;
+	color: #000;
+	box-shadow: 0 0 25px rgba(0, 255, 100, 1);
+    animation: none;
+}
+.submitBtnNew:disabled {
+	background: rgba(50, 80, 50, 0.5);
+	color: #aaa;
+	box-shadow: none;
+	cursor: not-allowed;
+    animation: none;
+}
+@keyframes pulseGlow {
+    0% {
+        box-shadow: 0 0 12px rgba(0, 255, 100, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(0, 255, 100, 1);
+    }
+    100% {
+        box-shadow: 0 0 12px rgba(0, 255, 100, 0.7);
+    }
 }
 
-.reviewList {
-	display: flex;
-	flex-direction: column;
-	gap: 15px;
+/* ===== 8. "내 리뷰" 강조 스타일 ===== */
+.rv-card#myReviewCard {
+	border: 1px solid #00ffff; 
+	box-shadow: 
+		0 0 10px rgba(0, 255, 255, 0.5),
+		0 0 15px rgba(0, 255, 255, 0.3),
+		0 0 5px rgba(0, 255, 100, 0.2); 
 }
-
-.review
+.rv-card#myReviewCard .rv-head::before {
+	content: 'MY';
+	font-size: 0.7em;
+	font-weight: bold;
+	color: #00ffff;
+	background: rgba(0, 255, 255, 0.1);
+	border: 1px solid rgba(0, 255, 255, 0.5);
+	border-radius: 4px;
+	padding: 2px 5px;
+	margin-right: 5px;
+	animation: pulseGlowMyReview 2s infinite ease-in-out;
+}
+@keyframes pulseGlowMyReview {
+    0% {
+        box-shadow: 0 0 4px rgba(0, 255, 255, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+    }
+    100% {
+        box-shadow: 0 0 4px rgba(0, 255, 255, 0.4);
+    }
+}

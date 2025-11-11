@@ -1,4 +1,3 @@
-
 /* 조승희 수정 251105 */
 
 // 모달 요소
@@ -11,38 +10,38 @@ let gameStartBtn
 let modalContent
 
 window.onload = () => {
-	
+
 	//=========우측 상단 톱니바퀴 로직=========
 	const menuBtn = document.getElementById('menuBtn');
 	const menuItems = document.getElementById('menuItems');
 
 	menuBtn.addEventListener('click', () => {
-	    menuItems.classList.toggle('show');
+		menuItems.classList.toggle('show');
 	});
 
 	// 외부 클릭 시 메뉴 닫기
 	document.addEventListener('click', (e) => {
-	    if(!menuBtn.contains(e.target) && !menuItems.contains(e.target)) {
-	        menuItems.classList.remove('show');
-	    }
+		if (!menuBtn.contains(e.target) && !menuItems.contains(e.target)) {
+			menuItems.classList.remove('show');
+		}
 	});
-	
+
 	const cards = document.querySelectorAll(".card");
 
 	cards.forEach(card => {
 
-	    // 마우스 오버
-	    card.addEventListener("mouseenter", () => {
-	        card.classList.add("flipped"); // ← 여기 card에 추가
-	    });
+		// 마우스 오버
+		card.addEventListener("mouseenter", () => {
+			card.classList.add("flipped"); // ← 여기 card에 추가
+		});
 
-	    // 마우스 아웃
-	    card.addEventListener("mouseleave", () => {
-	        card.classList.remove("flipped"); // ← 여기 card에서 제거
-	    });
-		
+		// 마우스 아웃
+		card.addEventListener("mouseleave", () => {
+			card.classList.remove("flipped"); // ← 여기 card에서 제거
+		});
+
 	});
-	
+
 	// 모달 요소 객체반영
 	modeSelect = document.getElementById('modeSelect');
 	pvpMode = document.getElementById('pvpMode');
@@ -50,19 +49,19 @@ window.onload = () => {
 	backToMode2Btn = document.getElementById('backToMode2');
 	gameStartBtn = document.getElementById("gameStart");
 	modalContent = document.getElementById("modalContent");
-	
+
 	// 게임 시작 버튼 클릭 시
 	gameStartBtn.addEventListener("click", goGameStart);
-	
+
 	let closeModalBtn = document.getElementById('closeModal');
 	closeModalBtn.addEventListener("click", (e) => { modalClose(e) })
-	
+
 	setTimeout(() => {
 		window.scrollBy({
 			top: document.body.scrollHeight,
 			behavior: 'smooth'
 		});
-		
+
 	}, 300)
 }
 
@@ -74,13 +73,14 @@ function modalClose(e) {
 
 //게시판 이동
 function goBoard() {
-    window.location.href = "board.do"; 
+	window.location.href = "board.do";
 }
 
 //리뷰 이동
 function goReview() {
     const modalContainer = document.getElementById('reviewModalContainer');
 
+    // 이미 모달이 로드되어 있다면, 열기만 함 (이 부분은 정상 작동)
     if (modalContainer.querySelector('#iReviewModal')) {
         if (typeof openReviewModal === 'function') {
             openReviewModal();
@@ -91,30 +91,24 @@ function goReview() {
  
     const reviewUrl = 'review.do';
     
-    axios.get(reviewUrl)
-        .then(response => {
-            modalContainer.innerHTML = response.data;
+	axios.get(reviewUrl)
+	    .then(response => {
+	        modalContainer.innerHTML = response.data; // 1. HTML 삽입
+	        setTimeout(() => {
+		        if (typeof initReviewElements === 'function') {
+		             // 2. 초기화 (다음 틱)
+		             initReviewElements();
+		             
+		             // 3. 모달 열기 (다음 틱)
+		             if (typeof openReviewModal === 'function') {
+		                 openReviewModal();
+		             }
+		        } else {
+		            console.error('review.js가 정적으로 로드되었으나, initReviewElements 함수를 찾을 수 없습니다.');
+		        }
+            }, 20);
 
-            const scriptPath = (typeof BASE_URL !== 'undefined' ? BASE_URL : '') + '/js/review/review.js'; 
-            
-            const script = document.createElement('script');
-            script.src = scriptPath; 
-            
-            script.onload = () => {
-                if (typeof initReviewElements === 'function') {
-                    initReviewElements();
-                }
-                
-                // 모달 열기
-                if (typeof openReviewModal === 'function') {
-                    openReviewModal();
-                } else {
-                    console.error('review.js 초기화/열기 함수를 찾을 수 없습니다. 경로 확인 필요:', scriptPath);
-                }
-            };
-            document.body.appendChild(script);
-            
-        })
+	    })
         .catch(error => {
             console.error('리뷰 모달 로드 실패:', error);
             Swal.fire('오류', '리뷰 창을 불러오지 못했습니다.', 'error');
@@ -123,17 +117,17 @@ function goReview() {
 
 //랭킹 이동
 function goRanking() {
-    window.location.href = "ranking.do"; 
+	window.location.href = "ranking.do";
 }
 
 //====================================
 //마이페이지 이동
 function goMyPage() {
-    window.location.href = "myPage.do"; 
+	window.location.href = "myPage.do";
 }
 //로그인창 이동
 function goExit() {
-    window.location.href = "login.do"; 
+	window.location.href = "login.do";
 }
 //=====================================
 
@@ -143,20 +137,20 @@ function goExit() {
 
 // 난이도 선택 후 게임 시작
 function startGameLevel() {
-    /*level = selectedLevel; // 난이도 설정*/
-    console.log(`선택한 난이도: ${level}x${level}`);
+	/*level = selectedLevel; // 난이도 설정*/
+	console.log(`선택한 난이도: ${level}x${level}`);
 
-    modal.style.display = 'none';   // 모달 닫기
-    singleMode.style.display = 'none';
+	modal.style.display = 'none';   // 모달 닫기
+	singleMode.style.display = 'none';
 
-    // 실제 게임 시작
-    startGame(); // 기존 startGame() 호출
+	// 실제 게임 시작
+	startGame(); // 기존 startGame() 호출
 }
 //로그인창 이동
 
 function startGameWithLevel(obj) {
 	console.log(obj)
-	
+
 	let target = obj
 	let userInfo = {
 		level_no: target.getAttribute("data-no"),
@@ -166,7 +160,7 @@ function startGameWithLevel(obj) {
 
 	gameLevelSaveToDB(userInfo);
 
-    /*window.location.href = `gamePlay.do`;*/
+	/*window.location.href = `gamePlay.do`;*/
 }
 
 //function gameStart6() {
@@ -210,10 +204,10 @@ function startGameWithLevel(obj) {
 
 // 모달 열기
 function goGameStart() {
-	
+
 	/*
-    modal.style.display = "flex";
-    singleMode.style.display = 'block'; // 싱글 난이도 바로 표시
+	modal.style.display = "flex";
+	singleMode.style.display = 'block'; // 싱글 난이도 바로 표시
 	*/
 
 	const modal = document.getElementById('gameModal');
@@ -337,7 +331,7 @@ function goGameStart() {
 
 		placedCards.push({ x, y, w: rotatedWidth, h: rotatedHeight });
 	});
-	
+
 }
 
 
@@ -350,20 +344,17 @@ function goGameStart() {
 //});
 // 모달 초기화 함수
 function resetModal() {
-    singleMode.style.display = 'none';
-    pvpMode.style.display = 'none';
+	singleMode.style.display = 'none';
+	pvpMode.style.display = 'none';
 }
 
 // 모드 선택
 function selectSingleMode() {
-    modeSelect.style.display = 'none';
-    singleMode.style.display = 'block';
+	modeSelect.style.display = 'none';
+	singleMode.style.display = 'block';
 }
 
 function selectPvPMode() {
-    modeSelect.style.display = 'none';
-    pvpMode.style.display = 'block';
+	modeSelect.style.display = 'none';
+	pvpMode.style.display = 'block';
 }
-
-
-
