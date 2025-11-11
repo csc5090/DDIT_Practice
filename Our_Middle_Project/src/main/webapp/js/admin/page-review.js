@@ -61,57 +61,83 @@ const ReviewPage = {
 	},
 
 	renderList: function() {
-		const tableBody = document.querySelector('#admin-review-list-tbody');
-		if (!tableBody) return;
+			const tableBody = document.querySelector('#admin-review-list-tbody');
+			if (!tableBody) return;
 
-		const listToRender = this.currentList || [];
-		tableBody.innerHTML = '';
+			const listToRender = this.currentList || [];
+			tableBody.innerHTML = '';
 
-		if (listToRender.length === 0) {
-			tableBody.innerHTML =
-				`<tr><td colspan="6" style="text-align:center; padding: 40px;">표시할 리뷰가 없습니다.</td></tr>`;
-			return;
-		}
-
-		listToRender.forEach(review => {
-			const row = document.createElement('tr');
-			row.className = 'review-list-item';
-			row.dataset.reviewNo = review.boardNo;
-
-			const starsHTML =
-				`<span class="stars-filled">${'★'.repeat(review.stars)}</span><span class="stars-empty">${'☆'.repeat(5 - review.stars)}</span>`;
-			const imageIcon = review.hasImage === 'Y' ? 'O' : 'X';
-			const adminReplyStatus = review.adminReply ? 'O' : 'X';
-
-			row.innerHTML = `
-        <td>${review.boardTitle ?? '[제목 없음]'}</td>
-        <td>${review.nickname}</td>
-        <td>${starsHTML}</td>
-        <td>${imageIcon}</td>
-        <td>${adminReplyStatus}</td>
-        <td>${review.createdDate}</td>
-      `;
-			tableBody.appendChild(row);
-		});
-	},
-
-	sortAndRenderTable: function(key, order) {
-		if (!this.currentList || this.currentList.length === 0) { this.renderList(); return; }
-		this.currentList.sort((a, b) => {
-			const valA = a[key]; const valB = b[key];
-			let compare = 0;
-			const replyA = valA || ''; const replyB = valB || '';
-			if (typeof valA === 'string' || typeof valB === 'string') {
-				compare = replyA.localeCompare(replyB);
-			} else {
-				if (valA < valB) compare = -1;
-				if (valA > valB) compare = 1;
+			if (listToRender.length === 0) {
+				tableBody.innerHTML =
+					`<tr><td colspan="6" style="text-align:center; padding: 40px;">표시할 리뷰가 없습니다.</td></tr>`;
+				return;
 			}
-			return this.currentSort.order === 'asc' ? compare : compare * -1;
-		});
-		this.updateSortIcons(key, order);
-		this.renderList();
-	},
+
+			listToRender.forEach(review => {
+				const row = document.createElement('tr');
+				row.className = 'review-list-item';
+				row.dataset.reviewNo = review.boardNo;
+
+	            // [추가] 정렬 후에도 선택된 행 하이라이트 유지
+				if (this.selectedReviewNo && review.boardNo == this.selectedReviewNo) {
+					row.classList.add('selected');
+				}
+
+				const starsHTML =
+					`<span class="stars-filled">${'★'.repeat(review.stars)}</span><span class="stars-empty">${'☆'.repeat(5 - review.stars)}</span>`;
+				const imageIcon = review.hasImage === 'Y' ? 'O' : 'X';
+				const adminReplyStatus = review.adminReply ? 'O' : 'X';
+
+				row.innerHTML = `
+	        <td>${review.boardTitle ?? '[제목 없음]'}</td>
+	        <td>${review.nickname}</td>
+	        <td>${starsHTML}</td>
+	        <td>${imageIcon}</td>
+	        <td>${adminReplyStatus}</td>
+	        <td>${review.createdDate}</td>
+	      `;
+				tableBody.appendChild(row);
+			});
+		},
+
+		sortAndRenderTable: function(key, order) {
+					if (!this.currentList || this.currentList.length === 0) { 
+						this.renderList(); 
+						return; 
+					}
+
+					// [수정] 숫자/문자/날짜 정렬 로직 (모든 버그 수정)
+					this.currentList.sort((a, b) => {
+						const valA = a[key]; 
+						const valB = b[key]; 
+						let compareResult = 0;
+
+						// --- layout.jsp의 data-sort-key에 맞춘 컬럼별 정렬 ---
+						
+						if (key === 'stars') {
+							// 1. 별점: stars (숫자) 기준 정렬
+							compareResult = (valA || 0) - (valB || 0);
+						}
+						else if (key === 'createdDate') {
+							// 2. 작성일: 날짜 기준 정렬 (치명적 오류 수정: null 방어 코드 추가)
+							const dateA = new Date(valA ? valA.replace(' ', 'T') : 0); 
+							const dateB = new Date(valB ? valB.replace(' ', 'T') : 0); 
+							compareResult = dateA - dateB;
+						}
+			            else {
+							// 3. 나머지 모든 컬럼(작성자, 제목, 사진, 관리자댓글): 문자열 정렬
+		                    // (작성자는 mem_no가 없으므로 텍스트로 정렬)
+							const strA = valA || ''; // null 방지
+							const strB = valB || '';
+							compareResult = strA.localeCompare(strB);
+						}
+						
+						return (this.currentSort.order === 'asc' ? compareResult : (compareResult * -1));
+					});
+					
+					this.updateSortIcons(key, order);
+					this.renderList();
+				},
 
 	updateSortIcons: function(key, order) {
 		document.querySelectorAll('#review-management .sortable').forEach(th => {
@@ -350,7 +376,7 @@ const ReviewPage = {
 		});
 		if (result.isConfirmed) {
 			try {
-				await apiClient.post('/deleteReview.do', { reviewNo });
+				await apiClient.post('/adminDeleteReview.do', { reviewNo });
 				Swal.fire('삭제 완료!', '리뷰가 성공적으로 삭제되었습니다.', 'success');
 				this.loadAndRender();
 			} catch (error) { /* noop */ }

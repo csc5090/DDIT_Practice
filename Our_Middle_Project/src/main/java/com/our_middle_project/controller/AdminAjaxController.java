@@ -342,7 +342,7 @@ public class AdminAjaxController implements Action {
 				// 3. JS로 결과 전송
 				response.getWriter().write(gson.toJson(result));
 				
-			} else if ("/deleteReview.do".equals(command)) {
+			} else if ("/adminDeleteReview.do".equals(command)) {
 				System.out.println("AJAX 요청: /deleteReview.do");
 				Map<String, Object> payload = gson.fromJson(request.getReader(), Map.class);
 				int boardNo = ((Double) payload.get("reviewNo")).intValue();
