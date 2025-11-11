@@ -277,17 +277,20 @@
 
 	<script>
 	
+	const nickname = "${sessionScope.MyPage_UserData.nickname}";
+	const hp = "${sessionScope.MyPage_UserData.mem_hp}";
+	const mail = "${sessionScope.MyPage_UserData.mem_mail}";
+
 	document.getElementById('updateNickname').value = nickname;
 	document.getElementById('updateHp').value = hp;
 	document.getElementById('updateMail').value = mail;
 	
 	// ----------------- 게임 카드 클릭 이동 -----------------
-	document.querySelectorAll('.my-game-card').forEach(card => {
-	    card.style.cursor = 'pointer';
-	    card.addEventListener('click', () => {
-	        location.href = 'ranking.do';
-	    });
-	});
+	document.addEventListener('click', function(e) {
+    const card = e.target.closest('.my-game-card');
+    console.log(card); // 카드가 잡히는지 확인
+    if (card) location.href = 'ranking.do';
+});
 
 	// ----------------- 회원 탈퇴 -----------------
 	function sendDelete() {
@@ -368,7 +371,8 @@
 	        Swal.fire({
 	            icon: 'error',
 	            title: '이메일 형식 오류',
-	            text: '이메일 형식이 올바르지 않습니다.'
+	            text: '이메일 형식이 올바르지 않습니다.',
+	            backdrop: false
 	        });
 	        return;
 	    }
