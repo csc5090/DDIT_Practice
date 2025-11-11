@@ -166,23 +166,22 @@ body {
     -ms-overflow-style: none;
 }
 
-.board-table th, .board-table td {
-    padding: 12px 8px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.9); 
-    /* width: 20%; <- 제거됨 */
-    box-sizing: border-box;
-    max-height: 50px;
+.board-table th {
+	padding: 12px 8px;
+	background: rgba(0, 0, 0, 0.5);
+} 
 
+.board-table td {
+    padding: 12px 8px; 
+    box-sizing: border-box;
+    
     white-space: nowrap; 
     overflow: hidden;
+    
     text-overflow: ellipsis; 
 
     text-align: center; 
     background-color: rgba(0, 0, 0, 0.7);
-}
-
-.board-table th {
-    background: rgba(0, 0, 0, 0.5);
 }
 
 

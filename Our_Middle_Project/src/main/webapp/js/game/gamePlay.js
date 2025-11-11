@@ -49,7 +49,7 @@ function addEventHandle() {
 	exitBtn.addEventListener("click", (e) => { handleExit(e) });
 	
 	let chatSendBtn = document.getElementById("chatSendBtn");
-	chatSendBtn.addEventListener("click", () => { gameChatMessageSend() });
+	chatSendBtn.addEventListener("click", () => { sendBtnHandle() });
 	
 	let chatInput = document.getElementById("chat_input")
 	chatInput.addEventListener("keyup", (e) => { chatInputChangeHandle(e) })
@@ -410,7 +410,7 @@ function dataSave() {
 }
 
 function chatInputChangeHandle(e) {
-	
+	console.log(e)
 	if(e.key === "Enter") {
 	
 		let target = e.target;
@@ -428,16 +428,30 @@ function chatInputChangeHandle(e) {
 			target.value = "";
 			
 		}
-		
 			
 	}
 	
-	
-	
-	
 }
 
-
+function sendBtnHandle() {
+	
+	let chatInput = document.getElementById("chat_input");
+	 let value = chatInput.value
+	 
+	 if(value.trim() !== "") {
+	 			
+		let message = {
+			id: userDataCase.mem_id,
+			nick: userDataCase.nickname,
+			value: value
+		}
+		
+		gameChatMessageSend(message);
+		target.value = "";
+		
+	}
+	
+}
 
 
 

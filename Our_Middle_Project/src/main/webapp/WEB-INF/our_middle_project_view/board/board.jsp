@@ -74,11 +74,6 @@
 				</tr>
 			</thead>
 			<tbody id="boardTableBody">
-
-
-
-
-
 			</tbody>
 		</table>
 
