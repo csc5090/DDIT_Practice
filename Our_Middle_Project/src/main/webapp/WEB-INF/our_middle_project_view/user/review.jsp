@@ -23,8 +23,8 @@
 				<button id="iwrtBtn" class="wrtBtn" type="button"
 					aria-expanded="false">리뷰 작성</button>
 				<div class="sortBtnGroup">
-					<button class="sortBtn" data-sort="newest">오래된 순</button>
-					<button class="sortBtn" data-sort="oldest">최신순</button>
+					<button class="sortBtn" data-sort="newest">최신순</button>
+					<button class="sortBtn" data-sort="oldest">오래된순</button>
 				</div>
 			</div>
 

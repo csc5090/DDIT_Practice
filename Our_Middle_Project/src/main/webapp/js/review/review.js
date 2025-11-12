@@ -359,29 +359,47 @@ function sortReviews(sortType) {
 	const cards = Array.from(list.querySelectorAll('article.rv-card'));
 
 	cards.sort((a, b) => {
-		const boardNoA = parseInt(a.dataset.boardNo);
-		const boardNoB = parseInt(b.dataset.boardNo);
+		// 🚨 [수정] data-board-no 대신 span.date의 텍스트를 읽어옵니다.
+		const dateSpanA = a.querySelector('.date');
+		const dateSpanB = b.querySelector('.date');
+
+		// (날짜가 없는 비정상 카드를 맨 뒤로 보냄)
+		if (!dateSpanA) return 1;
+		if (!dateSpanB) return -1;
+
+		const dateA = dateSpanA.textContent.trim(); // "YYYY-MM-DD HH24:MI:SS"
+		const dateB = dateSpanB.textContent.trim(); // "YYYY-MM-DD HH24:MI:SS"
+
 		const memNoA = parseInt(a.dataset.memNo);
 		const memNoB = parseInt(b.dataset.memNo);
 
-		if (!CURRENT_USER_MEM_NO || isNaN(CURRENT_USER_MEM_NO)) {
+		// 🚨 [수정] 타입 버그 방지를 위해 currentUserNo를 숫자로 변환
+		const currentUserNo = parseInt(CURRENT_USER_MEM_NO, 10);
+
+		// (로그인 안 한 경우 - 날짜로 정렬)
+		if (!currentUserNo || isNaN(currentUserNo)) {
 			if (sortType === 'newest') {
-				return boardNoB - boardNoA;
+				return dateB.localeCompare(dateA); // 내림차순 (최신순)
 			} else {
-				return boardNoA - boardNoB;
+				return dateA.localeCompare(dateB); // 오름차순 (오래된 순)
 			}
 		}
-		const isUserAReview = memNoA === CURRENT_USER_MEM_NO;
-		const isUserBReview = memNoB === CURRENT_USER_MEM_NO;
+
+		// (로그인 한 경우 - 내 리뷰 고정)
+		const isUserAReview = memNoA === currentUserNo;
+		const isUserBReview = memNoB === currentUserNo;
 		if (isUserAReview && !isUserBReview) return -1;
 		if (!isUserAReview && isUserBReview) return 1;
+
+		// (나머지 항목 - 날짜로 정렬)
 		if (sortType === 'newest') {
-			return boardNoB - boardNoA;
+			return dateB.localeCompare(dateA); // 내림차순 (최신순)
 		} else {
-			return boardNoA - boardNoB;
+			return dateA.localeCompare(dateB); // 오름차순 (오래된 순)
 		}
 	});
 
+	// (이하 로직은 동일)
 	const fragment = document.createDocumentFragment();
 	cards.forEach(card => fragment.appendChild(card));
 	while (list.firstChild) {
