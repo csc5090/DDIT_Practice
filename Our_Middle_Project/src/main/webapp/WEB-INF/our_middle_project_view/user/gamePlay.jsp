@@ -74,7 +74,7 @@
 							</span>
 						</div>
 						<div class="player-infos">
-							<span>NICKNAME: </span>
+							<span>USER ID: </span>
 							<span>
 								<c:out value="${sessionScope.loginUser.mem_id}" />
 							</span>

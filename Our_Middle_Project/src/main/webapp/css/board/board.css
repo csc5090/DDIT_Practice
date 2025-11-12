@@ -356,11 +356,11 @@ tr.notice {
 }
 
 .board-table td:nth-child(4) { /* 작성일 */
-    width: 15%;
+    width: 25%;
     height: 55px;
 }
 
-.board-table td:nth-child(5) { /* 조회수 */
-    width: 10%;
-    height: 55px; 
-}
+/* .board-table td:nth-child(5) { 조회수 */
+/*     width: 10%; */
+/*     height: 55px;  */
+/* } */

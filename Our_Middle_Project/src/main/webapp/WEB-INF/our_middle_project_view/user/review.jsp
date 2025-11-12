@@ -63,6 +63,7 @@
 
 										<c:if test="${isUserReview}">
 											<button type="button"
+												style= "display: none;"
 												class="btn btn-outline-info btn-sm ms-auto btn-update-review"
 												data-board-no="${r.boardNo}">수정</button>
 

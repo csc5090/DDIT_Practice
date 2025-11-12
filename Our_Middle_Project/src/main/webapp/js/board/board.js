@@ -20,9 +20,10 @@ function boardListMake(Lists) {
 	            <td class="post-title">${ Lists[i].boardTitle }</td>
 	            <td>${ Lists[i].memId }</td>
 	            <td>${ Lists[i].createdDate }</td>
-	            <td>${ Lists[i].viewCount }</td>
+	           
 	        </tr>
 		`;
+//		<td>${ Lists[i].viewCount }</td>
 		
 	} 
 	
