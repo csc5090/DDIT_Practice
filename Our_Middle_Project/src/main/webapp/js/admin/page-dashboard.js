@@ -177,12 +177,25 @@ const DashboardPage = {
 						grid: { display: false }
 					},
 					y: {
-						display: false, 
-						beginAtZero: true,
-						ticks: { stepSize: 1 },
-						grid: { display: false } 
-					}
+						display: true, // Y축 표시
+
+						title: {
+							display: true,
+							color: '#ffffff',
+							font: { size: 14 }
+						},
+						// min/max 기준 설정
+						min: 0,
+						max: 15,
+						ticks: {
+							color: '#ffffff',
+							font: { size: 12 },
+							stepSize: 1
+						},
+						grid: { color: '#3c3c5a' }
+					},
 				},
+				// plugins 옵션은 scales와 동일 레벨에 위치해야 합니다.
 				plugins: { legend: { display: false } }
 			}
 		});
