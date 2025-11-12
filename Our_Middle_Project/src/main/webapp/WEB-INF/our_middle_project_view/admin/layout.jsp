@@ -382,7 +382,7 @@
 							<div class="detail-body">
 								<div class="form-group full-width">
 									<label for="notice-title">제목</label> <input type="text"
-										id="notice-title" placeholder="제목을 입력하세요">
+										id="notice-title" value="[공지] ">
 								</div>
 								<div class="form-group full-width"
 									style="flex: 1; display: flex; flex-direction: column;">

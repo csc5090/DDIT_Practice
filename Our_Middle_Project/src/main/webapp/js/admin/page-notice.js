@@ -112,7 +112,7 @@ const NoticePage = {
 			header.classList.remove('user-selected');
 			document.getElementById('detail-notice-header').textContent = '';
 		}
-		document.getElementById('notice-title').value = '';
+		document.getElementById('notice-title').value = '[공지] ';
 		document.getElementById('notice-content').value = '';
 		document.getElementById('notice-save-btn').textContent = '저장하기';
 		document.getElementById('notice-delete-btn').style.display = 'none';
