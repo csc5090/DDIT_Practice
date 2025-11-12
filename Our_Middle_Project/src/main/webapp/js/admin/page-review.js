@@ -105,8 +105,6 @@ const ReviewPage = {
 						this.renderList(); 
 						return; 
 					}
-
-					// [수정] 숫자/문자/날짜 정렬 로직 (모든 버그 수정)
 					this.currentList.sort((a, b) => {
 						const valA = a[key]; 
 						const valB = b[key]; 
@@ -132,7 +130,7 @@ const ReviewPage = {
 							compareResult = strA.localeCompare(strB);
 						}
 						
-						return (this.currentSort.order === 'asc' ? compareResult : (compareResult * -1));
+						return (order === 'asc' ? compareResult : (compareResult * -1));
 					});
 					
 					this.updateSortIcons(key, order);
@@ -140,6 +138,7 @@ const ReviewPage = {
 				},
 
 	updateSortIcons: function(key, order) {
+		console.log(`아이콘 업데이트 실행 -> Key: ${key}, Order: ${order}`);
 		document.querySelectorAll('#review-management .sortable').forEach(th => {
 			const icon = th.querySelector('.sort-icon');
 			if (icon) { th.dataset.sortOrder = 'none'; icon.textContent = ''; }
@@ -199,7 +198,7 @@ const ReviewPage = {
 		if (content == null || content === '') {
 			try {
 				const detail = await apiClient.post('/getReviewDetail.do', { boardNo: review.boardNo });
-				// 서버에서 반환하는 필드명이 boardContent 라고 가정 (다르면 여기만 맞춰주세요)
+				// 서버에서 반환하는 필드명이 boardContent 라고 가정
 				content = detail?.boardContent ?? '';
 			} catch (e) {
 				console.warn('리뷰 상세 로딩 실패:', e);
@@ -333,6 +332,7 @@ const ReviewPage = {
 			}
 			this.currentSort.key = clickedKey;
 			this.currentSort.order = newOrder;
+			console.log(`정렬 실행 -> Key: ${clickedKey}, Order: ${newOrder}`);
 			this.sortAndRenderTable(clickedKey, newOrder);
 			return;
 		}
@@ -443,5 +443,5 @@ const ReviewPage = {
 		else delBtn.textContent = `선택 삭제 (${n})`;
 	}
 };
-
-document.addEventListener('DOMContentLoaded', () => ReviewPage.init());
+/*
+document.addEventListener('DOMContentLoaded', () => ReviewPage.init());*/

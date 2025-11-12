@@ -504,22 +504,32 @@
 						<div class="user-list-wrapper">
 							<table class="review-list-table" id="admin-review-list-table">
 								<thead>
-									<tr>
-										<th class="sortable" data-sort-key="boardTitle">리뷰 제목 <span
-											class="sort-icon"></span></th>
-										<th class="sortable" data-sort-key="nickname">작성자 <span
-											class="sort-icon"></span></th>
-										<th class="sortable" data-sort-key="stars">별점 <span
-											class="sort-icon"></span></th>
-										<th class="sortable" data-sort-key="hasImage">사진 <span
-											class="sort-icon"></span></th>
-										<th class="sortable" data-sort-key="adminReply">관리자 댓글 <span
-											class="sort-icon"></span>
-										</th>
-										<th class="sortable" data-sort-key="createdDate">작성일 <span
-											class="sort-icon"></span></th>
-									</tr>
-								</thead>
+    <tr>
+        <th class="sortable" data-sort-key="boardTitle">리뷰 제목 
+            <span class="sort-icon"></span>
+        </th>
+        
+        <th class="sortable" data-sort-key="nickname">작성자 
+            <span class="sort-icon"></span>
+        </th>
+        
+        <th class="sortable" data-sort-key="stars">별점 
+            <span class="sort-icon"></span>
+        </th>
+        
+        <th class="sortable" data-sort-key="hasImage">사진 
+            <span class="sort-icon"></span>
+        </th>
+        
+        <th class="sortable" data-sort-key="adminReply">관리자 댓글 
+            <span class="sort-icon"></span>
+        </th>
+        
+        <th class="sortable" data-sort-key="createdDate">작성일 
+            <span class="sort-icon"></span>
+        </th>
+    </tr>
+</thead>
 								<tbody id="admin-review-list-tbody">
 									<%-- JS로 채워짐 --%>
 								</tbody>
