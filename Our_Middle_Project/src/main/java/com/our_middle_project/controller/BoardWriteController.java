@@ -20,7 +20,9 @@ public class BoardWriteController implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		System.out.println("글쓰기 ㅎㅇ");
+		System.out.println();
+		System.out.println("BoardWriteController Start");
+		System.out.println();
 		
         BoardService boardService = new BoardServiceImpl();
         ActionForward forward = new ActionForward();

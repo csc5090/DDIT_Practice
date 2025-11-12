@@ -67,14 +67,14 @@
 
 			</div>
 
+			<div class="write-actions">
+				<button type="submit" class="neon-button"
+					onclick="return validateWrite()">등록</button>
+				<button type="button" class="neon-button right-align-btn"
+					onclick="goBack()">취소</button>
+			</div>
 		</form>
 		
-		<div class="write-actions">
-			<button type="submit" class="neon-button"
-				onclick="return validateWrite()">등록</button>
-			<button type="button" class="neon-button right-align-btn"
-				onclick="goBack()">취소</button>
-		</div>
 
 	</div>
 

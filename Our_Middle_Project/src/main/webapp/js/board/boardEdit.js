@@ -12,39 +12,46 @@ document.addEventListener('DOMContentLoaded', () => {
 	document.getElementById("editForm").addEventListener("submit", function(e){
 	    e.preventDefault();
 
-	    Swal.fire({
-	        title: "수정 완료",
-	        html: `<div style="
-	                    font-size: 50px;
-	                    color: #ff66a9;
-	                    text-shadow: 0 0 5px #ff66a9, 0 0 10px #ff66a9, 0 0 20px #ff66a9;">
-	                    &#10003; <!-- 체크 표시 -->
-	               </div>
-	               <p>게시물이 반영되었습니다.</p>`,
-	        showConfirmButton: true,
-	        confirmButtonText: "확인",
-	        color: "#ff66a9",
-	        background: "rgba(12,0,28,0.8) url('../../images/logins/loginBack.png') no-repeat center center",
-	        didOpen: (popup) => {
-	            popup.style.backgroundSize = "cover";
-	            popup.style.border = "2px solid #ff66a9";
-	            popup.style.borderRadius = "15px";
-	            popup.style.boxShadow = "0 0 10px #ff66a9, 0 0 20px #ff66a9, 0 0 40px #ff66a9";
-	            popup.style.backdropFilter = "blur(5px)";
+		Swal.fire({
+		    title: "수정 완료",
+		    html: `<div style="
+		                font-size: 50px;
+		                color: #001f3f;
+		                text-shadow: none;">
+		                &#10003;
+		           </div>
+		           <p style="color:#000;">게시물이 반영되었습니다.</p>`,
+		    showConfirmButton: true,
+		    confirmButtonText: "확인",
+		    color: "#000000", // 텍스트 색
+		    background: "#ffffff", // alert 내부 박스 배경색 (흰색)
+		    didOpen: (popup) => {
+		        // SweetAlert2 팝업 전체 스타일
+		        popup.style.backgroundColor = "#ffffff"; // 흰색 박스
+		        popup.style.border = "2px solid #001f3f"; // 남색 테두리
+		        popup.style.borderRadius = "12px";
+		        popup.style.boxShadow = "0 0 20px #001f3f, 0 0 40px #001f3f";
+		        popup.style.backdropFilter = "none";
 
-	            const button = popup.querySelector('.swal2-confirm');
-	            if(button){
-	                button.style.backgroundColor = "#ff66a9";
-	                button.style.color = "#0c001c";
-	                button.style.textShadow = "0 0 5px #fff";
-	                button.style.boxShadow = "0 0 10px #ff66a9, 0 0 20px #ff66a9";
-	                button.style.border = "none";
-	                button.style.fontWeight = "bold";
-	            }
-	        }
-	    }).then(() => {
-	        this.submit();
-	    });
+		        // SweetAlert2 배경 (모달 바깥 영역)
+		        const swalContainer = document.querySelector('.swal2-container');
+		        if (swalContainer) swalContainer.style.backgroundColor = "rgba(0,0,0,0.9)"; // 검정 배경
+
+		        // 확인 버튼 스타일
+		        const button = popup.querySelector('.swal2-confirm');
+		        if (button) {
+		            button.style.backgroundColor = "#001f3f"; // 남색 버튼
+		            button.style.color = "#ffffff";           // 흰색 글씨
+		            button.style.border = "none";
+		            button.style.borderRadius = "6px";
+		            button.style.padding = "8px 18px";
+		            button.style.fontWeight = "600";
+		            button.style.boxShadow = "0 0 12px #001f3f";
+		        }
+		    }
+		}).then(() => {
+		    this.submit();
+		});
 	});
 
 

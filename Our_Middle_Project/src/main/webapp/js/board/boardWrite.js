@@ -61,6 +61,10 @@ function validateWrite() {
     const content = document.getElementById('content').value.trim();
     const MAX_TITLE_LENGTH = 50;
 
+	console.log(title)
+	console.log(writer)
+	console.log(content)
+	
     if (title === "" || writer === "" || content === "") {
         Swal.fire({ 
             icon: 'warning', 
@@ -70,18 +74,24 @@ function validateWrite() {
         });
         return false;
     }
+	else {
+		
+	    if (title.length > MAX_TITLE_LENGTH) {
+	        Swal.fire({
+	            icon: 'warning',
+	            title: '제목 길이 초과',
+	            text: `제목은 최대 ${MAX_TITLE_LENGTH}자까지 입력 가능합니다.`,
+	            confirmButtonText: '확인'
+	        });
+	        return false;
+	    }
+		else {
+			console.log("New post validation successful.");		
+		}
+	}
 
-    if (title.length > MAX_TITLE_LENGTH) {
-        Swal.fire({
-            icon: 'warning',
-            title: '제목 길이 초과',
-            text: `제목은 최대 ${MAX_TITLE_LENGTH}자까지 입력 가능합니다.`,
-            confirmButtonText: '확인'
-        });
-        return false;
-    }
 
-    console.log("New post validation successful.");
+    
     return true;
 }
 
