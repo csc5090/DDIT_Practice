@@ -76,7 +76,8 @@
 	
 	<update id="updateStatusToDeleted">
 	    UPDATE MEMBER
-	    SET STATUS = 'DELETED'
+	    SET STATUS = 'DELETED',
+	    DELETED_DATE = SYSDATE
 	    WHERE MEM_ID = #{memId}
 	</update>
 	

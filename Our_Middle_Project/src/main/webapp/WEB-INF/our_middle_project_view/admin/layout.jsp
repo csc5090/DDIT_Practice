@@ -127,8 +127,8 @@
 										</svg>
 						<div class="user-profile-dropdown">
 							<ul>
-								<li><a href="${pageContext.request.contextPath}/myPage.do">내
-										프로필</a></li>
+								<%-- <li><a href="${pageContext.request.contextPath}/myPage.do">내
+										프로필</a></li> --%>
 								<li><a
 									href="${pageContext.request.contextPath}/adminlogout.do">로그아웃</a></li>
 							</ul>

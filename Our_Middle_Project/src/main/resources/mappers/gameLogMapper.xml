@@ -10,8 +10,9 @@
 		CLEAR_TIME
 		)
 		VALUES(
-		SEQ_GAME_LOG.NEXTVAL, #{score}, #{startTime, jdbcType=TIMESTAMP},
-		#{endTime, jdbcType=TIMESTAMP},
+		SEQ_GAME_LOG.NEXTVAL, #{score}, 
+        TO_TIMESTAMP(#{startTimeStr}, 'YYYY-MM-DD HH24:MI:SS'),
+		TO_TIMESTAMP(#{endTimeStr}, 'YYYY-MM-DD HH24:MI:SS'),
 		#{memNo}, #{levelNo}, #{combo}, #{clearTime}
 		)
 	</insert>
